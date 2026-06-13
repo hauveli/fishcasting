@@ -1,0 +1,21 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+# https://copier.readthedocs.io/en/stable/updating/#never-change-the-answers-file-manually
+_commit: v1.1.0
+_src_path: gh:Master-Bw3/Hex-Casting-1.21.1-Addon-Template
+advanced: true
+classname: Fishcasting
+default_branch: main
+description: Fishcasting addon for Hex Casting and Tide 2
+display_name: Fishcasting
+github_repo: fishcasting
+github_user: hauveli
+homepage_url: https://hauveli.github.io/fishcasting
+issues_url: https://github.com/hauveli/fishcasting/issues
+java_package: hauveli.fishcasting
+kotlin_package: hauveli.fishcasting
+minecraft_version_in_mod_version: true
+mit_license: true
+mod_version: 0.1.4
+modid: fishcasting
+nix_shell: true
+sources_url: https://github.com/hauveli/fishcasting

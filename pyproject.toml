@@ -1,0 +1,120 @@
+[build-system]
+requires = [
+    "hatchling",
+    "hatch-gradle-version>=0.9.8",
+]
+build-backend = "hatchling.build"
+
+# project metadata
+
+[project]
+name = "hexdoc-fishcasting"
+description = "Fishcasting addon for Hex Casting and Tide 2"
+readme = "doc/README.md"
+authors = [
+    { name="hauveli" },
+]
+keywords = ["hexdoc"]
+requires-python = ">=3.12"
+dynamic = ["version", "optional-dependencies"]
+dependencies = [
+    "hexdoc-hexcasting~=0.11.3.1.0",
+]
+
+[project.urls]
+Homepage = "https://hauveli.github.io/fishcasting"
+Source = "https://github.com/hauveli/fishcasting"
+
+# project version
+
+[tool.hatch.version]
+scheme = "gradle"
+source = "gradle-properties"
+py-path = "doc/src/hexdoc_fishcasting/__version__.py"
+key = "modVersion"
+gradle-version-regex = { regex='^(.+?)(-.+)?$', repl='\1.{minecraftVersion}\2' }
+
+# Python dependencies
+
+# required
+#[tool.hatch.metadata.hooks.version-catalog]
+#path = "libs.versions.toml"
+#dependencies = [
+#    { package="hexdoc-hexcasting", op="~=", py-version="1.0", key="hexcasting" },
+#]
+
+# dev-only
+[dependency-groups]
+dev = [
+    "ruff",
+]
+
+[tool.uv.extra-build-dependencies]
+hexdoc-hextemplate = ["pydantic_core"]
+
+# directory inclusion
+
+[tool.hatch.build]
+only-include = [
+    "doc/src/hexdoc_fishcasting",
+    "gradle.properties",
+]
+artifacts = [
+    "/doc/src/hexdoc_fishcasting/_export/generated",
+    "/doc/src/hexdoc_fishcasting/__gradle_version__.py",
+]
+
+[tool.hatch.build.targets.wheel]
+sources = ["doc/src"]
+
+# hexdoc entry points
+
+[project.entry-points.hexdoc]
+fishcasting = "hexdoc_fishcasting._hooks:FishcastingPlugin"
+
+# linting
+
+[tool.pyright]
+pythonVersion = "3.12"
+pythonPlatform = "All"
+
+include = ["doc/src"]
+extraPaths = ["doc/src"]
+
+typeCheckingMode = "standard"
+
+strictDictionaryInference = true
+strictListInference = true
+strictSetInference = true
+
+reportConstantRedefinition = "error"
+reportIncompleteStub = "error"
+reportInconsistentConstructor = "error"
+reportInvalidStubStatement = "error"
+
+reportDeprecated = "warning"
+reportDuplicateImport = "warning"
+reportMatchNotExhaustive = "warning"
+reportMissingParameterType = "warning"
+reportMissingTypeArgument = "warning"
+reportMissingTypeStubs = "warning"
+reportPrivateUsage = "warning"
+reportTypeCommentUsage = "warning"
+reportUnknownArgumentType = "warning"
+reportUnknownLambdaType = "warning"
+reportUnknownMemberType = "warning"
+reportUnknownParameterType = "warning"
+reportUnknownVariableType = "warning"
+reportUnnecessaryCast = "warning"
+reportUnnecessaryComparison = "warning"
+reportUnnecessaryContains = "warning"
+reportUnnecessaryIsInstance = "warning"
+reportUntypedBaseClass = "warning"
+reportUntypedClassDecorator = "warning"
+reportUntypedFunctionDecorator = "warning"
+reportUntypedNamedTuple = "warning"
+reportUnusedClass = "warning"
+reportUnusedExpression = "warning"
+reportUnusedFunction = "warning"
+reportUnusedImport = "warning"
+reportUnusedVariable = "warning"
