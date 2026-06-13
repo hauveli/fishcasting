@@ -108,6 +108,10 @@ cloche {
                     modId = "hexcasting"
                     version(libs.versions.hexcasting.get())
                 }
+                dependency {
+                    modId = "tide"
+                    version(libs.versions.tide.get())
+                }
             }
         }
     }
@@ -142,6 +146,11 @@ cloche {
             modImplementation(libs.modMenu)
             modImplementation(libs.owoLib.fabric)
             modImplementation(libs.fzzyConfig.fabric)
+
+            // tide and dependencies
+            libs.bundles.tide.fabric.get().forEach {
+                modImplementation(it)
+            }
         }
 
         metadata {
@@ -203,6 +212,11 @@ cloche {
 
             modImplementation(libs.owoLib.neoforge)
             modImplementation(libs.fzzyConfig.neoforge)
+
+            // tide and dependencies
+            libs.bundles.tide.neoforge.get().forEach {
+                modImplementation(it)
+            }
         }
 
         metadata {

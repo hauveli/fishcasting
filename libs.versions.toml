@@ -47,6 +47,9 @@ owoLib-neoforge = "0.12.15-beta.5+1.21"
 fzzyConfig-fabric   = "0.7.6+1.21"
 fzzyConfig-neoforge = "0.7.6+1.21+neoforge"
 
+# Tide stuff
+tide                = "2.0.3"
+
 # other dependencies
 modPublish = "0.5.1"
 yamlang = "1.5.0"
@@ -56,6 +59,8 @@ pkpcpbp = "0.2.0-pre-95"
 cardinalComponents = ["cardinalComponents-base", "cardinalComponents-entity", "cardinalComponents-item", "cardinalComponents-block"]
 hexcasting-fabric = ["hexcasting-fabric", "paucal-fabric", "patchouli-fabric", "clothConfig-fabric", "inline-fabric", "accessories-fabric"]
 hexcasting-neoforge = ["hexcasting-neoforge", "paucal-neoforge", "patchouli-neoforge", "clothConfig-neoforge", "inline-neoforge", "accessories-neoforge", "caelus-neoforge"]
+tide-fabric = ["tide-fabric"] # just in case they add a dependency, I'll know how to do this
+tide-neoforge = ["tide-neoforge"] # just in case they add a dependency, I'll know how to do this
 
 [libraries]
 kotlin-stdlib = { module="org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref="kotlin" }
@@ -104,6 +109,11 @@ owoLib-neoforge = { module="io.wispforest:owo-lib-neoforge", version.ref="owoLib
 
 fzzyConfig-fabric = { module="me.fzzyhmstrs:fzzy_config", version.ref="fzzyConfig-fabric"}
 fzzyConfig-neoforge = { module="me.fzzyhmstrs:fzzy_config", version.ref="fzzyConfig-neoforge"}
+
+# tide thing
+tide-common     = { module="com.li64:tide-common-1.21.1", version.ref="tide" }
+tide-fabric    = { module="com.li64:tide-fabric-1.21.1", version.ref="tide" }
+tide-neoforge  = { module="com.li64:tide-neoforge-1.21.1", version.ref="tide" }
 
 [plugins]
 kotlin-jvm = { id="org.jetbrains.kotlin.jvm", version.ref="kotlin" }
