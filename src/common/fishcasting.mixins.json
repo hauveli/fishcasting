@@ -1,11 +1,31 @@
 {
   "required": true,
   "package": "hauveli.fishcasting.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
+    "casting_rod.WindUpCastBarOverlayMixin",
+    "casting_rod.getDescriptionLinesTideFishingRodItemMixin",
+    "focus_bobber.YoinkTooltipRenderTideClientEventHandlerMixin"
   ],
   "mixins": [
+    "CursedMostlyIndestructibleItemEntityMixin",
+    "HooklessFishingHookTideFishingHookMixin",
+    "TagRecentlyCaughtByTideFishingHookMixin",
+    "UnluckyBaitTideFishingHookMixin",
+    "blessed_bobber.BlessedBobberJingleTideFishingHookMixin",
+    "blessed_bobber.ProbabilityBobberTweakTideFishingManagerMixin",
+    "casting_rod.RegisterAsCastingRodTideItemsMixin",
+    "casting_rod.RodCooldownAndBobberExecutionTideFishingHookMixin",
+    "focus_bobber.BobberAmbitCastingEnvironmentMixin",
+    "focus_bobber.BobberAmbitPlayerBasedCastEnvMixin",
+    "focus_bobber.BobberInWorldCastingEnvironmentMixin",
+    "focus_bobber.RegisterAsFocusBobberTideItemsMixin",
+    "loud_line.AntiCreeperMixin",
+    "loud_line.AntiPhantomMixin",
+    "loud_line.LoudLineJingleTideFishingHookMixin",
+    "tacklebox_chair.ContentAccessorBucketItemMixin",
+    "tacklebox_chair.TackleBoxSlurpEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "fishcasting:fishy_fragment",
+    "hexcasting:lore_fragment",
+    "hexcasting:scroll",
+    "hexcasting:scroll_medium",
+    "hexcasting:scroll_small",
+    "tide:crystal_shrimp",
+    "tide:crystalline_carp"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "pack": {
+    "description": "${mod_name}",
+    "pack_format": 48
+  },
+  "filter": {
+    "block": [
+      {
+        "namespace": "tide",
+        "path": "recipe/bobbers/amethyst.json"
+      },
+      {
+        "namespace": "tide",
+        "path": "recipe/bobbers/amethyst_bobber.json"
+      },
+      {
+        "namespace": "tide",
+        "path": "recipe/crystal_rod_smithing.json"
+      }
+    ]
+  }
+}

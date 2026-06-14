@@ -1,4 +1,4 @@
-package hauveli.fishcasting.mixin;
+package hauveli.fishcasting;
 
 import hauveli.fishcasting.Fishcasting;
 import net.minecraft.commands.CommandSource;

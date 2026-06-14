@@ -1,0 +1,11 @@
+{
+  "trades": [
+    {
+      "buy": "tide:crystalline_carp",
+      "buy_count": 5,
+      "sell": "tide:crystal_shrimp",
+      "sell_count": 1,
+      "max_uses": 10
+    }
+  ]
+}

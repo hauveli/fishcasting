@@ -1,0 +1,100 @@
+{
+  "music_disc.returning_to_the_surface": {
+    "sounds": [
+      {
+        "name": "fishcasting:music/returning_to_the_surface",
+        "stream": true
+      }
+    ]
+  },
+  "blessed.death": {
+    "subtitle": "fishcasting.subtitles.blessed.death",
+    "sounds": [
+      {
+        "name": "fishcasting:entity/blessed/blessed_death",
+        "stream": true
+      }
+    ]
+  },
+  "blessed.hurt": {
+    "subtitle": "fishcasting.subtitles.blessed.hurt",
+    "sounds": [
+      {
+        "name": "fishcasting:entity/blessed/blessed_death",
+        "stream": true
+      }
+    ]
+  },
+  "blessed.ambient": {
+    "subtitle": "fishcasting.subtitles.blessed.ambient",
+    "sounds": [
+      {
+        "name": "fishcasting:entity/blessed/blessed_ambient",
+        "stream": true
+      }
+    ]
+  },
+  "blessed.trade": {
+    "subtitle": "fishcasting.subtitles.blessed.trade",
+    "sounds": [
+      {
+        "name": "fishcasting:entity/blessed/blessed_trade",
+        "stream": true
+      }
+    ]
+  },
+  "blessed.yes": {
+    "subtitle": "fishcasting.subtitles.blessed.yes",
+    "sounds": [
+      {
+        "name": "fishcasting:entity/blessed/blessed_yes",
+        "stream": true
+      }
+    ]
+  },
+  "blessed.no": {
+    "subtitle": "fishcasting.subtitles.blessed.no",
+    "sounds": [
+      {
+        "name": "fishcasting:entity/blessed/blessed_no",
+        "stream": true
+      }
+    ]
+  },
+  "blessed.drink_potion": {
+    "subtitle": "fishcasting.subtitles.blessed.drink_potion",
+    "sounds": [
+      {
+        "name": "fishcasting:entity/blessed/blessed_drink_potion",
+        "stream": true
+      }
+    ]
+  },
+  "blessed.drink_milk": {
+    "subtitle": "fishcasting.subtitles.blessed.drink_milk",
+    "sounds": [
+      {
+        "name": "fishcasting:entity/blessed/blessed_drink_milk",
+        "stream": true
+      }
+    ]
+  },
+  "blessed.appear": {
+    "subtitle": "fishcasting.subtitles.blessed.appear",
+    "sounds": [
+      {
+        "name": "fishcasting:entity/blessed/blessed_appear",
+        "stream": true
+      }
+    ]
+  },
+  "blessed.disappear": {
+    "subtitle": "fishcasting.subtitles.blessed.disappear",
+    "sounds": [
+      {
+        "name": "fishcasting:entity/blessed/blessed_disappear",
+        "stream": true
+      }
+    ]
+  }
+}

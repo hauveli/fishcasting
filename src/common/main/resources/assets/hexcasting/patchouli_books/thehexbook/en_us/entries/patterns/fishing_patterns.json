@@ -1,0 +1,63 @@
+{
+  "name": "fishcasting.book.fishing_patterns.title",
+  "icon": "minecraft:tropical_fish",
+  "category": "hexcasting:patterns",
+  "advancement": "hexcasting:root",
+  "sortnum": 6,
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "fishcasting.book.fishing_patterns.1"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "fishcasting:bobber/from_owner",
+      "anchor": "fishcasting:bobber/from_owner",
+      "input": "player",
+      "output": "entity or null",
+      "text": "fishcasting.book.fishing_patterns.bobber/from_owner"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "fishcasting:owner/from_bobber",
+      "anchor": "fishcasting:owner/from_bobber",
+      "input": "entity",
+      "output": "player",
+      "text": "fishcasting.book.fishing_patterns.owner/from_bobber"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "fishcasting:bobber/from_catch",
+      "anchor": "fishcasting:bobber/from_catch",
+      "input": "entity",
+      "output": "entity or null",
+      "text": "fishcasting.book.fishing_patterns.bobber/from_catch"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "fishcasting:catch/from_bobber",
+      "anchor": "fishcasting:catch/from_bobber",
+      "input": "entity",
+      "output": "entity or null",
+      "text": "fishcasting.book.fishing_patterns.catch/from_bobber"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexcasting:abs",
+      "anchor": "hexcasting:abs",
+      "input": "entity",
+      "output": "number",
+      "flag": "fishcasting:length_purification_only_fish",
+      "text": "fishcasting.book.fishing_patterns.fish/length"
+    },
+    {
+      "type": "hexcasting:pattern",
+      "op_id": "hexcasting:abs",
+      "anchor": "hexcasting:abs",
+      "input": "entity",
+      "output": "number",
+      "flag": "!fishcasting:length_purification_only_fish",
+      "text": "fishcasting.book.fishing_patterns.fish/length_all_entities"
+    }
+  ]
+}

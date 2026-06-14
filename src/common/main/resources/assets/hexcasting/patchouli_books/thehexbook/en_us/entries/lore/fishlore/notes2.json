@@ -1,0 +1,10 @@
+{
+  "name": "fishcasting.entry.lore.notes2",
+  "icon": "fishcasting:fishy_fragment",
+  "category": "hexcasting:lore/fishlore",
+  "advancement": "fishcasting:lore/notes2",
+  "sortnum": 4,
+  "pages": [
+    "fishcasting.page.lore.notes2.1"
+  ]
+}

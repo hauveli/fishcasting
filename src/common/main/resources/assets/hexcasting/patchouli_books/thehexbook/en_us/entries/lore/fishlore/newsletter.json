@@ -1,0 +1,31 @@
+{
+  "name": "fishcasting.entry.lore.newsletter",
+  "icon": "fishcasting:fishy_fragment",
+  "category": "hexcasting:lore/fishlore",
+  "advancement": "fishcasting:lore/newsletter",
+  "sortnum": 1,
+  "pages": [
+    {
+      "type": "patchouli:image",
+      "title": "fishcasting.page.lore.newsletter.title",
+      "images": [
+        "fishcasting:textures/lore/newsletter.png"
+      ],
+      "border": true,
+      "text": "fishcasting.page.lore.newsletter.subtitle"
+    },
+    "fishcasting.page.lore.newsletter.1",
+    "fishcasting.page.lore.newsletter.2",
+    "fishcasting.page.lore.newsletter.3",
+    "fishcasting.page.lore.newsletter.4",
+    "fishcasting.page.lore.newsletter.5",
+    "fishcasting.page.lore.newsletter.6",
+    "fishcasting.page.lore.newsletter.7",
+    "fishcasting.page.lore.newsletter.8",
+    "fishcasting.page.lore.newsletter.9",
+    "fishcasting.page.lore.newsletter.10",
+    "fishcasting.page.lore.newsletter.11",
+    "fishcasting.page.lore.newsletter.12",
+    "fishcasting.page.lore.newsletter.13"
+  ]
+}

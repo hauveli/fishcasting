@@ -1,0 +1,16 @@
+{
+  "type": "hexcasting:brainsweep",
+  "blockIn": {
+    "type": "hexcasting:block",
+    "block": "minecraft:amethyst_block"
+  },
+  "cost": 100000,
+  "entityIn": {
+    "type": "fishcasting:tagged_entity_type",
+    "entityType": "minecraft:creeper",
+    "tag": "fishcasting_yoinks"
+  },
+  "result": {
+    "Name": "hexcasting:quenched_allay"
+  }
+}
