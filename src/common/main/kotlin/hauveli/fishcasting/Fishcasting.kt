@@ -44,7 +44,6 @@ object Fishcasting {
     fun init() {
         initRegistries(
             FishcastingActions
-
         )
         FishcastingNetworking.init()
         FishcastingConfigs.init()

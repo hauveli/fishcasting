@@ -9,7 +9,7 @@ import at.petrak.hexcasting.datagen.IXplatIngredients;
 import at.petrak.hexcasting.datagen.recipe.HexplatRecipes;
 import at.petrak.hexcasting.datagen.recipe.builders.BrainsweepRecipeBuilder;
 import hauveli.fishcasting.Fishcasting;
-import hauveli.fishcasting.registry.FishcastingEntityTypes;
+import hauveli.fishcasting.registry.FishcastingEntities;
 import hauveli.fishcasting.hexcasting.recipe.brainsweep.TaggedEntityTypeIngredient;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.core.HolderLookup;
@@ -33,7 +33,7 @@ public class FishcastingRecipeGen extends HexplatRecipes {
     @Override
     public void buildRecipes(RecipeOutput recipes) {
         new BrainsweepRecipeBuilder(HexStateIngredients.of(Blocks.AMETHYST_BLOCK),
-            new TaggedEntityTypeIngredient(FishcastingEntityTypes.BLESSED,"fishcasting:yoinked"),
+            new TaggedEntityTypeIngredient(FishcastingEntities.BLESSED,"fishcasting:yoinked"),
             Blocks.BUDDING_AMETHYST.defaultBlockState(), MediaConstants.CRYSTAL_UNIT * 10)
             .unlockedBy("enlightenment", new Criterion<>(HexAdvancementTriggers.OVERCAST_TRIGGER, HexAdvancements.ENLIGHTEN))
             .save(recipes, Fishcasting.id("budding_amethyst"));

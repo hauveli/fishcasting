@@ -1,29 +1,18 @@
-package hauveli.fishcasting.features.blessed;
+package hauveli.fishcasting.features.blessed
 
-import java.util.Arrays;
-import java.util.Comparator;
-
-public enum BlessedVariant {
+enum class BlessedVariant(val id: Int) {
     RED(0),
     GREEN(1),
     BLUE(2),
     PURPLE(3);
 
-    private static final BlessedVariant[] BY_ID =   Arrays.stream(values()).sorted(
-            Comparator.comparingInt(BlessedVariant::getId)).toArray(BlessedVariant[]::new
-    );
+    companion object {
+        private val BY_ID = entries
+            .sortedBy { it.id }
+            .toTypedArray()
 
-    private final int id;
-
-    BlessedVariant(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public static BlessedVariant byId(int id) {
-        return BY_ID[id % BY_ID.length];
+        fun byId(id: Int): BlessedVariant {
+            return BY_ID[id % BY_ID.size]
+        }
     }
 }

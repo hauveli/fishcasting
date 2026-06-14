@@ -3,7 +3,7 @@ package hauveli.fishcasting.common.chair;
 import com.li64.tide.Tide;
 import com.li64.tide.data.player.TidePlayerData;
 import com.li64.tide.network.messages.OpenJournalMsg;
-import hauveli.fishcasting.registry.FishcastingEntityTypes;
+import hauveli.fishcasting.registry.FishcastingEntities;
 import hauveli.fishcasting.common.registries.FishcastingItems;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -113,7 +113,7 @@ public class TackleBoxChairEntity extends ChestBoat {
 
     @Override
     public EntityType<?> getType() {
-        return FishcastingEntityTypes.TACKLEBOX_CHAIR;
+        return FishcastingEntities.TACKLEBOX_CHAIR;
     }
 
     @Override

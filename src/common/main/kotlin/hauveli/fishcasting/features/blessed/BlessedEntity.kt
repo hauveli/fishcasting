@@ -19,7 +19,7 @@ import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import com.li64.tide.util.TideUtils
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.common.cursed.CursedEntity
-import hauveli.fishcasting.registry.FishcastingEntityTypes
+import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingSounds
 import net.minecraft.Util
 import net.minecraft.core.BlockPos
@@ -156,7 +156,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     }
 
     private fun summonCursedAtPosition(entity: Entity) {
-        val cursed = CursedEntity(FishcastingEntityTypes.CURSED, entity.level())
+        val cursed = CursedEntity(FishcastingEntities.CURSED, entity.level())
         cursed.setPos(entity.position())
 
         cursed.moveTo(
@@ -709,16 +709,16 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     /* VARIANT */
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {
         super.defineSynchedData(builder)
-        builder.define<Int?>(VARIANT, 0)
+        builder.define<Int>(VARIANT, 0)
     }
 
     private val typeVariant: Int
-        get() = this.entityData.get<Int?>(VARIANT)
+        get() = this.entityData.get<Int>(VARIANT)
 
     var variant: BlessedVariant?
         get() = BlessedVariant.byId(this.typeVariant and 255) // why does mojang check if we have more than 255 variants? kaupenjoe does too, I assume it's something obscure or a silly choice and in either case it matters little
         private set(variant) {
-            this.entityData.set<Int?>(VARIANT, variant!!.getId() and 255)
+            this.entityData.set<Int>(VARIANT, variant!!.id and 255)
         }
 
     override fun addAdditionalSaveData(compoundTag: CompoundTag) {
@@ -728,7 +728,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
 
     override fun readAdditionalSaveData(compoundTag: CompoundTag) {
         super.readAdditionalSaveData(compoundTag)
-        this.entityData.set<Int?>(VARIANT, compoundTag.getInt("Variant"))
+        this.entityData.set<Int>(VARIANT, compoundTag.getInt("Variant"))
     }
 
     override fun finalizeSpawn(
@@ -776,12 +776,12 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         private val TICKS_BETWEEN_MOOD_DROPS: Int = SECONDS_BETWEEN_MOOD_DROPS * 20
 
         // thank you kaupenjoe
-        private val VARIANT: EntityDataAccessor<Int?> =
-            SynchedEntityData.defineId<Int?>(BlessedEntity::class.java, EntityDataSerializers.INT)
+        private val VARIANT: EntityDataAccessor<Int> =
+            SynchedEntityData.defineId<Int>(BlessedEntity::class.java, EntityDataSerializers.INT)
 
         fun poofIntoExistence(spawnPosition: Vec3, level: Level) {
             if (!level.isClientSide) {
-                val blessedEntity = BlessedEntity(FishcastingEntityTypes.BLESSED, level)
+                val blessedEntity = BlessedEntity(FishcastingEntities.BLESSED, level)
                 blessedEntity.variant = Util.getRandom<BlessedVariant?>(
                     BlessedVariant.entries.toTypedArray(),
                     blessedEntity.random
