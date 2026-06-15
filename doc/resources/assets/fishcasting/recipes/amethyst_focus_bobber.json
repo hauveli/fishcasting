@@ -3,13 +3,13 @@
   "category": "misc",
   "ingredients": [
     {
-      "tag": "c:slime_balls"
+      "item": "minecraft:slime_ball"
     },
     {
-      "tag": "c:leathers"
+      "item": "minecraft:leather"
     },
     {
-      "tag": "c:dusts/glowstone"
+      "item": "minecraft:glowstone"
     },
     {
       "item": "minecraft:paper"
