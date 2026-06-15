@@ -2,7 +2,7 @@
 	"format_version": "1.9.0",
 	"credit": "TODO: 26.1 makes models more customizable, fix it at that time.",
 	"textures": {
-		"layer0": "fishcasting:item/blessed_focus_bobber",
+		"layer0": "fishcasting:hexdoc/fishcasting/blessed_focus_bobber",
 		"0": "fishcasting:item/blessed_focus_bobber",
 		"particle": "fishcasting:item/blessed_focus_bobber"
 	},
