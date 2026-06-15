@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "hexcasting:charged_amethyst"
+  },
+  "base": {
+      "item": "minecraft:fishing_rod"
+  },
+  "result": {
+    "id": "tide:crystal_fishing_rod",
+    "name": "Crystal Casting Rod",
+    "texture": "tide:crystal_fishing_rod"
+  },
+  "template": {
+    "item": "minecraft:string"
+  }
+}
