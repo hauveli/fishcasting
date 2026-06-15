@@ -1,6 +1,6 @@
 {
   "name": "fishcasting.entry.lore.newsletter",
-  "icon": "fishcasting:textures/items/fishy_fragment.png",
+  "icon": "fishcasting:fishy_fragment",
   "category": "hexcasting:lore/fishlore",
   "advancement": "hexcasting:enlightenment",
   "sortnum": 1,
