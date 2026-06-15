@@ -2,7 +2,7 @@ package hauveli.fishcasting.registry
 
 import hauveli.fishcasting.Fishcasting.id
 import hauveli.fishcasting.features.chair.TackleBoxChairEntity
-import hauveli.fishcasting.common.cursed.CursedEntity
+import hauveli.fishcasting.features.fish.CursedEntity
 import hauveli.fishcasting.features.trader.BlessedEntity
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.Entity

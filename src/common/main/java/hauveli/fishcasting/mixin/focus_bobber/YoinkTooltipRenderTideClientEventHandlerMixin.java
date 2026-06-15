@@ -4,7 +4,7 @@ package hauveli.fishcasting.mixin.focus_bobber;
 import com.li64.tide.events.TideClientEventHandler;
 import hauveli.fishcasting.common.registries.FishcastingItems;
 import hauveli.fishcasting.registry.FishcastingTags;
-import hauveli.fishcasting.common.paraphernalia.TideyFocusItem;
+import hauveli.fishcasting.features.paraphernalia.TideyFocusItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;

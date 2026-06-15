@@ -11,8 +11,8 @@ import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import hauveli.fishcasting.client.NeoForgeFishcastingClient
 import hauveli.fishcasting.features.chair.TackleBoxChairModel
 import hauveli.fishcasting.features.chair.TackleBoxChairRenderer
-import hauveli.fishcasting.common.cursed.CursedModel
-import hauveli.fishcasting.common.cursed.CursedRenderer
+import hauveli.fishcasting.features.fish.CursedModel
+import hauveli.fishcasting.features.fish.CursedRenderer
 import hauveli.fishcasting.common.registries.FishcastingItems
 import hauveli.fishcasting.common.registries.FishcastingItems.ToTideFishingHookEntity
 import hauveli.fishcasting.datagen.NeoForgeFishcastingDatagen

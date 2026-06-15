@@ -1,6 +1,6 @@
 package hauveli.fishcasting.mixin;
 
-import hauveli.fishcasting.common.cursed.CursedEntity;
+import hauveli.fishcasting.features.fish.CursedEntity;
 import hauveli.fishcasting.registry.FishcastingEntities;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.damagesource.DamageSource;
@@ -25,8 +25,8 @@ public class CursedMostlyIndestructibleItemEntityMixin {
         ItemEntity entity = (ItemEntity) (Object) this;
         ItemStack stack = entity.getItem();
         if (stack.is(CURSED) || stack.is(CURSED_BUCKET)) {
-            cir.setReturnValue(CursedEntity.relevantDamageSource(source));
-            CursedEntity.doAllaySpawnOnLightningHitItem(entity, source);
+            cir.setReturnValue(CursedEntity.Companion.relevantDamageSource(source));
+            CursedEntity.Companion.doAllaySpawnOnLightningHitItem(entity, source);
 
             // hurt but not by lightning
             if (!cir.getReturnValue()

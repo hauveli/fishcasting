@@ -3,8 +3,7 @@ package hauveli.fishcasting.mixin.focus_bobber;
 // holymoly what a funny thank you
 
 import com.li64.tide.registries.TideItems;
-import hauveli.fishcasting.common.paraphernalia.HexyRodItem;
-import hauveli.fishcasting.common.paraphernalia.TideyFocusItem;
+import hauveli.fishcasting.features.paraphernalia.TideyFocusItem;
 import net.minecraft.world.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

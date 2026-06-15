@@ -3,7 +3,7 @@ package hauveli.fishcasting.mixin.focus_bobber;
 import at.petrak.hexcasting.api.casting.eval.env.PlayerBasedCastEnv;
 import com.li64.tide.registries.entities.misc.fishing.HookAccessor;
 import hauveli.fishcasting.platform.Services;
-import hauveli.fishcasting.common.paraphernalia.TideyFocusItem;
+import hauveli.fishcasting.features.paraphernalia.TideyFocusItem;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;

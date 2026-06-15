@@ -2,8 +2,8 @@ package hauveli.fishcasting.mixin.casting_rod;
 
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook;
 import com.li64.tide.registries.items.TideFishingRodItem;
-import hauveli.fishcasting.common.paraphernalia.HexyRodItem;
-import hauveli.fishcasting.common.paraphernalia.TideyFocusItem;
+import hauveli.fishcasting.features.paraphernalia.HexyRodItem;
+import hauveli.fishcasting.features.paraphernalia.TideyFocusItem;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;

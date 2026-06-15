@@ -2,7 +2,7 @@ package hauveli.fishcasting.mixin.casting_rod;
 
 import com.li64.tide.registries.items.TideFishingRodItem;
 import hauveli.fishcasting.common.registries.FishcastingItems;
-import hauveli.fishcasting.common.paraphernalia.HexyRodItem;
+import hauveli.fishcasting.features.paraphernalia.HexyRodItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;

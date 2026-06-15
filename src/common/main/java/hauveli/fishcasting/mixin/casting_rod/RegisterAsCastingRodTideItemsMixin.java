@@ -3,8 +3,7 @@ package hauveli.fishcasting.mixin.casting_rod;
 // holymoly what a funny thank you
 
 import com.li64.tide.registries.TideItems;
-import hauveli.fishcasting.common.paraphernalia.HexyRodItem;
-import hauveli.fishcasting.common.paraphernalia.TideyFocusItem;
+import hauveli.fishcasting.features.paraphernalia.HexyRodItem;
 import net.minecraft.world.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

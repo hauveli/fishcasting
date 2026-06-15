@@ -18,7 +18,7 @@ import com.li64.tide.registries.TideItems
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import com.li64.tide.util.TideUtils
 import hauveli.fishcasting.Fishcasting
-import hauveli.fishcasting.common.cursed.CursedEntity
+import hauveli.fishcasting.features.fish.CursedEntity
 import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingSounds
 import net.minecraft.Util

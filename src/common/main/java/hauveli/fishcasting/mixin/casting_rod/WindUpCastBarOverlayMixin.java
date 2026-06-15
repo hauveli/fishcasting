@@ -4,8 +4,7 @@ package hauveli.fishcasting.mixin.casting_rod;
 import com.li64.tide.client.gui.overlays.CastBarOverlay;
 import com.llamalad7.mixinextras.sugar.Local;
 import hauveli.fishcasting.Fishcasting;
-import hauveli.fishcasting.common.FishcastingConfig;
-import hauveli.fishcasting.common.paraphernalia.HexyRodItem;
+import hauveli.fishcasting.features.paraphernalia.HexyRodItem;
 import hauveli.fishcasting.config.FishcastingConfigs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -43,15 +42,15 @@ public class WindUpCastBarOverlayMixin {
             return;
         Player player = Minecraft.getInstance().player;
         if (!(player.getItemInHand(
-                player.getUsedItemHand()).getItem() instanceof HexyRodItem)) {
+                player.getUsedItemHand()).getItem() instanceof HexyRodItem hexyRodItem)) {
             // all kinds of messed up otherwise, I think this fixes all the bugs with it...
-            HexyRodItem.setHexyDischargePercent(0f);
+            HexyRodItem.Companion.setHexyDischargePercent(0f);
             // Letting go of the hook and switching around here causes a visual bug...
             return;
         }
         if (player.isUsingItem()
-                || HexyRodItem.getHexyDischargePercent() > 0f) { // this gt0 check could be a casting grid active check, I *think*
-            int antiFillWidth = (int) Math.ceil((1.0f - HexyRodItem.getHexyDischargePercent()) * texWidth);
+                || HexyRodItem.Companion.getHexyDischargePercent() > 0f) { // this gt0 check could be a casting grid active check, I *think*
+            int antiFillWidth = (int) Math.ceil((1.0f - HexyRodItem.Companion.getHexyDischargePercent()) * texWidth);
             if (antiFillWidth > 0) {
                 graphics.blit(BAR_HEXY_TEX,
                         x,
