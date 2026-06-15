@@ -3,6 +3,5 @@
   "icon": "fishcasting:message_in_a_bottle",
   "description": "fishcasting.category.fishlore.desc",
   "parent": "hexcasting:lore",
-  "advancement": "hexcasting:enlightenment",
   "sortnum": 999
 }

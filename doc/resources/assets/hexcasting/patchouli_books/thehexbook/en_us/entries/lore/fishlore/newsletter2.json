@@ -1,0 +1,11 @@
+{
+  "name": "fishcasting.entry.lore.newsletter2",
+  "icon": "fishcasting:fishy_fragment",
+  "category": "hexcasting:lore/fishlore",
+  "advancement": "hexcasting:enlightenment",
+  "sortnum": 2,
+  "pages": [
+    "fishcasting.page.lore.newsletter2.1",
+    "fishcasting.page.lore.newsletter2.2"
+  ]
+}
