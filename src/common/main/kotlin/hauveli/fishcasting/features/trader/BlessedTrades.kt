@@ -1,4 +1,4 @@
-package hauveli.fishcasting.features.blessed
+package hauveli.fishcasting.features.trader
 
 import com.google.common.collect.ImmutableMap
 import com.li64.tide.registries.TideFish

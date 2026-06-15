@@ -1,4 +1,4 @@
-package hauveli.fishcasting.features.blessed
+package hauveli.fishcasting.features.trader
 
 import at.petrak.hexcasting.api.HexAPI
 import at.petrak.hexcasting.api.casting.ParticleSpray

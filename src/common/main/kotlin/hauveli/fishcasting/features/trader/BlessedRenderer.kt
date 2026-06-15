@@ -1,4 +1,4 @@
-package hauveli.fishcasting.features.blessed
+package hauveli.fishcasting.features.trader
 
 import com.mojang.blaze3d.vertex.PoseStack
 import hauveli.fishcasting.Fishcasting.id

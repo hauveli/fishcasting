@@ -1,4 +1,4 @@
-package hauveli.fishcasting.features.blessed
+package hauveli.fishcasting.features.trader
 
 enum class BlessedVariant(val id: Int) {
     RED(0),

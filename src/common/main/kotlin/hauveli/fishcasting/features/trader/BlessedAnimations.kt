@@ -1,4 +1,4 @@
-package hauveli.fishcasting.features.blessed
+package hauveli.fishcasting.features.trader
 
 import net.minecraft.client.animation.AnimationChannel
 import net.minecraft.client.animation.AnimationDefinition

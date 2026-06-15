@@ -21,7 +21,8 @@ import com.li64.tide.registries.entities.misc.fishing.HookAccessor;
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook;
 import com.li64.tide.registries.items.TideFishingRodItem;
 import hauveli.fishcasting.Fishcasting;
-import hauveli.fishcasting.features.blessed.BlessedEntity;
+import hauveli.fishcasting.config.FishcastingConfigs;
+import hauveli.fishcasting.features.trader.BlessedEntity;
 import hauveli.fishcasting.hexcasting.BobberBasedCastEnv;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -46,8 +47,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static hauveli.fishcasting.Fishcasting.CONFIG;
 
 public class HexyRodItem extends TideFishingRodItem {
     // I don't know what this is for but just in case, I'm including it.
@@ -188,10 +187,10 @@ public class HexyRodItem extends TideFishingRodItem {
         if (HookAccessor.getHook(player) != null) {
             return super.use(level, player, hand);
         }
-        if (CONFIG.gameplay.castingIsMomentary()) {
+        if (FishcastingConfigs.INSTANCE.getCOMMON_CONFIG().castingIsMomentary()) {
             player.startUsingItem(hand);
             return InteractionResultHolder.pass(player.getItemInHand(hand));
-        } else if (CONFIG.gameplay.shouldHexOffhand(hand)) { // a little bit silly, but whatever
+        } else if (FishcastingConfigs.INSTANCE.getCOMMON_CONFIG().shouldHexOffhand(hand)) { // a little bit silly, but whatever
             return useStaff(level, player, hand);
         }
         return super.use(level, player, hand);
@@ -202,13 +201,13 @@ public class HexyRodItem extends TideFishingRodItem {
     // For this reason, ticksHeld needs to be divided by two...
     @Override
     public void onUseTick(@NotNull Level level, @NotNull LivingEntity user, @NotNull ItemStack rod, int charge) {
-        super.onUseTick(level, user, rod, charge + CONFIG.gameplay.getCastingDelay());
+        super.onUseTick(level, user, rod, charge + FishcastingConfigs.INSTANCE.getCOMMON_CONFIG().getCastingDelay());
         if (level.isClientSide) {
-            if (CONFIG.gameplay.shouldHexMomentary(charge, getUseDuration(rod, user))) {
+            if (FishcastingConfigs.INSTANCE.getCOMMON_CONFIG().shouldHexMomentary(charge, getUseDuration(rod, user))) {
                 playNoise((Player) user);
                 setHexyDischargePercent(
                         (float) (getUseDuration(rod, user) - charge)
-                        / CONFIG.gameplay.getCastingDelay()
+                        / FishcastingConfigs.INSTANCE.getCOMMON_CONFIG().getCastingDelay()
                 );
                 // visual bug fix idiot solution approach
                 // if recently swapped, this is set to 0f and not drawn if on non-casting rod, however
@@ -238,7 +237,7 @@ public class HexyRodItem extends TideFishingRodItem {
     // todo: if player just caught a fish, cooldown for 5 ticks. (configurable as well...)
     @Override
     public void releaseUsing(@NotNull ItemStack rod, @NotNull Level level, @NotNull LivingEntity user, int charge) {
-        if (CONFIG.gameplay.shouldHexMomentary(charge, getUseDuration(rod, user))
+        if (FishcastingConfigs.INSTANCE.getCOMMON_CONFIG().shouldHexMomentary(charge, getUseDuration(rod, user))
                 && user instanceof Player player) {
             useStaff(level, player, player.getUsedItemHand());
         } else {

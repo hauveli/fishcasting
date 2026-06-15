@@ -1,14 +1,13 @@
 package hauveli.fishcasting.registry
 
 import hauveli.fishcasting.Fishcasting.id
-import hauveli.fishcasting.common.chair.TackleBoxChairEntity
+import hauveli.fishcasting.features.chair.TackleBoxChairEntity
 import hauveli.fishcasting.common.cursed.CursedEntity
-import hauveli.fishcasting.features.blessed.BlessedEntity
+import hauveli.fishcasting.features.trader.BlessedEntity
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.MobCategory
-import net.minecraft.world.level.Level
 import java.util.function.BiConsumer
 
 

@@ -1,4 +1,4 @@
-package hauveli.fishcasting.features.blessed.goals;
+package hauveli.fishcasting.features.trader.goals;
 
 import com.li64.tide.Tide;
 import com.li64.tide.compat.seasons.SeasonsCompat;
@@ -9,7 +9,7 @@ import com.li64.tide.data.fishing.mediums.FishingMedium;
 import com.li64.tide.data.fishing.selector.FishingEntry;
 import com.li64.tide.util.TideUtils;
 import hauveli.fishcasting.Fishcasting;
-import hauveli.fishcasting.features.blessed.BlessedEntity;
+import hauveli.fishcasting.features.trader.BlessedEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Holder;

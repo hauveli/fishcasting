@@ -4,7 +4,9 @@ package hauveli.fishcasting.mixin.casting_rod;
 import com.li64.tide.client.gui.overlays.CastBarOverlay;
 import com.llamalad7.mixinextras.sugar.Local;
 import hauveli.fishcasting.Fishcasting;
+import hauveli.fishcasting.common.FishcastingConfig;
 import hauveli.fishcasting.common.paraphernalia.HexyRodItem;
+import hauveli.fishcasting.config.FishcastingConfigs;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -37,6 +39,8 @@ public class WindUpCastBarOverlayMixin {
             @Local(name = "texWidth") int texWidth,
             @Local(name = "texHeight") int texHeight
     ) {
+        if (!FishcastingConfigs.INSTANCE.getCOMMON_CONFIG().castingIsMomentary())
+            return;
         Player player = Minecraft.getInstance().player;
         if (!(player.getItemInHand(
                 player.getUsedItemHand()).getItem() instanceof HexyRodItem)) {
