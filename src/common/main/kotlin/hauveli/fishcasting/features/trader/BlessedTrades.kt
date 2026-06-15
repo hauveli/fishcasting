@@ -2,7 +2,7 @@ package hauveli.fishcasting.features.trader
 
 import com.google.common.collect.ImmutableMap
 import com.li64.tide.registries.TideFish
-import hauveli.fishcasting.common.registries.FishcastingItems
+import hauveli.fishcasting.registry.FishcastingItems
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
 import net.minecraft.util.RandomSource

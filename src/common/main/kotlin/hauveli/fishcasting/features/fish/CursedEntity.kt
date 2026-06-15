@@ -4,7 +4,7 @@ import com.li64.tide.data.FishLengthHolder
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.item.TideItemData
 import com.li64.tide.registries.entities.fish.AbstractTideFish
-import hauveli.fishcasting.common.registries.FishcastingItems
+import hauveli.fishcasting.registry.FishcastingItems
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.nbt.CompoundTag

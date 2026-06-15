@@ -13,8 +13,8 @@ import hauveli.fishcasting.features.chair.TackleBoxChairModel
 import hauveli.fishcasting.features.chair.TackleBoxChairRenderer
 import hauveli.fishcasting.features.fish.CursedModel
 import hauveli.fishcasting.features.fish.CursedRenderer
-import hauveli.fishcasting.common.registries.FishcastingItems
-import hauveli.fishcasting.common.registries.FishcastingItems.ToTideFishingHookEntity
+import hauveli.fishcasting.registry.FishcastingItems
+import hauveli.fishcasting.registry.FishcastingItems.ToTideFishingHookEntity
 import hauveli.fishcasting.datagen.NeoForgeFishcastingDatagen
 import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
@@ -176,10 +176,10 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
     }
 
     fun registerCaps(event: RegisterCapabilitiesEvent) {
-        event.registerEntity<ADIotaHolder?, Void?, TideFishingHook?>(
+        event.registerEntity<ADIotaHolder?, Void?, TideFishingHook>(
             HexCapabilities.Entity.IOTA,
             TideEntityTypes.FISHING_BOBBER,
-            ICapabilityProvider { entity: TideFishingHook?, ctx: Void? -> ToTideFishingHookEntity(entity) }
+            ICapabilityProvider { entity: TideFishingHook, ctx: Void? -> ToTideFishingHookEntity(entity) }
         )
     }
 

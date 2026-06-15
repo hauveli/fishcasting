@@ -39,7 +39,6 @@ import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.phys.Vec3
 import java.util.function.Consumer
 
-
 class HexyRodItem // why does TideFishingRodItem take no baitslots here when it does in the source?
     (private val baitSlots: Int, baseDurability: Double, properties: Properties?) :
     TideFishingRodItem(baseDurability, properties) {

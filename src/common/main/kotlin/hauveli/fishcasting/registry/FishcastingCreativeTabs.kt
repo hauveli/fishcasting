@@ -1,17 +1,12 @@
 package hauveli.fishcasting.registry
 
-import at.petrak.hexcasting.common.lib.HexItems
 import hauveli.fishcasting.Fishcasting.MODID
 import hauveli.fishcasting.Fishcasting.id
-import hauveli.fishcasting.common.registries.FishcastingItems
-import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.ItemStack
 import java.util.function.BiConsumer
-import java.util.function.Supplier
 
 
 object FishcastingCreativeTabs {

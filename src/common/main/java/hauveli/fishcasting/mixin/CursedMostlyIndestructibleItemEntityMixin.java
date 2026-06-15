@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import static hauveli.fishcasting.common.registries.FishcastingItems.CURSED;
-import static hauveli.fishcasting.common.registries.FishcastingItems.CURSED_BUCKET;
+import static hauveli.fishcasting.registry.FishcastingItems.CURSED;
+import static hauveli.fishcasting.registry.FishcastingItems.CURSED_BUCKET;
 
 @Mixin(ItemEntity.class)
 public class CursedMostlyIndestructibleItemEntityMixin {

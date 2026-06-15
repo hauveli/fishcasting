@@ -3,7 +3,7 @@ package hauveli.fishcasting.features.chair
 import com.li64.tide.Tide
 import com.li64.tide.data.player.TidePlayerData
 import com.li64.tide.network.messages.OpenJournalMsg
-import hauveli.fishcasting.common.registries.FishcastingItems
+import hauveli.fishcasting.registry.FishcastingItems
 import hauveli.fishcasting.registry.FishcastingEntities
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
@@ -102,7 +102,7 @@ class TackleBoxChairEntity : ChestBoat {
     }
 
     override fun getDropItem(): Item {
-        return FishcastingItems.TACKLEBOX_CHAIR
+        return FishcastingItems.TACKLEBOX_CHAIR as Item
     }
 
     override fun getType(): EntityType<*> {

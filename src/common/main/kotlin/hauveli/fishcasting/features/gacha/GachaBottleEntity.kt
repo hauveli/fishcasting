@@ -10,7 +10,7 @@ import at.petrak.hexcasting.common.lib.hex.HexActions
 import com.li64.tide.data.loot.LootTableRef
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.Fishcasting.id
-import hauveli.fishcasting.common.registries.FishcastingItems
+import hauveli.fishcasting.registry.FishcastingItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
@@ -35,7 +35,6 @@ import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.HitResult
 import net.minecraft.world.phys.Vec3
 import java.math.BigInteger
-import java.util.function.BiConsumer
 
 
 class GachaBottleEntity : ThrownPotion {

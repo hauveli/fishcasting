@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static hauveli.fishcasting.Fishcasting.random;
-import static hauveli.fishcasting.common.registries.FishcastingItems.BLESSED_FOCUS_BOBBER;
+import static hauveli.fishcasting.registry.FishcastingItems.BLESSED_FOCUS_BOBBER;
 
 @Mixin(TideFishingHook.class)
 public abstract class BlessedBobberJingleTideFishingHookMixin {
