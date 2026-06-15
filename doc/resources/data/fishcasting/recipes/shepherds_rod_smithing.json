@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "hexcasting:quenched_allay_shard"
+  },
+  "base": {
+      "item": "tide:crystal_fishing_rod"
+    },
+  "result": {
+    "id": "fishcasting:shepherds_casting_rod",
+    "name": "Shepherd's Casting Rod",
+    "texture": "fishcasting:shepherds_casting_rod"
+  },
+  "template": {
+    "item": "minecraft:rabbit_foot"
+  }
+}
