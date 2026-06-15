@@ -9,20 +9,19 @@
       "item": "minecraft:leather"
     },
     {
-      "item": "minecraft:glowstone"
+      "item": "minecraft:glowstone_dust"
     },
     {
       "item": "minecraft:paper"
     },
     {
-      "item": "tide:crystalline_carp"
+      "item": "tide:textures/items/crystalline_carp.png"
     },
     {
-      "tag": "minecraft:planks"
+      "item": "minecraft:oak_planks"
     }
   ],
   "result": {
-    "count": 1,
-    "id": "tide:amethyst_fishing_bobber"
+    "item": "tide:textures/items/amethyst_fishing_bobber_.png"
   }
 }
