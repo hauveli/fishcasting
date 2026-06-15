@@ -1,0 +1,20 @@
+{
+  "name": "fishcasting.entry.lore.notes",
+  "icon": "fishcasting:textures/items/fishy_fragment.png",
+  "category": "hexcasting:lore/fishlore",
+  "advancement": "hexcasting:enlightenment",
+  "sortnum": 3,
+  "pages": [
+    "fishcasting.page.lore.notes.1",
+    "fishcasting.page.lore.notes.2",
+    "fishcasting.page.lore.notes.3",
+    "fishcasting.page.lore.notes.4",
+    "fishcasting.page.lore.notes.5",
+    "fishcasting.page.lore.notes.6",
+    "fishcasting.page.lore.notes.7",
+    "fishcasting.page.lore.notes.8",
+    "fishcasting.page.lore.notes.9",
+    "fishcasting.page.lore.notes.10",
+    "fishcasting.page.lore.notes.11"
+  ]
+}
