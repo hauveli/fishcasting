@@ -9,6 +9,6 @@
     }
   ],
   "textures": {
-    "layer0": "fishcasting:hexdoc/tide/crystal_fishing_rod"
+    "layer0": "fishcasting:item/hexdoc/tide/crystal_fishing_rod"
   }
 }

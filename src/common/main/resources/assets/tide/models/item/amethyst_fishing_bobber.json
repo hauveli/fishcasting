@@ -2,6 +2,6 @@
    "parent": "tide:items/fishing_bobber_shard",
    "textures": {
       "1": "tide:items/amethyst_fishing_bobber",
-      "layer0": "fishcasting:hexdoc/tide/amethyst_fishing_bobber"
+      "layer0": "fishcasting:item/hexdoc/tide/amethyst_fishing_bobber"
    }
 }
