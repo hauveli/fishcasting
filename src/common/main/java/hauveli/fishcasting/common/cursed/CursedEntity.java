@@ -205,7 +205,8 @@ public class CursedEntity extends Axolotl implements Bucketable, FishLengthHolde
 
     // all of the below from tide
     // https://github.com/Lightning-64/Tide-2/blob/f9fc2d04ae4d544ad134025cebd83c7438f67098/src/main/java/com/li64/tide/registries/entities/fish/AbstractTideFish.java#L46
-    private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(AbstractTideFish.class, EntityDataSerializers.BOOLEAN);
+    // whyat the fuck it returns an integer?
+    private static final EntityDataAccessor<Integer> FROM_BUCKET = SynchedEntityData.defineId(AbstractTideFish.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> IS_SHINY = SynchedEntityData.defineId(AbstractTideFish.class, EntityDataSerializers.BOOLEAN);
 
     @Override
@@ -237,18 +238,28 @@ public class CursedEntity extends Axolotl implements Bucketable, FishLengthHolde
         var monster = this.entityData.get(FROM_BUCKET);
         return (Boolean) (Object) monster; // I really really don't understand
          */
-        return false;
+        return fuckThisThingMan(this.entityData.get(FROM_BUCKET));
+    }
+    public boolean fuckThisThingMan(int what) {
+        return what > 0;
+    }
+    public boolean fuckThisThingMan(boolean what) {
+        return what;
     }
 
     @Override
     public void setFromBucket(boolean fromBucket) {
-        this.entityData.set(FROM_BUCKET, false); // this.entityData.set(FROM_BUCKET, fromBucket) // for some reason this changes the size. I don't like that.
+        if (fromBucket) {
+            this.entityData.set(FROM_BUCKET, 1); // this.entityData.set(FROM_BUCKET, fromBucket) // for some reason this changes the size. I don't like that.
+        } else {
+            this.entityData.set(FROM_BUCKET, 0); // this.entityData.set(FROM_BUCKET, fromBucket) // for some reason this changes the size. I don't like that.
+        }
     }
 
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putBoolean("FromBucket", false); // I just dont get it
+        compound.putBoolean("FromBucket", this.fromBucket()); // I just dont get it
         compound.putDouble(tide$LENGTH_KEY, this.length);
         //compound.putBoolean(tide$SHINY_KEY, this.isShiny);
     }

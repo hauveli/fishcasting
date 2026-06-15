@@ -30,9 +30,10 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     val OWNER_FROM_BOBBER = make("owner/from_bobber", HexDir.WEST, "aqqqw", OpGetBobbersOwnerJ.INSTANCE)
     val CATCH_FROM_BOBBER = make("catch/from_bobber", HexDir.SOUTH_EAST, "weeede", OpGetBobbersCatchJ.INSTANCE)
     val BOBBER_FROM_CATCH = make("bobber/from_catch", HexDir.NORTH_WEST, "qaqqqw", OpGetCatchesBobberJ.INSTANCE)
-    val CONGRATULATE = make("congratulate", HexDir.WEST, "eed", OpCongratulate)
 
-    val GREAT_CONGRATULATE = make("congratulate/great", HexDir.EAST, "qwwqqqwwqwded", OpCongratulate)
+    // I didnt check the regex but I'm hoping this stops it
+    //val CONGRATULATE = make("congratulate" - , HexDir.WEST, - "eed", OpCongratulate)
+    //val GREAT_CONGRATULATE = make("congratulate/great", - HexDir.EAST -, "qwwqqqwwqwded", OpCongratulate)
 
     private fun make(name: String, startDir: HexDir, signature: String, action: Action) =
         make(name, startDir, signature) { action }

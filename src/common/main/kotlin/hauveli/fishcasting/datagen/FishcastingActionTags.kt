@@ -1,9 +1,11 @@
 package hauveli.fishcasting.datagen
 
 import at.petrak.hexcasting.api.casting.ActionRegistryEntry
+import at.petrak.hexcasting.api.casting.castables.SpellAction
 import at.petrak.hexcasting.api.mod.HexTags
 import at.petrak.hexcasting.common.lib.HexRegistries
 import hauveli.fishcasting.registry.FishcastingActions
+import hauveli.fishcasting.registry.FishcastingRegistrar
 import net.minecraft.core.HolderLookup
 import net.minecraft.data.PackOutput
 import net.minecraft.data.tags.TagsProvider
@@ -16,8 +18,8 @@ class FishcastingActionTags(
 ) : TagsProvider<ActionRegistryEntry>(output, HexRegistries.ACTION, provider) {
     override fun addTags(provider: HolderLookup.Provider) {
         // per-world great spells
-        for (entry in arrayOf(
-            FishcastingActions.GREAT_CONGRATULATE,
+        for (entry in arrayOf<FishcastingRegistrar<ActionRegistryEntry>.Entry<ActionRegistryEntry>>(
+            //FishcastingActions.GREAT_CONGRATULATE,
         )) {
             tag(HexTags.Actions.CAN_START_ENLIGHTEN).add(entry.key)
             tag(HexTags.Actions.PER_WORLD_PATTERN).add(entry.key)
