@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "tide:crystalline_carp"
+    }
+  ],
+  "result": {
+    "item": "hexcasting:charged_amethyst"
+  }
+}
