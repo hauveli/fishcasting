@@ -136,6 +136,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         LEAVING
     }
 
+    // todo: java made this ok, in kotlin this hides brain
     private var brain = CustomBrain.DEFAULT
 
     override fun registerGoals() {
@@ -145,14 +146,14 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         this.goalSelector.addGoal(3, BlessedFindFluidGoal(this))
 
         // remove milk and potion goals.
-        this.goalSelector.getAvailableGoals().stream()
-            .filter { wrappedGoal: WrappedGoal? -> wrappedGoal!!.getGoal() is UseItemGoal<*> }
-            .forEach { wrappedGoal: WrappedGoal? -> this.goalSelector.removeGoal(wrappedGoal!!.getGoal()) }
+        this.goalSelector.availableGoals.stream()
+            .filter { wrappedGoal: WrappedGoal? -> wrappedGoal!!.goal is UseItemGoal<*> }
+            .forEach { wrappedGoal: WrappedGoal? -> this.goalSelector.removeGoal(wrappedGoal!!.goal) }
     }
 
 
     private fun atMaximumHealth(): Boolean {
-        return this.getMaxHealth() == this.getHealth()
+        return this.maxHealth == this.health
     }
 
     private fun summonCursedAtPosition(entity: Entity) {
@@ -160,21 +161,21 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         cursed.setPos(entity.position())
 
         cursed.moveTo(
-            entity.getX(),
-            entity.getY(),
-            entity.getZ(),
-            entity.getYRot(),
-            entity.getXRot()
+            entity.x,
+            entity.y,
+            entity.z,
+            entity.yRot,
+            entity.xRot
         )
 
-        cursed.setDeltaMovement(entity.getDeltaMovement())
+        cursed.deltaMovement = entity.deltaMovement
 
         if (entity.hasCustomName()) {
-            cursed.setCustomName(entity.getCustomName())
-            cursed.setCustomNameVisible(entity.isCustomNameVisible())
+            cursed.customName = entity.customName
+            cursed.isCustomNameVisible = entity.isCustomNameVisible
         }
 
-        cursed.setRemainingFireTicks(entity.getRemainingFireTicks())
+        cursed.remainingFireTicks = entity.remainingFireTicks
         entity.level().addFreshEntity(cursed)
     }
 
@@ -212,7 +213,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                     if (atMaximumHealth()) {
                         brain = CustomBrain.DEFAULT
                         ticksSincePain = 0
-                        this.setItemInHand(InteractionHand.MAIN_HAND, Items.AIR.getDefaultInstance())
+                        this.setItemInHand(InteractionHand.MAIN_HAND, Items.AIR.defaultInstance)
                     } else {
                         if (ticksSincePain > 20) {
                             brain = CustomBrain.LEAVING
@@ -259,7 +260,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
 
     override fun mobInteract(player: Player, hand: InteractionHand): InteractionResult {
         // ItemStack itemstack = player.getItemInHand(hand);
-        if (this.isAlive() && !this.isTrading()) {
+        if (this.isAlive && !this.isTrading) {
             if (hand == InteractionHand.MAIN_HAND) {
                 player.awardStat(Stats.TALKED_TO_VILLAGER)
             }
@@ -269,7 +270,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                     return InteractionResult.CONSUME
                 }
 
-                this.setTradingPlayer(player)
+                this.tradingPlayer = player
                 this.openTradingScreen(player, this.getDisplayName(), 1)
             }
 
@@ -337,20 +338,20 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 mobBlockPos,
                 maxPathfindingDistance, maxPathfindingDistance,
                 Predicate { testBlockPos: BlockPos? ->
-                    val state = serverLevel.getBlockState(testBlockPos)
+                    val state = serverLevel.getBlockState(testBlockPos!!) // well, if I've chosen a blockPos it MUST exist, even if it's not valid.
                     if (state.`is`(Blocks.WATER) || state.`is`(Blocks.LAVA)) {
-                        return@Predicate state.getFluidState().isSource()
+                        return@Predicate state.fluidState.isSource
                     }
                     false
                 })
-            if (maybeFluid.isPresent()) {
+            if (maybeFluid.isPresent) {
                 val fluidTarget = maybeFluid.get()
                 this.mob.getBrain().setMemory<GlobalPos?>(
                     MemoryModuleType.JOB_SITE,
                     GlobalPos.of(mob.level().dimension(), fluidTarget)
                 ) // tiny little ram, just for me!
                 this.pathToFluid = this.mob.getNavigation().createPath(fluidTarget, 4)
-                return fluidTarget.getCenter()
+                return fluidTarget.center
             } else {
                 this.pathToFluid = null
                 this.mob.getBrain()
@@ -362,13 +363,13 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         // should I check if I should interrupt the path?
         override fun start() {
             if (this.pathToFluid != null) {
-                this.mob.getNavigation().moveTo(this.pathToFluid, this.speedModifier)
+                this.mob.getNavigation().moveTo(this.pathToFluid!!, this.speedModifier)
             }
         }
     }
 
     init {
-        this.fakeBobberPos = this.getEyePosition().add(0.0, 1.0, 0.0)
+        this.fakeBobberPos = this.eyePosition.add(0.0, 1.0, 0.0)
 
         // from Villager
         (this.getNavigation() as GroundPathNavigation).setCanOpenDoors(true)
@@ -391,7 +392,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         private var bobberBiteTimer: Long = 0
         private var bobberSummonedAtTime: Long = 0
         private var fishCaught = 0
-        private val maxFishCaught: Int
+        private val maxFishCaught: Int = Fishcasting.random.nextInt(3, 8)
 
         private fun remembersFluid(): Boolean {
             return mob.getBrain().hasMemoryValue(MemoryModuleType.JOB_SITE)
@@ -403,17 +404,13 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 return memory.get().pos()
             }
 
-        init {
-            this.maxFishCaught = Fishcasting.random.nextInt(3, 8)
-        }
-
         // at least make an attempt to check if casting a line could work
         private fun hasLineOfSightToFluid(): Boolean {
             if (!this.remembersFluid()) {
                 return false
             }
             val pos = this.fluid
-            val start = mob.getEyePosition()
+            val start = mob.eyePosition
             // should I check the top/sides/ figure out which side? I think this is usually ok...
             // I decided that checking the surface is most reasonable...
             val end = Vec3.atCenterOf(pos).add(raycastOffset)
@@ -434,7 +431,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         private fun updateBobberPos() {
             if (this.remembersFluid()) {
                 val be = this.mob as BlessedEntity
-                val diffToWater = this.fluid.getCenter().subtract(be.fakeBobberPos).scale(0.1)
+                val diffToWater = this.fluid.center.subtract(be.fakeBobberPos).scale(0.1)
                 be.fakeBobberPos = be.fakeBobberPos.add(diffToWater)
             }
         }
@@ -447,7 +444,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             if (hasLineOfSightToFluid() && fishCaught <= maxFishCaught) {
                 return true // need more conditions
             }
-            (this.mob as BlessedEntity).setPose(Pose.STANDING) // I dont know all the places where I need to and dont need to have this but I know I need it here.
+            (this.mob as BlessedEntity).pose = Pose.STANDING // I dont know all the places where I need to and dont need to have this but I know I need it here.
             // I definitely need to rewrite this class at some point...
             this.bobberSummonedAtTime++ // if blocked for too long, make it so that we can't keep it active too long
             return false
@@ -468,7 +465,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         // entity.setDeltaMovement(dx * 0.1, dy * 0.11 + Math.sqrt(Math.sqrt(dx * dx + dy * dy + dz * dz)) * 0.08, dz * 0.1);
         private fun summonFishMakeItFlyTowrdsFisher(medium: FishingMedium?, fisher: Entity, fishStack: ItemStack) {
             val entity: Entity?
-            val spawnPos = this.fluid.getCenter()
+            val spawnPos = this.fluid.center
             if (medium === FishingMedium.LAVA) {
                 entity = object : ItemEntity(fisher.level(), spawnPos.x, spawnPos.y + 0.5, spawnPos.z, fishStack) {
                     override fun displayFireAnimation(): Boolean {
@@ -479,9 +476,9 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 }
             } else entity = ItemEntity(fisher.level(), spawnPos.x, spawnPos.y + 0.5, spawnPos.z, fishStack)
 
-            val dx = fisher.getX() - entity.getX()
-            val dy = fisher.getY() - entity.getY()
-            val dz = fisher.getZ() - entity.getZ()
+            val dx = fisher.x - entity.x
+            val dy = fisher.y - entity.y
+            val dz = fisher.z - entity.z
             entity.setDeltaMovement(dx * 0.1, dy * 0.11 + sqrt(sqrt(dx * dx + dy * dy + dz * dz)) * 0.08, dz * 0.1)
             entity.addTag(BLESSED_PICKUP_TAG)
             fisher.level().addFreshEntity(entity)
@@ -501,22 +498,22 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             if (fishingMedium.isEmpty()) return
             val fakeHook = TideFishingHook(TideEntityTypes.FISHING_BOBBER, level)
 
-            val bait = TideItems.BAIT.getDefaultInstance()
+            val bait = TideItems.BAIT.defaultInstance
 
             val context = FishingContext(
-                level as ServerLevel, fakeHook, this.mob.getRandom(), this.fluid.getCenter(),
+                level as ServerLevel, fakeHook, this.mob.getRandom(), this.fluid.center,
                 this.fluid, 0,
-                fishingMedium.get().id().getPath(), bait, biome, biome, level.dimension(),
+                fishingMedium.get().id().path, bait, biome, biome, level.dimension(),
                 TideUtils.getTemperatureAt(this.fluid, level),
-                level.getMoonPhase(), SeasonsCompat.getSeason(level)
+                level.moonPhase, SeasonsCompat.getSeason(level)
             )
             val results: MutableMap<FishingEntry?, Double?> = HashMap<FishingEntry?, Double?>()
             val result = Tide.FISHING_MANAGER.selectCatch(context)
             val be = this.mob as BlessedEntity
-            if (result.entry().isPresent() && result.entry().get().matchesTestType(TestType.FISH)) {
+            if (result.entry().isPresent && result.entry().get().matchesTestType(TestType.FISH)) {
                 val entry = result.entry().get()
                 summonFishMakeItFlyTowrdsFisher(fishingMedium.get(), this.mob, result.items().first())
-                be.doTheatrics(this.fluid.getCenter())
+                be.doTheatrics(this.fluid.center)
             } else {
                 be.decrementMood() // unhappy because no fish, i don't remember if this can be reached but I think crates and treasure are included so maybe?
             }
@@ -619,7 +616,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             stopIfPlaying(tailWiggleState)
         }
         // if forced into a boat or chair
-        if (this.isPassenger()) {
+        if (this.isPassenger) {
             sittingAnimationState.startIfStopped(this.tickCount)
         } else {
             stopIfPlaying(sittingAnimationState)
@@ -641,7 +638,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         if (this.level().isClientSide) {
             this.setupAnimationStates()
         } else {
-            if (this.isLeashed()) {
+            if (this.isLeashed) {
                 if (Mth.positiveModulo(this.tickCount, TICKS_BETWEEN_MOOD_DROPS / 100) == 0) {
                     this.decrementMood()
                 }
@@ -709,16 +706,16 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     /* VARIANT */
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {
         super.defineSynchedData(builder)
-        builder.define<Int>(VARIANT, 0)
+        builder.define(VARIANT, 0)
     }
 
     private val typeVariant: Int
-        get() = this.entityData.get<Int>(VARIANT)
+        get() = this.entityData.get(VARIANT)
 
     var variant: BlessedVariant?
         get() = BlessedVariant.byId(this.typeVariant and 255) // why does mojang check if we have more than 255 variants? kaupenjoe does too, I assume it's something obscure or a silly choice and in either case it matters little
         private set(variant) {
-            this.entityData.set<Int>(VARIANT, variant!!.id and 255)
+            this.entityData.set(VARIANT, variant!!.id and 255)
         }
 
     override fun addAdditionalSaveData(compoundTag: CompoundTag) {

@@ -29,8 +29,6 @@ import java.util.function.Supplier;
 
 import static hauveli.fishcasting.Fishcasting.id;
 
-// https://github.com/YukkuriC/HexOverpowered/blob/1.21/common/src/main/java/io/yukkuric/hexop/actions/HexOPActions.kt
-// code adapted from the above
 public class FishcastingItems {
 
     public static void registerItems(BiConsumer<Item, ResourceLocation> r) {
@@ -47,7 +45,6 @@ public class FishcastingItems {
 
     private static final Map<ResourceLocation, Item> ITEMS = new LinkedHashMap<>(); // preserve insertion order
     private static final Map<CreativeModeTab, List<TabEntry>> ITEM_TABS = new LinkedHashMap<>();
-
 
     private static <T extends Item> T make(ResourceLocation id, T item, @Nullable CreativeModeTab tab) {
         var old = ITEMS.put(id, item);
