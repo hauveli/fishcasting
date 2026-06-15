@@ -31,9 +31,11 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.MinecraftServer
 import net.minecraft.world.entity.animal.axolotl.Axolotl
 import net.minecraft.world.entity.npc.Villager
 import net.neoforged.bus.api.IEventBus
+import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.ModContainer
 import net.neoforged.fml.ModList
 import net.neoforged.fml.common.Mod
@@ -43,6 +45,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
+import net.neoforged.neoforge.event.server.ServerStartedEvent
 import net.neoforged.neoforge.registries.RegisterEvent
 import java.util.function.BiConsumer
 import java.util.function.Consumer
@@ -85,6 +88,7 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
             })
         }
 
+
         bind(Registries.ENTITY_TYPE, FishcastingEntities::registerEntities)
         bind(Registries.SOUND_EVENT, FishcastingSounds::registerSounds)
         bind(Registries.ATTRIBUTE, FishcastingAttributes::registerAttributes)
@@ -109,6 +113,7 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
             addListener(NeoForgeFishcastingClient::init)
             addListener(NeoForgeFishcastingDatagen::init)
             addListener(NeoForgeFishcastingServer::init)
+            //addListener(::registerAttributeHolder)
             addListener(::registerEntityAttributes)
             addListener(::registerItemModelProperties)
             addListener(::registerLayerDefinitions)
@@ -117,8 +122,12 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
             addListener(::registerCreativeModeTabItems)
         }
 
-
         Fishcasting.init()
+    }
+
+    @SubscribeEvent
+    fun registerAttributeHolder(event: ServerStartedEvent) {
+        FishcastingAttributes.registerHolder(event.server.allLevels.first())
     }
 
     // ugh I couldn't do anything better than this

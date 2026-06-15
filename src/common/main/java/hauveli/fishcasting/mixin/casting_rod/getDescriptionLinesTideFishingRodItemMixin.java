@@ -1,6 +1,7 @@
 package hauveli.fishcasting.mixin.casting_rod;
 
 import com.li64.tide.registries.items.TideFishingRodItem;
+import hauveli.fishcasting.config.FishcastingConfigs;
 import hauveli.fishcasting.registry.FishcastingItems;
 import hauveli.fishcasting.features.paraphernalia.HexyRodItem;
 import net.minecraft.ChatFormatting;
@@ -13,8 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static hauveli.fishcasting.Fishcasting.CONFIG;
 
 @Mixin(TideFishingRodItem.class)
 public class getDescriptionLinesTideFishingRodItemMixin {
@@ -33,9 +32,9 @@ public class getDescriptionLinesTideFishingRodItemMixin {
             components.add(Component.translatable("text.fishcasting.rod_tooltip.shepherds_bonus").withStyle(ChatFormatting.GOLD));
         }
         if (stack.getItem() instanceof HexyRodItem) {
-            if (CONFIG.gameplay.castingIsMomentary()) {
+            if (FishcastingConfigs.INSTANCE.getCOMMON_CONFIG().castingIsMomentary()) {
                 components.add(Component.translatable("text.fishcasting.rod_tooltip.casting_bonus.momentary").withStyle(ChatFormatting.LIGHT_PURPLE));
-            } else if (CONFIG.gameplay.castingIsOffhandOnly()) {
+            } else if (FishcastingConfigs.INSTANCE.getCOMMON_CONFIG().castingIsOffhandOnly()) {
                 components.add(Component.translatable("text.fishcasting.rod_tooltip.casting_bonus.offhand").withStyle(ChatFormatting.LIGHT_PURPLE));
             } else {
                 // fallback just in case?

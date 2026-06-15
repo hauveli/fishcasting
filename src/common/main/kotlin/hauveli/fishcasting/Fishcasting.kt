@@ -1,6 +1,5 @@
 package hauveli.fishcasting
 
-import hauveli.fishcasting.common.FishcastingConfig
 import hauveli.fishcasting.config.FishcastingConfigs
 import hauveli.fishcasting.networking.FishcastingNetworking
 import hauveli.fishcasting.registry.FishcastingActions
@@ -27,9 +26,6 @@ object Fishcasting {
     @JvmField
     val FISHBERT_TAG: String = "$MODID:recently_caught"
 
-    @JvmField
-    var CONFIG: FishcastingConfig? = null
-
     // I dont know if I should avoid using this or not, I noticed some classes have access to Entity.random...
     @JvmField
     val random: Random = Random()
@@ -37,25 +33,12 @@ object Fishcasting {
     @JvmStatic
     fun id(path: String): ResourceLocation = ResourceLocation.fromNamespaceAndPath(MODID, path)
 
-
-    fun <T> bind(registry: Registry<in T>): BiConsumer<T, ResourceLocation> =
-        BiConsumer<T, ResourceLocation> { t, id -> Registry.register(registry, id, t) }
-
     fun init() {
         initRegistries(
             FishcastingActions
         )
         FishcastingNetworking.init()
         FishcastingConfigs.init()
-
-        CONFIG = AutoConfig.register(
-            FishcastingConfig::class.java,
-            { definition: Config?, configClass: Class<FishcastingConfig?>? ->
-                Toml4jConfigSerializer(
-                    definition,
-                    configClass
-                )
-            }).getConfig()
     }
 
     fun initServer() {

@@ -2,6 +2,7 @@ package hauveli.fishcasting.mixin.casting_rod;
 
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook;
 import com.li64.tide.registries.items.TideFishingRodItem;
+import hauveli.fishcasting.config.FishcastingConfigs;
 import hauveli.fishcasting.features.paraphernalia.HexyRodItem;
 import hauveli.fishcasting.features.paraphernalia.TideyFocusItem;
 import net.minecraft.world.entity.player.Player;
@@ -11,8 +12,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import static hauveli.fishcasting.Fishcasting.CONFIG;
 
 @Mixin(TideFishingHook.class)
 public abstract class RodCooldownAndBobberExecutionTideFishingHookMixin {
@@ -48,7 +47,7 @@ public abstract class RodCooldownAndBobberExecutionTideFishingHookMixin {
                     .getCooldowns()
                     .addCooldown(
                             this.getRodItem(),
-                            CONFIG.gameplay.getCooldownAfterFishingMinigame());
+                            FishcastingConfigs.INSTANCE.getCOMMON_CONFIG().getCooldownAfterFishingMinigame());
         }
     }
 }

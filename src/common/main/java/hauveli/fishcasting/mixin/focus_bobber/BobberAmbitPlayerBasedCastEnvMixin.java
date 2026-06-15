@@ -2,8 +2,9 @@ package hauveli.fishcasting.mixin.focus_bobber;
 
 import at.petrak.hexcasting.api.casting.eval.env.PlayerBasedCastEnv;
 import com.li64.tide.registries.entities.misc.fishing.HookAccessor;
-import hauveli.fishcasting.platform.Services;
+import hauveli.fishcasting.Fishcasting;
 import hauveli.fishcasting.features.paraphernalia.TideyFocusItem;
+import hauveli.fishcasting.registry.FishcastingAttributes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
@@ -33,7 +34,8 @@ public abstract class BobberAmbitPlayerBasedCastEnvMixin {
                     && maybeHook.getBobber().getItem() instanceof TideyFocusItem
                     && serverPlayer.level().dimension() == maybeHook.level().dimension()) {
                 // god I'm such a fat chud noob it took me at least an hour to figure out that this was an ok ish way to do this
-                double ambitBobberRadius = serverPlayer.getAttributeValue(Services.PLATFORM.getHolderForBobberRadius());
+                //double ambitBobberRadius = serverPlayer.getAttributeValue(FishcastingAttributes.INSTANCE.getHolderForBobberRadius(serverPlayer.serverLevel()));
+                double ambitBobberRadius = serverPlayer.getAttributeValue(FishcastingAttributes.BOBBER_RADIUS_HOLDER);
                 cir.setReturnValue(
                         vec.distanceToSqr(maybeHook.position()) <= ambitBobberRadius * ambitBobberRadius + 0.00000000001
                 );

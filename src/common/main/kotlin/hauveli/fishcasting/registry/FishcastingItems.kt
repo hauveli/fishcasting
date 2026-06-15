@@ -7,7 +7,7 @@ import com.li64.tide.registries.entities.misc.fishing.HookAccessor
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import com.li64.tide.registries.items.FishingHookItem
 import hauveli.fishcasting.Fishcasting.id
-import hauveli.fishcasting.common.FishcastingLoreFragment
+import hauveli.fishcasting.features.FishcastingLoreFragment
 import hauveli.fishcasting.features.chair.TackleBoxChairItem
 import hauveli.fishcasting.features.gacha.GachaBottleItem
 import hauveli.fishcasting.features.paraphernalia.HexyRodItem
