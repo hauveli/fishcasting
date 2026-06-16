@@ -19,7 +19,7 @@ import hauveli.fishcasting.datagen.NeoForgeFishcastingDatagen
 import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
 import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
-import hauveli.fishcasting.casting.recipe.brainsweep.FishcastingBrainsweepeeIngredients
+import hauveli.fishcasting.registry.FishcastingBrainsweepeeIngredients
 import hauveli.fishcasting.registry.FishcastingAttributes
 import hauveli.fishcasting.registry.FishcastingCreativeTabs
 import hauveli.fishcasting.registry.FishcastingEntities
@@ -94,7 +94,7 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
         bind(Registries.ITEM, FishcastingItems::registerItems)
         bind(Registries.CREATIVE_MODE_TAB, FishcastingCreativeTabs::registerCreativeTabs)
         //bind(HexRegistries.IOTA_TYPE, FishcastingIotaTypes::registerTypes)
-        bind(HexRegistries.BRAINSWEEPEE_INGREDIENT, FishcastingBrainsweepeeIngredients::register)
+        bind(HexRegistries.BRAINSWEEPEE_INGREDIENT, FishcastingBrainsweepeeIngredients::registerBrainsweepeeIngredients)
         Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns"), FishcastingFishArithmetic())
         /*
 

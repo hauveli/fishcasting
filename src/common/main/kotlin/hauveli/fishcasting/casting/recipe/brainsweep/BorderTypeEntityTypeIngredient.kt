@@ -108,7 +108,6 @@ class BorderTypeEntityTypeIngredient(
     }
 
     override fun test(entity: Entity, level: ServerLevel?): Boolean {
-        // entity types are singletons
         return entity.type === this.entityType
                 && this.entityAtBorder(entity)
     }
@@ -174,13 +173,5 @@ class BorderTypeEntityTypeIngredient(
                     }
                 )
         }
-    }
-
-    override fun hashCode(): Int {
-        var result = super.hashCode()
-        result = 31 * result + upDownBorder.hashCode()
-        result = 31 * result + northSouthBorder.hashCode()
-        result = 31 * result + westEastBorder.hashCode()
-        return result
     }
 }
