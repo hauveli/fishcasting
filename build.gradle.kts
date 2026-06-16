@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import at.petrak.pkpcpbp.filters.FlatteningJson5Transmogrifier
 import at.petrak.pkpcpbp.filters.Json5Transmogrifier
+import earth.terrarium.cloche.api.metadata.CommonMetadata
 
 plugins {
     alias(libs.plugins.cloche)
@@ -111,6 +112,7 @@ cloche {
                 dependency {
                     modId = "tide"
                     version(libs.versions.tide.get())
+                    ordering = CommonMetadata.Dependency.Ordering.After
                 }
             }
         }
