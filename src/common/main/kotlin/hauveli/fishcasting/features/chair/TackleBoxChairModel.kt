@@ -16,7 +16,7 @@ import javax.annotation.Nonnull
 import javax.annotation.Nullable
 
 
-class TackleBoxChairModel<T : Entity?>(root: ModelPart) : EntityModel<T?>() {
+class TackleBoxChairModel<T : Entity>(root: ModelPart) : EntityModel<T>() {
     // why can't I just import a .json for this........
     private val bone: ModelPart = root.getChild("bone")
 
@@ -45,7 +45,7 @@ class TackleBoxChairModel<T : Entity?>(root: ModelPart) : EntityModel<T?>() {
 
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
-            val partdefinition = meshdefinition.getRoot()
+            val partdefinition = meshdefinition.root
 
             val bone = partdefinition.addOrReplaceChild(
                 "bone",

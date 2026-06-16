@@ -1,5 +1,6 @@
 package hauveli.fishcasting.mixin;
 
+import hauveli.fishcasting.Fishcasting;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerInfo;

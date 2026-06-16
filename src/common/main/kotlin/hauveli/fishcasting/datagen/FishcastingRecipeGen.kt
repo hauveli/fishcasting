@@ -9,6 +9,7 @@ import at.petrak.hexcasting.datagen.IXplatConditionsBuilder
 import at.petrak.hexcasting.datagen.IXplatIngredients
 import at.petrak.hexcasting.datagen.recipe.HexplatRecipes
 import at.petrak.hexcasting.datagen.recipe.builders.BrainsweepRecipeBuilder
+import hauveli.fishcasting.Fishcasting.MODID
 import hauveli.fishcasting.Fishcasting.id
 import hauveli.fishcasting.casting.recipe.brainsweep.TaggedEntityTypeIngredient
 import hauveli.fishcasting.registry.FishcastingEntities
@@ -32,7 +33,7 @@ class FishcastingRecipeGen(
     override fun buildRecipes(recipes: RecipeOutput) {
         BrainsweepRecipeBuilder(
             HexStateIngredients.of(Blocks.AMETHYST_BLOCK),
-            TaggedEntityTypeIngredient(FishcastingEntities.BLESSED, "fishcasting:yoinked"),
+            TaggedEntityTypeIngredient(FishcastingEntities.BLESSED, "${MODID}_yoinked"),
             Blocks.BUDDING_AMETHYST.defaultBlockState(), MediaConstants.CRYSTAL_UNIT * 10
         )
             .unlockedBy(
