@@ -1,30 +1,20 @@
-package hauveli.fishcasting.hexcasting.recipe.brainsweep;
+package hauveli.fishcasting.casting.recipe.brainsweep;
 
-import at.petrak.hexcasting.common.recipe.ingredient.brainsweep.BrainsweepeeIngredient;
 import at.petrak.hexcasting.common.recipe.ingredient.brainsweep.BrainsweepeeIngredientType;
 import at.petrak.hexcasting.common.recipe.ingredient.brainsweep.EntityTypeIngredient;
-import com.google.gson.JsonObject;
-import java.util.Set;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.Level;
 
-import java.util.List;
 import java.util.Objects;
 
 public class TaggedEntityTypeIngredient extends EntityTypeIngredient {

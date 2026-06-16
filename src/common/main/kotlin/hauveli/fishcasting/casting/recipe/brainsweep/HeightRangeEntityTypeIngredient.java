@@ -1,4 +1,4 @@
-package hauveli.fishcasting.hexcasting.recipe.brainsweep;
+package hauveli.fishcasting.casting.recipe.brainsweep;
 
 import at.petrak.hexcasting.common.recipe.ingredient.brainsweep.BrainsweepeeIngredientType;
 import at.petrak.hexcasting.common.recipe.ingredient.brainsweep.EntityTypeIngredient;

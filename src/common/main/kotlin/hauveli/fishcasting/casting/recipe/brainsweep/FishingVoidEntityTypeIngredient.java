@@ -1,16 +1,14 @@
-package hauveli.fishcasting.hexcasting.recipe.brainsweep;
+package hauveli.fishcasting.casting.recipe.brainsweep;
 
 import at.petrak.hexcasting.common.recipe.ingredient.brainsweep.BrainsweepeeIngredientType;
 import at.petrak.hexcasting.common.recipe.ingredient.brainsweep.EntityTypeIngredient;
 import com.li64.tide.Tide;
 import com.li64.tide.TideConfig;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.server.level.ServerLevel;

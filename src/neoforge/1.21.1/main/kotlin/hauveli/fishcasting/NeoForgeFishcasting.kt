@@ -19,7 +19,7 @@ import hauveli.fishcasting.datagen.NeoForgeFishcastingDatagen
 import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
 import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
-import hauveli.fishcasting.hexcasting.recipe.brainsweep.FishcastingBrainsweepeeIngredients
+import hauveli.fishcasting.casting.recipe.brainsweep.FishcastingBrainsweepeeIngredients
 import hauveli.fishcasting.registry.FishcastingAttributes
 import hauveli.fishcasting.registry.FishcastingCreativeTabs
 import hauveli.fishcasting.registry.FishcastingEntities
