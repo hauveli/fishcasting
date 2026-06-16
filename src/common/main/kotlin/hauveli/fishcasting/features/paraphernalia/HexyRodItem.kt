@@ -19,7 +19,7 @@ import com.li64.tide.registries.items.TideFishingRodItem
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.config.FishcastingConfigs.COMMON_CONFIG
 import hauveli.fishcasting.features.trader.BlessedEntity.Companion.poofIntoExistence
-import hauveli.fishcasting.hexcasting.BobberBasedCastEnv
+import hauveli.fishcasting.casting.environments.BobberBasedCastEnv
 import net.minecraft.client.Minecraft
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel

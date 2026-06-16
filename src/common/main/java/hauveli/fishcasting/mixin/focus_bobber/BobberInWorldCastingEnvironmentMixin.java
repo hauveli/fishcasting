@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static hauveli.fishcasting.hexcasting.actions.OpGetCatchesBobberJ.getFishingHook;
+import static hauveli.fishcasting.casting.actions.patterns.OpGetCatchesBobber.getFishingHook;
 
 @Mixin(CastingEnvironment.class)
 public class BobberInWorldCastingEnvironmentMixin {

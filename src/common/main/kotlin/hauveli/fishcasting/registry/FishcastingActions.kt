@@ -6,11 +6,10 @@ import at.petrak.hexcasting.api.casting.math.HexDir
 import at.petrak.hexcasting.api.casting.math.HexPattern
 import at.petrak.hexcasting.common.lib.HexRegistries
 import at.petrak.hexcasting.common.lib.hex.HexActions
-import hauveli.fishcasting.casting.actions.spells.OpCongratulate
-import hauveli.fishcasting.hexcasting.actions.OpGetBobbersCatchJ
-import hauveli.fishcasting.hexcasting.actions.OpGetBobbersOwnerJ
-import hauveli.fishcasting.hexcasting.actions.OpGetCatchesBobberJ
-import hauveli.fishcasting.hexcasting.actions.OpGetOwnersBobberJ
+import hauveli.fishcasting.casting.actions.patterns.OpGetBobbersCatch
+import hauveli.fishcasting.casting.actions.patterns.OpGetBobbersOwner
+import hauveli.fishcasting.casting.actions.patterns.OpGetCatchesBobber
+import hauveli.fishcasting.casting.actions.patterns.OpGetOwnersBobber
 
 object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     HexRegistries.ACTION,
@@ -26,10 +25,10 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
         // The FishIota type can be safely deleted too, probably.
         // wrap("fish/from_entity", "wewweeedaaedqew", HexDir.SOUTH_WEST, OpGetFishIotaFromEntity.INSTANCE);
      */
-    val BOBBER_FROM_OWNER = make("bobber/from_owner", HexDir.SOUTH_EAST, "weeed", OpGetOwnersBobberJ.INSTANCE)
-    val OWNER_FROM_BOBBER = make("owner/from_bobber", HexDir.WEST, "aqqqw", OpGetBobbersOwnerJ.INSTANCE)
-    val CATCH_FROM_BOBBER = make("catch/from_bobber", HexDir.SOUTH_EAST, "weeede", OpGetBobbersCatchJ.INSTANCE)
-    val BOBBER_FROM_CATCH = make("bobber/from_catch", HexDir.NORTH_WEST, "qaqqqw", OpGetCatchesBobberJ.INSTANCE)
+    val BOBBER_FROM_OWNER = make("bobber/from_owner", HexDir.SOUTH_EAST, "weeed", OpGetOwnersBobber.INSTANCE)
+    val OWNER_FROM_BOBBER = make("owner/from_bobber", HexDir.WEST, "aqqqw", OpGetBobbersOwner.INSTANCE)
+    val CATCH_FROM_BOBBER = make("catch/from_bobber", HexDir.SOUTH_EAST, "weeede", OpGetBobbersCatch.INSTANCE)
+    val BOBBER_FROM_CATCH = make("bobber/from_catch", HexDir.NORTH_WEST, "qaqqqw", OpGetCatchesBobber.INSTANCE)
 
     // I didnt check the regex but I'm hoping this stops it
     //val CONGRATULATE = make("congratulate" - , HexDir.WEST, - "eed", OpCongratulate)

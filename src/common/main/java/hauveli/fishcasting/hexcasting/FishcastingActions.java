@@ -5,7 +5,10 @@ import at.petrak.hexcasting.api.casting.castables.Action;
 import at.petrak.hexcasting.api.casting.math.HexDir;
 import at.petrak.hexcasting.api.casting.math.HexPattern;
 import hauveli.fishcasting.Fishcasting;
-import hauveli.fishcasting.hexcasting.actions.*;
+import hauveli.fishcasting.casting.actions.patterns.OpGetBobbersCatch;
+import hauveli.fishcasting.casting.actions.patterns.OpGetBobbersOwner;
+import hauveli.fishcasting.casting.actions.patterns.OpGetCatchesBobber;
+import hauveli.fishcasting.casting.actions.patterns.OpGetOwnersBobber;
 import net.minecraft.resources.ResourceLocation;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,10 +21,10 @@ public class FishcastingActions {
 
     static {
         // with the exception of the bobber thingies here
-        wrap("bobber/from_owner", "weeed", HexDir.SOUTH_EAST, OpGetOwnersBobberJ.INSTANCE);
-        wrap("owner/from_bobber", "aqqqw", HexDir.WEST, OpGetBobbersOwnerJ.INSTANCE);
-        wrap("catch/from_bobber", "weeede", HexDir.SOUTH_EAST, OpGetBobbersCatchJ.INSTANCE);
-        wrap("bobber/from_catch", "qaqqqw", HexDir.NORTH_WEST, OpGetCatchesBobberJ.INSTANCE);
+        wrap("bobber/from_owner", "weeed", HexDir.SOUTH_EAST, OpGetOwnersBobber.INSTANCE);
+        wrap("owner/from_bobber", "aqqqw", HexDir.WEST, OpGetBobbersOwner.INSTANCE);
+        wrap("catch/from_bobber", "weeede", HexDir.SOUTH_EAST, OpGetBobbersCatch.INSTANCE);
+        wrap("bobber/from_catch", "qaqqqw", HexDir.NORTH_WEST, OpGetCatchesBobber.INSTANCE);
 
         // The FishIota type can be safely deleted too, probably.
         // wrap("fish/from_entity", "wewweeedaaedqew", HexDir.SOUTH_WEST, OpGetFishIotaFromEntity.INSTANCE);

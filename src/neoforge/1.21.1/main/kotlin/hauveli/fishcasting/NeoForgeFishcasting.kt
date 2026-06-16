@@ -125,6 +125,7 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
         Fishcasting.init()
     }
 
+    // why?
     @SubscribeEvent
     fun registerAttributeHolder(event: ServerStartedEvent) {
         FishcastingAttributes.registerHolder(event.server.allLevels.first())

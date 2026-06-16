@@ -1,4 +1,4 @@
-package hauveli.fishcasting.hexcasting;
+package hauveli.fishcasting.casting.environments;
 
 import at.petrak.hexcasting.api.casting.eval.CastResult;
 import at.petrak.hexcasting.api.casting.eval.env.PlayerBasedCastEnv;
