@@ -35,6 +35,7 @@ object OpGetCatchesBobber : ConstMediaAction {
         return listOf(EntityIota(hook))
     }
 
+    @JvmStatic
     fun getFishingHook(entity: Entity): TideFishingHook? {
         val level = entity.level()
 

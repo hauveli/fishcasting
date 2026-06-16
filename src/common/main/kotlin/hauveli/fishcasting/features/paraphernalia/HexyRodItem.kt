@@ -131,7 +131,7 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
 
         val patterns = iotas.stream()
             .filter { i: Iota? -> i is PatternIota }
-            .map<HexPattern?> { i: Iota? -> (i as PatternIota).getPattern() }
+            .map { i: Iota? -> (i as PatternIota).pattern }
             .toList()
         val packet = MsgNewSpiralPatternsS2C(sPlayer.getUUID(), patterns, 140)
         IXplatAbstractions.INSTANCE.sendPacketToPlayer(sPlayer, packet)
@@ -149,7 +149,7 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
                 .sprayParticles(sPlayer.serverLevel(), ctx.getPigment())
         }
 
-        val sound = ctx.getSound().sound()
+        val sound = ctx.sound.sound()
         if (sound != null) {
             val soundPos = sPlayer.position()
             sPlayer.level().playSound(
@@ -168,7 +168,7 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
 
     private fun stopNoise(level: Level) {
         if (level.isClientSide) {
-            Minecraft.getInstance().getSoundManager().stop(HexSounds.CASTING_AMBIANCE.getLocation(), null)
+            Minecraft.getInstance().soundManager.stop(HexSounds.CASTING_AMBIANCE.location, null)
         }
     }
 
@@ -230,7 +230,7 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
         if (player.getAttributeValue(HexAttributes.FEEBLE_MIND) > 0) {
             return InteractionResultHolder.fail<ItemStack?>(player.getItemInHand(hand))
         }
-        if (player.isShiftKeyDown()) {
+        if (player.isShiftKeyDown) {
             if (level.isClientSide()) {
                 player.playSound(HexSounds.STAFF_RESET, 1f, 1f)
             } else if (player is ServerPlayer) {
