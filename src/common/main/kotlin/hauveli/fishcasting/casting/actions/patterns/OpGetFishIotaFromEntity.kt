@@ -2,26 +2,14 @@ package hauveli.fishcasting.casting.actions.patterns
 
 import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
-import at.petrak.hexcasting.api.casting.eval.OperationResult
-import at.petrak.hexcasting.api.casting.eval.sideeffects.OperatorSideEffect
-import at.petrak.hexcasting.api.casting.eval.vm.CastingImage
-import at.petrak.hexcasting.api.casting.eval.vm.SpellContinuation
 import at.petrak.hexcasting.api.casting.iota.EntityIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.NullIota
-import at.petrak.hexcasting.api.casting.mishaps.Mishap
-import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
-import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs
-import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughMedia
 import at.petrak.hexcasting.api.misc.MediaConstants
-import at.petrak.hexcasting.common.lib.hex.HexEvalSounds
 import com.li64.tide.data.fishing.FishData
-import hauveli.fishcasting.hexcasting.iota.FishIota
+import hauveli.fishcasting.casting.iota.FishIota
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.network.chat.Component
-import kotlin.collections.ArrayList
-import kotlin.collections.MutableList
 
 /*
 I'm doing this another time if I feel like I need or want it for anything

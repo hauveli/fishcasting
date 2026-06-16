@@ -18,7 +18,7 @@ import hauveli.fishcasting.registry.FishcastingItems.ToTideFishingHookEntity
 import hauveli.fishcasting.datagen.NeoForgeFishcastingDatagen
 import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
-import hauveli.fishcasting.hexcasting.FishcastingFishArithmetic
+import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
 import hauveli.fishcasting.hexcasting.recipe.brainsweep.FishcastingBrainsweepeeIngredients
 import hauveli.fishcasting.registry.FishcastingAttributes
 import hauveli.fishcasting.registry.FishcastingCreativeTabs
@@ -31,7 +31,6 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.MinecraftServer
 import net.minecraft.world.entity.animal.axolotl.Axolotl
 import net.minecraft.world.entity.npc.Villager
 import net.neoforged.bus.api.IEventBus
@@ -94,8 +93,7 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
         bind(Registries.ATTRIBUTE, FishcastingAttributes::registerAttributes)
         bind(Registries.ITEM, FishcastingItems::registerItems)
         bind(Registries.CREATIVE_MODE_TAB, FishcastingCreativeTabs::registerCreativeTabs)
-        // hexy stuff?
-        //  FishcastingIotaTypes.registerTypes((k, v) -> event.register(HexRegistries.IOTA_TYPE, v, () -> k));
+        //bind(HexRegistries.IOTA_TYPE, FishcastingIotaTypes::registerTypes)
         bind(HexRegistries.BRAINSWEEPEE_INGREDIENT, FishcastingBrainsweepeeIngredients::register)
         Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns"), FishcastingFishArithmetic())
         /*
