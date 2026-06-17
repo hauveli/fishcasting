@@ -1,13 +1,27 @@
 package hauveli.fishcasting.client
 
-import hauveli.fishcasting.client.FishcastingClient
+import com.li64.tide.client.TideItemModelProperties
+import hauveli.fishcasting.registry.FishcastingItems
+import net.minecraft.client.renderer.item.ItemProperties
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory
-import thedarkcolour.kotlinforforge.neoforge.forge.LOADING_CONTEXT
+
 
 object NeoForgeFishcastingClient {
     @Suppress("UNUSED_PARAMETER")
     fun init(event: FMLClientSetupEvent) {
+        event.enqueueWork(::registerItemModelProperties);
         FishcastingClient.init()
     }
+
+
+    // why does it not work after I build it...
+    @JvmStatic
+    fun registerItemModelProperties() {
+        ItemProperties.register(
+            FishcastingItems.SHEPHERDS_CASTING_ROD,
+            TideItemModelProperties.CAST_PROPERTY,
+            TideItemModelProperties.CAST_FUNCTION
+        )
+    }
+
 }

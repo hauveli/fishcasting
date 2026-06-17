@@ -113,7 +113,6 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
             addListener(NeoForgeFishcastingServer::init)
             //addListener(::registerAttributeHolder)
             addListener(::registerEntityAttributes)
-            addListener(::registerItemModelProperties)
             addListener(::registerLayerDefinitions)
             addListener(::registerEntityRenderers)
             addListener(::registerCaps)
@@ -170,17 +169,6 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
             FishcastingEntities.BLESSED,
             ::BlessedRenderer
         )
-    }
-
-    // from the neoforge documentation, found it after looking at the fabric documentation, god I'm just glad it works now
-    fun registerItemModelProperties(event: FMLClientSetupEvent) {
-        event.enqueueWork( { // I dont understand why the IDE chooses what it does when I convert java to kotlin
-            ItemProperties.register(
-                FishcastingItems.SHEPHERDS_CASTING_ROD,
-                TideItemModelProperties.CAST_PROPERTY,
-                TideItemModelProperties.CAST_FUNCTION
-            )
-        })
     }
 
     fun registerCaps(event: RegisterCapabilitiesEvent) {
