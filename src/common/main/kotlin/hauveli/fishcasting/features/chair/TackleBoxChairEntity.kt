@@ -22,7 +22,7 @@ import net.minecraft.world.phys.Vec3
 
 
 class TackleBoxChairEntity : ChestBoat {
-    constructor(type: EntityType<out TackleBoxChairEntity?>, level: Level) : super(type, level) {
+    constructor(type: EntityType<out TackleBoxChairEntity>, level: Level) : super(type, level) {
         this.stuckSpeedMultiplier = Vec3.ZERO
         this.setPaddleState(false, false)
     }

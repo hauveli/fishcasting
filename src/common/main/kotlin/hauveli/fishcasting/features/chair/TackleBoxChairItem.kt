@@ -17,11 +17,11 @@ import net.minecraft.world.phys.HitResult
 import java.util.function.Predicate
 
 class TackleBoxChairItem(properties: Properties) : Item(properties) {
-    override fun use(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack?> {
+    override fun use(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         val itemStack = player.getItemInHand(hand)
         val hitResult: HitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.ANY)
         if (hitResult.type == HitResult.Type.MISS) {
-            return InteractionResultHolder.pass<ItemStack?>(itemStack)
+            return InteractionResultHolder.pass(itemStack)
         } else {
             val vec3 = player.getViewVector(1.0f)
             val d0 = 5.0 // ????? what is this number
@@ -36,7 +36,7 @@ class TackleBoxChairItem(properties: Properties) : Item(properties) {
                 for (entity in list) {
                     val aabb = entity.boundingBox.inflate(entity.pickRadius.toDouble())
                     if (aabb.contains(vec31)) {
-                        return InteractionResultHolder.pass<ItemStack?>(itemStack)
+                        return InteractionResultHolder.pass(itemStack)
                     }
                 }
             }
@@ -45,7 +45,7 @@ class TackleBoxChairItem(properties: Properties) : Item(properties) {
                 val chair = this.getChair(level, hitResult, itemStack, player)
                 chair.yRot = player.yRot
                 if (!level.noCollision(chair, chair.boundingBox)) {
-                    return InteractionResultHolder.fail<ItemStack?>(itemStack)
+                    return InteractionResultHolder.fail(itemStack)
                 } else {
                     if (!level.isClientSide) {
                         level.addFreshEntity(chair)
@@ -54,10 +54,10 @@ class TackleBoxChairItem(properties: Properties) : Item(properties) {
                     }
 
                     player.awardStat(Stats.ITEM_USED.get(this))
-                    return InteractionResultHolder.sidedSuccess<ItemStack?>(itemStack, level.isClientSide())
+                    return InteractionResultHolder.sidedSuccess(itemStack, level.isClientSide())
                 }
             } else {
-                return InteractionResultHolder.pass<ItemStack?>(itemStack)
+                return InteractionResultHolder.pass(itemStack)
             }
         }
     }

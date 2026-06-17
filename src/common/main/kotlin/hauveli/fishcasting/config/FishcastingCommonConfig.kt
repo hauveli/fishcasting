@@ -2,34 +2,44 @@ package hauveli.fishcasting.config
 
 import hauveli.fishcasting.Fishcasting
 import me.fzzyhmstrs.fzzy_config.config.Config
+import me.fzzyhmstrs.fzzy_config.validation.ValidatedField
+import me.fzzyhmstrs.fzzy_config.validation.ValidatedField.Companion.descriptionProvider
 import me.fzzyhmstrs.fzzy_config.validation.ValidatedField.Companion.withListener
+import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedAny
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedEnum
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt
+import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionHand
+import java.util.function.BiFunction
 
 
 // guide: https://moddedmc.wiki/en/project/fzzy-config/latest/docs/config-design/New-Configs#2-config-creation
 class FishcastingCommonConfig : Config(Fishcasting.id("common_config")) {
 
-    var castingTicksToCast: ValidatedInt = ValidatedInt(5, 100, 0) // must be greater than or equal to 0
-    var cooldownAfterFishing: ValidatedInt = ValidatedInt(5, 100, 0) // must be greater than or equal to 0
+    // why are descriptions not just a default thing?
+    fun <T> ValidatedField<T>.addDescription(): ValidatedField<T> {
+        return this.descriptionProvider(
+            { value: T, key: String ->
+                Component.translatable("$key.description", value)
+            }
+        )
+    }
+
+    var castingTicksToCast: ValidatedInt = ValidatedInt(5, 100, 0).addDescription() as ValidatedInt
+    var cooldownAfterFishing: ValidatedInt = ValidatedInt(5, 100, 0).addDescription() as ValidatedInt
     // conditions should supply live values. Validated fields are a convenient mechanism to do that. A plain boolean won't update in-GUI until changes are applied.
     var castingTypeFreeChoice: ValidatedBoolean = ValidatedBoolean(false).withListener {
         FishcastingPatchouliConfigStuff.configurePatchouliFlags(FishcastingConfigs)
-    }
+    }.addDescription() as ValidatedBoolean
 
+    // todo: make patchouli entries update? can I do this with a mixin? low priority but dang...
     var castingType: ValidatedEnum<CASTING_TYPE> = ValidatedEnum(CASTING_TYPE.MOMENTARY).withListener {
         FishcastingPatchouliConfigStuff.configurePatchouliFlags(FishcastingConfigs)
-    }
+    }.addDescription() as ValidatedEnum
     var isLengthPurificationOnlyFish: ValidatedBoolean = ValidatedBoolean(true).withListener {
         FishcastingPatchouliConfigStuff.configurePatchouliFlags(FishcastingConfigs)
-    }
-
-    fun atLeastZero(value: Int): Int {
-        return if (value > 0) { value } else { 0 }
-    }
-
+    }.addDescription() as ValidatedBoolean
 
     fun getCooldownAfterFishingMinigame(): Int {
         return cooldownAfterFishing.get()
