@@ -1,0 +1,8 @@
+{
+  "condition": {
+    "type": "nomansland:item_conditional",
+    "items": ["fishcasting:cursed", "fishcasting:cursed_bucket"]
+  },
+  "weight": 1,
+  "text": "A sad sight, torn from its home/./././\nYou would do well to return it to the depths."
+}

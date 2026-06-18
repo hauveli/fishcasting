@@ -1,0 +1,8 @@
+{
+  "condition": {
+    "type": "nomansland:entity_conditional",
+    "entity": "fishcasting:blessed"
+  },
+  "weight": 1,
+  "text": "Apt at surviving and clearly more knowledgeable than the smooth-headed, these beings have avoided me just the same.../\nPerhaps they do not have cares beyond their basic needs?"
+}

@@ -206,3 +206,7 @@ advancement:
   fishcasting:lore/newsletter2: 'Fishcasting: Newsletter #2'
   fishcasting:lore/notes2: 'Fishcasting: Notes #2'
 _comment_config: CONFIGURATION STUFF
+compat:
+  nomansland:
+    tacklebox_chair:
+      'A throne/ fit for a king/ used only by commonfolk/.'

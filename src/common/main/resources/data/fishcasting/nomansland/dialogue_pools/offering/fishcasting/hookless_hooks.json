@@ -1,0 +1,8 @@
+{
+  "condition": {
+    "type": "nomansland:item_conditional",
+    "items": "#fishcasting:hookless_hooks"
+  },
+  "weight": 1,
+  "text": "Reminiscent of a toy,/ whistling as it flies./ Do you reminisce about flying?"
+}

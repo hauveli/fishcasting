@@ -1,0 +1,8 @@
+{
+  "condition": {
+    "type": "nomansland:item_conditional",
+    "items": ["fishcasting:shepherds_casting_rod", "fishcasting:blessed_focus_bobber"]
+  },
+  "weight": 1,
+  "text": "I dare not ask why you have this in your possession./././\nOne as yourself should not stoop to using such things/."
+}

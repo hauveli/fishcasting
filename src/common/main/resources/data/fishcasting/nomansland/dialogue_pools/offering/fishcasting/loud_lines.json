@@ -1,0 +1,8 @@
+{
+  "condition": {
+    "type": "nomansland:item_conditional",
+    "items": "#fishcasting:loud_lines"
+  },
+  "weight": 1,
+  "text": "A melody inaudible to most./ Soothing./"
+}

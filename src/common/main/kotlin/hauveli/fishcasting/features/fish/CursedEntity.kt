@@ -147,7 +147,7 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
         var monster = this.entityData.get(FROM_BUCKET);
         return (Boolean) (Object) monster; // I really really don't understand
          */
-        return fuckThisThingMan(this.entityData.get<Int>(FROM_BUCKET))
+        return this.entityData.get(FROM_BUCKET) == true
     }
 
     fun fuckThisThingMan(what: Int): Boolean {
@@ -158,18 +158,17 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
         return what
     }
 
+    override fun isBaby(): Boolean {
+        return false
+    }
+
+    // this looks fucked because I ran into so many issues with entityData.set and I have no fucking clue why or what is causing it exactly.
+    // so I'm not touching it
     override fun setFromBucket(fromBucket: Boolean) {
-        if (fromBucket) {
-            this.entityData.set<Int?>(
-                FROM_BUCKET,
-                1
-            ) // this.entityData.set(FROM_BUCKET, fromBucket) // for some reason this changes the size. I don't like that.
-        } else {
-            this.entityData.set<Int?>(
-                FROM_BUCKET,
-                0
-            ) // this.entityData.set(FROM_BUCKET, fromBucket) // for some reason this changes the size. I don't like that.
-        }
+        this.entityData.set<Boolean>(
+            FROM_BUCKET,
+            fromBucket == true // I don't fucking get it, type isn't `Boolean?` so why does it work now?
+        )
     }
 
     override fun addAdditionalSaveData(compound: CompoundTag) {
@@ -186,23 +185,15 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
         //this.tide$setIsShiny(tag.contains(tide$SHINY_KEY) && tag.getBoolean(tide$SHINY_KEY));
     }
 
-    @Suppress("deprecation")
     override fun saveToBucketTag(stack: ItemStack) {
         Bucketable.saveDefaultDataToBucketTag(this, stack)
-        //? if >=1.21 {
         CustomData.update(DataComponents.BUCKET_ENTITY_DATA, stack, Consumer { tag: CompoundTag? ->
             tag!!.putDouble(
                 FishLengthHolder.`tide$LENGTH_KEY`, this.`tide$getLength`()
             )
         })
-        //?} else {
-        /*CompoundTag tag = stack.getOrCreateTag();
-        tag.putDouble(tide$LENGTH_KEY, this.tide$getLength());
-        */
-        //?}
     }
 
-    @Suppress("deprecation")
     override fun loadFromBucketTag(tag: CompoundTag) {
         Bucketable.loadDefaultDataFromBucketTag(this, tag)
         this.length =
@@ -258,8 +249,8 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
             if (entity is FishLengthHolder) {
                 return entity.`tide$getLength`()
             } else if (entity is ItemEntity) {
-                if (TideItemData.FISH_LENGTH.get(entity.getItem()) is Double) {
-                    return TideItemData.FISH_LENGTH.get(entity.getItem())
+                if (TideItemData.FISH_LENGTH.get(entity.item) is Double) {
+                    return TideItemData.FISH_LENGTH.get(entity.item)
                 }
             }
             return 0.0
@@ -280,17 +271,17 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
             if (!damageSource.`is`(DamageTypes.LIGHTNING_BOLT)) {
                 return
             }
-            while (itemEntity.getItem().getCount() > 0) {
+            while (itemEntity.item.count > 0) {
                 spawnAllayAtEntity(itemEntity)
-                itemEntity.getItem().shrink(1)
+                itemEntity.item.shrink(1)
             }
         }
 
         // all of the below from tide
         // https://github.com/Lightning-64/Tide-2/blob/f9fc2d04ae4d544ad134025cebd83c7438f67098/src/main/java/com/li64/tide/registries/entities/fish/AbstractTideFish.java#L46
         // whyat the fuck it returns an integer?
-        private val FROM_BUCKET: EntityDataAccessor<Int?> =
-            SynchedEntityData.defineId(AbstractTideFish::class.java, EntityDataSerializers.INT)
+        private val FROM_BUCKET: EntityDataAccessor<Boolean?> =
+            SynchedEntityData.defineId(AbstractTideFish::class.java, EntityDataSerializers.BOOLEAN)
         private val IS_SHINY: EntityDataAccessor<Boolean?> =
             SynchedEntityData.defineId(AbstractTideFish::class.java, EntityDataSerializers.BOOLEAN)
     }

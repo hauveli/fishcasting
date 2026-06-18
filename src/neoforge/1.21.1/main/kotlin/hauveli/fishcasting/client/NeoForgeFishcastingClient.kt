@@ -2,26 +2,30 @@ package hauveli.fishcasting.client
 
 import com.li64.tide.client.TideItemModelProperties
 import hauveli.fishcasting.registry.FishcastingItems
+import hauveli.fishcasting.registry.FishcastingItems.SHEPHERDS_CASTING_ROD
 import net.minecraft.client.renderer.item.ItemProperties
+import net.minecraft.client.renderer.item.ItemPropertyFunction
+import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
+import net.neoforged.neoforge.client.event.EntityRenderersEvent
 
 
 object NeoForgeFishcastingClient {
-    @Suppress("UNUSED_PARAMETER")
     fun init(event: FMLClientSetupEvent) {
-        event.enqueueWork(::registerItemModelProperties);
+        registerItemModelProperties() // I couldn't figure out how to make this not cause an error I was unable to understand
         FishcastingClient.init()
     }
 
-
     // why does it not work after I build it...
-    @JvmStatic
     fun registerItemModelProperties() {
         ItemProperties.register(
-            FishcastingItems.SHEPHERDS_CASTING_ROD,
+            SHEPHERDS_CASTING_ROD,
             TideItemModelProperties.CAST_PROPERTY,
-            TideItemModelProperties.CAST_FUNCTION
+            TideItemModelProperties.CAST_FUNCTION as ItemPropertyFunction
         )
     }
 
+    @SubscribeEvent
+    fun registerEntityLayerDefinitions(event: EntityRenderersEvent.RegisterLayerDefinitions) {
+    }
 }

@@ -1,0 +1,8 @@
+{
+  "condition": {
+    "type": "nomansland:entity_conditional",
+    "entity": "fishcasting:cursed"
+  },
+  "weight": 1,
+  "text": "A sad sight, torn from its home/./././\nYou would do well to return it to the depths."
+}

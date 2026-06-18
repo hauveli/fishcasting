@@ -6,7 +6,7 @@ import vazkii.patchouli.api.PatchouliAPI
 object FishcastingPatchouliConfigStuff {
 
     fun configurePatchouliFlags(config: FishcastingConfigs?) {
-        if (config == null) return
+        if (config == null || config.COMMON_CONFIG == null || config.CLIENT_CONFIG == null) return
         configurePatchouliFlag("fallback", false)
         if (config.COMMON_CONFIG.castingTypeFreeChoice.get()) {
             configurePatchouliFlag("momentary_casting", config.CLIENT_CONFIG.castingTypeClientPreference.get() == FishcastingCommonConfig.CASTING_TYPE.MOMENTARY)

@@ -1,0 +1,8 @@
+{
+  "condition": {
+    "type": "nomansland:item_conditional",
+    "items": "fishcasting:glass_shard"
+  },
+  "weight": 1,
+  "text": "A small part of a greater whole."
+}

@@ -1,0 +1,8 @@
+{
+  "condition": {
+    "type": "nomansland:item_conditional",
+    "items": "tide:crystal_fishing_rod"
+  },
+  "weight": 2,
+  "text": "A tool exuding power.../ Will you use it to harm/, or to heal?"
+}

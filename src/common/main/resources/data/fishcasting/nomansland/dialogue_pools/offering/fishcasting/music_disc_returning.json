@@ -1,0 +1,8 @@
+{
+  "condition": {
+    "type": "nomansland:item_conditional",
+    "items": "fishcasting:music_disc_returning_to_the_surface"
+  },
+  "weight": 1,
+  "text": "Will you play it for me?/\nI might even be /H/E/X/E/D/!/\n/By the sound."
+}

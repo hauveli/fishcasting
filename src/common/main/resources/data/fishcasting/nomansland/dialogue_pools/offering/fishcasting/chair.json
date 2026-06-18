@@ -1,0 +1,8 @@
+{
+  "condition": {
+    "type": "nomansland:item_conditional",
+    "items": "fishcasting:tacklebox_chair"
+  },
+  "weight": 1,
+  "text": "A chair fit for a king,/ the comfort of which is only understood by the commonfolk."
+}

@@ -1,0 +1,8 @@
+{
+  "condition": {
+    "type": "nomansland:item_conditional",
+    "items": "fishcasting:message_in_a_bottle"
+  },
+  "weight": 1,
+  "text": "To be heard,/ noticed,/ known./\nNatural desires, borne for what purpose?"
+}
