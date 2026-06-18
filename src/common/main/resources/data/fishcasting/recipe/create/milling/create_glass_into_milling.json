@@ -1,0 +1,25 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "minecraft:glass"
+    }
+  ],
+  "processing_time": 350,
+  "results": [
+    {
+      "count": 3,
+      "id": "fishcasting:glass_shard"
+    },
+    {
+      "chance": 0.5,
+      "id": "fishcasting:glass_shard"
+    }
+  ]
+}
