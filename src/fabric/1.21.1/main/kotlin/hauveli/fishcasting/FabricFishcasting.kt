@@ -75,6 +75,7 @@ object FabricFishcasting : ModInitializer {
         registerLayerDefinitions()
         registerEntityRenderers()
         registerAttributeHolder()
+        // why is this ok in fabric but not neoforge? what...
         registerItemModelProperties()
     }
 

@@ -12,6 +12,8 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.util.Mth
+import net.minecraft.world.phys.Vec3
+import org.joml.Vector3f
 
 
 class BlessedModel<T : BlessedEntity?>(root: ModelPart) : HierarchicalModel<T?>() {
@@ -100,7 +102,7 @@ class BlessedModel<T : BlessedEntity?>(root: ModelPart) : HierarchicalModel<T?>(
     ) {
         // BlessedAnimations
         //this.animate(new AnimationState(), BlessedAnimations.casting, v);
-        this.root().getAllParts().forEach { obj: ModelPart? -> obj!!.resetPose() }
+        this.root().allParts.forEach { obj: ModelPart? -> obj!!.resetPose() }
         applyHeadRotation(netHeadYaw, headPitch)
 
         // this should always be active

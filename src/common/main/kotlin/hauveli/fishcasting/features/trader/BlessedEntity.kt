@@ -201,7 +201,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             }
             when (brain) {
                 CustomBrain.DEFAULT -> {
-                    if (!atMaximumHealth()) {
+                    if (!this.atMaximumHealth()) {
                         brain = CustomBrain.INJURED
                     } else {
                         //this.setItemInHand(InteractionHand.MAIN_HAND, Items.AIR.getDefaultInstance());
@@ -209,16 +209,16 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 }
 
                 CustomBrain.INJURED -> {
-                    if (isDeadOrDying()) return
-                    if (atMaximumHealth()) {
+                    if (this.isDeadOrDying) return
+                    if (this.atMaximumHealth()) {
                         brain = CustomBrain.DEFAULT
                         ticksSincePain = 0
                         this.setItemInHand(InteractionHand.MAIN_HAND, Items.AIR.defaultInstance)
                     } else {
                         if (ticksSincePain > 20) {
                             brain = CustomBrain.LEAVING
-                            doTheatrics()
-                        } else if (ticksSincePain >= 5) { // pulled out much later than I'd like but it works, I guess....
+                            this.doTheatrics()
+                        } else if (ticksSincePain >= 2) { // pulled out much later than I'd like but it works, I guess....
                             this.setItemInHand(InteractionHand.MAIN_HAND, HexItems.ANCIENT_CYPHER.defaultInstance)
                         }
                         ticksSincePain += ticksSincePain + Fishcasting.random.nextInt(0, 2)
@@ -242,7 +242,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     }
 
     override fun updateTrades() {
-        val commonListing = BlessedTrades.BLESSED_TRADER_TRADES.get(1) as Array<VillagerTrades.ItemListing?>?
+        val commonListing = BlessedTrades.BLESSED_TRADER_TRADES.get(1) as Array<VillagerTrades.ItemListing>?
         val rareListing = BlessedTrades.BLESSED_TRADER_TRADES.get(2) as Array<VillagerTrades.ItemListing>?
         val nonOverworldListing = BlessedTrades.BLESSED_TRADER_TRADES.get(3) as Array<VillagerTrades.ItemListing>?
         val dyeListing = BlessedTrades.BLESSED_TRADER_TRADES.get(4) as Array<VillagerTrades.ItemListing>
@@ -271,7 +271,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 }
 
                 this.tradingPlayer = player
-                this.openTradingScreen(player, this.getDisplayName(), 1)
+                this.openTradingScreen(player, this.displayName!!, 1)
             }
 
             return InteractionResult.sidedSuccess(this.level().isClientSide)
@@ -284,7 +284,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     // BlessedEntity.class.getPackage().getName().split("\\.")[0] // if I wanted to use my github username
     // public static final Supplier<FrozenPigment> BLESSED = () -> new FrozenPigment(new ItemStack(HexItems.UUID_PIGMENT), UUID.fromString(""));
     @JvmOverloads
-    fun doTheatrics(position: Vec3 = this.getEyePosition()) {
+    fun doTheatrics(position: Vec3 = this.eyePosition) {
         doTheatricsAtVec(position, 30, 0.4f)
         this.level().playSound(this, this.blockPosition(), HexSounds.CAST_SPELL, SoundSource.NEUTRAL, 1.0f, 1.0f)
     }
@@ -299,7 +299,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         val level = this.level()
         // for some reason this happens at its feet...
         ParticleSpray(pos, Vec3(0.0, 1.5, 0.0), fuzziness.toDouble(), spread, count)
-            .sprayParticles(level.getServer()!!.getLevel(level.dimension())!!, FrozenPigment.ANCIENT.get())
+            .sprayParticles(level.server!!.getLevel(level.dimension())!!, FrozenPigment.ANCIENT.get())
     }
 
     override fun brainProvider(): Brain.Provider<BlessedEntity?> {
@@ -400,7 +400,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
 
         private val fluid: BlockPos
             get() {
-                val memory = mob.getBrain().getMemory<GlobalPos?>(MemoryModuleType.JOB_SITE)
+                val memory = mob.getBrain().getMemory(MemoryModuleType.JOB_SITE)
                 return memory.get().pos()
             }
 
@@ -425,7 +425,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 )
             )
 
-            return result.getBlockPos() == pos
+            return result.blockPos == pos
         }
 
         private fun updateBobberPos() {
@@ -495,7 +495,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             val fishingMedium = FishingMedium.MEDIUMS.stream()
                 .filter { medium: FishingMedium? -> medium!!.isAt(this.fluid, level as ServerLevel) }.findFirst()
 
-            if (fishingMedium.isEmpty()) return
+            if (fishingMedium.isEmpty) return
             val fakeHook = TideFishingHook(TideEntityTypes.FISHING_BOBBER, level)
 
             val bait = TideItems.BAIT.defaultInstance
@@ -528,12 +528,12 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 this.bobberActive = true
                 this.bobberBiteTimer = 0
                 this.bobberSummonedAtTime = this.mob.tickCount.toLong()
-                be.setPose(Pose.STANDING)
+                be.pose = Pose.STANDING
             } else {
                 // stuff I do when bobber is actively out
                 updateBobberPos()
                 this.bobberBiteTimer++
-                be.setPose(Pose.SHOOTING)
+                be.pose = Pose.SHOOTING
             }
 
             if (this.bobberBiteTimer > minimumTicksUntilBite) {
@@ -550,8 +550,8 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         }
 
         companion object {
-            private val minimumTimeSinceLastSpawn = (20 * 12).toLong()
-            private val minimumTicksUntilBite = (20 * 6).toLong()
+            private const val minimumTimeSinceLastSpawn = (20 * 12).toLong()
+            private const val minimumTicksUntilBite = (20 * 6).toLong()
             private val raycastOffset = Vec3(0.0, 0.49, 0.0)
         }
     }
@@ -669,26 +669,26 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
 
     // todo: can I just use itemEntity.getOwnmer() for my bobber?
     public override fun pickUpItem(itemEntity: ItemEntity) {
-        if (this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
-            && this.isAlive()
-            && itemIsFish(itemEntity.getItem())
+        if (this.level().gameRules.getBoolean(GameRules.RULE_MOBGRIEFING)
+            && this.isAlive
+            && itemIsFish(itemEntity.item)
         ) {
             if (itemEntity.removeTag(BLESSED_PICKUP_TAG)) {
                 this.incrementMood()
             } else {
-                if (FishData.get(itemEntity).isPresent()
+                if (FishData.get(itemEntity).isPresent
                     && FishData.get(itemEntity).get().quality() > 3
                 ) {
                     this.incrementMood()
                 }
             }
 
-            val itemstack = itemEntity.getItem()
+            val itemstack = itemEntity.item
             val itemstack1 = itemstack.copy()
             this.onItemPickup(itemEntity)
-            this.take(itemEntity, itemstack1.getCount())
-            itemstack.shrink(itemstack1.getCount())
-            if (itemstack.isEmpty()) {
+            this.take(itemEntity, itemstack1.count)
+            itemstack.shrink(itemstack1.count)
+            if (itemstack.isEmpty) {
                 itemEntity.discard()
             }
         }
@@ -732,7 +732,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         serverLevelAccessor: ServerLevelAccessor, difficultyInstance: DifficultyInstance,
         mobSpawnType: MobSpawnType, spawnGroupData: SpawnGroupData?
     ): SpawnGroupData {
-        val variant = Util.getRandom<BlessedVariant?>(BlessedVariant.entries.toTypedArray(), this.random)
+        val variant = Util.getRandom(BlessedVariant.entries.toTypedArray(), this.random)
         this.variant = variant
         return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData)!!
     }
@@ -740,10 +740,10 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     // thank you kaupenjoe, again
     /* SOUNDS */ // todo: custom sounds
     override fun getAmbientSound(): SoundEvent? {
-        if (this.isSleeping) {
-            return null
+        return if (this.isSleeping) {
+            null
         } else {
-            return if (this.isTrading) FishcastingSounds.BLESSED_TRADE else FishcastingSounds.BLESSED_AMBIENT
+            if (this.isTrading) FishcastingSounds.BLESSED_TRADE else FishcastingSounds.BLESSED_AMBIENT
         }
     }
 
@@ -755,6 +755,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         return FishcastingSounds.BLESSED_DEATH
     }
 
+    // this is no longer needed, I think?
     override fun getDrinkingSound(stack: ItemStack): SoundEvent {
         return if (stack.`is`(Items.MILK_BUCKET)) FishcastingSounds.BLESSED_DRINK_MILK else FishcastingSounds.BLESSED_DRINK_POTION
     }
@@ -770,11 +771,11 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
 
     companion object {
         private const val SECONDS_BETWEEN_MOOD_DROPS = 300
-        private val TICKS_BETWEEN_MOOD_DROPS: Int = SECONDS_BETWEEN_MOOD_DROPS * 20
+        private const val TICKS_BETWEEN_MOOD_DROPS: Int = SECONDS_BETWEEN_MOOD_DROPS * 20
 
         // thank you kaupenjoe
         private val VARIANT: EntityDataAccessor<Int> =
-            SynchedEntityData.defineId<Int>(BlessedEntity::class.java, EntityDataSerializers.INT)
+            SynchedEntityData.defineId(BlessedEntity::class.java, EntityDataSerializers.INT)
 
         fun poofIntoExistence(spawnPosition: Vec3, level: Level) {
             if (!level.isClientSide) {
