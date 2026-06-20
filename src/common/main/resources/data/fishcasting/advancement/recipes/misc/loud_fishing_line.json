@@ -1,0 +1,44 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": [ "hexcasting:amethyst_dust" ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_string": {
+      "conditions": {
+        "items": [
+          {
+            "items": [ "minecraft:string" ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fishcasting:loud_fishing_line"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dust",
+      "has_string"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fishcasting:loud_fishing_line",
+      "fishcasting:loud_fishing_line_from_thought_knot"
+    ]
+  }
+}

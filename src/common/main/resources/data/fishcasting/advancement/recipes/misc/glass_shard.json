@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_shard": {
+      "conditions": {
+        "items": [
+          {
+            "items": [ "fishcasting:glass_shard" ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fishcasting:glass_shard_to_glass_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_shard"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fishcasting:glass_shard_to_amethyst_shard",
+      "fishcasting:glass_shard_to_glass_block",
+      "fishcasting:glass_shard_to_glass_bottle",
+      "fishcasting:glass_shard_to_glass_pane"
+    ]
+  }
+}

@@ -124,6 +124,9 @@ item:
     unlucky_bait:
       .: Unlucky Bait
       desc: Prevents anything from nibbling or biting
+    benign_bait:
+      .: Benign Bait
+      desc: Prevents anything but fish from nibbling or biting
     message_in_a_bottle: Message in a Bottle
     music_disc_returning_to_the_surface: Music Disc
     tacklebox_chair: Tacklebox Chair

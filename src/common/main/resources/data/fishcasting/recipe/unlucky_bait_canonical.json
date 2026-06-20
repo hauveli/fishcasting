@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "tide:bait"
+    },
+    {
+      "tag": "hexcasting:amethyst_dust"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "fishcasting:unlucky_bait"
+  }
+}

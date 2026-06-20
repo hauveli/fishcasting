@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_barrel": {
+      "conditions": {
+        "items": [
+          {
+            "items": [ "minecraft:barrel" ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_bucket": {
+      "conditions": {
+        "items": [
+          {
+            "items": [ "minecraft:bucket" ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_satchel": {
+      "conditions": {
+        "items": [
+          {
+            "items": [ "tide:fish_satchel" ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fishcasting:tacklebox_chair"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_barrel",
+      "has_bucket",
+      "has_satchel"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fishcasting:tacklebox_chair"
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_dragon_breath": {
+      "conditions": {
+        "items": [
+          {
+            "items": "hexcasting:amethyst_dust"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fishcasting:hookless_fishing_hook"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_dust"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fishcasting:hookless_fishing_hook"
+    ]
+  }
+}

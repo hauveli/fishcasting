@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_amethyst": {
+      "conditions": {
+        "items": [
+          {
+            "items": "hexcasting:charged_amethyst"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_fish": {
+      "conditions": {
+        "items": [
+          {
+            "items": "tide:crystalline_carp"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_slimeball": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:slime_balls"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fishcasting:amethyst_focus_bobber"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_slimeball",
+      "has_amethyst",
+      "has_fish"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fishcasting:amethyst_focus_bobber"
+    ]
+  }
+}
