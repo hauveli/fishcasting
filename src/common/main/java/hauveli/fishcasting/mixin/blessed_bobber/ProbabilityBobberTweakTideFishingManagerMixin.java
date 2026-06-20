@@ -64,7 +64,7 @@ public class ProbabilityBobberTweakTideFishingManagerMixin {
                 || !HookAccessor.getHook(player).getBobber().is(FishcastingTags.LUCK_TWEAKING_BOBBERS)
                 || random.nextFloat() < 0.999) {
             return; // note: this skews the probabilities and the test does not accurately reflect the true probabilities anymore.
-        } // however, the total change should be ~0.1% so I have decied this is "good enough".
+        } // however, the total change should be ~0.1% so I have decided this is "good enough".
         // and yes, I know that 0.1% is kind of garbage, the main feature of the bobber is that its bell rings when there's a catch (secret bonus feature that I should maybe document...)
 
         CatchResult rolled = allPossibleCatches.get(

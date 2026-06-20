@@ -94,6 +94,7 @@ object FishcastingItems {
             unstackableUncommon()
         )
     )
+    @JvmField
     val UNLUCKY_BAIT = make("unlucky_bait", newItem())
     val LOUD_FISHING_LINE = make(
         "loud_fishing_line", LoudFishingLineItem(
@@ -104,6 +105,10 @@ object FishcastingItems {
         "hookless_fishing_hook",
         FishingHookItem(props(), "item.fishcasting.hookless_fishing_hook.desc")
     ) // tide does this
+    @JvmField
+    val BENIGN_BAIT = make(
+        "benign_bait", newItem()
+    )
     val DISC = make(
         "music_disc_returning_to_the_surface", Item(
             unstackableUncommon()

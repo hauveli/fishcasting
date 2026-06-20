@@ -2,6 +2,7 @@ package hauveli.fishcasting.mixin;
 
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook;
 import com.li64.tide.util.BaitUtils;
+import hauveli.fishcasting.registry.FishcastingItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,9 +29,7 @@ public abstract class UnluckyBaitTideFishingHookMixin {
     @Unique
     private boolean shouldPreventFish() {
         if (BaitUtils.isHoldingBait(rod)) {
-            if (BaitUtils.getBaitSpeed(BaitUtils.getPrimaryBait(rod)) <= -13)  {
-                return true;
-            }
+            return BaitUtils.getPrimaryBait(rod).getItem() == FishcastingItems.UNLUCKY_BAIT;
         }
         return false;
     }

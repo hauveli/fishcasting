@@ -13,6 +13,8 @@
     "HooklessFishingHookTideFishingHookMixin",
     "TagRecentlyCaughtByTideFishingHookMixin",
     "UnluckyBaitTideFishingHookMixin",
+    "benign_bait.BenignBaitFishingRandomSelectorMixin",
+    "benign_bait.BenignBaitTideFishingManagerMixin",
     "blessed_bobber.BlessedBobberJingleTideFishingHookMixin",
     "blessed_bobber.ProbabilityBobberTweakTideFishingManagerMixin",
     "casting_rod.RegisterAsCastingRodTideItemsMixin",

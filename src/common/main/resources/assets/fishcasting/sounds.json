@@ -39,6 +39,14 @@
       {
         "name": "fishcasting:entity/blessed/blessed_ambient",
         "stream": true
+      },
+      {
+        "name": "fishcasting:entity/blessed/blessed_ambient_1",
+        "stream": true
+      },
+      {
+        "name": "fishcasting:entity/blessed/blessed_ambient_2",
+        "stream": true
       }
     ]
   },
@@ -64,7 +72,11 @@
     "subtitle": "fishcasting.subtitles.blessed.no",
     "sounds": [
       {
-        "name": "fishcasting:entity/blessed/blessed_no",
+        "name": "fishcasting:entity/blessed/blessed_no_1",
+        "stream": true
+      },
+      {
+        "name": "fishcasting:entity/blessed/blessed_no_2",
         "stream": true
       }
     ]
