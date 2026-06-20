@@ -37,15 +37,19 @@
     "subtitle": "fishcasting.subtitles.blessed.ambient",
     "sounds": [
       {
-        "name": "fishcasting:entity/blessed/blessed_ambient",
-        "stream": true
-      },
-      {
         "name": "fishcasting:entity/blessed/blessed_ambient_1",
         "stream": true
       },
       {
         "name": "fishcasting:entity/blessed/blessed_ambient_2",
+        "stream": true
+      },
+      {
+        "name": "fishcasting:entity/blessed/blessed_ambient_3",
+        "stream": true
+      },
+      {
+        "name": "fishcasting:entity/blessed/blessed_ambient_4",
         "stream": true
       }
     ]
@@ -54,7 +58,11 @@
     "subtitle": "fishcasting.subtitles.blessed.trade",
     "sounds": [
       {
-        "name": "fishcasting:entity/blessed/blessed_trade",
+        "name": "fishcasting:entity/blessed/blessed_trade_1",
+        "stream": true
+      },
+      {
+        "name": "fishcasting:entity/blessed/blessed_trade_2",
         "stream": true
       }
     ]
@@ -63,7 +71,15 @@
     "subtitle": "fishcasting.subtitles.blessed.yes",
     "sounds": [
       {
-        "name": "fishcasting:entity/blessed/blessed_yes",
+        "name": "fishcasting:entity/blessed/blessed_yes_1",
+        "stream": true
+      },
+      {
+        "name": "fishcasting:entity/blessed/blessed_yes_2",
+        "stream": true
+      },
+      {
+        "name": "fishcasting:entity/blessed/blessed_yes_3",
         "stream": true
       }
     ]
@@ -77,6 +93,10 @@
       },
       {
         "name": "fishcasting:entity/blessed/blessed_no_2",
+        "stream": true
+      },
+      {
+        "name": "fishcasting:entity/blessed/blessed_no_3",
         "stream": true
       }
     ]

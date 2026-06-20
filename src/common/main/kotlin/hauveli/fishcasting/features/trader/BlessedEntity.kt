@@ -286,7 +286,8 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     @JvmOverloads
     fun doTheatrics(position: Vec3 = this.eyePosition) {
         doTheatricsAtVec(position, 30, 0.4f)
-        this.level().playSound(this, this.blockPosition(), HexSounds.CAST_SPELL, SoundSource.NEUTRAL, 1.0f, 1.0f)
+        this.level().playSound(this, this.blockPosition(), HexSounds.CAST_SPELL, SoundSource.NEUTRAL, 0.1f, 1.0f)
+        // AHHH ITS SO LOUD
     }
 
     private fun doTheatricsAtVec(pos: Vec3, count: Int, fuzziness: Float) {
