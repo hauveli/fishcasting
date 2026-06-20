@@ -20,7 +20,15 @@
     "subtitle": "fishcasting.subtitles.blessed.hurt",
     "sounds": [
       {
-        "name": "fishcasting:entity/blessed/blessed_death",
+        "name": "fishcasting:entity/blessed/blessed_hurt_1",
+        "stream": true
+      },
+      {
+        "name": "fishcasting:entity/blessed/blessed_hurt_2",
+        "stream": true
+      },
+      {
+        "name": "fishcasting:entity/blessed/blessed_hurt_3",
         "stream": true
       }
     ]
