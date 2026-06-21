@@ -1,0 +1,17 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "grant_me": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "grant_me"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+    ]
+  }
+}
