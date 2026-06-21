@@ -28,7 +28,7 @@ import java.util.function.Function;
 public class stupidmixin {
 
     private static final String fuckyou1 = "crystal_rod_smithing";
-    private static final String fuckyou2 = "amethyst_bobber";
+    private static final String fuckyou2 = "bobbers/amethyst_bobber";
 
     @Unique
     private boolean fishcasting$fuckedIfTrue(ResourceLocation id) {
