@@ -9,6 +9,7 @@
     "focus_bobber.YoinkTooltipRenderTideClientEventHandlerMixin"
   ],
   "mixins": [
+    "babysittingfabric.stupidmixin",
     "CursedMostlyIndestructibleItemEntityMixin",
     "HooklessFishingHookTideFishingHookMixin",
     "TagRecentlyCaughtByTideFishingHookMixin",

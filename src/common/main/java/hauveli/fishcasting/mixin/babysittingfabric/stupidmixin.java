@@ -1,19 +1,28 @@
 package hauveli.fishcasting.mixin.babysittingfabric;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.util.perf.Profiler;
 
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.function.Function;
 
 @Mixin(RecipeManager.class)
 public class stupidmixin {
@@ -21,23 +30,21 @@ public class stupidmixin {
     private static final String fuckyou1 = "crystal_rod_smithing";
     private static final String fuckyou2 = "amethyst_bobber";
 
-    @Inject(method = "apply*", at = @At("RETURN"))
-    private void onApply(Map<ResourceLocation, JsonElement> map, ResourceManager resourceManager, Profiler profiler, CallbackInfo ci) {
-        stupidaccessor accessor = (stupidaccessor)(Object)this;
-        Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> oldRecipes = accessor.getRecipes();
+    @Unique
+    private boolean fishcasting$fuckedIfTrue(ResourceLocation id) {
+        return id.getPath().equals(fuckyou1) || id.getPath().equals(fuckyou2);
+    }
 
-        Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> newRecipes = new HashMap<>();
-        for (Map.Entry<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> entry : oldRecipes.entrySet()) {
-            Map<ResourceLocation, Recipe<?>> filtered = new HashMap<>();
-            for (Map.Entry<ResourceLocation, Recipe<?>> inner : entry.getValue().entrySet()) {
-                String path = inner.getKey().getPath();
-                if (!path.equals(fuckyou1) && !path.equals(fuckyou2)) {
-                    filtered.put(inner.getKey(), inner.getValue());
-                }
+    @Inject(method = "apply(Ljava/util/Map;Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)V", at = @At("HEAD"))
+    private void apply(Map<ResourceLocation, JsonElement> map, ResourceManager par2, ProfilerFiller par3, CallbackInfo ci) {
+        Iterator<Map.Entry<ResourceLocation, JsonElement>> iterator = map.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            ResourceLocation id = iterator.next().getKey();
+
+            if (id.getNamespace().equals("tide") && fishcasting$fuckedIfTrue(id)) {
+                iterator.remove();
             }
-            newRecipes.put(entry.getKey(), filtered);
         }
-
-        accessor.setRecipes(newRecipes);
     }
 }

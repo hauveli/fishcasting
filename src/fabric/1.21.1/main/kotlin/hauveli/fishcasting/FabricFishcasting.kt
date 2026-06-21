@@ -1,6 +1,5 @@
 package hauveli.fishcasting
 
-import at.petrak.hexcasting.common.lib.HexRegistries
 import at.petrak.hexcasting.common.lib.hex.HexArithmetics
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import com.li64.tide.client.TideItemModelProperties
@@ -11,48 +10,68 @@ import hauveli.fishcasting.features.fish.CursedModel
 import hauveli.fishcasting.features.fish.CursedRenderer
 import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
-import hauveli.fishcasting.registry.FishcastingAttributes
-import hauveli.fishcasting.registry.FishcastingAttributes.registerAttributes
-import hauveli.fishcasting.registry.FishcastingBrainsweepeeIngredients
-import hauveli.fishcasting.registry.FishcastingBrainsweepeeIngredients.registerBrainsweepeeIngredients
-import hauveli.fishcasting.registry.FishcastingCreativeTabs
+import hauveli.fishcasting.registry.*
 import hauveli.fishcasting.registry.FishcastingCreativeTabs.key
-import hauveli.fishcasting.registry.FishcastingCreativeTabs.registerCreativeTabs
-import hauveli.fishcasting.registry.FishcastingEntities
-import hauveli.fishcasting.registry.FishcastingEntities.registerEntities
-import hauveli.fishcasting.registry.FishcastingItems
-import hauveli.fishcasting.registry.FishcastingItems.registerItems
-import hauveli.fishcasting.registry.FishcastingSounds
-import hauveli.fishcasting.registry.FishcastingSounds.registerSounds
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
-import net.fabricmc.fabric.api.`object`.builder.v1.client.model.FabricModelPredicateProviderRegistry
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper
 import net.minecraft.client.renderer.item.ItemProperties
 import net.minecraft.core.Registry
-import net.minecraft.core.RegistryAccess
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.core.registries.Registries
-import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
+import net.minecraft.server.packs.PackType
+import net.minecraft.server.packs.resources.PreparableReloadListener
+import net.minecraft.server.packs.resources.ResourceManager
+import net.minecraft.util.profiling.ProfilerFiller
 import net.minecraft.world.entity.animal.axolotl.Axolotl
 import net.minecraft.world.entity.npc.Villager
-import net.minecraft.world.item.CreativeModeTabs
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.Executor
 import java.util.function.BiConsumer
-import java.util.function.Consumer
+
 
 object FabricFishcasting : ModInitializer {
     override fun onInitialize() {
         Fishcasting.init()
+    }
 
+    fun fuckEverything() {
+        class FuckEverything : IdentifiableResourceReloadListener {
+            override fun getFabricId(): ResourceLocation {
+                return ResourceLocation.fromNamespaceAndPath("mymod", "my_listener")
+            }
 
+            override fun getFabricDependencies(): MutableCollection<ResourceLocation> {
+                return mutableListOf(
+                    ResourceLocation.fromNamespaceAndPath("othermod", "their_listener")
+                )
+            } // reload implementation...
+
+            override fun reload(
+                preparationBarrier: PreparableReloadListener.PreparationBarrier,
+                resourceManager: ResourceManager,
+                preparationsProfiler: ProfilerFiller,
+                reloadProfiler: ProfilerFiller,
+                backgroundExecutor: Executor,
+                gameExecutor: Executor
+            ): CompletableFuture<Void?> {
+                TODO("Not yet implemented")
+                        // ??????????????????????????????
+            }
+
+        }
+
+        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(FuckEverything())
     }
 
     init {
+        // AHHHHHHHHHHHHH why do I need this much code just to override a fucking recipe? really?
         fun <T> bind(registry: Registry<in T>): BiConsumer<T, ResourceLocation> =
             BiConsumer<T, ResourceLocation> { t, id ->
                 if (t != null) {
