@@ -1,6 +1,7 @@
 package hauveli.fishcasting.mixin.focus_bobber;
 
 
+import com.li64.tide.data.TideTags;
 import com.li64.tide.events.TideClientEventHandler;
 import hauveli.fishcasting.registry.FishcastingItems;
 import hauveli.fishcasting.registry.FishcastingTags;
@@ -40,6 +41,15 @@ public class YoinkTooltipRenderTideClientEventHandlerMixin {
         }
         if (stack.getItem() instanceof TideyFocusItem) {
             lines.add(Component.translatable("text.fishcasting.bobber_tooltip.focus_bonus").withStyle(ChatFormatting.LIGHT_PURPLE));
+        }
+
+        // todo: do I want to move this into some other directory? this isn't strictly for the bobber anymore...
+        // 2.1 uses this
+        //if (stack.is(TideTags.Items.BAIT_ITEMS)) {
+        if (stack.getItem() == FishcastingItems.BENIGN_BAIT) {
+            lines.add(Component.translatable("item.fishcasting.benign_bait.desc").withStyle(ChatFormatting.GOLD));
+        } else if (stack.getItem() == FishcastingItems.UNLUCKY_BAIT) {
+            lines.add(Component.translatable("item.fishcasting.unlucky_bait.desc").withStyle(ChatFormatting.GOLD));
         }
     }
 }
