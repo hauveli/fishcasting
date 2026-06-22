@@ -15,8 +15,8 @@
   ],
   "condition": {
     "type": "nomansland:item_conditional",
-    "items": "tide:amethyst_bobber"
+    "items": "fishcasting:benign_bait"
   },
-  "weight": 2,
-  "text": "Memories and thoughts/ readily recalled/./././\nIf only time would slow down, we might glean the past we've lost."
+  "weight": 1,
+  "text": "A single-minded focus./\nDo not get consumed by it./"
 }
