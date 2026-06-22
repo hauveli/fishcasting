@@ -2,7 +2,7 @@
   hexdoc: {
     fishcasting: {
       title: "Fishcasting Book",
-      description: ",
+      description: "Fishcasting addon for Hex Casting and Tide 2",
     },
   }
 }
