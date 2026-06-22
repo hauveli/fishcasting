@@ -32,8 +32,8 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     val CATCH_FROM_BOBBER = make("catch/from_bobber", HexDir.SOUTH_EAST, "weeede", OpGetBobbersCatch)
     val BOBBER_FROM_CATCH = make("bobber/from_catch", HexDir.NORTH_WEST, "qaqqqw", OpGetCatchesBobber)
 
-    val FISHIFY_ITEM = make("fish/from_item", HexDir.SOUTH_EAST, "dewqeaeqqqeqadqwede", OpFishifyItem)
-    val ITEMIFY_FISH = make("fish/to_item", HexDir.SOUTH_EAST, "dewqdaqeqqqeaeqwede", OpItemifyFish)
+    val FISHIFY_ITEM = make("fish/from_item", HexDir.SOUTH_EAST, "dewqdaqeqqqeaeqwede", OpFishifyItem)
+    val ITEMIFY_FISH = make("fish/to_item", HexDir.SOUTH_EAST, "dewqeaeqqqeqadqwede", OpItemifyFish)
 
     // I didnt check the regex but I'm hoping this stops it
     //val CONGRATULATE = make("congratulate" - , HexDir.WEST, - "eed", OpCongratulate)
