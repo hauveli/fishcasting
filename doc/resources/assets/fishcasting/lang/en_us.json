@@ -1,4 +1,6 @@
 {
+  "fishcasting.title": "Fishcasting",
+  "fishcasting.description": "Fishcasting addon for Hex Casting and Tide 2",
   "fishcasting.creative_tab.title": "Fishcasting",
   "fishcasting.subtitles.blessed.death": "Blessed dies",
   "fishcasting.subtitles.blessed.hurt": "Blessed hurts",
