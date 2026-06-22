@@ -9,7 +9,6 @@
     "focus_bobber.YoinkTooltipRenderTideClientEventHandlerMixin"
   ],
   "mixins": [
-    "babysittingfabric.stupidmixin",
     "CursedMostlyIndestructibleItemEntityMixin",
     "HooklessFishingHookTideFishingHookMixin",
     "TagRecentlyCaughtByTideFishingHookMixin",
@@ -27,6 +26,7 @@
     "loud_line.AntiCreeperMixin",
     "loud_line.AntiPhantomMixin",
     "loud_line.LoudLineJingleTideFishingHookMixin",
+    "shepherds_rod.EndInAnyVoidBonusFishingHookMixin",
     "tacklebox_chair.ContentAccessorBucketItemMixin",
     "tacklebox_chair.TackleBoxSlurpEntityMixin"
   ],

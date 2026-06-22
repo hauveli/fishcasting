@@ -48,7 +48,7 @@ fzzyConfig-fabric   = "0.7.6+1.21"
 fzzyConfig-neoforge = "0.7.6+1.21+neoforge"
 
 # Tide stuff
-tide                = "2.0.3"
+tide                = "2.1"
 
 # other dependencies
 modPublish = "0.5.1"

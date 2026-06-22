@@ -502,9 +502,9 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             val bait = TideItems.BAIT.defaultInstance
 
             val context = FishingContext(
-                level as ServerLevel, fakeHook, this.mob.getRandom(), this.fluid.center,
-                this.fluid, 0,
-                fishingMedium.get().id().path, bait, biome, biome, level.dimension(),
+                level as ServerLevel, fakeHook, TideItems.CRYSTAL_FISHING_ROD.defaultInstance,
+                this.mob.getRandom(), this.fluid.center, this.fluid, 0,
+                fishingMedium.get().id().path, biome, biome, level.dimension(),
                 TideUtils.getTemperatureAt(this.fluid, level),
                 level.moonPhase, SeasonsCompat.getSeason(level)
             )

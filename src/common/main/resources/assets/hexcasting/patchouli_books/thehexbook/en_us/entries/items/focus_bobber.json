@@ -1,7 +1,7 @@
 {
   "name": "fishcasting.entry.focus_bobber",
   "category": "hexcasting:items",
-  "icon": "tide:amethyst_fishing_bobber",
+  "icon": "tide:amethyst_bobber",
   "sortnum": 66,
   "advancement": "hexcasting:root",
   "pages": [

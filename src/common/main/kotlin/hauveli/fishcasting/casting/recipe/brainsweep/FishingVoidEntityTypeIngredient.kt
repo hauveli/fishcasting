@@ -3,7 +3,7 @@ package hauveli.fishcasting.casting.recipe.brainsweep
 import at.petrak.hexcasting.common.recipe.ingredient.brainsweep.BrainsweepeeIngredientType
 import at.petrak.hexcasting.common.recipe.ingredient.brainsweep.EntityTypeIngredient
 import com.li64.tide.Tide
-import com.li64.tide.TideConfig
+import com.li64.tide.config.TideConfig
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.registries.BuiltInRegistries

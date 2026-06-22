@@ -21,16 +21,14 @@ public abstract class UnluckyBaitTideFishingHookMixin {
 
     @Inject(method = "catchingFish", at = @At("TAIL"))
     private void fishcasting$setHugeLureTime(BlockPos pos, CallbackInfo ci) {
-        if (shouldPreventFish()) {
+        if (fishcasting$shouldPreventFish()) {
             this.timeUntilLured = 999;
         }
     }
 
     @Unique
-    private boolean shouldPreventFish() {
-        if (BaitUtils.isHoldingBait(rod)) {
-            return BaitUtils.getPrimaryBait(rod).getItem() == FishcastingItems.UNLUCKY_BAIT;
-        }
-        return false;
+    private boolean fishcasting$shouldPreventFish() {
+        return BaitUtils.getBaitItems(rod).stream()
+                .anyMatch(stack -> stack.is(FishcastingItems.UNLUCKY_BAIT));
     }
 }

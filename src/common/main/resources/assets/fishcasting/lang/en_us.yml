@@ -149,7 +149,9 @@ text:
         .: Usable as a staff
         momentary: Acts as a staff when used briefly
         offhand: Acts as a staff when held in off-hand
-      shepherds_bonus: Unbreakable
+      shepherds_bonus:
+        '1': Unbreakable
+        '2': Can catch end fish in any void
     bobber_tooltip:
       focus_bonus: Can be written to as a Focus when held or cast
       sound_bonus: Plays sound when a fish bites

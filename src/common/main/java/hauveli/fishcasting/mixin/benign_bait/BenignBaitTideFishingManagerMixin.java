@@ -8,6 +8,7 @@ import com.li64.tide.data.fishing.FishingContext;
 import com.li64.tide.data.fishing.selector.FishSelector;
 import com.li64.tide.data.fishing.selector.FishingEntry;
 import com.li64.tide.registries.entities.misc.fishing.HookAccessor;
+import com.li64.tide.util.BaitUtils;
 import hauveli.fishcasting.registry.FishcastingItems;
 import hauveli.fishcasting.registry.FishcastingTags;
 import net.minecraft.world.entity.player.Player;
@@ -35,8 +36,9 @@ public class BenignBaitTideFishingManagerMixin {
                              TestType type,
                              CallbackInfoReturnable<Map<FishingEntry, Double>> cir) {
         // Do nothing if wrong bait or wrong TestType
-        if (context.activeBait().getItem() != FishcastingItems.BENIGN_BAIT
-                || type != TestType.LOOT) {
+        boolean hasBenignBait = BaitUtils.getBaitItems(context.rod()).stream()
+                .anyMatch(stack -> stack.is(FishcastingItems.BENIGN_BAIT));
+        if (!hasBenignBait || type != TestType.LOOT) {
             return;
         }
 

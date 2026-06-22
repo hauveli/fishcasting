@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_dragon_breath": {
+    "has_dust": {
       "conditions": {
         "items": [
           {

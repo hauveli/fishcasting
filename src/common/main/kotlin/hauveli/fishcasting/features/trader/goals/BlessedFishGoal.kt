@@ -6,6 +6,7 @@ import com.li64.tide.data.TideFishingManager
 import com.li64.tide.data.fishing.FishingContext
 import com.li64.tide.data.fishing.mediums.FishingMedium
 import com.li64.tide.data.fishing.selector.FishingEntry
+import com.li64.tide.registries.TideItems
 import com.li64.tide.util.TideUtils
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.features.trader.BlessedEntity
@@ -95,23 +96,25 @@ class BlessedFishGoal(private val mob: Mob) : Goal() {
             .filter { medium: FishingMedium? -> Fishcasting.random.nextBoolean() }
             .findFirst() // this is way funnier than implementing it properly
 
-        if (fishingMedium.isEmpty()) return
+        if (fishingMedium.isEmpty) return
 
         val context = FishingContext(
-            level as ServerLevel, null, null, this.fluid.getCenter(), this.fluid, 0,
-            fishingMedium.get().id().getPath(), null, biome, biome, level.dimension(),
+            level as ServerLevel, null, TideItems.CRYSTAL_FISHING_ROD.defaultInstance,
+            this.mob.getRandom(), this.fluid.center, this.fluid, 0,
+            fishingMedium.get().id().path, biome, biome, level.dimension(),
             TideUtils.getTemperatureAt(this.fluid, level),
-            level.getMoonPhase(), SeasonsCompat.getSeason(level)
+            level.moonPhase, SeasonsCompat.getSeason(level)
         )
+
         val results: MutableMap<FishingEntry?, Double?> = HashMap<FishingEntry?, Double?>()
         val result = Tide.FISHING_MANAGER.selectCatch(context)
 
         //CatchResult result = fishMan.getFishSelector().getResult(context, results, entry -> entry.matchesTestType(TestType.FISH));
-        if (result.entry().isPresent()) {
+        if (result.entry().isPresent) {
             val entry = result.entry().get()
-            this.mob.level().getServer()!!.sendSystemMessage(Component.nullToEmpty(entry.toString()))
+            this.mob.level().server!!.sendSystemMessage(Component.nullToEmpty(entry.toString()))
         } else {
-            this.mob.level().getServer()!!.sendSystemMessage(Component.nullToEmpty("no fishbert"))
+            this.mob.level().server!!.sendSystemMessage(Component.nullToEmpty("no fishbert"))
         }
         // choose one fish
         /*

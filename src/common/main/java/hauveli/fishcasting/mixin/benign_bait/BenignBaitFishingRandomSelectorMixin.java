@@ -6,6 +6,7 @@ import com.li64.tide.data.fishing.FishingContext;
 import com.li64.tide.data.fishing.selector.FishSelector;
 import com.li64.tide.data.fishing.selector.FishingEntry;
 import com.li64.tide.data.fishing.selector.FishingRandomSelector;
+import com.li64.tide.util.BaitUtils;
 import hauveli.fishcasting.registry.FishcastingItems;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,8 +30,9 @@ public class BenignBaitFishingRandomSelectorMixin {
     private static <T extends FishingEntry> void fishcasting$select(
             List<T> entries, FishingContext context, CallbackInfoReturnable<CatchResult> cir
     ) {
-        if (!fishcasting$shouldForceFishOnly(context.activeBait())
-                || (cir.getReturnValue().entry().isPresent() &&
+        boolean hasBenignBait = BaitUtils.getBaitItems(context.rod()).stream()
+                .anyMatch(stack -> stack.is(FishcastingItems.BENIGN_BAIT));
+        if (!hasBenignBait || (cir.getReturnValue().entry().isPresent() &&
                                 cir.getReturnValue().entry().get().matchesTestType(TestType.FISH))) {
             return;
         }

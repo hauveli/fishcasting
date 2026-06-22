@@ -41,7 +41,7 @@ import java.util.function.Consumer
 
 class HexyRodItem // why does TideFishingRodItem take no baitslots here when it does in the source?
     (private val baitSlots: Int, baseDurability: Double, properties: Properties?) :
-    TideFishingRodItem(baseDurability, properties) {
+    TideFishingRodItem(baitSlots,baseDurability, properties) {
     // retrieveHook from Tide: https://github.com/Lightning-64/Tide-2/blob/f9fc2d04ae4d544ad134025cebd83c7438f67098/src/main/java/com/li64/tide/registries/items/TideFishingRodItem.java#L57
     // Modification: rod.hurtAndBreak is not called
     override fun retrieveHook(rod: ItemStack, player: Player, level: Level) {
@@ -54,11 +54,11 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
 
         val activeHook = HookAccessor.getHook(player)
         if (activeHook != null) {
-            val bobberItemStack = activeHook.getBobber()
+            val bobberItemStack = activeHook.bobber
 
             if (!level.isClientSide) {
                 val bobberPos = activeHook.getPosition(0f)
-                if (bobberItemStack != null && bobberItemStack.getItem() is TideyFocusItem) {
+                if (bobberItemStack != null && bobberItemStack.item is TideyFocusItem) {
                     // NOOOOOO BOOOOOBBEEEERTTTTT
                     //executeBobber(level, player, player.getUsedItemHand(), bobberItemStack, bobberPos);
                     // This was moved to a different method

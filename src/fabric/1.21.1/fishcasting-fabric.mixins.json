@@ -6,6 +6,7 @@
   "client": [
   ],
   "mixins": [
+    "babysittingfabric.stupidmixin"
   ],
   "injectors": {
     "defaultRequire": 1

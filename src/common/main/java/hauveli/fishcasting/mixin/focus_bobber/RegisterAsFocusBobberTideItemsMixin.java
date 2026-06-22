@@ -19,12 +19,12 @@ public abstract class RegisterAsFocusBobberTideItemsMixin {
             slice = @Slice(
                     from = @At(
                             value = "CONSTANT",
-                            args = "stringValue=amethyst_fishing_bobber",
+                            args = "stringValue=amethyst_bobber",
                             ordinal = 0
                     ),
                     to   = @At(
                             value = "CONSTANT",
-                            args = "stringValue=echo_fishing_bobber"
+                            args = "stringValue=echo_bobber"
                     )
             ),
             at = @At(

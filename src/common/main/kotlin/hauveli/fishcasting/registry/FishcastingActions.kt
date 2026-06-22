@@ -10,6 +10,8 @@ import hauveli.fishcasting.casting.actions.patterns.OpGetBobbersCatch
 import hauveli.fishcasting.casting.actions.patterns.OpGetBobbersOwner
 import hauveli.fishcasting.casting.actions.patterns.OpGetCatchesBobber
 import hauveli.fishcasting.casting.actions.patterns.OpGetOwnersBobber
+import hauveli.fishcasting.casting.actions.spells.OpFishifyItem
+import hauveli.fishcasting.casting.actions.spells.OpItemifyFish
 
 object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     HexRegistries.ACTION,
@@ -29,6 +31,9 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     val OWNER_FROM_BOBBER = make("owner/from_bobber", HexDir.WEST, "aqqqw", OpGetBobbersOwner)
     val CATCH_FROM_BOBBER = make("catch/from_bobber", HexDir.SOUTH_EAST, "weeede", OpGetBobbersCatch)
     val BOBBER_FROM_CATCH = make("bobber/from_catch", HexDir.NORTH_WEST, "qaqqqw", OpGetCatchesBobber)
+
+    val FISHIFY_ITEM = make("fish/from_item", HexDir.SOUTH_EAST, "dewqeaeqqqeqadqwede", OpFishifyItem)
+    val ITEMIFY_FISH = make("fish/to_item", HexDir.NORTH_EAST, "aqweadeqeeeqdqewqaq", OpItemifyFish)
 
     // I didnt check the regex but I'm hoping this stops it
     //val CONGRATULATE = make("congratulate" - , HexDir.WEST, - "eed", OpCongratulate)

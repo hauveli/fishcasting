@@ -1,7 +1,7 @@
 package hauveli.fishcasting.mixin.tacklebox_chair;
 
 import com.li64.tide.Tide;
-import com.li64.tide.TideConfig;
+import com.li64.tide.config.TideConfig;
 import com.li64.tide.data.FishLengthHolder;
 import com.li64.tide.data.fishing.FishData;
 import com.li64.tide.data.item.TideItemData;
@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Optional;
 
-import static com.li64.tide.data.item.TideItemData.CATCH_TIMESTAMP;
+//import static com.li64.tide.data.item.TideItemData.CATCH_TIMESTAMP;
 import static com.li64.tide.data.item.TideItemData.FISH_LENGTH;
 
 @Mixin(ItemEntity.class)
@@ -60,47 +60,50 @@ public class TackleBoxSlurpEntityMixin {
             // only consider recently caught fish, implicitly these are always alive(?), but this prevents
             // some behaviours I'm not sure I'd like but I may change the maximumFishAgeForAutomaticBoxing variable
             int maximumFishAgeForAutomaticBoxing = 500; // in ticks?
-            if (CATCH_TIMESTAMP.get(stack) != null
-                    && Minecraft.getInstance().level.getDayTime() < CATCH_TIMESTAMP.get(stack) + maximumFishAgeForAutomaticBoxing) {
-                int targetBucketSlot = -1; // remains -1 if no valid slot is found or config disallows
-                // Yippee?
-                if (Tide.CONFIG.items.bucketableFishItems != TideConfig.Items.BucketableMode.NEVER) {
-                    // https://github.com/Lightning-64/Tide-2/blob/f9fc2d04ae4d544ad134025cebd83c7438f67098/src/main/java/com/li64/tide/mixin/ItemMixin.java#L38
-                    Optional<FishData> dataOp = FishData.get(stack);
-                    if (dataOp.isEmpty()) return; // skedaddle, I don't know when this could happen but might as well
-                    FishData fishData = dataOp.get();
-                    // bucket only if config allows it
-                    if (fishData.bucket().get().value() instanceof BucketItem fishBucketItem) {
-                        Fluid fluid = getFluid(fishBucketItem);
-                        targetBucketSlot = validBucketAtPositiveIndex(fluid, tackleBoxChairEntity);
-                        if (targetBucketSlot != -1) {
-                            stack = bucketedFishFromFish(fishData, stack);
-                        }
+            //if (CATCH_TIMESTAMP.get(stack) != null) {
+            assert Minecraft.getInstance().level != null;
+            //if (Minecraft.getInstance().level.getDayTime() < CATCH_TIMESTAMP.get(stack) + maximumFishAgeForAutomaticBoxing) {
+            int targetBucketSlot = -1; // remains -1 if no valid slot is found or config disallows
+            // Yippee?
+            if (Tide.CONFIG.items.bucketableFishItems != TideConfig.Items.BucketableMode.NEVER) {
+                // https://github.com/Lightning-64/Tide-2/blob/f9fc2d04ae4d544ad134025cebd83c7438f67098/src/main/java/com/li64/tide/mixin/ItemMixin.java#L38
+                Optional<FishData> dataOp = FishData.get(stack);
+                if (dataOp.isEmpty())
+                    return; // skedaddle, I don't know when this could happen but might as well
+                FishData fishData = dataOp.get();
+                // bucket only if config allows it
+                if (fishData.bucket().get().value() instanceof BucketItem fishBucketItem) {
+                    Fluid fluid = getFluid(fishBucketItem);
+                    targetBucketSlot = validBucketAtPositiveIndex(fluid, tackleBoxChairEntity);
+                    if (targetBucketSlot != -1) {
+                        stack = bucketedFishFromFish(fishData, stack);
                     }
                 }
-                if (targetBucketSlot == -1) {
-                    // emergency exit if we don't have enough inventory space
-                    if (hasNoFreeSlots(tackleBoxChairEntity)) {
-                        return;
-                    }
-                    // this tidies up the inventory to prepare it for the incoming item, if stack is
-                    stack = mergeIfNeeded(stack, tackleBoxChairEntity);
-                    for (int slotIndex = 0; slotIndex < tackleBoxChairEntity.getContainerSize(); slotIndex++) {
-                        ItemStack slotStack = tackleBoxChairEntity.getItem(slotIndex);
-                        if (!slotStack.isEmpty()) {
-                            continue;
-                        }
-                        player.playSound(SoundEvents.BUCKET_EMPTY_FISH, 1.0f, 1.0f);
-                        tackleBoxChairEntity.setItem(slotIndex, stack);
-                        break;
-                    }
-                } else {
-                    player.playSound(SoundEvents.BUCKET_FILL_FISH, 1.0f, 1.0f);
-                    tackleBoxChairEntity.setItem(targetBucketSlot, stack);
-                }
-                itemEntity.discard();
-                ci.cancel();
             }
+            if (targetBucketSlot == -1) {
+                // emergency exit if we don't have enough inventory space
+                if (hasNoFreeSlots(tackleBoxChairEntity)) {
+                    return;
+                }
+                // this tidies up the inventory to prepare it for the incoming item, if stack is
+                stack = mergeIfNeeded(stack, tackleBoxChairEntity);
+                for (int slotIndex = 0; slotIndex < tackleBoxChairEntity.getContainerSize(); slotIndex++) {
+                    ItemStack slotStack = tackleBoxChairEntity.getItem(slotIndex);
+                    if (!slotStack.isEmpty()) {
+                        continue;
+                    }
+                    player.playSound(SoundEvents.BUCKET_EMPTY_FISH, 1.0f, 1.0f);
+                    tackleBoxChairEntity.setItem(slotIndex, stack);
+                    break;
+                }
+            } else {
+                player.playSound(SoundEvents.BUCKET_FILL_FISH, 1.0f, 1.0f);
+                tackleBoxChairEntity.setItem(targetBucketSlot, stack);
+            }
+            itemEntity.discard();
+            ci.cancel();
+            //}
+            //}
         }
     }
 

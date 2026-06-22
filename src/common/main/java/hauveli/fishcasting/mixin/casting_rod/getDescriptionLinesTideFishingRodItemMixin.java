@@ -29,7 +29,8 @@ public class getDescriptionLinesTideFishingRodItemMixin {
         List<Component> components = new ArrayList<>(cir.getReturnValue());
 
         if (stack.is(FishcastingItems.SHEPHERDS_CASTING_ROD)) {
-            components.add(Component.translatable("text.fishcasting.rod_tooltip.shepherds_bonus").withStyle(ChatFormatting.GOLD));
+            components.add(Component.translatable("text.fishcasting.rod_tooltip.shepherds_bonus.1").withStyle(ChatFormatting.GOLD));
+            components.add(Component.translatable("text.fishcasting.rod_tooltip.shepherds_bonus.2").withStyle(ChatFormatting.GOLD));
         }
         if (stack.getItem() instanceof HexyRodItem) {
             if (FishcastingConfigs.INSTANCE.getCOMMON_CONFIG().castingIsMomentary()) {

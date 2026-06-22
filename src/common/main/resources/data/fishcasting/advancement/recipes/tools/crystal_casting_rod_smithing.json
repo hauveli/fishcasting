@@ -53,7 +53,8 @@
       "has_the_recipe",
       "has_string",
       "has_iron_fishing_rod",
-      "has_amethyst"
+      "has_amethyst",
+      "has_fish"
     ]
   ],
   "rewards": {

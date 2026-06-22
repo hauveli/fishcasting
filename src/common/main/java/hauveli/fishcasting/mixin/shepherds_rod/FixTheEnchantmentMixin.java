@@ -1,4 +1,4 @@
-package hauveli.fishcasting.mixin.casting_rod;
+package hauveli.fishcasting.mixin.shepherds_rod;
 
 import net.minecraft.world.item.enchantment.Enchantment;
 
