@@ -1,6 +1,6 @@
 {
    "parent": "tide:item/fishing_bobber_shard",
    "textures": {
-      "layer0": "tide:item/amethyst_fishing_bobber"
+      "layer0": "tide:item/amethyst_bobber"
    }
 }
