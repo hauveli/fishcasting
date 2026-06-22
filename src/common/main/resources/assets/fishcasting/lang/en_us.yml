@@ -15,7 +15,7 @@ fishcasting:
       disappears: Blessed disappears
   book:
     fishing_spells:
-      '1': Sample text blablabla
+      '1': On the rare occasion that I have come face to face with a finned foe, a simple spell to disable its movements is all I ever needed to deal with the issue.$(br)These spells are useless on most other more advanced beings, but for the simple creatures that fish are, they will suffice.
       title: Fishing Spells
       fish/from_item: Removes an entity from the stack and if it was a fish, enlivens it to move once more. Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
       fish/to_item: Removes an entity from the stack and if it was a fish, coerces it to remain still. Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.

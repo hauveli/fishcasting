@@ -4,7 +4,7 @@
     "item": "hexcasting:quenched_allay_shard"
   },
   "base": {
-    "item": "tide:amethyst_fishing_bobber"
+    "item": "tide:amethyst_bobber"
   },
   "result": {
     "id": "fishcasting:blessed_focus_bobber",
