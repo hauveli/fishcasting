@@ -1,0 +1,29 @@
+{
+  name: "fishcasting.book.fishing_spells.title",
+  category: "hexcasting:patterns/spells",
+  icon: "minecraft:pufferfish",
+  advancement: "hexcasting:root",
+  "sortnum": 8,
+  pages: [
+    {
+      "type": "patchouli:text",
+      "text": "fishcasting.book.fishing_patterns.1"
+    },
+    {
+      type: "hexcasting:pattern",
+      op_id: "fishcasting:fish/from_item",
+      anchor: "fishcasting:fish/from_item",
+      input: "entity",
+      output: "",
+      text: "fishcasting.book.fishing_spells.fish/from_item"
+    },
+    {
+      type: "hexcasting:pattern",
+      op_id: "fishcasting:fish/to_item",
+      anchor: "fishcasting:fish/to_item",
+      input: "entity",
+      output: "",
+      text: "fishcasting.book.fishing_spells.fish/to_item"
+    },
+  ],
+}

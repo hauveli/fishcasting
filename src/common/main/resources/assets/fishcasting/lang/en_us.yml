@@ -14,6 +14,11 @@ fishcasting:
       appears: Blessed appears
       disappears: Blessed disappears
   book:
+    fishing_spells:
+      '1': Sample text blablabla
+      title: Fishing Spells
+      fish/from_item: Removes an entity from the stack and if it was a fish, enlivens it to move once more. Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
+      fish/to_item: Removes an entity from the stack and if it was a fish, coerces it to remain still. Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
     fishing_patterns:
       '1': I came across a soggy book in my travels written by a sage fisher who went by the name $(italic)'Babs'/$. While most of the text consists of the ramblings of a sailor, found within the pages were some mundane patterns for fishing. While I don't see myself fishing one way or the other, I must note these down. These would come in handy I ever decide to use a $(l:items/casting_rod#fishcasting:landing)$(thing)Casting Rod/$.
       title: Fishing Patterns
@@ -199,7 +204,9 @@ hexcasting:
     fishcasting:owner/from_bobber: Trebbob's Purification
     fishcasting:catch/from_bobber: Babs' Purification
     fishcasting:bobber/from_catch: Bob's Purification
-    fishcasting:fish/length: PLACEHOLDER's Purification
+    fishcasting:fish/length: Glub's Purification
+    fishcasting:fish/from_item: Fish Motion
+    fishcasting:fish/to_item: Fish Stillness
     fishcasting:fish/rarity: PLACEHOLDER's Purification
   mishap:
     bad_item:
