@@ -5,12 +5,17 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.li64.tide.Tide;
 import com.li64.tide.registries.items.TideFishingRodItem;
+import hauveli.fishcasting.Fishcasting;
 import hauveli.fishcasting.registry.FishcastingItems;
 import hauveli.fishcasting.registry.FishcastingTags;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.ServerAdvancementManager;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.Item;
@@ -24,14 +29,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Mixin(ServerAdvancementManager.class)
 public class AllFishingRodsAdvancementMixin {
-
-    @Shadow
-    @Final
-    private static Logger LOGGER;
 
     @Inject(method = "apply(Ljava/util/Map;Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)V", at = @At("HEAD"))
     private void inject(Map<ResourceLocation, JsonElement> jsonMap, ResourceManager resourceManager, ProfilerFiller par3, CallbackInfo ci) {
@@ -46,37 +51,86 @@ public class AllFishingRodsAdvancementMixin {
                 ? advancement.getAsJsonArray("requirements")
                 : new JsonArray(); // and again
 
-        Class<? extends Item> rodClass = Tide.CONFIG.general.overrideVanillaRod
-                ? TideFishingRodItem.class
-                : FishingRodItem.class;
+        // adding mine manually because I'm making this addon and I think this makes sense, it is obtainable via fishing alone, and serves a fishing purpose beyond just hexcasting.
+        fishcasting$addItemIdToAdvancementRequirement(advancement, criteria, requirements, FishcastingItems.SHEPHERDS_CASTING_ROD.toString());
 
-        fishcasting$addItemIdToAdvancementRequirement(
-                advancement,
-                criteria,
-                requirements,
-                FishcastingItems.SHEPHERDS_CASTING_ROD.toString()
-        );
-
-        fishcasting$checkAllItemsAndAddEveryFishingRod(advancement, rodClass, criteria, requirements);
+        fishcasting$checkAllItemsAndAddEveryFishingRod(advancement, criteria, requirements, resourceManager);
     }
 
     @Unique
-    private static void fishcasting$checkAllItemsAndAddEveryFishingRod(JsonObject advancement, Class<? extends Item> rodClass, JsonObject criteria, JsonArray requirements) {
-        for (Item item : BuiltInRegistries.ITEM) {
-            //if (rodClass.isInstance(item)) {
-            if (item.getDefaultInstance().is(FishcastingTags.ALL_FISHING_RODS_ADVANCEMENT_ROD)) {
-                String someItemId = item.toString();
-                if (fishcasting$criteriaContainsItemId(criteria, someItemId)) {
-                    continue;
-                }
+    private static List<Holder<Item>> fishcasting$loadMyFuckingTag(ResourceManager resourceManager) {
+        ResourceLocation tagId = FishcastingTags.ALL_FISHING_RODS_ADVANCEMENT_ROD.location();
+        ResourceLocation tagPath = ResourceLocation.fromNamespaceAndPath(
+                tagId.getNamespace(),
+                "tags/item/" + tagId.getPath() + ".json"
+        );
+        List<Resource> resources = resourceManager.getResourceStack(tagPath);
 
-                fishcasting$addItemIdToAdvancementRequirement(
-                        advancement,
-                        criteria,
-                        requirements,
-                        someItemId
-                );
+        ArrayList<Holder<Item>> listOfItems = new ArrayList<>();
+        resources.forEach(resource -> {
+            try (Reader reader = resource.openAsReader()) {
+                JsonObject json = GsonHelper.parse(reader);
+
+                JsonArray values = json.getAsJsonArray("values");
+                if (values == null) return;
+
+                for (JsonElement element : values) {
+                    String value = element.getAsString();
+
+                    if (value.startsWith("#")) {
+                        // Nested tag, how do I deal with this???
+                        // Like the tags are already not loaded, do I recursively call this method, and keep track of visited paths?
+                        // I am not sure but for now, this is not supported because I seriously doubt there are mods which add over 100 fishing rods
+                        // and I believe maintaining a list of like <30 items is not too monumental of a task, so I will not be implementing this because it's less effort not to
+                        // If you are reading this and think I should have implemented it, please do so and open a PR because I agree
+                        Fishcasting.LOGGER.info("Rejecting nested # tag {}", value);
+                    } else {
+                        ResourceLocation itemId = ResourceLocation.parse(value);
+                        Fishcasting.LOGGER.debug("Found item {}", itemId);
+                        if (BuiltInRegistries.ITEM.getHolder(itemId).isPresent()) {
+                            Holder<Item> itemHolder = BuiltInRegistries.ITEM.getHolder(itemId).get();
+                            listOfItems.add(itemHolder);
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                Fishcasting.LOGGER.error("Failed to read tag {}", tagId, e);
             }
+        });
+
+        return listOfItems.stream().toList();
+    }
+
+    @Unique
+    private static void fishcasting$checkAllItemsAndAddEveryFishingRod(JsonObject advancement, JsonObject criteria, JsonArray requirements, ResourceManager resourceManager) {
+        //Fishcasting.LOGGER.info("size: {}", BuiltInRegistries.ITEM.size());
+        //Fishcasting.LOGGER.info("tag: {}", BuiltInRegistries.ITEM.getTag(FishcastingTags.ALL_FISHING_RODS_ADVANCEMENT_ROD));
+        //Fishcasting.LOGGER.info("tag: {}", BuiltInRegistries.ITEM.getTag(FishcastingTags.ALL_FISHING_RODS_ADVANCEMENT_ROD).stream().toList());
+        //Fishcasting.LOGGER.info("tag: {}", BuiltInRegistries.ITEM.asTagAddingLookup().get(FishcastingTags.ALL_FISHING_RODS_ADVANCEMENT_ROD));
+        List<Holder<Item>> itemList;
+        if (BuiltInRegistries.ITEM.getTag(FishcastingTags.ALL_FISHING_RODS_ADVANCEMENT_ROD).isEmpty()) {
+            // runs on first load of world and not subsequent ones....
+            // I don't know how to get access to tags earlier because they only load after first world load which is after advancements somehow (??)
+            Fishcasting.LOGGER.debug("Checking tags manually for all_fishing_rods advancement");
+            itemList = fishcasting$loadMyFuckingTag(resourceManager);
+        } else {
+            Fishcasting.LOGGER.debug("Tags already existed! We are OK!");
+            itemList = BuiltInRegistries.ITEM.getTag(FishcastingTags.ALL_FISHING_RODS_ADVANCEMENT_ROD).get().stream().toList();
+        }
+        if (itemList.isEmpty()) return;
+        for (Holder<Item> itemHolder : itemList) {
+            Item item = itemHolder.value();
+            String someItemId = item.toString();
+            if (fishcasting$criteriaContainsItemId(criteria, someItemId)) {
+                continue;
+            }
+
+            fishcasting$addItemIdToAdvancementRequirement(
+                    advancement,
+                    criteria,
+                    requirements,
+                    someItemId
+            );
         }
     }
 
