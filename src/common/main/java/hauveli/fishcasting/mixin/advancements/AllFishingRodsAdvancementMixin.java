@@ -4,12 +4,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.li64.tide.Tide;
-import com.li64.tide.registries.items.TideFishingRodItem;
 import hauveli.fishcasting.Fishcasting;
 import hauveli.fishcasting.registry.FishcastingItems;
 import hauveli.fishcasting.registry.FishcastingTags;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.ServerAdvancementManager;
@@ -17,13 +15,9 @@ import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.item.FishingRodItem;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -57,14 +51,21 @@ public class AllFishingRodsAdvancementMixin {
         fishcasting$checkAllItemsAndAddEveryFishingRod(advancement, criteria, requirements, resourceManager);
     }
 
+
     @Unique
-    private static List<Holder<Item>> fishcasting$loadMyFuckingTag(ResourceManager resourceManager) {
-        ResourceLocation tagId = FishcastingTags.ALL_FISHING_RODS_ADVANCEMENT_ROD.location();
+    private static @NotNull List<Resource> fishcasting$getResourceStackFromTagId(ResourceManager resourceManager, ResourceLocation tagId) {
         ResourceLocation tagPath = ResourceLocation.fromNamespaceAndPath(
                 tagId.getNamespace(),
                 "tags/item/" + tagId.getPath() + ".json"
         );
-        List<Resource> resources = resourceManager.getResourceStack(tagPath);
+        return resourceManager.getResourceStack(tagPath);
+    }
+
+    private static ArrayList<String> VISITED_TAGS = new ArrayList<>();
+
+    @Unique
+    private static List<Holder<Item>> fishcasting$loadMyFuckingTags(ResourceManager resourceManager, ResourceLocation tagId) {
+        List<Resource> resources = fishcasting$getResourceStackFromTagId(resourceManager, tagId);
 
         ArrayList<Holder<Item>> listOfItems = new ArrayList<>();
         resources.forEach(resource -> {
@@ -78,12 +79,13 @@ public class AllFishingRodsAdvancementMixin {
                     String value = element.getAsString();
 
                     if (value.startsWith("#")) {
-                        // Nested tag, how do I deal with this???
-                        // Like the tags are already not loaded, do I recursively call this method, and keep track of visited paths?
-                        // I am not sure but for now, this is not supported because I seriously doubt there are mods which add over 100 fishing rods
-                        // and I believe maintaining a list of like <30 items is not too monumental of a task, so I will not be implementing this because it's less effort not to
-                        // If you are reading this and think I should have implemented it, please do so and open a PR because I agree
-                        Fishcasting.LOGGER.info("Rejecting nested # tag {}", value);
+                        Fishcasting.LOGGER.info("Found tag {}", value);
+                        if (VISITED_TAGS.contains(value)) {
+                            return; // do NOT recurse
+                        }
+                        VISITED_TAGS.add(value);
+                        ResourceLocation targetTag = ResourceLocation.parse(value.replaceFirst("#", ""));
+                        listOfItems.addAll(fishcasting$loadMyFuckingTags(resourceManager, targetTag));
                     } else {
                         ResourceLocation itemId = ResourceLocation.parse(value);
                         Fishcasting.LOGGER.debug("Found item {}", itemId);
@@ -103,16 +105,13 @@ public class AllFishingRodsAdvancementMixin {
 
     @Unique
     private static void fishcasting$checkAllItemsAndAddEveryFishingRod(JsonObject advancement, JsonObject criteria, JsonArray requirements, ResourceManager resourceManager) {
-        //Fishcasting.LOGGER.info("size: {}", BuiltInRegistries.ITEM.size());
-        //Fishcasting.LOGGER.info("tag: {}", BuiltInRegistries.ITEM.getTag(FishcastingTags.ALL_FISHING_RODS_ADVANCEMENT_ROD));
-        //Fishcasting.LOGGER.info("tag: {}", BuiltInRegistries.ITEM.getTag(FishcastingTags.ALL_FISHING_RODS_ADVANCEMENT_ROD).stream().toList());
-        //Fishcasting.LOGGER.info("tag: {}", BuiltInRegistries.ITEM.asTagAddingLookup().get(FishcastingTags.ALL_FISHING_RODS_ADVANCEMENT_ROD));
         List<Holder<Item>> itemList;
         if (BuiltInRegistries.ITEM.getTag(FishcastingTags.ALL_FISHING_RODS_ADVANCEMENT_ROD).isEmpty()) {
-            // runs on first load of world and not subsequent ones....
+            // runs on first load of world and not subsequent ones within the same runtime....
             // I don't know how to get access to tags earlier because they only load after first world load which is after advancements somehow (??)
             Fishcasting.LOGGER.debug("Checking tags manually for all_fishing_rods advancement");
-            itemList = fishcasting$loadMyFuckingTag(resourceManager);
+            ResourceLocation tagId = FishcastingTags.ALL_FISHING_RODS_ADVANCEMENT_ROD.location();
+            itemList = fishcasting$loadMyFuckingTags(resourceManager, tagId);
         } else {
             Fishcasting.LOGGER.debug("Tags already existed! We are OK!");
             itemList = BuiltInRegistries.ITEM.getTag(FishcastingTags.ALL_FISHING_RODS_ADVANCEMENT_ROD).get().stream().toList();
@@ -148,7 +147,6 @@ public class AllFishingRodsAdvancementMixin {
         JsonArray extra = new JsonArray();
         extra.add(itemId);
 
-        //JsonArray bonusRequirement = new JsonArray();
         requirements.add(extra);
         advancement.add("requirements", requirements);
     }
