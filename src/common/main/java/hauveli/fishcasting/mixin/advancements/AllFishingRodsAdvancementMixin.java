@@ -32,6 +32,9 @@ import java.util.Map;
 @Mixin(ServerAdvancementManager.class)
 public class AllFishingRodsAdvancementMixin {
 
+    @Unique
+    private static ArrayList<String> VISITED_TAGS = new ArrayList<>();
+
     @Inject(method = "apply(Ljava/util/Map;Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)V", at = @At("HEAD"))
     private void inject(Map<ResourceLocation, JsonElement> jsonMap, ResourceManager resourceManager, ProfilerFiller par3, CallbackInfo ci) {
         JsonElement element = jsonMap.get(Tide.resource("all_fishing_rods"));
@@ -48,6 +51,9 @@ public class AllFishingRodsAdvancementMixin {
         // adding mine manually because I'm making this addon and I think this makes sense, it is obtainable via fishing alone, and serves a fishing purpose beyond just hexcasting.
         fishcasting$addItemIdToAdvancementRequirement(advancement, criteria, requirements, FishcastingItems.SHEPHERDS_CASTING_ROD.toString());
 
+        // Set this to be empty just in case. I'm speculating, but if the datapack changes and/or world changes, some tags may be missed if I don't do this...
+        // if I'm wrong, please open an issue or leave some type of message somewhere.
+        VISITED_TAGS = new ArrayList<>();
         fishcasting$checkAllItemsAndAddEveryFishingRod(advancement, criteria, requirements, resourceManager);
     }
 
@@ -60,8 +66,6 @@ public class AllFishingRodsAdvancementMixin {
         );
         return resourceManager.getResourceStack(tagPath);
     }
-
-    private static ArrayList<String> VISITED_TAGS = new ArrayList<>();
 
     @Unique
     private static List<Holder<Item>> fishcasting$loadMyFuckingTags(ResourceManager resourceManager, ResourceLocation tagId) {
