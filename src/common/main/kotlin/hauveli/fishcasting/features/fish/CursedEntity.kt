@@ -20,6 +20,7 @@ import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.animal.Bucketable
 import net.minecraft.world.entity.animal.axolotl.Axolotl
 import net.minecraft.world.entity.item.ItemEntity
@@ -109,6 +110,7 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
         this.setCanPickUpLoot(false)
         //this.setInvulnerable(true);
         this.speed = 0.01f
+        this.attributes.getInstance(Attributes.STEP_HEIGHT)?.baseValue = 0.1
 
         // need to give the fish the properties of a tide fish, but I still want the entity to be an axolotl so I can keep all its goals and animations.
         // this was the least effort for me, but I would gladly accept PRs to change it haha...
@@ -232,8 +234,10 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
                     1
                 )
             )
-            // if it is spawned in via creative, odds are the player wants to test this
-            if (getFishLength(entity) >= 66.6) {
+            // with fish length disabled it has to be possible to obtain the disc somehow
+            val fishLength = getFishLength(entity)
+            if (fishLength >= 66.6
+                || (fishLength == 0.0 && entity.random.nextFloat() < 0.025f)) {
                 allay.setItemInHand(
                     InteractionHand.MAIN_HAND,
                     FishcastingItems.DISC.defaultInstance

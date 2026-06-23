@@ -210,7 +210,13 @@ hexcasting:
     fishcasting:fish/rarity: PLACEHOLDER's Purification
   mishap:
     bad_item:
-      tide_fishing_hook: Fishing Hook
+      fishcasting:
+        fishing_hook: Fishing Hook
+        not_a_fish:
+          .: Fish
+          item: Fish Item
+          entity: Fish Entity
+          bucketable: Bucketable Fish
 _commnent_lore: LORE STUFF
 advancement:
   fishcasting:lore/newsletter: 'Fishcasting: Newsletter #1'

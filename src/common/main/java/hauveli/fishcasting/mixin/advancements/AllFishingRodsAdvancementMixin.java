@@ -70,7 +70,6 @@ public class AllFishingRodsAdvancementMixin {
     @Unique
     private static List<Holder<Item>> fishcasting$loadMyFuckingTags(ResourceManager resourceManager, ResourceLocation tagId) {
         List<Resource> resources = fishcasting$getResourceStackFromTagId(resourceManager, tagId);
-
         ArrayList<Holder<Item>> listOfItems = new ArrayList<>();
         resources.forEach(resource -> {
             try (Reader reader = resource.openAsReader()) {
@@ -80,16 +79,20 @@ public class AllFishingRodsAdvancementMixin {
                 if (values == null) return;
 
                 for (JsonElement element : values) {
+                    if (!element.isJsonPrimitive()) continue; // what the actual fuck was causing this to error without this line?
                     String value = element.getAsString();
 
                     if (value.startsWith("#")) {
-                        Fishcasting.LOGGER.info("Found tag {}", value);
                         if (VISITED_TAGS.contains(value)) {
                             return; // do NOT recurse
                         }
                         VISITED_TAGS.add(value);
+                        Fishcasting.LOGGER.debug("Found tag {}", tagId);
                         ResourceLocation targetTag = ResourceLocation.parse(value.replaceFirst("#", ""));
-                        listOfItems.addAll(fishcasting$loadMyFuckingTags(resourceManager, targetTag));
+                        var possiblyMoreItems = fishcasting$loadMyFuckingTags(resourceManager, targetTag);
+                        if (!possiblyMoreItems.isEmpty()) {
+                            listOfItems.addAll(possiblyMoreItems);
+                        }
                     } else {
                         ResourceLocation itemId = ResourceLocation.parse(value);
                         Fishcasting.LOGGER.debug("Found item {}", itemId);
@@ -103,7 +106,9 @@ public class AllFishingRodsAdvancementMixin {
                 Fishcasting.LOGGER.error("Failed to read tag {}", tagId, e);
             }
         });
-
+        if (listOfItems.isEmpty()) {
+            return List.of();
+        }
         return listOfItems.stream().toList();
     }
 

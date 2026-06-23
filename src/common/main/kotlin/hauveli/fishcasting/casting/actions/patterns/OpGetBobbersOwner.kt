@@ -28,7 +28,7 @@ object OpGetBobbersOwner : ConstMediaAction {
 
         // Not a player
         if (unknownEntity !is TideFishingHook) {
-            throw MishapBadEntity.of(unknownEntity, "tide_fishing_hook")
+            throw MishapBadEntity.of(unknownEntity, "fishcasting.fishing_hook")
         }
 
         val target = unknownEntity

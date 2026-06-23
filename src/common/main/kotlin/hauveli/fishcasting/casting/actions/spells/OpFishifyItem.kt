@@ -34,14 +34,14 @@ object OpFishifyItem : SpellAction {
         val target = args.getEntity(env.world, 0, argc)
         env.assertEntityInRange(target)
         if (target !is ItemEntity) {
-            throw MishapBadEntity.of(target, "item_entity")
+            throw MishapBadEntity.of(target, "fishcasting.not_a_fish.item")
         }
         val maybeTideFish = FishData.get(target.item.item)
         if (maybeTideFish.isEmpty) {
-            throw MishapBadEntity.of(target, "fish")
+            throw MishapBadEntity.of(target, "fishcasting.not_a_fish")
         }
         if (maybeTideFish.get().bucket().isEmpty) {
-            throw MishapBadEntity.of(target, "fish_unbucketable")
+            throw MishapBadEntity.of(target, "fishcasting.not_a_fish.bucketable")
         }
 
         return SpellAction.Result(

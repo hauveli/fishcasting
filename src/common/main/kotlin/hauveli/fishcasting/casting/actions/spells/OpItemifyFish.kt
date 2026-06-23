@@ -24,11 +24,11 @@ object OpItemifyFish : SpellAction {
         val target = args.getEntity(env.world, 0, argc)
         env.assertEntityInRange(target)
         if (target.type !in FISH_ENTITIES) {
-            throw MishapBadEntity.of(target, "fish_entity")
+            throw MishapBadEntity.of(target, "fishcasting.not_a_fish.entity")
         }
         val maybeTideFish = FishData.get(target)
         if (maybeTideFish.isEmpty) {
-            throw MishapBadEntity.of(target, "fish") // does this one even make sense?
+            throw MishapBadEntity.of(target, "fishcasting.not_a_fish") // does this one even make sense?
         }
 
         return SpellAction.Result(
