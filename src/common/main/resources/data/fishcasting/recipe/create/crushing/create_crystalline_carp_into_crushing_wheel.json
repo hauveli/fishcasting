@@ -16,7 +16,7 @@
   "type": "create:crushing",
   "ingredients": [
     {
-      "item": "tide:amethyst_fishing_bobber"
+      "item": "tide:crystalline_carp"
     }
   ],
   "processing_time": 350,

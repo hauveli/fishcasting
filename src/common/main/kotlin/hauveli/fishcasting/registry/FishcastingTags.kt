@@ -17,6 +17,8 @@ object FishcastingTags {
     val NO_DURABILITY_ENCHANTMENTS: TagKey<Item?> = make("no_durability_enchantments")
     val LORE_FRAGMENTS: TagKey<Item?> = make("lore_fragments")
     val UNLUCKY_MULCH: TagKey<Item?> = make("unlucky_mulch")
+    @JvmField
+    val ALL_FISHING_RODS_ADVANCEMENT_ROD: TagKey<Item?> = make("all_fishing_rods_advancement_rod")
 
     fun make(path: String): TagKey<Item?> {
         return TagKey.create(Registries.ITEM, id(path))
