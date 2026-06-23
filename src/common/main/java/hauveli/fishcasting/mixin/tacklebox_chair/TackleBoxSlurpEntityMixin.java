@@ -1,13 +1,23 @@
 package hauveli.fishcasting.mixin.tacklebox_chair;
 
 import com.li64.tide.Tide;
+import com.li64.tide.client.TideClientHelper;
 import com.li64.tide.config.TideConfig;
 import com.li64.tide.data.FishLengthHolder;
 import com.li64.tide.data.fishing.FishData;
 import com.li64.tide.data.item.TideItemData;
+import com.li64.tide.network.messages.ShowToastMsg;
+import com.li64.tide.util.TideUtils;
+import hauveli.fishcasting.Fishcasting;
 import hauveli.fishcasting.features.chair.TackleBoxChairEntity;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.toasts.SystemToast;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -15,6 +25,7 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -25,7 +36,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Optional;
 
 //import static com.li64.tide.data.item.TideItemData.CATCH_TIMESTAMP;
+import static com.li64.tide.client.TideClientHelper.showToast;
 import static com.li64.tide.data.item.TideItemData.FISH_LENGTH;
+import static hauveli.fishcasting.registry.FishcastingAdvancements.TACKLEBOX_CHAIR_FISHER;
 
 @Mixin(ItemEntity.class)
 public class TackleBoxSlurpEntityMixin {
@@ -56,10 +69,14 @@ public class TackleBoxSlurpEntityMixin {
     private void fishcasting$onTake(Player player, CallbackInfo ci) {
         ItemEntity itemEntity = (ItemEntity)(Object)this;
         if (player.getVehicle() instanceof TackleBoxChairEntity tackleBoxChairEntity) {
+            int minimumTickCountForNonFished = 20 * 2;
+            if (!itemEntity.getTags().contains(Fishcasting.FISHBERT_TAG)
+                    && itemEntity.tickCount < minimumTickCountForNonFished) {
+                return;
+            }
             ItemStack stack = itemEntity.getItem();
             // only consider recently caught fish, implicitly these are always alive(?), but this prevents
             // some behaviours I'm not sure I'd like but I may change the maximumFishAgeForAutomaticBoxing variable
-            int maximumFishAgeForAutomaticBoxing = 500; // in ticks?
             //if (CATCH_TIMESTAMP.get(stack) != null) {
             assert Minecraft.getInstance().level != null;
             //if (Minecraft.getInstance().level.getDayTime() < CATCH_TIMESTAMP.get(stack) + maximumFishAgeForAutomaticBoxing) {
@@ -73,42 +90,92 @@ public class TackleBoxSlurpEntityMixin {
                 FishData fishData = dataOp.get();
                 // bucket only if config allows it
                 if (fishData.bucket().get().value() instanceof BucketItem fishBucketItem) {
-                    Fluid fluid = getFluid(fishBucketItem);
-                    targetBucketSlot = validBucketAtPositiveIndex(fluid, tackleBoxChairEntity);
+                    Fluid fluid = fishcasting$getFluid(fishBucketItem);
+                    targetBucketSlot = fishcasting$validBucketAtPositiveIndex(fluid, tackleBoxChairEntity);
                     if (targetBucketSlot != -1) {
-                        stack = bucketedFishFromFish(fishData, stack);
+                        stack = fishcasting$bucketedFishFromFish(fishData, stack);
                     }
                 }
             }
             if (targetBucketSlot == -1) {
                 // emergency exit if we don't have enough inventory space
-                if (hasNoFreeSlots(tackleBoxChairEntity)) {
+                if (fishcasting$hasNoFreeSlots(tackleBoxChairEntity)) {
                     return;
                 }
                 // this tidies up the inventory to prepare it for the incoming item, if stack is
-                stack = mergeIfNeeded(stack, tackleBoxChairEntity);
+                stack = fishcasting$mergeIfNeeded(stack, tackleBoxChairEntity);
                 for (int slotIndex = 0; slotIndex < tackleBoxChairEntity.getContainerSize(); slotIndex++) {
                     ItemStack slotStack = tackleBoxChairEntity.getItem(slotIndex);
                     if (!slotStack.isEmpty()) {
                         continue;
                     }
-                    player.playSound(SoundEvents.BUCKET_EMPTY_FISH, 1.0f, 1.0f);
-                    tackleBoxChairEntity.setItem(slotIndex, stack);
+                    fishcasting$finalizeSlurp(tackleBoxChairEntity, slotIndex, stack,
+                            player, itemEntity, ci);
                     break;
                 }
             } else {
-                player.playSound(SoundEvents.BUCKET_FILL_FISH, 1.0f, 1.0f);
-                tackleBoxChairEntity.setItem(targetBucketSlot, stack);
+                fishcasting$finalizeSlurp(tackleBoxChairEntity, targetBucketSlot, stack,
+                        player, itemEntity, ci);
             }
-            itemEntity.discard();
-            ci.cancel();
             //}
             //}
         }
     }
 
     @Unique
-    private boolean hasNoFreeSlots(TackleBoxChairEntity entity) {
+    private static void fishcasting$finalizeSlurp(
+            TackleBoxChairEntity tackleBoxChairEntity, int targetSlot, ItemStack itemStack,
+            Player player, ItemEntity itemEntity, CallbackInfo ci) {
+
+        boolean isBucketed = itemStack.getItem() instanceof MobBucketItem;
+        player.playSound(isBucketed ?
+                SoundEvents.BUCKET_FILL_FISH : SoundEvents.BUCKET_EMPTY_FISH, 1.0f, 1.0f);
+
+        tackleBoxChairEntity.setItem(targetSlot, itemStack);
+
+        if (player instanceof ServerPlayer serverPlayer) {
+            fishcasting$showFishPopUp(itemStack, itemEntity.getItem(), serverPlayer);
+            fishcasting$tryGrantingAdvancement(serverPlayer);
+        }
+
+        itemEntity.discard();
+        ci.cancel();
+
+    }
+
+    @Unique
+    private static void fishcasting$showFishPopUp(ItemStack displayItemStack, ItemStack lengthItemStack, ServerPlayer player) {
+        if (player == null) return;
+        String fishName = TideUtils.removeRawTextInName(displayItemStack.getHoverName()).getString();
+        if (displayItemStack.getItem() instanceof MobBucketItem mobBucketItem) {
+            String toReplace = Component.translatable("fishcasting.remove_from_names.bucket").getString();
+            fishName = fishName.replace(toReplace, "").trim();
+        }
+        Tide.NETWORK.sendToPlayer(new ShowToastMsg(
+                Component.nullToEmpty(
+                        Component.translatable("fishcasting.toast.tacklebox_chair.fish_boxed").getString() +
+                                " - " + TideUtils.getFormattedLength(lengthItemStack).getString()
+                ),
+                Component.nullToEmpty(fishName),
+                displayItemStack), player);
+    }
+
+    // todo: not fucking this
+    @Unique
+    private static void fishcasting$tryGrantingAdvancement(ServerPlayer serverPlayer) {
+        if (serverPlayer != null) {
+            var advancement = serverPlayer.server.getAdvancements().get(TACKLEBOX_CHAIR_FISHER);
+            assert advancement != null;
+            var progress = serverPlayer.getAdvancements().getOrStartProgress(advancement);
+            if (progress.isDone()) return;
+            for (String criterion : progress.getRemainingCriteria()) {
+                serverPlayer.getAdvancements().award(advancement, criterion);
+            }
+        }
+    }
+
+    @Unique
+    private static boolean fishcasting$hasNoFreeSlots(TackleBoxChairEntity entity) {
         for (int i = 0; i < entity.getContainerSize(); i++) {
             ItemStack slotStack = entity.getItem(i);
             if (slotStack.isEmpty()) {
@@ -120,20 +187,20 @@ public class TackleBoxSlurpEntityMixin {
 
     // Determine and keep the largest fish, clean up/auto-merge box inventory
     @Unique
-    private ItemStack mergeIfNeeded(ItemStack fishToDeposit, TackleBoxChairEntity entity) {
-        int largerIndex = largerIdenticalFishAtPositiveIndex(fishToDeposit, entity);
+    private static ItemStack fishcasting$mergeIfNeeded(ItemStack fishToDeposit, TackleBoxChairEntity entity) {
+        int largerIndex = fishcasting$largerIdenticalFishAtPositiveIndex(fishToDeposit, entity);
         ItemStack outputStack;
         if (largerIndex >= 0) {
             outputStack = entity.getItem(largerIndex).copy();
         } else {
             outputStack = fishToDeposit;
         }
-        tidyUpFishStacksMatching(fishToDeposit, entity);
+        fishcasting$tidyUpFishStacksMatching(fishToDeposit, entity);
         return outputStack;
     }
 
     @Unique
-    private void tidyUpFishStacksMatching(ItemStack fishToDeposit, TackleBoxChairEntity entity) {
+    private static void fishcasting$tidyUpFishStacksMatching(ItemStack fishToDeposit, TackleBoxChairEntity entity) {
         // I get a total count so I can figure out how many fish I need to move around, makes stacking them easier (to me)
         int totalCount = 0;
         for (int i = 0; i < entity.getContainerSize(); i++) {
@@ -166,7 +233,7 @@ public class TackleBoxSlurpEntityMixin {
     }
 
     @Unique
-    private int largerIdenticalFishAtPositiveIndex(ItemStack fishToDeposit, TackleBoxChairEntity entity) {
+    private static int fishcasting$largerIdenticalFishAtPositiveIndex(ItemStack fishToDeposit, TackleBoxChairEntity entity) {
         for (int i = 0; i < entity.getContainerSize(); i++) {
             ItemStack slotStack = entity.getItem(i);
             if (slotStack.getItem().equals(fishToDeposit.getItem())
@@ -181,7 +248,7 @@ public class TackleBoxSlurpEntityMixin {
 
     // https://github.com/Lightning-64/Tide-2/blob/f9fc2d04ae4d544ad134025cebd83c7438f67098/src/main/java/com/li64/tide/mixin/ItemMixin.java#L76C19-L76
     @Unique
-    private ItemStack bucketedFishFromFish(FishData data, ItemStack fish) {
+    private ItemStack fishcasting$bucketedFishFromFish(FishData data, ItemStack fish) {
         ItemStack newStack = new ItemStack(data.bucket().get());
         if (TideItemData.FISH_LENGTH.isPresent(fish) /*|| TideItemData.IS_SHINY.isPresent(fish)*/) {
             double length = TideItemData.FISH_LENGTH.getOrDefault(fish, 0.0);
@@ -195,12 +262,12 @@ public class TackleBoxSlurpEntityMixin {
     }
 
     @Unique
-    private int validBucketAtPositiveIndex(Fluid fluid, TackleBoxChairEntity entity) {
+    private static int fishcasting$validBucketAtPositiveIndex(Fluid fluid, TackleBoxChairEntity entity) {
         for (int i = 0; i < entity.getContainerSize(); i++) {
             ItemStack slotStack = entity.getItem(i);
             if (slotStack.getItem() instanceof BucketItem bucketItem
                     && !(bucketItem instanceof MobBucketItem)
-                    && getFluid(bucketItem).isSame(fluid)) {
+                    && fishcasting$getFluid(bucketItem).isSame(fluid)) {
                 return i;
             }
         }
@@ -208,7 +275,7 @@ public class TackleBoxSlurpEntityMixin {
     }
 
     @Unique
-    private Fluid getFluid(BucketItem bucketItem) {
+    private static Fluid fishcasting$getFluid(BucketItem bucketItem) {
         return ((ContentAccessorBucketItemMixin) bucketItem).getContent();
     }
 

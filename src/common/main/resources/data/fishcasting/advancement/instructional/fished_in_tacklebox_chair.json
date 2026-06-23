@@ -1,0 +1,26 @@
+{
+  "parent": "tide:root",
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.fishcasting.fish_in_tacklebox_chair.description",
+      "fallback": "Use a Tacklebox Chair to safely put away a fish"
+    },
+    "icon": {
+      "count": 1,
+      "id": "fishcasting:tacklebox_chair"
+    },
+    "title": {
+      "translate": "advancements.fishcasting.fish_in_tacklebox_chair.title",
+      "fallback": "Slurp!"
+    }
+  },
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

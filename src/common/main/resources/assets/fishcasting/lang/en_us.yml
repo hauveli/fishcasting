@@ -1,4 +1,9 @@
 fishcasting:
+  remove_from_names:
+    bucket: Bucket
+  toast:
+    tacklebox_chair:
+      fish_boxed: Fish boxed!
   creative_tab:
     title: Fishcasting
   subtitles:
@@ -213,10 +218,10 @@ hexcasting:
       fishcasting:
         fishing_hook: Fishing Hook
         not_a_fish:
-          .: Fish
-          item: Fish Item
-          entity: Fish Entity
-          bucketable: Bucketable Fish
+          .: a fish
+          item: a fish item
+          entity: a fish entity
+          bucketable: a bucketable fish
 _commnent_lore: LORE STUFF
 advancement:
   fishcasting:lore/newsletter: 'Fishcasting: Newsletter #1'

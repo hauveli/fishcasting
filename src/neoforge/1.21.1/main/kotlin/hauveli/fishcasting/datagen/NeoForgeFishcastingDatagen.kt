@@ -3,6 +3,8 @@ package hauveli.fishcasting.datagen
 import at.petrak.hexcasting.forge.datagen.TagsProviderEFHSetter
 import net.minecraft.data.DataProvider
 import net.minecraft.data.PackOutput
+import net.minecraft.data.advancements.AdvancementSubProvider
+import net.neoforged.neoforge.common.data.AdvancementProvider
 import net.neoforged.neoforge.data.event.GatherDataEvent
 
 object NeoForgeFishcastingDatagen {
