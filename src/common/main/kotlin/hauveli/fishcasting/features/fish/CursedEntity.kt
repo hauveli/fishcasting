@@ -2,8 +2,10 @@ package hauveli.fishcasting.features.fish
 
 import com.li64.tide.data.FishLengthHolder
 import com.li64.tide.data.fishing.FishData
+import com.li64.tide.data.fishing.mediums.FishingMedium
 import com.li64.tide.data.item.TideItemData
 import com.li64.tide.registries.entities.fish.AbstractTideFish
+import com.li64.tide.registries.entities.fish.TideVoidFish
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.Fishcasting.tryGrantingAdvancement
 import hauveli.fishcasting.registry.FishcastingAdvancements
@@ -25,6 +27,7 @@ import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.ai.goal.PanicGoal
 import net.minecraft.world.entity.animal.Bucketable
 import net.minecraft.world.entity.animal.axolotl.Axolotl
 import net.minecraft.world.entity.item.ItemEntity
@@ -74,12 +77,28 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
         return false
     }
 
+    // these next 4 are so its goes ouch all the time
     override fun getMaxAirSupply(): Int {
-        return 0 // constant pain
+        return 0
     }
 
     override fun isInWater(): Boolean {
-        return false // constant pain
+        return false
+    }
+
+    override fun isInWaterOrRain(): Boolean {
+        return false
+    }
+
+    override fun isInWaterRainOrBubble(): Boolean {
+        return false
+    }
+
+    override fun tick() {
+        super.tick()
+        if (FishingMedium.VOID.isInVoid(position(), level())) {
+            this.deltaMovement = this.deltaMovement.add(0.0, 0.005, 0.0);
+        }
     }
 
     override fun hurt(source: DamageSource, amount: Float): Boolean {

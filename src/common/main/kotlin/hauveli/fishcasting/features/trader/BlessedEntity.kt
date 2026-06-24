@@ -19,6 +19,7 @@ import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import com.li64.tide.util.TideUtils
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.features.fish.CursedEntity
+import hauveli.fishcasting.registry.FishcastingAdvancements
 import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingSounds
 import net.minecraft.Util
@@ -29,6 +30,7 @@ import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
 import net.minecraft.stats.Stats
@@ -182,6 +184,10 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     override fun hurt(source: DamageSource, amount: Float): Boolean {
         this.decrementMood()
         return super.hurt(source, amount)
+    }
+
+    override fun actuallyHurt(p0: DamageSource, p1: Float) {
+        super.actuallyHurt(p0, p1)
     }
 
     private fun vanish() {
