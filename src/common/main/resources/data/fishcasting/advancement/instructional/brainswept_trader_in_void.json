@@ -1,0 +1,26 @@
+{
+  "parent": "hexcasting:enlightenment",
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.fishcasting.brainswept_trader_in_void.description",
+      "fallback": "Transform a trader in the void."
+    },
+    "icon": {
+      "count": 1,
+      "id": "fishcasting:loud_fishing_line"
+    },
+    "title": {
+      "translate": "advancements.fishcasting.brainswept_trader_in_void.title",
+      "fallback": "Voice of the void"
+    }
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

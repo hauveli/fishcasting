@@ -17,5 +17,6 @@ import net.minecraft.world.item.Item
 object FishcastingAdvancements {
     @JvmField
     val TACKLEBOX_CHAIR_FISHER = Fishcasting.id("instructional/fished_in_tacklebox_chair")
-
+    val BLESSED_BRAINSWEPT = Fishcasting.id("instructional/brainswept_trader_in_void")
+    val CURSED_ZAPPED = Fishcasting.id("instructional/lightning_struck_cursed")
 }

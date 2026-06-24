@@ -38,6 +38,7 @@ import java.util.Optional;
 //import static com.li64.tide.data.item.TideItemData.CATCH_TIMESTAMP;
 import static com.li64.tide.client.TideClientHelper.showToast;
 import static com.li64.tide.data.item.TideItemData.FISH_LENGTH;
+import static hauveli.fishcasting.Fishcasting.tryGrantingAdvancement;
 import static hauveli.fishcasting.registry.FishcastingAdvancements.TACKLEBOX_CHAIR_FISHER;
 
 @Mixin(ItemEntity.class)
@@ -61,7 +62,8 @@ public class TackleBoxSlurpEntityMixin {
         Chances of this occuring even intentionally are likely comparable to some lower Hash collisions due to
         how long it takes to fish (really really really unlikely)
      */
-    // I would like to mixin to something better if I knew any...
+
+    // I would like to mixin to something better if I knew any... It is currently quite jarring because the plop animation doesn't play
     @Inject(
             method = "playerTouch",
             at = @At("HEAD"),
@@ -135,7 +137,7 @@ public class TackleBoxSlurpEntityMixin {
 
         if (player instanceof ServerPlayer serverPlayer) {
             fishcasting$showFishPopUp(itemStack, itemEntity.getItem(), serverPlayer);
-            fishcasting$tryGrantingAdvancement(serverPlayer);
+            tryGrantingAdvancement(serverPlayer, TACKLEBOX_CHAIR_FISHER);
         }
 
         itemEntity.discard();
@@ -158,20 +160,6 @@ public class TackleBoxSlurpEntityMixin {
                 ),
                 Component.nullToEmpty(fishName),
                 displayItemStack), player);
-    }
-
-    // todo: not fucking this
-    @Unique
-    private static void fishcasting$tryGrantingAdvancement(ServerPlayer serverPlayer) {
-        if (serverPlayer != null) {
-            var advancement = serverPlayer.server.getAdvancements().get(TACKLEBOX_CHAIR_FISHER);
-            assert advancement != null;
-            var progress = serverPlayer.getAdvancements().getOrStartProgress(advancement);
-            if (progress.isDone()) return;
-            for (String criterion : progress.getRemainingCriteria()) {
-                serverPlayer.getAdvancements().award(advancement, criterion);
-            }
-        }
     }
 
     @Unique

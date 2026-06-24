@@ -1,11 +1,14 @@
 package hauveli.fishcasting.registry
 
 import hauveli.fishcasting.Fishcasting.id
+import net.minecraft.core.Holder
 import net.minecraft.core.registries.Registries
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.Item
 
 object FishcastingTags {
+    @JvmField
+    var CURSED_MOSTLY_INDESTRUCTIBLE_ITEM: TagKey<Item?> = make("cursed_mostly_indestructible_item")
     val FUN: TagKey<Item?> = make("artifact_grade_u")
     @JvmField
     val NO_ENTITY_COLLISION_HOOK: TagKey<Item?> = make("hookless_hooks")

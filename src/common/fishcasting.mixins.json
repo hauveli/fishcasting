@@ -14,6 +14,7 @@
     "TagRecentlyCaughtByTideFishingHookMixin",
     "UnluckyBaitTideFishingHookMixin",
     "advancements.AllFishingRodsAdvancementMixin",
+    "advancements.OpLightningSpellMixin",
     "benign_bait.BenignBaitFishingRandomSelectorMixin",
     "benign_bait.BenignBaitTideFishingManagerMixin",
     "blessed_bobber.BlessedBobberJingleTideFishingHookMixin",

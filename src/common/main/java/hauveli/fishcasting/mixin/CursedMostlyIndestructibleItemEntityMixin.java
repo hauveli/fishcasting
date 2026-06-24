@@ -2,16 +2,18 @@ package hauveli.fishcasting.mixin;
 
 import hauveli.fishcasting.features.fish.CursedEntity;
 import hauveli.fishcasting.registry.FishcastingEntities;
+import hauveli.fishcasting.registry.FishcastingTags;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import static hauveli.fishcasting.registry.FishcastingItems.CURSED;
+
 import static hauveli.fishcasting.registry.FishcastingItems.CURSED_BUCKET;
 
 @Mixin(ItemEntity.class)
@@ -24,21 +26,27 @@ public class CursedMostlyIndestructibleItemEntityMixin {
     private void makeIndestructible(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         ItemEntity entity = (ItemEntity) (Object) this;
         ItemStack stack = entity.getItem();
-        if (stack.is(CURSED) || stack.is(CURSED_BUCKET)) {
+        // is checking a tag faster than two item equality checks? I don't know...
+        if (stack.is(FishcastingTags.CURSED_MOSTLY_INDESTRUCTIBLE_ITEM)) {
             cir.setReturnValue(CursedEntity.Companion.relevantDamageSource(source));
             CursedEntity.Companion.doAllaySpawnOnLightningHitItem(entity, source);
 
             // hurt but not by lightning
-            if (!cir.getReturnValue()
-                    && stack.is(CURSED_BUCKET)) {
-                CursedEntity cursed = new CursedEntity(FishcastingEntities.CURSED, entity.level());
-                CustomData fishData = stack.get(DataComponents.BUCKET_ENTITY_DATA);
-                cursed.loadFromBucketTag(fishData.copyTag());
-                cursed.setPos(entity.position());
-                entity.level().addFreshEntity(cursed);
-                entity.kill();
-                entity.discard();
-            }
+            fishcasting$unbucketOnBucketDestroyed(cir, stack, entity);
+        }
+    }
+
+    @Unique
+    private static void fishcasting$unbucketOnBucketDestroyed(CallbackInfoReturnable<Boolean> cir, ItemStack stack, ItemEntity entity) {
+        if (!cir.getReturnValue()
+                && stack.is(CURSED_BUCKET)) {
+            CursedEntity cursed = new CursedEntity(FishcastingEntities.CURSED, entity.level());
+            CustomData fishData = stack.get(DataComponents.BUCKET_ENTITY_DATA);
+            cursed.loadFromBucketTag(fishData.copyTag());
+            cursed.setPos(entity.position());
+            entity.level().addFreshEntity(cursed);
+            entity.kill(); // if we dont make sure this is gone then a cactus will kill the server, hehe...
+            entity.discard();
         }
     }
 }

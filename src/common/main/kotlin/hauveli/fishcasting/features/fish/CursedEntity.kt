@@ -4,6 +4,9 @@ import com.li64.tide.data.FishLengthHolder
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.item.TideItemData
 import com.li64.tide.registries.entities.fish.AbstractTideFish
+import hauveli.fishcasting.Fishcasting
+import hauveli.fishcasting.Fishcasting.tryGrantingAdvancement
+import hauveli.fishcasting.registry.FishcastingAdvancements
 import hauveli.fishcasting.registry.FishcastingItems
 import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.BuiltInRegistries
@@ -11,6 +14,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.InteractionHand
@@ -169,7 +173,7 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
     override fun setFromBucket(fromBucket: Boolean) {
         this.entityData.set<Boolean>(
             FROM_BUCKET,
-            fromBucket == true // I don't fucking get it, type isn't `Boolean?` so why does it work now?
+            fromBucket == true // I don't fucking get it, type isn't `Boolean?` so why does it work now? error has to do with int but I can only see this failing if fromBucket is null without this check, or does java allow wrong type arguments? what the fuck even is the problem I had
         )
     }
 
@@ -275,9 +279,25 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
             if (!damageSource.`is`(DamageTypes.LIGHTNING_BOLT)) {
                 return
             }
-            while (itemEntity.item.count > 0) {
+            // I do it like this so that the itemEntity does not hit 0 before an advancement can deal with this!!!
+            while (itemEntity.item.count > 1) {
                 spawnAllayAtEntity(itemEntity)
                 itemEntity.item.shrink(1)
+            }
+            spawnAllayAtEntity(itemEntity)
+            // for advancement criteria to work this is necessary: itemEntity.shrink() is NOT called in such a way that the count reaches 0
+            // fuck that was a stupid bug to have, but understandably not obvious...
+            itemEntity.kill()
+            itemEntity.discard()
+        }
+
+        // lightning strike damageSource is null
+        // it's joever
+        // we're sop bnack
+        fun tryGrantingAdvancement(damageSource: DamageSource) {
+            val damager = damageSource.entity
+            if (damager is ServerPlayer) {
+                tryGrantingAdvancement(damager, FishcastingAdvancements.CURSED_ZAPPED)
             }
         }
 

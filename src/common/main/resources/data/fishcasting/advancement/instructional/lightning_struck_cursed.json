@@ -1,0 +1,72 @@
+{
+  "parent": "hexcasting:root",
+  "criteria": {
+    "zapped_entity": {
+      "trigger": "minecraft:channeled_lightning",
+      "conditions": {
+        "victims": [
+          {
+            "type": [
+              "fishcasting:cursed"
+            ]
+          }
+        ]
+      }
+    },
+    "zapped_item_entity": {
+      "trigger": "minecraft:channeled_lightning",
+      "conditions": {
+        "victims": [
+          {
+            "type": "minecraft:item",
+            "slots": {
+              "contents": {
+                "items": "fishcasting:cursed"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "zapped_item_bucket_entity": {
+      "trigger": "minecraft:channeled_lightning",
+      "conditions": {
+        "victims": [
+          {
+            "type": "minecraft:item",
+            "slots": {
+              "contents": {
+                "items": "fishcasting:cursed_bucket"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.fishcasting.lightning_struck_cursed.description",
+      "fallback": "Liberate a soul from its fleshy prison."
+    },
+    "icon": {
+      "count": 1,
+      "id": "fishcasting:music_disc_returning_to_the_surface"
+    },
+    "title": {
+      "translate": "advancements.fishcasting.lightning_struck_cursed.title",
+      "fallback": "In media, resurrected!"
+    }
+  },
+  "requirements": [
+    [
+      "zapped_entity",
+      "zapped_item_entity",
+      "zapped_item_bucket_entity"
+    ]
+  ],
+  "rewards": {
+    "experience": 200
+  },
+  "sends_telemetry_event": true
+}
