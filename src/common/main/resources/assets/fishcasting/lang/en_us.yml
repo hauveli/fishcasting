@@ -233,3 +233,7 @@ compat:
   nomansland:
     tacklebox_chair:
       'A throne/ fit for a king/ used only by commonfolk/.'
+commands:
+  fishing:
+    entries:
+      luck_tweaking_bobber_selector: Lucky Bobber Selector

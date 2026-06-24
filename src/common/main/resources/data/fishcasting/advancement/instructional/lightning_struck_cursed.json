@@ -57,7 +57,7 @@
     },
     "title": {
       "translate": "advancements.fishcasting.lightning_struck_cursed.title",
-      "fallback": "In media, resurrected!"
+      "fallback": "In Media, Resurrected!"
     }
   },
   "requirements": [

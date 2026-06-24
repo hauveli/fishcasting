@@ -6,6 +6,8 @@ import com.li64.tide.data.fishing.FishingContext;
 import com.li64.tide.data.fishing.selector.FishSelector;
 import com.li64.tide.data.fishing.selector.FishingEntry;
 import hauveli.fishcasting.registry.FishcastingTags;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,7 +21,12 @@ import static hauveli.fishcasting.features.paraphernalia.TideyFocusItem.LUCK_TWE
 @Mixin(TideFishingManager.class)
 public class LuckTweakingBobberTideFishingManagerMixin {
 
-    private static final FishSelector fihSelector = new FishSelector();
+    private static final FishSelector fihSelector = new FishSelector() {
+        @Override
+        public MutableComponent getTestKey() {
+            return Component.translatable("commands.fishing.entries.luck_tweaking_bobber_selector");
+        }
+    };
 
     @Inject(method = "test", at = @At("RETURN"))
     private void onTestCatch(FishingContext context,

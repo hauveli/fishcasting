@@ -37,7 +37,7 @@ public abstract class BlessedBobberJingleTideFishingHookMixin {
         if (this.getBobber().is(BLESSED_FOCUS_BOBBER)) {
             this.getPlayerOwner().level().playSound(
                     null, getPlayerOwner().blockPosition(),
-                    SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.MASTER, 1.5f,
+                    SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.PLAYERS, 1.5f,
                     1.0f - (random.nextFloat() - random.nextFloat()) * 0.1f
             );
         }

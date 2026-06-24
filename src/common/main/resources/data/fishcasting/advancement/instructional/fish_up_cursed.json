@@ -22,7 +22,7 @@
     },
     "title": {
       "translate": "advancements.fishcasting.fish_up_cursed.title",
-      "fallback": "From the deep"
+      "fallback": "From the Deep"
     }
   },
   "rewards": {

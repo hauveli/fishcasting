@@ -17,7 +17,7 @@
     },
     "title": {
       "translate": "advancements.fishcasting.brainswept_trader_in_void.title",
-      "fallback": "Voice of the void"
+      "fallback": "Voice of the Void"
     }
   },
   "rewards": {

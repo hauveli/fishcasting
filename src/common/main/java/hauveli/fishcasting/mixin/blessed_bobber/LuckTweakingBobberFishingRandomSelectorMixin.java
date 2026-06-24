@@ -6,6 +6,8 @@ import com.li64.tide.data.fishing.FishingContext;
 import com.li64.tide.data.fishing.selector.FishingEntry;
 import com.li64.tide.data.fishing.selector.FishingRandomSelector;
 import hauveli.fishcasting.registry.FishcastingTags;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
