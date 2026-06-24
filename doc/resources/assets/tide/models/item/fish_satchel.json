@@ -1,0 +1,6 @@
+{
+   "parent": "tide:item/fish_satchel",
+   "textures": {
+      "layer0": "tide:item/fish_satchel"
+   }
+}

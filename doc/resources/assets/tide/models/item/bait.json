@@ -1,0 +1,6 @@
+{
+   "parent": "tide:item/bait",
+   "textures": {
+      "layer0": "tide:item/bait"
+   }
+}

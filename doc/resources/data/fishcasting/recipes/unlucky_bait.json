@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "tide:bait"
+    },
+    {
+      "tag": "fishcasting:unlucky_mulch"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "item": "fishcasting:unlucky_bait"
+  }
+}
