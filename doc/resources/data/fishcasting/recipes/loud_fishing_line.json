@@ -3,7 +3,7 @@
   "category": "equipment",
   "ingredients": [
     {
-      "tag": "c:strings"
+      "item": "minecraft:string"
     },
     {
       "item": "hexcasting:amethyst_dust"

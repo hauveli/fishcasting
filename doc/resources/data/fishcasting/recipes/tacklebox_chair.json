@@ -9,13 +9,13 @@
       "item": "minecraft:barrel"
     },
     "C": {
-      "tag": "minecraft:wool_carpets"
+      "item": "minecraft:wool_carpet"
     },
     "U": {
-      "tag": "c:buckets"
+      "item": "minecraft:bucket"
     },
     "I": {
-      "tag": "c:rods"
+      "item": "minecraft:stick"
     },
     "F": {
       "item": "tide:fish_satchel"
