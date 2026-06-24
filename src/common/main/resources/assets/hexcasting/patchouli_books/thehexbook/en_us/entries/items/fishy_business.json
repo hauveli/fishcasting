@@ -24,6 +24,26 @@
       "recipe": "fishcasting:charged_amethyst_from_carp",
       "text": "fishcasting.page.fishy_business.crystalline_carp",
       "anchor": "fishcasting:carp"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "fishcasting.page.fishy_business.2"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "fishcasting:unlucky_bait",
+      "recipe2": "fishcasting:loud_fishing_line",
+      "text": "fishcasting.page.fishy_business.hexlikes"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "fishcasting.page.fishy_business.3"
+    },
+    {
+      "type": "patchouli:crafting",
+      "recipe": "fishcasting:benign_bait",
+      "recipe2": "fishcasting:tacklebox_chair",
+      "text": "fishcasting.page.fishy_business.misc"
     }
   ]
 }

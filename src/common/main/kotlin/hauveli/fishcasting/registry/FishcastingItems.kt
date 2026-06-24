@@ -94,8 +94,6 @@ object FishcastingItems {
             unstackableUncommon()
         )
     )
-    @JvmField
-    val UNLUCKY_BAIT = make("unlucky_bait", newItem())
     val LOUD_FISHING_LINE = make(
         "loud_fishing_line", LoudFishingLineItem(
             props()
@@ -106,15 +104,12 @@ object FishcastingItems {
         FishingHookItem(props(), "item.fishcasting.hookless_fishing_hook.desc")
     ) // tide does this
     @JvmField
+    val UNLUCKY_BAIT = make("unlucky_bait", newItem())
+    @JvmField
     val BENIGN_BAIT = make(
         "benign_bait", newItem()
     )
-    val DISC = make(
-        "music_disc_returning_to_the_surface", Item(
-            unstackableUncommon()
-                .jukeboxPlayable(FishcastingSounds.RETURNING_TO_THE_SURFACE_JUKEBOX)
-        )
-    )
+    val TACKLEBOX_CHAIR = make("tacklebox_chair", TackleBoxChairItem(unstackable()))
     @JvmField
     val CURSED = make("cursed", Item(props().rarity(Rarity.UNCOMMON).fireResistant()))
     @JvmField
@@ -138,11 +133,16 @@ object FishcastingItems {
     ) // from drowned thingy
     val MESSAGE_IN_A_BOTTLE =
         make("message_in_a_bottle", GachaBottleItem(unstackableUncommon()))
-    val TACKLEBOX_CHAIR = make("tacklebox_chair", TackleBoxChairItem(unstackable()))
     val GLASS_SHARD = make("glass_shard", Item(props().stacksTo(16)))
     val FISHCASTING_LORE_FRAGMENT = make(
         "fishy_fragment", FishcastingLoreFragment(
             unstackable().rarity(Rarity.RARE)
+        )
+    )
+    val DISC = make(
+        "music_disc_returning_to_the_surface", Item(
+            unstackableUncommon()
+                .jukeboxPlayable(FishcastingSounds.RETURNING_TO_THE_SURFACE_JUKEBOX)
         )
     )
 
