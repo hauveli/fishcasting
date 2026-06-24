@@ -1,0 +1,32 @@
+{
+  "parent": "hexcasting:root",
+  "criteria": {
+    "fished": {
+      "trigger": "minecraft:fishing_rod_hooked",
+      "conditions": {
+        "item": {
+          "items": "fishcasting:cursed"
+        }
+      }
+    }
+  },
+  "display": {
+    "frame": "task",
+    "description": {
+      "translate": "advancements.fishcasting.fish_up_cursed.description",
+      "fallback": "Fish up a friend from the void."
+    },
+    "icon": {
+      "count": 1,
+      "id": "fishcasting:cursed_bucket"
+    },
+    "title": {
+      "translate": "advancements.fishcasting.fish_up_cursed.title",
+      "fallback": "From the deep"
+    }
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "sends_telemetry_event": true
+}

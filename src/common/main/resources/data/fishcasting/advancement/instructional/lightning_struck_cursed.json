@@ -1,5 +1,5 @@
 {
-  "parent": "hexcasting:root",
+  "parent": "fishcasting:instructional/fish_up_cursed",
   "criteria": {
     "zapped_entity": {
       "trigger": "minecraft:channeled_lightning",
@@ -45,10 +45,12 @@
     }
   },
   "display": {
+    "frame": "goal",
     "description": {
       "translate": "advancements.fishcasting.lightning_struck_cursed.description",
       "fallback": "Liberate a soul from its fleshy prison."
     },
+    "hidden": true,
     "icon": {
       "count": 1,
       "id": "fishcasting:music_disc_returning_to_the_surface"

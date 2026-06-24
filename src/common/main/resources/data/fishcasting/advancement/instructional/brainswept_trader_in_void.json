@@ -1,14 +1,15 @@
 {
-  "parent": "hexcasting:enlightenment",
+  "parent": "fishcasting:instructional/lightning_struck_cursed",
   "criteria": {
     "granted": {
       "trigger": "minecraft:impossible"
     }
   },
   "display": {
+    "frame": "challenge",
     "description": {
       "translate": "advancements.fishcasting.brainswept_trader_in_void.description",
-      "fallback": "Transform a trader in the void."
+      "fallback": "Trade a trader with the void."
     },
     "icon": {
       "count": 1,
