@@ -110,6 +110,20 @@ object FishcastingItems {
         "benign_bait", newItem()
     )
     val TACKLEBOX_CHAIR = make("tacklebox_chair", TackleBoxChairItem(unstackable()))
+    val MESSAGE_IN_A_BOTTLE =
+        make("message_in_a_bottle", GachaBottleItem(unstackableUncommon()))
+    val GLASS_SHARD = make("glass_shard", Item(props().stacksTo(16)))
+    val FISHCASTING_LORE_FRAGMENT = make(
+        "fishy_fragment", FishcastingLoreFragment(
+            unstackable().rarity(Rarity.RARE)
+        )
+    )
+    val DISC = make(
+        "music_disc_returning_to_the_surface", Item(
+            unstackableUncommon()
+                .jukeboxPlayable(FishcastingSounds.RETURNING_TO_THE_SURFACE_JUKEBOX)
+        )
+    )
     @JvmField
     val CURSED = make("cursed", Item(props().rarity(Rarity.UNCOMMON).fireResistant()))
     @JvmField
@@ -131,20 +145,6 @@ object FishcastingItems {
             FishcastingEntities.BLESSED, 9433559, 7969893, (Item.Properties())
         )
     ) // from drowned thingy
-    val MESSAGE_IN_A_BOTTLE =
-        make("message_in_a_bottle", GachaBottleItem(unstackableUncommon()))
-    val GLASS_SHARD = make("glass_shard", Item(props().stacksTo(16)))
-    val FISHCASTING_LORE_FRAGMENT = make(
-        "fishy_fragment", FishcastingLoreFragment(
-            unstackable().rarity(Rarity.RARE)
-        )
-    )
-    val DISC = make(
-        "music_disc_returning_to_the_surface", Item(
-            unstackableUncommon()
-                .jukeboxPlayable(FishcastingSounds.RETURNING_TO_THE_SURFACE_JUKEBOX)
-        )
-    )
 
     private abstract class TabEntry {
         abstract fun register(r: CreativeModeTab.Output?)

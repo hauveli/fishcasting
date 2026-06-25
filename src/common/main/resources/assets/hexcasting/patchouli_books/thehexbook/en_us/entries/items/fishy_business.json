@@ -26,8 +26,9 @@
       "anchor": "fishcasting:carp"
     },
     {
-      "type": "patchouli:text",
-      "text": "fishcasting.page.fishy_business.2"
+      "type": "patchouli:crafting",
+      "text": "fishcasting.page.fishy_business.2",
+      "recipe2": "fishcasting:hookless_fishing_hook"
     },
     {
       "type": "patchouli:crafting",
