@@ -28,7 +28,7 @@
     {
       "type": "patchouli:crafting",
       "text": "fishcasting.page.fishy_business.2",
-      "recipe2": "fishcasting:hookless_fishing_hook"
+      "recipe": "fishcasting:hookless_fishing_hook"
     },
     {
       "type": "patchouli:crafting",
