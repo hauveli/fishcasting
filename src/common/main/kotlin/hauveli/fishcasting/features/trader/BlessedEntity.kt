@@ -74,7 +74,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     private var isHappy = false
     var fakeBobberPos: Vec3
 
-    private enum class Mood(val value: Int) {
+    enum class Mood(val value: Int) {
         VERY_SAD(-2),
         SAD(-1),
         NEUTRAL(0),
@@ -107,7 +107,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         }
     }
 
-    private var mood: Mood
+    var mood: Mood
 
     private fun decrementMood() {
         this.mood = this.mood.decrement()
@@ -190,7 +190,17 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         super.actuallyHurt(p0, p1)
     }
 
+    private fun tryClosingInventory() {
+        val player = this.tradingPlayer
+        if (player != null) {
+            player.inventory.stopOpen(player)
+            player.inventoryMenu.broadcastChanges()
+        }
+        this.stopTrading()
+    }
+
     private fun vanish() {
+        this.stopTrading()
         this.setPos(OUTTA_HERE)
         this.discard()
     }
@@ -225,6 +235,8 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                             brain = CustomBrain.LEAVING
                             this.doTheatrics()
                         } else if (ticksSincePain >= 2) { // pulled out much later than I'd like but it works, I guess....
+                            // note: this technically provides a way to obtain this from the trader, but the timing is so tight I think it's ok.
+                            // significantly easier to just make a cypher than it is it both get the good tick rng and to make it die at the same time
                             this.setItemInHand(InteractionHand.MAIN_HAND, HexItems.ANCIENT_CYPHER.defaultInstance)
                         }
                         ticksSincePain += ticksSincePain + Fishcasting.random.nextInt(0, 2)
@@ -232,6 +244,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 }
 
                 CustomBrain.LEAVING -> {
+                    this.stopTrading()
                     this.discard()
                 }
             }
@@ -248,19 +261,18 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     }
 
     override fun updateTrades() {
-        val commonListing = BlessedTrades.BLESSED_TRADER_TRADES.get(1) as Array<VillagerTrades.ItemListing>?
-        val rareListing = BlessedTrades.BLESSED_TRADER_TRADES.get(2) as Array<VillagerTrades.ItemListing>?
-        val nonOverworldListing = BlessedTrades.BLESSED_TRADER_TRADES.get(3) as Array<VillagerTrades.ItemListing>?
+        val commonListing = BlessedTrades.BLESSED_TRADER_TRADES.get(1) as Array<VillagerTrades.ItemListing>
+        val rareListing = BlessedTrades.BLESSED_TRADER_TRADES.get(2) as Array<VillagerTrades.ItemListing>
+        val nonOverworldListing = BlessedTrades.BLESSED_TRADER_TRADES.get(3) as Array<VillagerTrades.ItemListing>
         val dyeListing = BlessedTrades.BLESSED_TRADER_TRADES.get(4) as Array<VillagerTrades.ItemListing>
-        val bedrockEaterListing = BlessedTrades.BLESSED_TRADER_TRADES.get(5) as Array<VillagerTrades.ItemListing>?
-        if (commonListing != null && rareListing != null && nonOverworldListing != null && bedrockEaterListing != null) { // idk why this is a check in the decompiled code...
-            val merchantoffers = this.getOffers()
-            this.addOffersFromItemListings(merchantoffers, commonListing, 3)
-            addRandomListing(merchantoffers, rareListing)
-            addRandomListing(merchantoffers, nonOverworldListing)
-            addRandomListing(merchantoffers, dyeListing)
-            addRandomListing(merchantoffers, bedrockEaterListing)
-        }
+        val bedrockEaterListing = BlessedTrades.BLESSED_TRADER_TRADES.get(5) as Array<VillagerTrades.ItemListing>
+
+        val merchantoffers = this.getOffers()
+        this.addOffersFromItemListings(merchantoffers, commonListing, 3)
+        addRandomListing(merchantoffers, rareListing)
+        addRandomListing(merchantoffers, nonOverworldListing)
+        addRandomListing(merchantoffers, dyeListing)
+        addRandomListing(merchantoffers, bedrockEaterListing)
     }
 
 
