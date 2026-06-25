@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:iron_nugget"
+    },
+    "C": {
+      "item": "minecraft:cobblestone"
+    },
+    "X": {
+      "item": "hexcasting:amethyst_dust"
+    }
+  },
+  "pattern": [
+    "#",
+    "C",
+    "X"
+  ],
+  "result": {
+    "count": 1,
+    "item": "fishcasting:hookless_fishing_hook"
+  }
+}
