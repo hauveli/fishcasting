@@ -242,7 +242,7 @@ yapping_tooltips:
     tide:
       _comment: "I'm not entirely sure if I want to impose with these, but as they already are modified, I will be adding text to these until I have a better idea or understanding"
       amethyst_bobber.desc: "A little fishy to the touch."
-      crystal_fishing_rod.desc: "Fishcasters want me.\nFish fear me."
+      crystal_fishing_rod.desc: "Fishcasters want me. Fish fear me."
     fishcasting:
       shepherds_casting_rod.desc: "Carved from some tree you don't recognize."
       blessed_focus_bobber.desc: "Its scent reminds you of times past."
@@ -256,6 +256,7 @@ yapping_tooltips:
       fishy_fragment.desc: "At least this soggy thing is still legible."
       music_disc_returning_to_the_surface.desc: "Can be inserted into a jukebox to play cult-like tunes"
       cursed.desc: "Writhes."
+      cursed_bucket.desc: "Writhes and splashes lightly."
       cursed_spawn_egg.desc: "Don't be too mean to them!"
       blessed_spawn_egg.desc: "Don't be too mean to them!"
 commands:

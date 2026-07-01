@@ -168,7 +168,7 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
 
     private fun stopNoise(level: Level) {
         if (level.isClientSide) {
-            Minecraft.getInstance().soundManager.stop(HexSounds.CASTING_AMBIANCE.location, null)
+            Minecraft.getInstance().soundManager.stop(HexSounds.CASTING_AMBIANCE.location, SoundSource.PLAYERS)
         }
     }
 
