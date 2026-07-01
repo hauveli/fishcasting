@@ -28,20 +28,21 @@ public abstract class RodCooldownAndBobberExecutionTideFishingHookMixin {
     // executed bobber if it is attach but also applies a cooldown if we did retrieve it.
     @Inject(method = "startRetrieving", at = @At("HEAD"))
     public void retrieve(CallbackInfo ci) {
-        // For executing bobbert
-        ItemStack bobberItemStack = this.getBobber();
-        if (bobberItemStack != null
-                && bobberItemStack.getItem() instanceof TideyFocusItem
-                && this.getRodItem() instanceof HexyRodItem castingRod) {
-            Player player = this.getPlayerOwner();
-            //if (player.level().isClientSide()) return;
-            castingRod.executeBobber(player.level(),
-                    player, player.getUsedItemHand(),
-                    bobberItemStack,
-                    ((TideFishingHook)(Object)this).position());
-        }
+        // For executing bobbert and
         // For adding a cooldown to the rod, I would like a less jank way at some point...
-        if (this.getRodItem() instanceof HexyRodItem hexyRodItem) {
+        if (this.getRodItem() instanceof HexyRodItem castingRod) {
+            // bobber thing
+            ItemStack bobberItemStack = this.getBobber();
+            if (bobberItemStack != null
+                    && bobberItemStack.getItem() instanceof TideyFocusItem) {
+                Player player = this.getPlayerOwner();
+                //if (player.level().isClientSide()) return;
+                castingRod.executeBobber(player.level(),
+                        player, player.getUsedItemHand(),
+                        bobberItemStack,
+                        ((TideFishingHook)(Object)this).position());
+            }
+            // cooldown thing
             //hexyRodItem.setTicksSinceFishingMinigame(0);
             this.getPlayerOwner()
                     .getCooldowns()

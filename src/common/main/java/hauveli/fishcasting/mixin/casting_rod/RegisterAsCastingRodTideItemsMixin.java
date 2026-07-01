@@ -36,9 +36,7 @@ public abstract class RegisterAsCastingRodTideItemsMixin {
     private static Function<Item.Properties, Item> replaceCrystalRod(
             Function<Item.Properties, Item> original
     ) {
-        // make it hexy, which includes removing the durability. Sorry hardcore durability enjoyers!
-        // TODO: make the durability-ness configurable.
-        // Dis-allow casting at 0 or 1 durability.
+        // I decided to not make this unbreakable.
         return props -> new HexyRodItem(2, 216, props);
     }
 }

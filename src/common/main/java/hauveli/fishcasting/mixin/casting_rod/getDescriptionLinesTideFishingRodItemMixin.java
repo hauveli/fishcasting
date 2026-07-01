@@ -1,9 +1,9 @@
 package hauveli.fishcasting.mixin.casting_rod;
 
+import at.petrak.hexcasting.api.mod.HexTags;
 import com.li64.tide.registries.items.TideFishingRodItem;
 import hauveli.fishcasting.config.FishcastingConfigs;
 import hauveli.fishcasting.registry.FishcastingItems;
-import hauveli.fishcasting.features.paraphernalia.HexyRodItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
@@ -32,7 +32,7 @@ public class getDescriptionLinesTideFishingRodItemMixin {
             components.add(Component.translatable("text.fishcasting.rod_tooltip.shepherds_bonus.1").withStyle(ChatFormatting.GOLD));
             components.add(Component.translatable("text.fishcasting.rod_tooltip.shepherds_bonus.2").withStyle(ChatFormatting.GOLD));
         }
-        if (stack.getItem() instanceof HexyRodItem) {
+        if (stack.is(HexTags.Items.STAVES)) {
             if (FishcastingConfigs.INSTANCE.getCOMMON_CONFIG().castingIsMomentary()) {
                 components.add(Component.translatable("text.fishcasting.rod_tooltip.casting_bonus.momentary").withStyle(ChatFormatting.LIGHT_PURPLE));
             } else if (FishcastingConfigs.INSTANCE.getCOMMON_CONFIG().castingIsOffhandOnly()) {

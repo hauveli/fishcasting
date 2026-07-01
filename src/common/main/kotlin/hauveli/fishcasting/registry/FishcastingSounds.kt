@@ -35,8 +35,7 @@ object FishcastingSounds {
     val BLESSED_NO: SoundEvent = make("blessed.no")
     val RETURNING_TO_THE_SURFACE: SoundEvent = make("music_disc.returning_to_the_surface")
 
-    @JvmField
-    val RETURNING_TO_THE_SURFACE_JUKEBOX: ResourceKey<JukeboxSong?> = ResourceKey.create(
+    val RETURNING_TO_THE_SURFACE_JUKEBOX: ResourceKey<JukeboxSong> = ResourceKey.create(
         Registries.JUKEBOX_SONG,
         id("returning_to_the_surface")
     )
