@@ -1,5 +1,6 @@
 package hauveli.fishcasting.networking
 
+/*
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.networking.msg.FishcastingMessageCompanion
 import io.wispforest.owo.network.OwoNetChannel
@@ -13,3 +14,4 @@ object FishcastingNetworking {
         }
     }
 }
+*/

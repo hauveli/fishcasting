@@ -1,7 +1,7 @@
 package hauveli.fishcasting
 
 import hauveli.fishcasting.config.FishcastingConfigs
-import hauveli.fishcasting.networking.FishcastingNetworking
+//import hauveli.fishcasting.networking.FishcastingNetworking
 import hauveli.fishcasting.registry.FishcastingActions
 import net.minecraft.advancements.AdvancementHolder
 import net.minecraft.resources.ResourceLocation
@@ -41,7 +41,7 @@ object Fishcasting {
         initRegistries(
             FishcastingActions
         )
-        FishcastingNetworking.init()
+        //FishcastingNetworking.init()
         FishcastingConfigs.init()
     }
 

@@ -1,5 +1,5 @@
 package hauveli.fishcasting.networking.handler
-
+/*
 import hauveli.fishcasting.networking.msg.*
 import io.wispforest.owo.network.ClientAccess
 import net.minecraft.client.Minecraft
@@ -15,3 +15,4 @@ fun FishcastingMessageS2C.applyOnClient(access: ClientAccess) = Minecraft.getIns
     }
     */
 }
+*/

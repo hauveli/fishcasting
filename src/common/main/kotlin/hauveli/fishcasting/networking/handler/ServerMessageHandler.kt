@@ -1,5 +1,5 @@
 package hauveli.fishcasting.networking.handler
-
+/*
 import hauveli.fishcasting.networking.msg.*
 import io.wispforest.owo.network.ServerAccess
 
@@ -14,3 +14,4 @@ fun FishcastingMessageC2S.applyOnServer(access: ServerAccess) = access.player().
     }
     */
 }
+*/

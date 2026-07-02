@@ -57,8 +57,8 @@ pkpcpbp = "0.2.0-pre-95"
 
 [bundles]
 cardinalComponents = ["cardinalComponents-base", "cardinalComponents-entity", "cardinalComponents-item", "cardinalComponents-block"]
-hexcasting-fabric = ["hexcasting-fabric", "paucal-fabric", "patchouli-fabric", "clothConfig-fabric", "inline-fabric", "accessories-fabric"]
-hexcasting-neoforge = ["hexcasting-neoforge", "paucal-neoforge", "patchouli-neoforge", "clothConfig-neoforge", "inline-neoforge", "accessories-neoforge", "caelus-neoforge"]
+hexcasting-fabric = ["hexcasting-fabric", "paucal-fabric", "patchouli-fabric", "clothConfig-fabric", "inline-fabric"] #, "accessories-fabric"]
+hexcasting-neoforge = ["hexcasting-neoforge", "paucal-neoforge", "patchouli-neoforge", "clothConfig-neoforge", "inline-neoforge", "caelus-neoforge"] #, "accessories-neoforge"]
 tide-fabric = ["tide-fabric"] # just in case they add a dependency, I'll know how to do this
 tide-neoforge = ["tide-neoforge"] # just in case they add a dependency, I'll know how to do this
 

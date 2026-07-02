@@ -1,5 +1,5 @@
 package hauveli.fishcasting.networking.msg
-
+/*
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.networking.FishcastingNetworking
 import hauveli.fishcasting.networking.handler.applyOnClient
@@ -52,3 +52,4 @@ sealed interface FishcastingMessageCompanion<T> where T : FishcastingMessage, T 
         channel.registerServerbound(type) { msg, access -> apply(msg, access) }
     }
 }
+*/
