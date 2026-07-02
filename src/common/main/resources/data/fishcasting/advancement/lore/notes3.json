@@ -1,5 +1,5 @@
 {
-  "parent": "fishcasting:lore/root",
+  "parent": "fishcasting:lore/notes2",
   "criteria": {
     "grant": {
       "trigger": "minecraft:impossible"
@@ -17,7 +17,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "advancement.fishcasting:lore/newsletter"
+      "translate": "advancement.fishcasting:lore/notes3"
     }
   },
   "requirements": [

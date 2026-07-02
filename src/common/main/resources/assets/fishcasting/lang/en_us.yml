@@ -63,6 +63,7 @@ fishcasting:
       notes: 'Notes #1'
       newsletter2: 'Newsletter #2'
       notes2: 'Notes #2'
+      notes3: 'Notes #3'
   page:
     casting_rod:
       '1':
@@ -85,8 +86,9 @@ fishcasting:
       misc: Fisher's Recommendation
     fanciful_fishing:
       '1': Ha! That even that fisher should have gone to such lengths -- just in order to fish without pause... I shudder to imagine what over a week of non-stop fishing would do to my psyche. As different as this $(l:items/casting_rod#fishcasting:landing)$(thing)Casting Rod/$ may look, it offers me no additional benefits in my work aside from its durability, should I wish to cast using a $(l:items/focus_bobber)$(thing)Focus Bobber/$.
-      '2': Among the notes in the soggy book I've found one interesting passage I could not determine the meaning of. I have transcribed it here, since the original notes are not long for this world.$(br)$(italic)'An unremarkable blob of flesh Cursed to live, intelligent much like an /$$(l:greatwork/quenching_allays)$(thing)Allay/$$(italic), yet undying. I've tried nearly everything I could to carefully desynthesize it with no luck. Should I try evaporating it with a /$$(l:patterns/great_spells/weather_manip#hexcasting:lightning)$(thing)bolt/$$(italic) of /$_Media$(italic) next? No, I must keep it for my big fish collection.'/$ - Babs
       smithing: A construction similar to the $(l:greatwork/fanciful_staves)$(thing)Fanciful Staves/$.
+      allay: Among the notes in the soggy book I've found one interesting passage I could not determine the meaning of. I have transcribed it here, since the original notes are not long for this world.$(br)$(italic)'An unremarkable blob of flesh Cursed to live, intelligent much like an /$$(l:greatwork/quenching_allays)$(thing)Allay/$$(italic), yet undying. I've tried nearly everything I could to carefully desynthesize it with no luck. Should I try evaporating it with a /$$(l:patterns/great_spells/weather_manip#hexcasting:lightning)$(thing)bolt/$$(italic) of /$_Media$(italic) next? No, I must keep it for my big fish collection.'/$ - Babs
+      budding_amethyst: It seems for a brief moment as their life flashes before their eyes, certain types of beings reach a state of mind ripe for plucking. In that instant, if I were to flay their mind, even an $(l:lore/fishlore/notes3#fishcasting:wandering_trader)$(thing)inexperienced wanderer/$ would suffice for my work. Unfortunately, this seems to only work beneath the depths of the world, making it impractical for anybody civilized, living above ground.
     lore:
       newsletter:
         '1': Opinions, Discussion 1.$(br2)$(#000000)Stay classy champ.$()$(#5520ff)$(br)One person knocking three people out of the top six spots. Cheating by exploiting loopholes as usual.$() $(#541e18)$(br)Imagine thinking its the same person just because they are wearing the same robes.$() $(#d3d3d3)$(br)It’s probably one fishcaste's meme doing it though, judging by the robes being worn all being the same one.$(br)$(#596979)Next year is going to be my year, just watch.
@@ -121,6 +123,11 @@ fishcasting:
         '2': Opinions, Discussion 2.$(br2)$(#99622e)Thank god that hexcaster didn't cheat this year too. I saw they had embezzled over a $(o)billion$()$(#99622e) emeralds from somebody using a hex just a few months ago, terrible person.$(br)$(#491499)If you mean the transaction mentioned in last month's newsletter, that article was satire.
       notes2:
         '1': Year $(k)6667$(), Day 90.$(br2)I've moved, I no longer have a partner and I've decided to stop standing around while fishing for once. I think I'll pick up sailing. Maybe I'll even get that $(l:items/casting_rod#fishcasting:landing)$(thing)casting rod$() people had been nagging me about.$(br)If I'm going to be touching any of that stuff, I may as well do so wasted. I've got enough bottles to last me a lifetime, anyway. I'll just chuck the bottles out along with anything else I want to get rid of when I'm done.
+      notes3:
+        '1': Year $(k)6669$(), Day 33.$(br2)I found a small island and got bored. I'm sitting next to a hole, staring into a dark abyss after a chasm eel ate through the bedrock. Maybe I've spent too long fishing alone out at sea.$(br2)I'm going to try casting my tackle in and see what happens.
+        '2': Year $(k)6669$(), Day 34.$(br2)It almost feels as if something is trying to seep into me, warded off by my present enough mind. The other life around here seems unbothered, is it because I'm not as simple or is it because of something else?
+        '3': Year $(k)6669$(), Day 38.$(br2)One of those wandering bums showed up to pester me again. How they even found me down here is beyond me. Figured I'd show the trader what's what and scare them off for good using my focus bobber. For some reason, I lost sight of the trader after reeling in.
+        '4': Year $(k)6669$(), Day 39.$(br2)The fish I've found here are strange. One of the stranger fish had no fins and no gills. It's making a lot of noise, almost like a ticking clock, but I think I'll keep it as a pet. Doesn't seem to need much maintenance, and I could use the company down here.
   category:
     fishlore:
       .: Fishcasting
@@ -232,6 +239,7 @@ advancement:
   fishcasting:lore/notes: 'Fishcasting: Notes #1'
   fishcasting:lore/newsletter2: 'Fishcasting: Newsletter #2'
   fishcasting:lore/notes2: 'Fishcasting: Notes #2'
+  fishcasting:lore/notes3: 'Fishcasting: Notes #3'
 _comment_config: CONFIGURATION STUFF
 compat:
   nomansland:

@@ -78,6 +78,9 @@ object FabricFishcasting : ModInitializer {
                     Registry.register(registry, id, t)
                 }
             }
+
+        FishcastingRecipeRegistry.registerSerializers(bind(BuiltInRegistries.RECIPE_SERIALIZER))
+        FishcastingRecipeRegistry.registerTypes(bind(BuiltInRegistries.RECIPE_TYPE))
         FishcastingEntities.registerEntities(bind(BuiltInRegistries.ENTITY_TYPE))
         FishcastingAttributes.registerAttributes(bind(BuiltInRegistries.ATTRIBUTE))
         FishcastingSounds.registerSounds(bind(BuiltInRegistries.SOUND_EVENT))

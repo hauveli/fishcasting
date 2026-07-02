@@ -1,0 +1,12 @@
+{
+  "type": "fishcasting:lightning",
+  "cost": 100000,
+  "entityIn": {
+    "type": "fishcasting:fishing_void_entity_type",
+    "entityType": "fishcasting:cursed"
+  },
+  "entityOut": {
+    "type": "fishcasting:fishing_void_entity_type",
+    "entityType": "minecraft:allay"
+  }
+}

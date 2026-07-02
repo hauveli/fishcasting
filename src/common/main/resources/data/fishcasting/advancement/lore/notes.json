@@ -1,5 +1,5 @@
 {
-  "parent": "hexcasting:lore",
+  "parent": "fishcasting:lore/root",
   "criteria": {
     "grant": {
       "trigger": "minecraft:impossible"
@@ -13,7 +13,7 @@
     "frame": "task",
     "hidden": true,
     "icon": {
-      "id": "hexcasting:lore_fragment"
+      "id": "fishcasting:fishy_fragment"
     },
     "show_toast": true,
     "title": {

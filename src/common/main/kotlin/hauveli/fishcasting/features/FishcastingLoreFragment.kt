@@ -31,15 +31,12 @@ class FishcastingLoreFragment(properties: Properties?) : ItemLoreFragment(proper
         }
 
         var unfoundLore: AdvancementHolder? = null
-        val shuffled = ArrayList<ResourceLocation>(NAMES)
-        Collections.shuffle(shuffled)
+        val shuffled = ArrayList(NAMES)
+        shuffled.shuffle()
         for (advID in shuffled) {
-            val adv = player.server.getAdvancements().get(advID)
-            if (adv == null) {
-                continue  // uh oh
-            }
+            val adv = player.server.advancements.get(advID) ?: continue  // uh oh
 
-            if (!player.getAdvancements().getOrStartProgress(adv).isDone()) {
+            if (!player.advancements.getOrStartProgress(adv).isDone) {
                 unfoundLore = adv
                 break
             }
@@ -54,7 +51,7 @@ class FishcastingLoreFragment(properties: Properties?) : ItemLoreFragment(proper
             )
         } else {
             // et voila!
-            player.getAdvancements().award(unfoundLore, CRITEREON_KEY)
+            player.advancements.award(unfoundLore, CRITEREON_KEY)
         }
 
         CriteriaTriggers.CONSUME_ITEM.trigger(player, handStack)
@@ -65,14 +62,12 @@ class FishcastingLoreFragment(properties: Properties?) : ItemLoreFragment(proper
     }
 
     companion object {
-        val NAMES: MutableList<ResourceLocation> = List.of<ResourceLocation?>(
-            *arrayOf<ResourceLocation>(
-                id("lore/newsletter"),
-                id("lore/notes"),
-                id("lore/newsletter2"),
-                id("lore/notes2")
-
-            )
+        val NAMES: MutableList<ResourceLocation> = mutableListOf(
+            id("lore/newsletter"),
+            id("lore/notes"),
+            id("lore/newsletter2"),
+            id("lore/notes2"),
+            id("lore/notes3")
         )
 
         const val CRITEREON_KEY: String = "grant"

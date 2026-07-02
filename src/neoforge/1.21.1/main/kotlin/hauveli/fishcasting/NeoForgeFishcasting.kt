@@ -23,6 +23,7 @@ import hauveli.fishcasting.registry.FishcastingBrainsweepeeIngredients
 import hauveli.fishcasting.registry.FishcastingAttributes
 import hauveli.fishcasting.registry.FishcastingCreativeTabs
 import hauveli.fishcasting.registry.FishcastingEntities
+import hauveli.fishcasting.registry.FishcastingRecipeRegistry
 import hauveli.fishcasting.registry.FishcastingSounds
 import net.minecraft.client.renderer.item.ItemProperties
 import net.minecraft.core.MappedRegistry
@@ -87,7 +88,8 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
             })
         }
 
-
+        bind(Registries.RECIPE_SERIALIZER, FishcastingRecipeRegistry::registerSerializers);
+        bind(Registries.RECIPE_TYPE, FishcastingRecipeRegistry::registerTypes);
         bind(Registries.ENTITY_TYPE, FishcastingEntities::registerEntities)
         bind(Registries.SOUND_EVENT, FishcastingSounds::registerSounds)
         bind(Registries.ATTRIBUTE, FishcastingAttributes::registerAttributes)

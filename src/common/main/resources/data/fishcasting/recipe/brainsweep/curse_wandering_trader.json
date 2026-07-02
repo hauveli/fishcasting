@@ -1,0 +1,15 @@
+{
+  "type": "hexcasting:brainsweep",
+  "blockIn": {
+    "type": "hexcasting:block",
+    "block": "minecraft:amethyst_block"
+  },
+  "cost": 100000,
+  "entityIn": {
+    "type": "fishcasting:fishing_void_entity_type",
+    "entityType": "minecraft:wandering_trader"
+  },
+  "result": {
+    "Name": "minecraft:budding_amethyst"
+  }
+}

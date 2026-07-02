@@ -29,8 +29,7 @@
   ],
   "rewards": {
     "recipes": [
-      "fishcasting:curse_blessed",
-      "fishcasting:curse_wandering_trader"
+      "fishcasting:bless_cursed"
     ]
   }
 }

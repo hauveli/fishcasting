@@ -1,0 +1,17 @@
+{
+  "name": "fishcasting.entry.lore.notes3",
+  "icon": "fishcasting:fishy_fragment",
+  "category": "hexcasting:lore/fishlore",
+  "advancement": "fishcasting:lore/notes3",
+  "sortnum": 5,
+  "pages": [
+    "fishcasting.page.lore.notes3.1",
+    "fishcasting.page.lore.notes3.2",
+    {
+      "type": "patchouli:text",
+      "text": "fishcasting.page.lore.notes3.3",
+      "anchor": "fishcasting:wandering_trader"
+    },
+    "fishcasting.page.lore.notes3.4"
+  ]
+}
