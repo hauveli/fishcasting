@@ -1,6 +1,6 @@
 # .venv\Lib\site-packages\hexdoc_hexcasting\book\recipes.py
 # .venv\Lib\site-packages\hexdoc_hexcasting\_templates\recipes\hexcasting\brainsweep.html.jinja
-
+from abc import ABC, abstractmethod
 from typing import Any, Literal, Self
 
 from hexdoc.core import ResourceLocation
