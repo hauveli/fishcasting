@@ -1,0 +1,63 @@
+{
+  "processor": "hauveli.fishcasting.patchouli.StruckByLightningProcessor",
+  "components": [
+    {
+      "type": "patchouli:image",
+      "image": "fishcasting:textures/gui/patchouli/lightning_conversion.png",
+      "width": 128,
+      "height": 128,
+      "texture_width": 128,
+      "texture_height": 128
+    },
+    {
+      "type": "patchouli:entity",
+      "x": 32,
+      "y": 64,
+      "render_size": 0.33,
+      "entity": "minecraft:lightning_bolt"
+    },
+    {
+      "type": "patchouli:entity",
+      "x": 999,
+      "y": 999,
+      "render_size": 0,
+      "entity": "#entityIn"
+    },
+    {
+      "type": "patchouli:custom",
+      "class": "at.petrak.hexcasting.interop.patchouli.CustomComponentTooltip",
+      "x": 999,
+      "y": 999,
+      "width": 0,
+      "height": 0,
+      "tooltip": "#entityInTooltip"
+    },
+    {
+      "type": "patchouli:entity",
+      "x": 999,
+      "y": 999,
+      "render_size": 0,
+      "entity": "#entityOut"
+    },
+    {
+      "type": "patchouli:custom",
+      "class": "at.petrak.hexcasting.interop.patchouli.CustomComponentTooltip",
+      "x": 999,
+      "y": 999,
+      "width": 0,
+      "height": 0,
+      "tooltip": "#entityOutTooltip"
+    },
+    {
+      "type": "patchouli:header",
+      "text": "#header",
+      "x": -1,
+      "y": -1
+    },
+    {
+      "type": "patchouli:text",
+      "text": "#body",
+      "y": 77
+    }
+  ]
+}

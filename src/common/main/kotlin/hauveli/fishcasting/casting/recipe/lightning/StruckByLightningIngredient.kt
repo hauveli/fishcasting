@@ -21,8 +21,8 @@ import java.util.function.Function
 
 
 class StruckByLightningIngredient(
-    val entityIn: EntityType<*>,
-    val entityOut: EntityType<*>
+    val entityIn: EntityType<*>?,
+    val entityOut: EntityType<*>?
 ) : BrainsweepeeIngredient() {
     override fun getType(): BrainsweepeeIngredientType<*>? {
         return entityIn as BrainsweepeeIngredientType<*>?
@@ -33,27 +33,27 @@ class StruckByLightningIngredient(
     }
 
     override fun getName(): Component? {
-        return entityIn.description
+        return entityIn?.description
     }
 
     override fun getTooltip(p0: Boolean): List<Component?>? {
-        return listOf(entityIn.description)
+        return listOf(entityIn?.description)
     }
 
     fun getTooltip(idk: Boolean, inputTooltip: Boolean): List<Component?>? {
         return if (inputTooltip) {
-            listOf(entityIn.description)
+            listOf(entityIn?.description)
         } else {
-            listOf(entityOut.description)
+            listOf(entityOut?.description)
         }
     }
 
     override fun getSomeKindOfReasonableIDForEmi(): String? {
-        return entityIn.description.string
+        return entityIn?.description?.string
     }
 
-    override fun exampleEntities(level: Level?): List<Entity?>? {
-        return listOf(entityIn.create(level), entityOut.create(level))
+    override fun exampleEntities(level: Level?): List<Entity?> {
+        return listOf(entityIn?.create(level), entityOut?.create(level))
     }
 
     override fun equals(o: Any?): Boolean {

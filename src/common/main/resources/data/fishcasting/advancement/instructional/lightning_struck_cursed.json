@@ -68,7 +68,8 @@
     ]
   ],
   "rewards": {
-    "experience": 200
+    "experience": 200,
+    "function": "fishcasting:revoke_annihilation_notes_hint"
   },
   "sends_telemetry_event": true
 }

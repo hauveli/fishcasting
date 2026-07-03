@@ -1,0 +1,12 @@
+{
+  "parent": "fishcasting:lore/root",
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "experience": 0
+  },
+  "sends_telemetry_event": false
+}

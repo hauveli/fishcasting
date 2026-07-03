@@ -1,0 +1,12 @@
+{
+  "parent": "fishcasting:hint/voidsweep",
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "function": "fishcasting:revoke_voidsweep_hint"
+  },
+  "sends_telemetry_event": false
+}

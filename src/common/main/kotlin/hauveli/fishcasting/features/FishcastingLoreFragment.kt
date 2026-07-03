@@ -64,10 +64,11 @@ class FishcastingLoreFragment(properties: Properties?) : ItemLoreFragment(proper
     companion object {
         val NAMES: MutableList<ResourceLocation> = mutableListOf(
             id("lore/newsletter"),
-            id("lore/notes"),
             id("lore/newsletter2"),
+            id("lore/notes"),
             id("lore/notes2"),
-            id("lore/notes3")
+            id("lore/notes3"),
+            id("lore/notes4")
         )
 
         const val CRITEREON_KEY: String = "grant"

@@ -1,5 +1,5 @@
 {
-  "parent": "fishcasting:lore/notes2",
+  "parent": "fishcasting:lore/notes3",
   "criteria": {
     "grant": {
       "trigger": "minecraft:impossible"
@@ -17,7 +17,7 @@
     },
     "show_toast": true,
     "title": {
-      "translate": "advancement.fishcasting:lore/notes3"
+      "translate": "advancement.fishcasting:lore/notes4"
     }
   },
   "requirements": [
@@ -26,7 +26,7 @@
     ]
   ],
   "rewards": {
-    "function": "fishcasting:revoke_voidsweep_hint"
+    "function": "fishcasting:revoke_annihilation_hint"
   },
   "sends_telemetry_event": true
 }

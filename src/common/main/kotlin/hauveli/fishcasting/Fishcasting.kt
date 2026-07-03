@@ -3,6 +3,7 @@ package hauveli.fishcasting
 import hauveli.fishcasting.config.FishcastingConfigs
 //import hauveli.fishcasting.networking.FishcastingNetworking
 import hauveli.fishcasting.registry.FishcastingActions
+import hauveli.fishcasting.registry.FishcastingAdvancements
 import net.minecraft.advancements.AdvancementHolder
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
@@ -27,6 +28,22 @@ object Fishcasting {
         if (progress.isDone) return
         for (criterion in progress.remainingCriteria) {
             serverPlayer.advancements.award(advancement, criterion)
+        }
+        /*
+        if (FishcastingAdvancements.dependents.containsKey(advancement.id())) {
+            tryRevokingAdvancement(serverPlayer,
+                FishcastingAdvancements.dependents[advancement.id()]!!)
+        }
+         */
+    }
+
+    @JvmStatic
+    fun tryRevokingAdvancement(serverPlayer: ServerPlayer, advancementResLoc: ResourceLocation) {
+        val advancement: AdvancementHolder = checkNotNull(serverPlayer.server.advancements.get(advancementResLoc))
+        val progress = serverPlayer.advancements.getOrStartProgress(advancement)
+        if (progress.isDone) return
+        for (criterion in progress.remainingCriteria) {
+            serverPlayer.advancements.revoke(advancement, criterion)
         }
     }
 

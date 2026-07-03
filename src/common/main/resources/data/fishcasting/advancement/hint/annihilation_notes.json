@@ -1,0 +1,12 @@
+{
+  "parent": "fishcasting:hint/annihilation",
+  "criteria": {
+    "granted": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "rewards": {
+    "function": "fishcasting:revoke_annihilation_hint"
+  },
+  "sends_telemetry_event": false
+}

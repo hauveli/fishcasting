@@ -21,7 +21,8 @@
     }
   },
   "rewards": {
-    "experience": 100
+    "experience": 100,
+    "function": "fishcasting:revoke_voidsweep_notes_hint"
   },
   "sends_telemetry_event": true
 }

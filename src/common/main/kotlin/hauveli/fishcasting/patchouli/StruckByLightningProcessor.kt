@@ -85,7 +85,7 @@ class StruckByLightningProcessor : IComponentProcessor {
                 // https://github.com/VazkiiMods/Patchouli/issues/852
                 return this.exampleEntityList!![0]
                 */
-                val entityType = this.recipe!!.exchange.entityIn
+                val entityType = this.recipe!!.exchange.entityIn ?: return IVariable.empty()
                 val bob = StringBuilder()
                 bob.append(BuiltInRegistries.ENTITY_TYPE.getKey(entityType))
 
@@ -121,7 +121,7 @@ class StruckByLightningProcessor : IComponentProcessor {
                 return this.exampleEntityList!![0]
                  */
 
-                val entityType = this.recipe!!.exchange.entityOut
+                val entityType = this.recipe!!.exchange.entityOut ?: return IVariable.empty()
                 val bob = StringBuilder()
                 bob.append(BuiltInRegistries.ENTITY_TYPE.getKey(entityType))
 

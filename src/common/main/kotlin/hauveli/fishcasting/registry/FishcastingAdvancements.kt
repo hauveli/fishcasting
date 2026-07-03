@@ -20,4 +20,19 @@ object FishcastingAdvancements {
     @JvmField
     val BLESSED_BRAINSWEPT = Fishcasting.id("instructional/brainswept_trader_in_void")
     val CURSED_ZAPPED = Fishcasting.id("instructional/lightning_struck_cursed")
+
+
+    val BLESSED_BRAINSWEPT_CLUED = Fishcasting.id("lore/notes3")
+    val CURSED_ZAPPED_CLUED = Fishcasting.id("lore/notes4")
+
+    val BLESSED_BRAINSWEPT_CLUELESS = Fishcasting.id("hint/voidsweep")
+    val CURSED_ZAPPED_CLUELESS = Fishcasting.id("hint/annihilation")
+
+    val dependents = mapOf(
+        BLESSED_BRAINSWEPT to BLESSED_BRAINSWEPT_CLUED,
+        BLESSED_BRAINSWEPT_CLUED to BLESSED_BRAINSWEPT_CLUELESS,
+
+        CURSED_ZAPPED to CURSED_ZAPPED_CLUED,
+        CURSED_ZAPPED_CLUED to CURSED_ZAPPED_CLUELESS,
+    )
 }
