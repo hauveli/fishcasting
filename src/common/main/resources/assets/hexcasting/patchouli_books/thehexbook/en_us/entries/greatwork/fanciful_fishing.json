@@ -5,6 +5,7 @@
   "sortnum": 66,
   "advancement": "hexcasting:enlightenment",
   "entry_color": "54398a",
+  "flag": "!mod:hexdoc:web_only",
   "pages": [
     {
       "type": "patchouli:text",
