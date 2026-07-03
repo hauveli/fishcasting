@@ -2,6 +2,7 @@
 # .venv\Lib\site-packages\hexdoc_hexcasting\_templates\recipes\hexcasting\brainsweep.html.jinja
 
 from hexdoc.patchouli.page import EmptyPage, PageWithText, PageWithTitle
+from hexdoc.minecraft.i18n import I18n, LocalizedStr
 from hexdoc_hexcasting.book.page.pages import BrainsweepPage
 from hexdoc_fishcasting.recipes import StruckByLightningRecipe as LightningRecipe
 
@@ -15,6 +16,9 @@ class VoidsweepPage(BrainsweepPage, type="hexcasting:fishcasting/brainsweep_void
 # todo: implement this thing here then reference it from the others
 class LightningPage(PageWithText, type="hexcasting:fishcasting/struck_by_lightning"):
     recipe: LightningRecipe
+    body: Str = Field(alias="body")
+    header: Str = Field(alias="header")
+
 
 
 class LightningAltPage(LightningPage, type="hexcasting:fishcasting/struck_by_lightning_hint"):
