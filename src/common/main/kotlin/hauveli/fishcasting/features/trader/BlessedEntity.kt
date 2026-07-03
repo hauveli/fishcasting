@@ -809,7 +809,8 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 entity.xRot
             )
 
-            cursed.deltaMovement = entity.deltaMovement
+            // hehe, might change this later
+            cursed.deltaMovement = entity.deltaMovement.normalize().scale(3.0)
 
             if (entity.hasCustomName()) {
                 cursed.customName =  entity.customName!!.copy().append(Component.literal("?"))

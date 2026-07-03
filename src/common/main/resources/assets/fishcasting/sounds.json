@@ -37,10 +37,6 @@
     "subtitle": "fishcasting.subtitles.blessed.ambient",
     "sounds": [
       {
-        "name": "fishcasting:entity/blessed/blessed_ambient_1",
-        "stream": true
-      },
-      {
         "name": "fishcasting:entity/blessed/blessed_ambient_2",
         "stream": true
       },

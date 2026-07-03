@@ -23,8 +23,6 @@ public abstract class VoidsweepAiStepWanderingTraderMixin {
         if (HexAPI.instance().isBrainswept(trader) && trader.hurtTime < 9 && trader.isAlive()) {
             ((AbstractVillagerInvoker) this).invokeStopTrading();
             cursedTheatrics(trader);
-            // as tempting as it is to cancel aiStep, I need it in order for deltaMovement to happen on subsequent steps?
-            //ci.cancel();
         }
     }
 }
