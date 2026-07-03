@@ -1,7 +1,7 @@
 {
-  "type": "hexcasting:brainsweep",
+  "type": "brainsweep",
   "blockIn": {
-    "type": "hexcasting:block",
+    "type": "block",
     "block": "minecraft:amethyst_block"
   },
   "cost": 100000,
