@@ -43,7 +43,7 @@
     },
     {
       "advancement": "fishcasting:hint/annihilation_notes",
-      "type": "hexcasting:fishcasting/struck_by_lightning_clueless",
+      "type": "hexcasting:fishcasting/struck_by_lightning_hint",
       "recipe": "fishcasting:lightning/bless_cursed",
       "header": "fishcasting.page.fanciful_fishing.allay.header",
       "body": "fishcasting.page.fanciful_fishing.allay.hint"

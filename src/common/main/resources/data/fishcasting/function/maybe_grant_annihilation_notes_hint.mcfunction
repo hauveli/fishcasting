@@ -1,0 +1,1 @@
+execute if entity @p[advancements={fishcasting:instructional/lightning_struck_cursed=false}] run function fishcasting:grant_annihilation_notes_hint

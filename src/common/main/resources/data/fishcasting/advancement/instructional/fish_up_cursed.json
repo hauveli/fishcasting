@@ -26,7 +26,8 @@
     }
   },
   "rewards": {
-    "experience": 100
+    "experience": 100,
+    "function": "fishcasting:maybe_grant_annihilation_notes_hint"
   },
   "sends_telemetry_event": true
 }
