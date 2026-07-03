@@ -27,6 +27,33 @@
       "type": "hexcasting:fishcasting/brainsweep_void",
       "recipe": "fishcasting:brainsweep/curse_wandering_trader",
       "text": "fishcasting.page.fanciful_fishing.budding_amethyst.hint"
+    },
+    {
+      "advancement": "fishcasting:hint/voidsweep",
+      "type": "hexcasting:fishcasting/brainsweep_void_clueless",
+      "recipe": "fishcasting:brainsweep/curse_wandering_trader",
+      "text": "fishcasting.page.fanciful_fishing.budding_amethyst.clueless"
+    },
+    {
+      "advancement": "fishcasting:instructional/lightning_struck_cursed",
+      "type": "hexcasting:fishcasting/struck_by_lightning",
+      "recipe": "fishcasting:lightning/bless_cursed",
+      "header": "fishcasting.page.fanciful_fishing.allay.header",
+      "body": "fishcasting.page.fanciful_fishing.allay"
+    },
+    {
+      "advancement": "fishcasting:hint/annihilation_notes",
+      "type": "hexcasting:fishcasting/struck_by_lightning_hint",
+      "recipe": "fishcasting:lightning/bless_cursed",
+      "header": "fishcasting.page.fanciful_fishing.allay.header",
+      "body": "fishcasting.page.fanciful_fishing.allay.hint"
+    },
+    {
+      "advancement": "fishcasting:hint/annihilation",
+      "type": "hexcasting:fishcasting/struck_by_lightning_clueless",
+      "recipe": "fishcasting:lightning/bless_cursed",
+      "header": "fishcasting.page.fanciful_fishing.allay.header",
+      "body": "fishcasting.page.fanciful_fishing.allay.clueless"
     }
   ]
 }
