@@ -3,7 +3,7 @@
 
 from hexdoc.patchouli.page import EmptyPage
 from hexdoc_hexcasting.book.page.pages import BrainsweepPage
-from hexdoc_fishcasting.recipes import LightningRecipe
+from hexdoc_fishcasting.recipes import StruckByLightningRecipe as LightningRecipe
 
 class VoidsweepPage(BrainsweepPage, type="hexcasting:fishcasting/brainsweep_void"):
     pass
