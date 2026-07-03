@@ -3,7 +3,7 @@
 
 from hexdoc.minecraft.recipe import ItemIngredientList, ItemResult, Recipe
 from pydantic import Field
-from hexdoc_hexcasting.book.recipes import EntityTypeIngredient
+from hexdoc_hexcasting.book.recipes import BrainsweepeeIngredient
 
 
 class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:struck_by_lightning_entity_types"):
