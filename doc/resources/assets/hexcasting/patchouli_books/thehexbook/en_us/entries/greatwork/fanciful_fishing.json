@@ -17,8 +17,7 @@
       "text": "fishcasting.page.fanciful_fishing.smithing"
     },
     {
-      "advancement": "fishcasting:instructional/brainswept_trader_in_void",
-      "type": "hexcasting:fishcasting/brainsweep_void",
+      "type": "hexcasting:brainsweep",
       "recipe": "fishcasting:brainsweep/curse_wandering_trader",
       "text": "fishcasting.page.fanciful_fishing.budding_amethyst"
     }

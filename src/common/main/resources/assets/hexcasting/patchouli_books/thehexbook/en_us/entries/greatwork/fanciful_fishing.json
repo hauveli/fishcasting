@@ -21,12 +21,6 @@
       "type": "hexcasting:fishcasting/brainsweep_void",
       "recipe": "fishcasting:brainsweep/curse_wandering_trader",
       "text": "fishcasting.page.fanciful_fishing.budding_amethyst"
-    },
-    {
-      "advancement": "fishcasting:hint/voidsweep_notes",
-      "type": "hexcasting:fishcasting/brainsweep_void",
-      "recipe": "fishcasting:brainsweep/curse_wandering_trader",
-      "text": "fishcasting.page.fanciful_fishing.budding_amethyst.hint"
     }
   ]
 }
