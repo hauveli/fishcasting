@@ -23,20 +23,30 @@ import java.util.*
 
 // based on:
 // https://github.com/FallingColors/HexMod/blob/1.21/Common/src/main/java/at/petrak/hexcasting/interop/patchouli/BrainsweepProcessor.java
-
+// and
+// https://github.com/FallingColors/HexMod/blob/1.21/Common/src/main/java/at/petrak/hexcasting/interop/patchouli/PatternProcessor.java
 class StruckByLightningProcessor : IComponentProcessor {
     private var recipe: StruckByLightningRecipe? = null
     private var exampleEntityList: MutableList<IVariable>? = null
+    private var translationKeyHeader: String? = null
+    private var translationKeyBody: String? = null
 
     override fun setup(level: Level, vars: IVariableProvider) {
         val id = ResourceLocation.parse(vars.get("recipe", level.registryAccess()).asString())
 
-        Fishcasting.LOGGER.info("WOWOWOWOWOW FUCK!")
+
+        if (vars.has("header")) {
+            translationKeyHeader = vars.get("header", level.registryAccess()).asString();
+        }
+
+        if (vars.has("body")) {
+            translationKeyBody = vars.get("body", level.registryAccess()).asString();
+        }
+
         val recman = level.recipeManager
         val brainsweepings =
             recman.getAllRecipesFor(FishcastingRecipeRegistry.LIGHTNING_TYPE)
         for (poisonApples in brainsweepings) {
-            Fishcasting.LOGGER.info("WOWOWOWOWOW FUCK! {}", poisonApples)
             if (poisonApples.id() == id) {
                 this.recipe = poisonApples.value()
                 break
@@ -121,51 +131,33 @@ class StruckByLightningProcessor : IComponentProcessor {
                 return IVariable.wrap(bob.toString())
             }
 
-            "entityTooltip" -> {
+            // what even is mc.options.advancedItemTooltips?
+            "entityInTooltip" -> {
                 val mc = Minecraft.getInstance()
                 return IVariable.wrapList(
                     this.recipe!!.exchange
-                        .getTooltip(mc.options.advancedItemTooltips)!!
+                        .getTooltip(mc.options.advancedItemTooltips, true)!!
                         .stream()
                         .map<IVariable?> { v: Component? -> IVariable.from<Component?>(v, level.registryAccess()) }
                         .toList(), level.registryAccess())
             }
 
-            "mediaCost" -> {
-                data class ItemCost(val item: Item?, val cost: Int) {
-                    fun dividesEvenly(dividend: Int): Boolean {
-                        return dividend % cost == 0
-                    }
-                }
+            "entityOutTooltip" -> {
+                val mc = Minecraft.getInstance()
+                return IVariable.wrapList(
+                    this.recipe!!.exchange
+                        .getTooltip(mc.options.advancedItemTooltips, false)!!
+                        .stream()
+                        .map<IVariable?> { v: Component? -> IVariable.from<Component?>(v, level.registryAccess()) }
+                        .toList(), level.registryAccess())
+            }
 
-                val costs = arrayOf<ItemCost?>(
-                    ItemCost(HexItems.AMETHYST_DUST, MediaConstants.DUST_UNIT.toInt()),
-                    ItemCost(Items.AMETHYST_SHARD, MediaConstants.SHARD_UNIT.toInt()),
-                    ItemCost(HexItems.CHARGED_AMETHYST, MediaConstants.CRYSTAL_UNIT.toInt()),
-                )
+            "header" -> {
+                return IVariable.wrap(this.translationKeyHeader)
+            }
 
-                // get evenly divisible ItemStacks
-                val validItemStacks = Arrays.stream<ItemCost?>(costs)
-                    .filter { itemCost: ItemCost? -> itemCost!!.dividesEvenly(this.recipe!!.mediaCost.toInt()) }
-                    .map<ItemStack?> { validItemCost: ItemCost? ->
-                        ItemStack(
-                            validItemCost?.item as ItemLike,
-                            this.recipe!!.mediaCost.toInt() / validItemCost.cost
-                        )
-                    }
-                    .map<IVariable?> { v: ItemStack? -> IVariable.from<ItemStack?>(v, level.registryAccess()) }
-                    .toList()
-
-                if (!validItemStacks.isEmpty()) {
-                    return IVariable.wrapList(validItemStacks, level.registryAccess())
-                }
-                // fallback: display in terms of dust
-                return IVariable.from(
-                    ItemStack(
-                        HexItems.AMETHYST_DUST,
-                        (this.recipe!!.mediaCost / MediaConstants.DUST_UNIT).toInt()
-                    ), level.registryAccess()
-                )
+            "body" -> {
+                return IVariable.wrap(this.translationKeyBody)
             }
 
             else -> {

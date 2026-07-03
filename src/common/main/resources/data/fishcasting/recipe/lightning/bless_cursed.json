@@ -4,6 +4,6 @@
   "exchange": {
     "type": "fishcasting:struck_by_lightning_entity_types",
     "entityIn": "fishcasting:cursed",
-    "entityOut": "fishcasting:blessed"
+    "entityOut": "minecraft:allay"
   }
 }

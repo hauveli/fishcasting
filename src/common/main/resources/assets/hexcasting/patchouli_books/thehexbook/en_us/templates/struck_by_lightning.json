@@ -3,11 +3,50 @@
   "components": [
     {
       "type": "patchouli:image",
-      "image": "fishcasting:textures/gui/fishing/cast_bar_hexy.png",
+      "image": "fishcasting:textures/gui/patchouli/lightning_conversion.png",
       "width": 128,
       "height": 128,
       "texture_width": 128,
       "texture_height": 128
+    },
+    {
+      "type": "patchouli:entity",
+      "x": 32,
+      "y": 64,
+      "render_size": 0.33,
+      "entity": "minecraft:lightning_bolt"
+    },
+    {
+      "type": "patchouli:entity",
+      "x": 32,
+      "y": 44,
+      "render_size": 50,
+      "entity": "#entityIn"
+    },
+    {
+      "type": "patchouli:custom",
+      "class": "at.petrak.hexcasting.interop.patchouli.CustomComponentTooltip",
+      "x": 17,
+      "y": 18,
+      "width": 26,
+      "height": 49,
+      "tooltip": "#entityInTooltip"
+    },
+    {
+      "type": "patchouli:entity",
+      "x": 83,
+      "y": 44,
+      "render_size": 50,
+      "entity": "#entityOut"
+    },
+    {
+      "type": "patchouli:custom",
+      "class": "at.petrak.hexcasting.interop.patchouli.CustomComponentTooltip",
+      "x": 69,
+      "y": 18,
+      "width": 26,
+      "height": 49,
+      "tooltip": "#entityOutTooltip"
     },
     {
       "type": "patchouli:header",
@@ -16,37 +55,8 @@
       "y": -1
     },
     {
-      "type": "patchouli:entity",
-      "x": 50,
-      "y": 44,
-      "render_size": 50,
-      "entity": "#entityIn"
-    },
-    {
-      "type": "patchouli:entity",
-      "x": 75,
-      "y": 44,
-      "render_size": 50,
-      "entity": "#entityOut"
-    },
-    {
-      "type": "patchouli:custom",
-      "class": "at.petrak.hexcasting.interop.patchouli.CustomComponentTooltip",
-      "x": 36,
-      "y": 18,
-      "width": 26,
-      "height": 49,
-      "tooltip": "#entityTooltip"
-    },
-    {
-      "type": "patchouli:item",
-      "x": 12,
-      "y": 55,
-      "item": "#mediaCost"
-    },
-    {
       "type": "patchouli:text",
-      "text": "#text",
+      "text": "#body",
       "y": 77
     }
   ]

@@ -6,6 +6,8 @@ import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import hauveli.fishcasting.registry.FishcastingRecipeRegistry
 import net.minecraft.core.HolderLookup
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
@@ -23,7 +25,7 @@ import java.util.function.Function
 
 // God I am a horrible person
 @JvmRecord
-public data class StruckByLightningRecipe(
+data class StruckByLightningRecipe(
     @JvmField val exchange: StruckByLightningIngredient,
     @JvmField val mediaCost: Long
 ) : Recipe<RecipeInput?> {
@@ -64,11 +66,32 @@ public data class StruckByLightningRecipe(
         override fun streamCodec() = STREAM_CODEC
 
         companion object {
+            val TYPED_CODEC: Codec<StruckByLightningIngredient> =
+                RecordCodecBuilder.create { inst ->
+                    inst.group(
+                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("entityIn")
+                            .forGetter(StruckByLightningIngredient::entityIn),
+
+                        BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("entityOut")
+                            .forGetter(StruckByLightningIngredient::entityOut)
+                    ).apply(inst, ::StruckByLightningIngredient)
+                }
+
+            val TYPED_STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, StruckByLightningIngredient> =
+                StreamCodec.composite(
+                    ByteBufCodecs.registry(Registries.ENTITY_TYPE),
+                    StruckByLightningIngredient::entityIn,
+
+                    ByteBufCodecs.registry(Registries.ENTITY_TYPE),
+                    StruckByLightningIngredient::entityOut,
+
+                    ::StruckByLightningIngredient
+                )
 
             val CODEC: MapCodec<StruckByLightningRecipe> =
                 RecordCodecBuilder.mapCodec { inst ->
                     inst.group(
-                        StruckByLightningIngredients.TYPED_CODEC
+                        TYPED_CODEC
                             .fieldOf("exchange")
                             .forGetter(StruckByLightningRecipe::exchange),
 
@@ -82,7 +105,7 @@ public data class StruckByLightningRecipe(
 
             val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, StruckByLightningRecipe> =
                 StreamCodec.composite(
-                    StruckByLightningIngredients.TYPED_STREAM_CODEC,
+                    TYPED_STREAM_CODEC,
                     StruckByLightningRecipe::exchange,
 
                     ByteBufCodecs.VAR_LONG,

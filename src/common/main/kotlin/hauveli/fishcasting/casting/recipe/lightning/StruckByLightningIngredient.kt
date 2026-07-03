@@ -40,6 +40,14 @@ class StruckByLightningIngredient(
         return listOf(entityIn.description)
     }
 
+    fun getTooltip(idk: Boolean, inputTooltip: Boolean): List<Component?>? {
+        return if (inputTooltip) {
+            listOf(entityIn.description)
+        } else {
+            listOf(entityOut.description)
+        }
+    }
+
     override fun getSomeKindOfReasonableIDForEmi(): String? {
         return entityIn.description.string
     }
