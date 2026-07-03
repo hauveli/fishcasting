@@ -78,3 +78,11 @@ class StruckByLightningRecipe(Recipe, ABC, type="fishcasting:struck_by_lightning
     @property
     def output(self) -> Any:
         return self.exchange.entityOut
+
+    @property
+    def inTex(self) -> Any:
+        return self.exchange.textureIn
+
+    @property
+    def outTex(self) -> Any:
+        return self.exchange.textureOut
