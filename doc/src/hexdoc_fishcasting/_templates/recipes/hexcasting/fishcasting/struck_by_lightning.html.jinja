@@ -24,21 +24,21 @@
 
       {% block ingredient %}
         <div class="flay-recipe-block-ingredient">
-          {{ texture_macros.render_icon(recipe.inTex) }}
+          {{ texture_macros.render_icon(recipe.inTex()) }}
         </div>
       {% endblock %}
 
       {% block cost %}
         <div class="flay-recipe-cost texture item-texture">
             <div class="texture item-texture">
-          {{ texture_macros.render_icon(recipe.inTex) }}
+          {{ texture_macros.render_icon(recipe.inTex()) }}
             </div>
         </div>
       {% endblock cost %}
 
       {% block result %}
         <div class="flay-recipe-result">
-          {{ texture_macros.render_icon(recipe.outTex) }}
+          {{ texture_macros.render_icon(recipe.outTex()) }}
         </div>
       {% endblock %}
     </div>
