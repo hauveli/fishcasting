@@ -6,3 +6,6 @@ from hexdoc_hexcasting.book.page.pages import BrainsweepPage
 
 class VoidsweepRecipePage(BrainsweepPage, type="hexcasting:fishcasting/brainsweep_void"):
     pass
+
+class VoidsweepRecipePage(BrainsweepPage, type="hexcasting:fishcasting/brainsweep_void_clueless"):
+    pass
