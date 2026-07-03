@@ -72,11 +72,9 @@ class StruckByLightningRecipe(Recipe, ABC, type="fishcasting:struck_by_lightning
     exchange: StruckByLightningIngredient
 
     @property
-    @abstractmethod
     def input(self) -> Any:
         return self.exchange.entityIn
 
     @property
-    @abstractmethod
     def output(self) -> Any:
         return self.exchange.entityOut
