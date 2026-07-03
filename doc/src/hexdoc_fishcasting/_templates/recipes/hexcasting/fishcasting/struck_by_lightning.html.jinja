@@ -24,21 +24,21 @@
 
       {% block ingredient %}
         <div class="flay-recipe-block-ingredient">
-          {{ texture_macros.render_item(page.recipe.input) }}
+          {{ texture_macros.render_icon('fishcasting:textures/entities/' ~ page.recipe.input.path ~ '.png') }}
         </div>
       {% endblock ingredient %}
 
       {% block cost %}
         <div class="flay-recipe-cost texture item-texture">
             <div class="texture item-texture">
-              {{ texture_macros.render_item(page.recipe.input) }}
+          {{ texture_macros.render_icon('fishcasting:textures/entities/' ~ page.recipe.input.path ~ '.png') }}
             </div>
         </div>
       {% endblock cost %}
 
       {% block result %}
         <div class="flay-recipe-result">
-          {{ texture_macros.render_item(page.recipe.output) }}
+          {{ texture_macros.render_icon('fishcasting:textures/entities/' ~ page.recipe.output.path ~ '.png') }}
         </div>
       {% endblock result %}
     </div>
