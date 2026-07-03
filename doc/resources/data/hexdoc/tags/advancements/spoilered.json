@@ -1,6 +1,12 @@
 {
   "replace": false,
   "values": [
-    "fishcasting:lore/root"
+    "fishcasting:lore/root",
+    "fishcasting:lore/newsletter",
+    "fishcasting:lore/newsletter2",
+    "fishcasting:lore/notes",
+    "fishcasting:lore/notes2",
+    "fishcasting:lore/notes3",
+    "fishcasting:lore/notes4"
   ]
 }
