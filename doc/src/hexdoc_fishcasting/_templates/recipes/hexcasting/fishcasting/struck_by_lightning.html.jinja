@@ -18,14 +18,14 @@
 
       <div class="lightning-recipe-input">
         <img
-          src="{{ ('fishcasting:textures/entities/' ~ recipe.exchange.entityIn.split(':')[1] ~ '.png') | hexdoc_texture }}"
+          src="{{ ('fishcasting:textures/entities/' ~ recipe.exchange.entityIn.path ~ '.png') | hexdoc_texture }}"
           alt="{{ recipe.exchange.entityIn.path }}"
         >
       </div>
 
       <div class="lightning-recipe-output">
         <img
-          src="{{ ('fishcasting:textures/entities/' ~ recipe.exchange.entityOut.split(':')[1] ~ '.png') | hexdoc_texture }}"
+          src="{{ ('fishcasting:textures/entities/' ~ recipe.exchange.entityOut.path ~ '.png') | hexdoc_texture }}"
           alt="{{ recipe.exchange.entityOut.path }}"
         >
       </div>
