@@ -5,7 +5,6 @@
   "sortnum": 66,
   "advancement": "hexcasting:enlightenment",
   "entry_color": "54398a",
-  "flag": "!mod:hexdoc:web_only",
   "pages": [
     {
       "type": "patchouli:text",
@@ -38,7 +37,6 @@
       "text": "fishcasting.page.fanciful_fishing.budding_amethyst.clueless"
     },
     {
-      "flag": "!mod:hexdoc:web_only",
       "advancement": "fishcasting:instructional/lightning_struck_cursed",
       "type": "hexcasting:fishcasting/struck_by_lightning",
       "recipe": "fishcasting:lightning/bless_cursed",
