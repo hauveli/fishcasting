@@ -22,29 +22,25 @@
         >
       {% endblock background %}
 
-      {% set in_tex = ('fishcasting:textures/entities/' ~ recipe.exchange.entityIn.path ~ '.png') | hexdoc_texture %}
-      {% set out_tex = ('fishcasting:textures/entities/' ~ recipe.exchange.entityOut.path ~ '.png') | hexdoc_texture %}
-
-
       {% block ingredient %}
         <div class="flay-recipe-block-ingredient">
-          {{ texture_macros.render_icon(in_tex) }}
+          {{ texture_macros.render_icon(recipe.exchange.entityIn.textureIn) }}
         </div>
-      {% endblock ingredient %}
+      {% endblock %}
 
       {% block cost %}
         <div class="flay-recipe-cost texture item-texture">
             <div class="texture item-texture">
-          {{ texture_macros.render_icon(in_tex) }}
+          {{ texture_macros.render_icon(recipe.exchange.entityIn.textureIn) }}
             </div>
         </div>
       {% endblock cost %}
 
       {% block result %}
         <div class="flay-recipe-result">
-          {{ texture_macros.render_icon(out_tex) }}
+          {{ texture_macros.render_icon(recipe.exchange.entityOut.textureOut) }}
         </div>
-      {% endblock result %}
+      {% endblock %}
     </div>
   </div>
 </details>
