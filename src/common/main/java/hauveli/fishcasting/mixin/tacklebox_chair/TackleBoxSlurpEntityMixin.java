@@ -38,7 +38,7 @@ import java.util.Optional;
 //import static com.li64.tide.data.item.TideItemData.CATCH_TIMESTAMP;
 import static com.li64.tide.client.TideClientHelper.showToast;
 import static com.li64.tide.data.item.TideItemData.FISH_LENGTH;
-import static hauveli.fishcasting.Fishcasting.tryGrantingAdvancement;
+import static hauveli.fishcasting.registry.FishcastingAdvancements.tryGrantingAdvancement;
 import static hauveli.fishcasting.registry.FishcastingAdvancements.TACKLEBOX_CHAIR_FISHER;
 
 @Mixin(ItemEntity.class)

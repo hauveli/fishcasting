@@ -19,6 +19,7 @@ import hauveli.fishcasting.datagen.NeoForgeFishcastingDatagen
 import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
 import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
+import hauveli.fishcasting.registry.FishcastingAdvancements
 import hauveli.fishcasting.registry.FishcastingBrainsweepeeIngredients
 import hauveli.fishcasting.registry.FishcastingAttributes
 import hauveli.fishcasting.registry.FishcastingCreativeTabs
@@ -32,6 +33,7 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.animal.axolotl.Axolotl
 import net.minecraft.world.entity.npc.Villager
 import net.neoforged.bus.api.IEventBus
@@ -45,6 +47,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
+import net.neoforged.neoforge.event.entity.player.PlayerEvent
 import net.neoforged.neoforge.event.server.ServerStartedEvent
 import net.neoforged.neoforge.registries.RegisterEvent
 import java.util.function.BiConsumer
@@ -122,6 +125,11 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
         }
 
         Fishcasting.init()
+    }
+
+    @SubscribeEvent
+    fun registerOnJoinEvent(event: PlayerEvent.PlayerLoggedInEvent) {
+        FishcastingAdvancements.onJoinAdvancementUpdate(event.entity as ServerPlayer)
     }
 
     // why?

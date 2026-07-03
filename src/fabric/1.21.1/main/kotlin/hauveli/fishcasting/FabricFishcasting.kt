@@ -13,10 +13,13 @@ import hauveli.fishcasting.features.trader.BlessedRenderer
 import hauveli.fishcasting.registry.*
 import hauveli.fishcasting.registry.FishcastingCreativeTabs.key
 import net.fabricmc.api.ModInitializer
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
+import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
@@ -25,6 +28,7 @@ import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.packs.PackType
 import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ResourceManager
@@ -92,6 +96,7 @@ object FabricFishcasting : ModInitializer {
         //Registry.register(HexRegistries.BRAINSWEEPEE_INGREDIENT, Fishcasting.id(""), FishcastingBrainsweepeeIngredients)
         Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns"), FishcastingFishArithmetic())
 
+        registerOnJoinEvent()
         registerCreativeModeTabItems()
         registerEntityAttributes()
         registerLayerDefinitions()
@@ -101,6 +106,11 @@ object FabricFishcasting : ModInitializer {
         registerItemModelProperties()
     }
 
+    fun registerOnJoinEvent() {
+        ServerPlayConnectionEvents.JOIN.register { impl, sender, server ->
+            FishcastingAdvancements.onJoinAdvancementUpdate(impl.player)
+        }
+    }
 
     fun registerCreativeModeTabItems() {
         ItemGroupEvents.modifyEntriesEvent(FishcastingCreativeTabs.FISHCASTING.key).register { entries ->

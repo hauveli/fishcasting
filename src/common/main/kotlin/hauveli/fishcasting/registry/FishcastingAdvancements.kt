@@ -11,6 +11,7 @@ import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.advancements.critereon.ImpossibleTrigger
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.item.Item
 
 
@@ -35,4 +36,42 @@ object FishcastingAdvancements {
         CURSED_ZAPPED to CURSED_ZAPPED_CLUED,
         CURSED_ZAPPED_CLUED to CURSED_ZAPPED_CLUELESS,
     )
+
+    @JvmStatic
+    fun tryGrantingAdvancement(serverPlayer: ServerPlayer, advancementResLoc: ResourceLocation) {
+        val advancement: AdvancementHolder = checkNotNull(serverPlayer.server.advancements.get(advancementResLoc))
+        val progress = serverPlayer.advancements.getOrStartProgress(advancement)
+        if (progress.isDone) return
+        for (criterion in progress.remainingCriteria) {
+            serverPlayer.advancements.award(advancement, criterion)
+        }
+    }
+
+    @JvmStatic
+    fun tryRevokingAdvancement(serverPlayer: ServerPlayer, advancementResLoc: ResourceLocation) {
+        val advancement: AdvancementHolder = checkNotNull(serverPlayer.server.advancements.get(advancementResLoc))
+        val progress = serverPlayer.advancements.getOrStartProgress(advancement)
+        for (criterion in progress.remainingCriteria) {
+            serverPlayer.advancements.revoke(advancement, criterion)
+        }
+    }
+
+    fun tryUpdateProgress(serverPlayer: ServerPlayer, advancementResLoc: ResourceLocation) {
+        Fishcasting.LOGGER.info("This exists: {}", advancementResLoc)
+        val advancement: AdvancementHolder = checkNotNull(serverPlayer.server.advancements.get(advancementResLoc))
+        val progress = serverPlayer.advancements.getOrStartProgress(advancement)
+        if (progress.isDone) return
+        if (!dependents.containsKey(advancementResLoc)) {
+            tryGrantingAdvancement(serverPlayer, advancementResLoc)
+            return
+        }
+        val checkThisNow = dependents[advancementResLoc]
+        tryUpdateProgress(serverPlayer, checkThisNow!!)
+    }
+
+    @JvmStatic
+    fun onJoinAdvancementUpdate(serverPlayer: ServerPlayer) {
+        tryUpdateProgress(serverPlayer, BLESSED_BRAINSWEPT)
+        tryUpdateProgress(serverPlayer, CURSED_ZAPPED)
+    }
 }

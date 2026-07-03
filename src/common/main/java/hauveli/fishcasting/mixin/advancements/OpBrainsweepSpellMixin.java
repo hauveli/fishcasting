@@ -2,7 +2,7 @@ package hauveli.fishcasting.mixin.advancements;
 
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
 import com.llamalad7.mixinextras.sugar.Local;
-import hauveli.fishcasting.Fishcasting;
+import static hauveli.fishcasting.registry.FishcastingAdvancements.tryGrantingAdvancement;
 import hauveli.fishcasting.features.trader.BlessedEntity;
 import hauveli.fishcasting.registry.FishcastingAdvancements;
 import net.minecraft.server.level.ServerPlayer;
@@ -34,7 +34,7 @@ public class OpBrainsweepSpellMixin {
         // cons: I have to do a mixin for it
         if (sacrifice instanceof BlessedEntity
                 && env.getCastingEntity() instanceof ServerPlayer serverPlayer) {
-            Fishcasting.tryGrantingAdvancement(serverPlayer, FishcastingAdvancements.BLESSED_BRAINSWEPT);
+            tryGrantingAdvancement(serverPlayer, FishcastingAdvancements.BLESSED_BRAINSWEPT);
         }
     }
 }

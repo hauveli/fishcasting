@@ -7,7 +7,7 @@ import com.li64.tide.data.item.TideItemData
 import com.li64.tide.registries.entities.fish.AbstractTideFish
 import com.li64.tide.registries.entities.fish.TideVoidFish
 import hauveli.fishcasting.Fishcasting
-import hauveli.fishcasting.Fishcasting.tryGrantingAdvancement
+import hauveli.fishcasting.registry.FishcastingAdvancements.tryGrantingAdvancement
 import hauveli.fishcasting.registry.FishcastingAdvancements
 import hauveli.fishcasting.registry.FishcastingItems
 import net.minecraft.core.component.DataComponents
