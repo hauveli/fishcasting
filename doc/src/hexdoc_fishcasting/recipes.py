@@ -1,8 +1,13 @@
 # .venv\Lib\site-packages\hexdoc_hexcasting\book\recipes.py
 # .venv\Lib\site-packages\hexdoc_hexcasting\_templates\recipes\hexcasting\brainsweep.html.jinja
 
+
+from hexdoc.core import ResourceLocation
+from hexdoc.minecraft.assets import ItemWithTexture, PNGTexture
+from hexdoc.minecraft.i18n import I18n, LocalizedStr
+from hexdoc.minecraft.recipe import ItemIngredient, ItemIngredientList, Recipe
 from hexdoc.minecraft.recipe import ItemIngredientList, ItemResult, Recipe
-from pydantic import Field
+from pydantic import Field, PrivateAttr, ValidationInfo, model_validator
 from hexdoc_hexcasting.book.recipes import BrainsweepeeIngredient
 
 
