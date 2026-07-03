@@ -43,9 +43,9 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
         assert info.context is not None
         i18n = I18n.of(info)
 
-        self._name = i18n.localize_entity(self.entityIn)
+        self._nameIn = i18n.localize_entity(self.entityIn)
 
-        self._texture = PNGTexture.load_id(
+        self._textureIn = PNGTexture.load_id(
             id="textures/entities" / self.entityIn + ".png",
             context=info.context,
         )
@@ -57,9 +57,9 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
         assert info.context is not None
         i18n = I18n.of(info)
 
-        self._name = i18n.localize_entity(self.entityOut)
+        self._nameOut = i18n.localize_entity(self.entityOut)
 
-        self._texture = PNGTexture.load_id(
+        self._textureOut = PNGTexture.load_id(
             id="textures/entities" / self.entityOut + ".png",
             context=info.context,
         )
