@@ -282,3 +282,4 @@ commands:
   fishing:
     entries:
       luck_tweaking_bobber_selector: Lucky Bobber Selector
+      benign_bait_selector: Benign Bait Selector
