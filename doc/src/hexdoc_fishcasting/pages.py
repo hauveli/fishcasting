@@ -3,21 +3,24 @@
 
 from hexdoc.patchouli.page import EmptyPage
 from hexdoc_hexcasting.book.page.pages import BrainsweepPage
+from hexdoc_fishcasting.recipes import LightningRecipe
 
-class VoidsweepRecipePage(BrainsweepPage, type="hexcasting:fishcasting/brainsweep_void"):
+class VoidsweepPage(BrainsweepPage, type="hexcasting:fishcasting/brainsweep_void"):
     pass
 
-class VoidsweepRecipePage(BrainsweepPage, type="hexcasting:fishcasting/brainsweep_void_clueless"):
+# I dont know why this works, my intuition would say it shouldn't but I don't understand python well enough so this is fine
+class VoidsweepPage(BrainsweepPage, type="hexcasting:fishcasting/brainsweep_void_clueless"):
     pass
 
-class VoidsweepRecipePage(BrainsweepPage, type="hexcasting:fishcasting/struck_by_lightning"):
+# todo: implement this thing here then reference it from the others
+class LightningPage(PageWithText, type="hexcasting:fishcasting/struck_by_lightning"):
+    recipe: LightningRecipe
+
+
+class LightningAltPage(LightningPage, type="hexcasting:fishcasting/struck_by_lightning_hint"):
     pass
 
 
-class VoidsweepRecipePage(BrainsweepPage, type="hexcasting:fishcasting/struck_by_lightning_hint"):
-    pass
-
-
-class VoidsweepRecipePage(BrainsweepPage, type="hexcasting:fishcasting/struck_by_lightning_clueless"):
+class LightningAltPage(LightningPage, type="hexcasting:fishcasting/struck_by_lightning_clueless"):
     pass
 
