@@ -28,21 +28,21 @@
 
       {% block ingredient %}
         <div class="flay-recipe-block-ingredient">
-          {{ texture_macros.render_icon(in_tex) }}
+          {{ texture_macros.render_icon('fishcasting:textures/entities/' ~ page.recipe.input.path ~ '.png' | hexdoc_texture) }}
         </div>
       {% endblock ingredient %}
 
       {% block cost %}
         <div class="flay-recipe-cost texture item-texture">
             <div class="texture item-texture">
-          {{ texture_macros.render_icon(in_tex) }}
+          {{ texture_macros.render_icon('fishcasting:textures/entities/' ~ page.recipe.input.path ~ '.png' | hexdoc_texture) }}
             </div>
         </div>
       {% endblock cost %}
 
       {% block result %}
         <div class="flay-recipe-result">
-          {{ texture_macros.render_icon(out_tex) }}
+          {{ texture_macros.render_icon('fishcasting:textures/entities/' ~ page.recipe.output.path ~ '.png' | hexdoc_texture) }}
         </div>
       {% endblock result %}
     </div>
