@@ -51,6 +51,5 @@ src = "../src/fabric/1.21.1"
 [_forge]
 src = "../src/neoforge/1.21.1"
 
-
 [flags]
 "fishcasting:hide_from_webdoc" = true
