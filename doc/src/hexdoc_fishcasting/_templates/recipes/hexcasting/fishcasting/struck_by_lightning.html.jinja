@@ -1,0 +1,39 @@
+{% import "macros/textures.html.jinja" as texture_macros with context -%}
+
+<details class="details-collapsible flay-recipe-details">
+  {% block collapse %}
+    <summary class="collapse-details">
+      <span class="collapse-recipe-show">{{ _('hexdoc.recipe.show') }}</span>
+      <span class="collapse-recipe-hide">{{ _('hexdoc.recipe.hide') }}</span>
+    </summary>
+  {% endblock collapse %}
+
+  <div>
+    {% block title %}<h5>{{ recipe.result.name.name }}</h5>{% endblock %}
+
+    <div class="flay-recipe">
+      {% block background %}
+        <img
+          class="flay-recipe-background"
+          alt="Flay Mind Recipe GUI"
+          src="{% block background_image %}{{
+            'hexcasting:textures/gui/hexdoc/brainsweep.png'|hexdoc_texture
+          }}{% endblock %}"
+        >
+      {% endblock background %}
+
+      {% block input %}
+        {% with input=recipe.brainsweepee %}
+          {% include recipe.brainsweepee.template~".html.jinja" %}
+        {% endwith %}
+      {% endblock input %}
+
+      {% block output %}
+        {% with output=recipe.brainsweepee %}
+          {% include recipe.brainsweepee.template~".html.jinja" %}
+        {% endwith %}
+      {% endblock output %}
+
+    </div>
+  </div>
+</details>
