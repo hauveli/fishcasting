@@ -1,6 +1,7 @@
 # .venv\Lib\site-packages\hexdoc_hexcasting\book\recipes.py
 # .venv\Lib\site-packages\hexdoc_hexcasting\_templates\recipes\hexcasting\brainsweep.html.jinja
 
+from typing import Any, Literal, Self
 
 from hexdoc.core import ResourceLocation
 from hexdoc.minecraft.assets import ItemWithTexture, PNGTexture
