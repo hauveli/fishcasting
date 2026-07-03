@@ -1,48 +1,46 @@
 {% import "macros/textures.html.jinja" as texture_macros with context -%}
 
-<details class="details-collapsible lightning-recipe-details">
-  <summary class="collapse-details">
-    <span class="collapse-recipe-show">{{ _('hexdoc.recipe.show') }}</span>
-    <span class="collapse-recipe-hide">{{ _('hexdoc.recipe.hide') }}</span>
-  </summary>
+<details class="details-collapsible flay-recipe-details">
+  {% block collapse %}
+    <summary class="collapse-details">
+      <span class="collapse-recipe-show">{{ _('hexdoc.recipe.show') }}</span>
+      <span class="collapse-recipe-hide">{{ _('hexdoc.recipe.hide') }}</span>
+    </summary>
+  {% endblock collapse %}
 
-  <div class="lightning-recipe">
+  <div>
+    {% block title %}<h5>{{ page.header }}</h5>{% endblock %}
 
-    <img
-      class="lightning-recipe-background"
-      src="{{ 'fishcasting:textures/gui/hexdoc/struck_by_lightning.png' | hexdoc_texture }}"
-      alt=""
-    >
-
-    {% block header %}
-      <div class="lightning-recipe-header">
-        {{ page.header }}
-      </div>
-    {% endblock %}
-
-    {% block body %}
-      <div class="lightning-recipe-body">
-        {{ page.body }}
-      </div>
-    {% endblock %}
-
-    {% block entity_in %}
-      <div class="lightning-recipe-entity-in">
+    <div class="flay-recipe">
+      {% block background %}
         <img
-          src="{{ ('fishcasting:textures/entities/' ~ recipe.exchange.entityIn.path ~ '.png') | hexdoc_texture }}"
-          alt=""
+          class="flay-recipe-background"
+          alt="Flay Mind Recipe GUI"
+          src="{% block background_image %}{{
+            'hexcasting:textures/gui/hexdoc/struck_by_lightning.png'|hexdoc_texture
+          }}{% endblock %}"
         >
-      </div>
-    {% endblock %}
+      {% endblock background %}
 
-    {% block entity_out %}
-      <div class="lightning-recipe-entity-out">
-        <img
-          src="{{ ('fishcasting:textures/entities/' ~ recipe.exchange.entityOut.path ~ '.png') | hexdoc_texture }}"
-          alt=""
-        >
-      </div>
-    {% endblock %}
+      {% block ingredient %}
+        <div class="flay-recipe-block-ingredient">
+          {{ texture_macros.render_item(page.exchange.entityIn) }}
+        </div>
+      {% endblock ingredient %}
 
+      {% block cost %}
+        <div class="flay-recipe-cost texture item-texture">
+            <div class="texture item-texture">
+              {{ texture_macros.render_item(page.exchange.entityOut) }}
+            </div>
+        </div>
+      {% endblock cost %}
+
+      {% block result %}
+        <div class="flay-recipe-result">
+          {{ texture_macros.render_item(page.exchange.entityOut) }}
+        </div>
+      {% endblock result %}
+    </div>
   </div>
 </details>
