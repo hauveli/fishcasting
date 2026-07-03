@@ -26,25 +26,30 @@ import hauveli.fishcasting.registry.FishcastingCreativeTabs
 import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingRecipeRegistry
 import hauveli.fishcasting.registry.FishcastingSounds
+import net.minecraft.ChatFormatting
 import net.minecraft.client.renderer.item.ItemProperties
 import net.minecraft.core.MappedRegistry
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.animal.axolotl.Axolotl
 import net.minecraft.world.entity.npc.Villager
+import net.minecraft.world.entity.player.Player
 import net.neoforged.bus.api.IEventBus
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.ModContainer
 import net.neoforged.fml.ModList
+import net.neoforged.fml.common.EventBusSubscriber
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import net.neoforged.neoforge.capabilities.ICapabilityProvider
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
 import net.neoforged.neoforge.client.event.EntityRenderersEvent
+import net.neoforged.neoforge.common.NeoForge
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent
 import net.neoforged.neoforge.event.entity.player.PlayerEvent
@@ -52,7 +57,6 @@ import net.neoforged.neoforge.event.server.ServerStartedEvent
 import net.neoforged.neoforge.registries.RegisterEvent
 import java.util.function.BiConsumer
 import java.util.function.Consumer
-
 
 @Mod(Fishcasting.MODID)
 class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
@@ -90,6 +94,9 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
                 }
             })
         }
+        // I am not a big fan of how neoforge does events....
+        // at least it works now........
+        NeoForge.EVENT_BUS.register(NeoForgeFishcasting)
 
         bind(Registries.RECIPE_SERIALIZER, FishcastingRecipeRegistry::registerSerializers);
         bind(Registries.RECIPE_TYPE, FishcastingRecipeRegistry::registerTypes);
@@ -125,17 +132,6 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
         }
 
         Fishcasting.init()
-    }
-
-    @SubscribeEvent
-    fun registerOnJoinEvent(event: PlayerEvent.PlayerLoggedInEvent) {
-        FishcastingAdvancements.onJoinAdvancementUpdate(event.entity as ServerPlayer)
-    }
-
-    // why?
-    @SubscribeEvent
-    fun registerAttributeHolder(event: ServerStartedEvent) {
-        FishcastingAttributes.registerHolder(event.server.allLevels.first())
     }
 
     // ugh I couldn't do anything better than this
@@ -206,5 +202,16 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
     companion object {
         internal val container: ModContainer
             get() = ModList.get().getModContainerById(Fishcasting.MODID).get()
+
+        @SubscribeEvent
+        fun onPlayerLoggedIn(event: PlayerEvent.PlayerLoggedInEvent) {
+            FishcastingAdvancements.onJoinAdvancementUpdate(event.entity as ServerPlayer)
+        }
+
+        // I dont think this is even firing...
+        @SubscribeEvent
+        fun registerAttributeHolder(event: ServerStartedEvent) {
+            FishcastingAttributes.registerHolder(event.server.allLevels.first())
+        }
     }
 }
