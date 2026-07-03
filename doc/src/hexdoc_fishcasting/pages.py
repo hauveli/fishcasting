@@ -9,3 +9,15 @@ class VoidsweepRecipePage(BrainsweepPage, type="hexcasting:fishcasting/brainswee
 
 class VoidsweepRecipePage(BrainsweepPage, type="hexcasting:fishcasting/brainsweep_void_clueless"):
     pass
+
+class VoidsweepRecipePage(BrainsweepPage, type="hexcasting:fishcasting/struck_by_lightning"):
+    pass
+
+
+class VoidsweepRecipePage(BrainsweepPage, type="hexcasting:fishcasting/struck_by_lightning_hint"):
+    pass
+
+
+class VoidsweepRecipePage(BrainsweepPage, type="hexcasting:fishcasting/struck_by_lightning_clueless"):
+    pass
+
