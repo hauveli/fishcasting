@@ -3,7 +3,6 @@ book = "hexcasting:thehexbook"
 
 resource_dirs = [
     # top takes priority
-    "resources/assets/hexcasting/patchouli_books/thehexbook/en_us/entries/greatwork",
     "resources",
     "{$_common.src}/main/resources",
 
@@ -51,3 +50,7 @@ src = "../src/fabric/1.21.1"
 
 [_forge]
 src = "../src/neoforge/1.21.1"
+
+
+[flags]
+"fishcasting:hide_from_webdoc" = true
