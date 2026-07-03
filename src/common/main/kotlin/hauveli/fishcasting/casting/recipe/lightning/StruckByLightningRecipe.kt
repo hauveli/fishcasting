@@ -1,13 +1,6 @@
 package hauveli.fishcasting.casting.recipe.lightning
 
-import at.petrak.hexcasting.common.lib.HexBrainsweepeeIngredients
-import at.petrak.hexcasting.common.lib.HexStateIngredients
-import at.petrak.hexcasting.common.recipe.HexRecipeStuffRegistry
 import at.petrak.hexcasting.common.recipe.RecipeSerializerBase
-import at.petrak.hexcasting.common.recipe.ingredient.brainsweep.BrainsweepeeIngredient
-import at.petrak.hexcasting.common.recipe.ingredient.state.StateIngredient
-import com.mojang.datafixers.kinds.App
-import com.mojang.datafixers.util.Function4
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -24,20 +17,18 @@ import net.minecraft.world.item.crafting.RecipeInput
 import net.minecraft.world.item.crafting.RecipeSerializer
 import net.minecraft.world.item.crafting.RecipeType
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
-import java.util.function.BiFunction
 import java.util.function.Function
 
 
 // God I am a horrible person
 @JvmRecord
-data class StruckByLightningRecipe(
-    val entityIn: StruckByLightningIngredient,
-    val mediaCost: Long
+public data class StruckByLightningRecipe(
+    @JvmField val exchange: StruckByLightningIngredient,
+    @JvmField val mediaCost: Long
 ) : Recipe<RecipeInput?> {
     fun matches(victim: Entity, level: ServerLevel?): Boolean {
-        return this.entityIn.test(victim, level)
+        return this.exchange.test(victim, level)
     }
 
     override fun getType(): RecipeType<*> {
@@ -65,43 +56,41 @@ data class StruckByLightningRecipe(
         return ItemStack.EMPTY.copy()
     }
 
-    class Serializer : RecipeSerializerBase<StruckByLightningRecipe>() {
-        override fun codec(): MapCodec<StruckByLightningRecipe> {
-            return CODEC
-        }
 
-        override fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, StruckByLightningRecipe> {
-            return STREAM_CODEC
-        }
+    class Serializer : RecipeSerializerBase<StruckByLightningRecipe>() {
+
+        override fun codec() = CODEC
+
+        override fun streamCodec() = STREAM_CODEC
 
         companion object {
-            var CODEC: MapCodec<StruckByLightningRecipe> =
-                RecordCodecBuilder.mapCodec(Function { inst: RecordCodecBuilder.Instance<StruckByLightningRecipe> ->
+
+            val CODEC: MapCodec<StruckByLightningRecipe> =
+                RecordCodecBuilder.mapCodec { inst ->
                     inst.group(
-                        HexBrainsweepeeIngredients.TYPED_CODEC.fieldOf("entityIn")
-                            .forGetter(StruckByLightningRecipe::entityIn),
-                        Codec.LONG.fieldOf("cost").forGetter(StruckByLightningRecipe::mediaCost),
-                    ).apply<StruckByLightningRecipe>(
-                        inst,
-                        { entityIn: StruckByLightningIngredient, mediaCost: Long ->
-                            StruckByLightningRecipe(
-                                entityIn,
-                                mediaCost
-                            )
-                        } as App<RecordCodecBuilder.Mu<StruckByLightningRecipe>, BiFunction<BrainsweepeeIngredient, Long, StruckByLightningRecipe>>)
+                        StruckByLightningIngredients.TYPED_CODEC
+                            .fieldOf("exchange")
+                            .forGetter(StruckByLightningRecipe::exchange),
+
+                        Codec.LONG
+                            .fieldOf("cost")
+                            .forGetter(StruckByLightningRecipe::mediaCost)
+                    ).apply(inst) { exchange, cost ->
+                        StruckByLightningRecipe(exchange, cost)
+                    }
                 }
-                )
-            var STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, StruckByLightningRecipe> =
+
+            val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, StruckByLightningRecipe> =
                 StreamCodec.composite(
-                    HexBrainsweepeeIngredients.TYPED_STREAM_CODEC, StruckByLightningRecipe::entityIn,
-                    ByteBufCodecs.VAR_LONG, StruckByLightningRecipe::mediaCost,
-                    { entityIn: StruckByLightningIngredient, cost: Long ->
-                        StruckByLightningRecipe(
-                            entityIn,
-                            cost
-                        )
-                    } as ((BrainsweepeeIngredient, Long) -> StruckByLightningRecipe)
+                    StruckByLightningIngredients.TYPED_STREAM_CODEC,
+                    StruckByLightningRecipe::exchange,
+
+                    ByteBufCodecs.VAR_LONG,
+                    StruckByLightningRecipe::mediaCost,
+
+                    ::StruckByLightningRecipe
                 )
         }
     }
+    
 }

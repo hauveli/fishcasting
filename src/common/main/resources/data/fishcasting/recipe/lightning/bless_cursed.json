@@ -1,12 +1,9 @@
 {
-  "type": "fishcasting:lightning",
+  "type": "fishcasting:struck_by_lightning",
   "cost": 100000,
-  "entityIn": {
-    "type": "fishcasting:fishing_void_entity_type",
-    "entityType": "fishcasting:cursed"
-  },
-  "entityOut": {
-    "type": "fishcasting:fishing_void_entity_type",
-    "entityType": "minecraft:allay"
+  "exchange": {
+    "type": "fishcasting:struck_by_lightning_entity_types",
+    "entityIn": "fishcasting:cursed",
+    "entityOut": "fishcasting:blessed"
   }
 }

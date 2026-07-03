@@ -28,11 +28,11 @@ object FishcastingRecipeRegistry {
     private val TYPES: MutableMap<ResourceLocation, RecipeType<*>> = LinkedHashMap()
 
     val LIGHTNING: RecipeSerializer<*> = registerSerializer(
-        "lightning",
+        "struck_by_lightning",
         StruckByLightningRecipe.Serializer()
     )
 
-    var LIGHTNING_TYPE: RecipeType<StruckByLightningRecipe> = registerType("lightning")
+    var LIGHTNING_TYPE: RecipeType<StruckByLightningRecipe> = registerType("struck_by_lightning_entity_types")
 
     private fun <T : Recipe<*>?> registerSerializer(name: String, rs: RecipeSerializer<T>): RecipeSerializer<T> {
         val old = SERIALIZERS.put(Fishcasting.id(name), rs)
@@ -47,7 +47,7 @@ object FishcastingRecipeRegistry {
             }
         }
         // never will be a collision because it's a new object
-        TYPES.put(Fishcasting.id(name), type)
+        TYPES[Fishcasting.id(name)] = type
         return type
     }
 }

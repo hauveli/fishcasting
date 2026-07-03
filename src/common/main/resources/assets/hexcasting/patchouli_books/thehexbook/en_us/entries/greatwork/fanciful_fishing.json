@@ -22,11 +22,8 @@
       "text": "fishcasting.page.fanciful_fishing.budding_amethyst"
     },
     {
-      "type": "fishcasting:lightning",
-      "recipe": "fishcasting:lightning/bless_cursed",
-      "entityIn": "fishcasting:cursed",
-      "entityOut": "minecraft:allay",
-      "mediaCost": "minecraft:stick",
+      "type": "hexcasting:brainsweep",
+      "recipe": "fishcasting:brainsweep/curse_wandering_trader",
       "text": "fishcasting.page.fanciful_fishing.allay"
     }
   ]
