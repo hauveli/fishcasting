@@ -5,5 +5,5 @@ from hexdoc.patchouli.page import EmptyPage
 from .recipe import VoidsweepRecipe
 from hexdoc_hexcasting.book.page.pages.BrainsweepPage
 
-class VoidsweepRecipePage(BrainsweepPage):
+class VoidsweepRecipePage(BrainsweepPage, type="hexcasting:fishcasting/brainsweep_void"):
     pass

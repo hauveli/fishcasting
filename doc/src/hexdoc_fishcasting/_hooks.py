@@ -14,6 +14,8 @@ import hexdoc_fishcasting
 from .__gradle_version__ import FULL_VERSION, MINECRAFT_VERSION, MOD_ID, MOD_VERSION
 from .__version__ import PY_VERSION
 
+from .pages import *
+
 
 class FishcastingPlugin(ModPluginImpl):
     @staticmethod
