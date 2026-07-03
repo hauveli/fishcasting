@@ -828,6 +828,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         fun vanish(entity: Entity) {
             val trader = entity as WanderingTrader
             trader.setPos(OUTTA_HERE)
+            trader.kill()
             trader.discard()
         }
 
