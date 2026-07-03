@@ -22,8 +22,8 @@
         >
       {% endblock background %}
 
-      {% set in_tex = recipe.exchange.entityIn %}
-      {% set out_tex = recipe.exchange.entityOut %}
+      {% set in_tex = recipe.exchange.entityIn | hexdoc_texture %}
+      {% set out_tex = recipe.exchange.entityOut | hexdoc_texture %}
 
 
       {% block ingredient %}
