@@ -1,5 +1,5 @@
 {
-  "type": "brainsweep",
+  "type": "hexcasting:brainsweep",
   "blockIn": {
     "type": "block",
     "block": "minecraft:amethyst_block"
@@ -10,6 +10,6 @@
     "entityType": "minecraft:wandering_trader"
   },
   "result": {
-    "Name": "minecraft:budding_amethyst"
+    "name": "minecraft:budding_amethyst"
   }
 }
