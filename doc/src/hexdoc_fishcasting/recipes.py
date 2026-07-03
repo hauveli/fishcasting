@@ -4,7 +4,3 @@
 from hexdoc.minecraft.recipe import ItemIngredientList, ItemResult, Recipe
 from pydantic import Field
 from hexdoc_hexcasting.book.recipes import EntityTypeIngredient
-
-
-class VoidsweepRecipe(EntityTypeIngredient):
-    pass
