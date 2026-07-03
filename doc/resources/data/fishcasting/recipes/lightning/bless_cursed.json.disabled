@@ -1,6 +1,5 @@
 {
   "type": "fishcasting:struck_by_lightning",
-  "cost": 100000,
   "exchange": {
     "type": "fishcasting:struck_by_lightning_entity_types",
     "entityIn": "fishcasting:cursed",
