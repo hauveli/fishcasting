@@ -20,10 +20,11 @@ public abstract class VoidsweepAiStepWanderingTraderMixin {
     @Inject(method = "aiStep", at = @At("HEAD"), cancellable = true)
     private void doTheThing(CallbackInfo ci) {
         WanderingTrader trader = (WanderingTrader) (Object) this;
-        if (HexAPI.instance().isBrainswept(trader)) {
+        if (HexAPI.instance().isBrainswept(trader) && trader.hurtTime < 9 && trader.isAlive()) {
             ((AbstractVillagerInvoker) this).invokeStopTrading();
             cursedTheatrics(trader);
-            ci.cancel();
+            // as tempting as it is to cancel aiStep, I need it in order for deltaMovement to happen on subsequent steps?
+            //ci.cancel();
         }
     }
 }

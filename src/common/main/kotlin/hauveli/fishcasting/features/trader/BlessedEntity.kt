@@ -26,6 +26,7 @@ import net.minecraft.Util
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.chat.Component
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
@@ -811,11 +812,12 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             cursed.deltaMovement = entity.deltaMovement
 
             if (entity.hasCustomName()) {
-                cursed.customName = entity.customName
+                cursed.customName =  entity.customName!!.copy().append(Component.literal("?"))
                 cursed.isCustomNameVisible = entity.isCustomNameVisible
             }
 
             cursed.remainingFireTicks = entity.remainingFireTicks
+            cursed.setFromBucket(false)
             entity.level().addFreshEntity(cursed)
         }
 
