@@ -1,7 +1,7 @@
 # .venv\Lib\site-packages\hexdoc_hexcasting\book\recipes.py
 # .venv\Lib\site-packages\hexdoc_hexcasting\_templates\recipes\hexcasting\brainsweep.html.jinja
 
-from hexdoc.patchouli.page import EmptyPage
+from hexdoc.patchouli.page import EmptyPage, PageWithText, PageWithTitle
 from hexdoc_hexcasting.book.page.pages import BrainsweepPage
 from hexdoc_fishcasting.recipes import StruckByLightningRecipe as LightningRecipe
 
