@@ -6,31 +6,43 @@
     <span class="collapse-recipe-hide">{{ _('hexdoc.recipe.hide') }}</span>
   </summary>
 
-  <div>
-    <h5>{{ page.header }}</h5>
+  <div class="lightning-recipe">
 
-    <div class="lightning-recipe">
-      <img
-        class="lightning-recipe-background"
-        alt="Struck by Lightning Recipe GUI"
-        src="{{ 'fishcasting:textures/gui/hexdoc/struck_by_lightning.png'|hexdoc_texture }}"
-      >
+    <img
+      class="lightning-recipe-background"
+      src="{{ 'fishcasting:textures/gui/hexdoc/struck_by_lightning.png' | hexdoc_texture }}"
+      alt=""
+    >
 
-      <div class="lightning-recipe-input">
+    {% block header %}
+      <div class="lightning-recipe-header">
+        {{ page.header }}
+      </div>
+    {% endblock %}
+
+    {% block body %}
+      <div class="lightning-recipe-body">
+        {{ page.body }}
+      </div>
+    {% endblock %}
+
+    {% block entity_in %}
+      <div class="lightning-recipe-entity-in">
         <img
           src="{{ ('fishcasting:textures/entities/' ~ recipe.exchange.entityIn.path ~ '.png') | hexdoc_texture }}"
-          alt="{{ recipe.exchange.entityIn.path }}"
+          alt=""
         >
       </div>
+    {% endblock %}
 
-      <div class="lightning-recipe-output">
+    {% block entity_out %}
+      <div class="lightning-recipe-entity-out">
         <img
           src="{{ ('fishcasting:textures/entities/' ~ recipe.exchange.entityOut.path ~ '.png') | hexdoc_texture }}"
-          alt="{{ recipe.exchange.entityOut.path }}"
+          alt=""
         >
       </div>
-    </div>
+    {% endblock %}
 
-    <p>{{ page.body }}</p>
   </div>
 </details>
