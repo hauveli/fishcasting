@@ -4,5 +4,25 @@
       title: "Fishcasting Book",
       description: "Fishcasting addon for Hex Casting and Tide 2",
     },
+  },
+  item: {
+    tide: {
+      amethyst_bobber: "Amethyst Focus Bobber",
+      crystal_shrimp: "Crystal Shrimp",
+      crystalline_carp: "Crystalline Carp",
+      bait: "Bait",
+      fishing_journal: "Fishing Journal",
+      fish_satchel: "Fish Satchel"
+    }
+  },
+  block: {
+    tide: {
+      amethyst_bobber: "Amethyst Focus Bobber",
+      crystal_shrimp: "Crystal Shrimp",
+      crystalline_carp: "Crystalline Carp",
+      bait: "Bait",
+      fishing_journal: "Fishing Journal",
+      fish_satchel: "Fish Satchel"
+    }
   }
 }
