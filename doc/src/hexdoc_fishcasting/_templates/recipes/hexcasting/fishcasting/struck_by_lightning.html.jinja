@@ -22,8 +22,8 @@
         >
       {% endblock background %}
 
-      {% set in_tex = recipe.exchange.entityIn.path | hexdoc_texture %}
-      {% set out_tex = recipe.exchange.entityOut.path | hexdoc_texture %}
+      {% set in_tex = ('fishcasting:textures/entities/' ~ recipe.exchange.entityIn.path ~ '.png') | hexdoc_texture %}
+      {% set out_tex = ('fishcasting:textures/entities/' ~ recipe.exchange.entityOut.path ~ '.png') | hexdoc_texture %}
 
 
       {% block ingredient %}
