@@ -32,7 +32,9 @@
     "loud_line.LoudLineJingleTideFishingHookMixin",
     "shepherds_rod.EndInAnyVoidBonusFishingHookMixin",
     "tacklebox_chair.ContentAccessorBucketItemMixin",
-    "tacklebox_chair.TackleBoxSlurpEntityMixin"
+    "tacklebox_chair.TackleBoxSlurpEntityMixin",
+    "voidsweep.AbstractVillagerInvoker",
+    "voidsweep.VoidsweepAiStepWanderingTraderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

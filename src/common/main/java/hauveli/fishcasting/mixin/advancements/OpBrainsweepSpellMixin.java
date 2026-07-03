@@ -1,13 +1,13 @@
 package hauveli.fishcasting.mixin.advancements;
 
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment;
-import com.llamalad7.mixinextras.sugar.Local;
+
 import static hauveli.fishcasting.registry.FishcastingAdvancements.tryGrantingAdvancement;
 import hauveli.fishcasting.features.trader.BlessedEntity;
 import hauveli.fishcasting.registry.FishcastingAdvancements;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.npc.WanderingTrader;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -32,9 +32,11 @@ public class OpBrainsweepSpellMixin {
         // TODO:? something smarter than this maybe
         // pros of this: it's easy and not horribly inefficient
         // cons: I have to do a mixin for it
-        if (sacrifice instanceof BlessedEntity
+        // The thing is registered as a recipe, so I feel like it should be data-packable, but I couldn't figure out how
+        // if you know and read this, please let me know how
+        if (sacrifice instanceof WanderingTrader
                 && env.getCastingEntity() instanceof ServerPlayer serverPlayer) {
-            tryGrantingAdvancement(serverPlayer, FishcastingAdvancements.BLESSED_BRAINSWEPT);
+            tryGrantingAdvancement(serverPlayer, FishcastingAdvancements.TRADER_BRAINSWEPT);
         }
     }
 }

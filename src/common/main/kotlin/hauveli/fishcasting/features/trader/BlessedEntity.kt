@@ -158,29 +158,6 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         return this.maxHealth == this.health
     }
 
-    private fun summonCursedAtPosition(entity: Entity) {
-        val cursed = CursedEntity(FishcastingEntities.CURSED, entity.level())
-        cursed.setPos(entity.position())
-
-        cursed.moveTo(
-            entity.x,
-            entity.y,
-            entity.z,
-            entity.yRot,
-            entity.xRot
-        )
-
-        cursed.deltaMovement = entity.deltaMovement
-
-        if (entity.hasCustomName()) {
-            cursed.customName = entity.customName
-            cursed.isCustomNameVisible = entity.isCustomNameVisible
-        }
-
-        cursed.remainingFireTicks = entity.remainingFireTicks
-        entity.level().addFreshEntity(cursed)
-    }
-
     override fun hurt(source: DamageSource, amount: Float): Boolean {
         this.decrementMood()
         return super.hurt(source, amount)
@@ -199,20 +176,11 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         this.stopTrading()
     }
 
-    private fun vanish() {
-        this.stopTrading()
-        this.setPos(OUTTA_HERE)
-        this.discard()
-    }
-
     override fun aiStep() {
         super.aiStep()
         if (!this.level().isClientSide) {
             if (HexAPI.instance().isBrainswept(this)) {
-                this.mood = Mood.VERY_HAPPY
-                summonCursedAtPosition(this)
-                this.kill()
-                this.vanish()
+                this.mood = Mood.VERY_HAPPY // funny
                 return
             }
             when (brain) {
@@ -824,6 +792,46 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         // only grab known fish
         private fun itemIsFish(maybeFish: ItemStack?): Boolean {
             return TideUtils.isJournalFish(maybeFish)
+        }
+
+
+        @JvmStatic
+        fun summonCursedAtPosition(entity: Entity) {
+            val cursed = CursedEntity(FishcastingEntities.CURSED, entity.level())
+            cursed.setPos(entity.position())
+
+            cursed.moveTo(
+                entity.x,
+                entity.y,
+                entity.z,
+                entity.yRot,
+                entity.xRot
+            )
+
+            cursed.deltaMovement = entity.deltaMovement
+
+            if (entity.hasCustomName()) {
+                cursed.customName = entity.customName
+                cursed.isCustomNameVisible = entity.isCustomNameVisible
+            }
+
+            cursed.remainingFireTicks = entity.remainingFireTicks
+            entity.level().addFreshEntity(cursed)
+        }
+
+        // have to call this myself
+        // this.stopTrading()
+        @JvmStatic
+        fun vanish(entity: Entity) {
+            val trader = entity as WanderingTrader
+            trader.setPos(OUTTA_HERE)
+            trader.discard()
+        }
+
+        @JvmStatic
+        fun cursedTheatrics(entity: Entity) {
+            summonCursedAtPosition(entity)
+            vanish(entity)
         }
     }
 }
