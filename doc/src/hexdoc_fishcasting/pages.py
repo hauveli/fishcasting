@@ -18,8 +18,8 @@ class VoidsweepPage(BrainsweepPage, type="hexcasting:fishcasting/brainsweep_void
 # todo: implement this thing here then reference it from the others
 class LightningPage(PageWithText, type="hexcasting:fishcasting/struck_by_lightning"):
     recipe: LightningRecipe
-    body: Str = Field(alias="body")
-    header: Str = Field(alias="header")
+    body: LocalizedStr = Field(alias="body")
+    header: LocalizedStr = Field(alias="header")
 
 
 
