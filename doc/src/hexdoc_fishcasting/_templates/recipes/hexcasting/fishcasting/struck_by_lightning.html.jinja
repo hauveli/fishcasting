@@ -31,13 +31,13 @@
 
       {% block entityOut %}
         {% with entityOut=recipe.outObject %}
-          {% include recipe.inTemplate~".html.jinja" %}
+          {% include recipe.outTemplate~".html.jinja" %}
         {% endwith %}
       {% endblock entityOut %}
 
       {% block zap %}
-        {% with entityIn=recipe.zapObject %}
-          {% include recipe.inTemplate~".html.jinja" %}
+        {% with zap=recipe.zapObject %}
+          {% include recipe.zapTemplate~".html.jinja" %}
         {% endwith %}
       {% endblock zap %}
     </div>
