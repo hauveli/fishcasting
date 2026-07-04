@@ -57,6 +57,15 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
         )
 
     @property
+    def nameZap(self):
+        return self._nameZap
+
+    @property
+    def textureZap(self):
+        return self._textureZap
+
+
+    @property
     def objectZap(self):
         return SimpleNamespace(
             name=self._nameZap,
