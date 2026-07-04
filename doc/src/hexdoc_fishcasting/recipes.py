@@ -2,6 +2,7 @@
 # .venv\Lib\site-packages\hexdoc_hexcasting\_templates\recipes\hexcasting\brainsweep.html.jinja
 from abc import ABC, abstractmethod
 from typing import Any, Literal, Self
+from types import SimpleNamespace
 
 from hexdoc.core import ResourceLocation
 from hexdoc.minecraft.assets import ItemWithTexture, PNGTexture
@@ -10,12 +11,6 @@ from hexdoc.minecraft.recipe import ItemIngredient, ItemIngredientList, Recipe
 from hexdoc.minecraft.recipe import ItemIngredientList, ItemResult, Recipe
 from pydantic import Field, PrivateAttr, ValidationInfo, model_validator
 from hexdoc_hexcasting.book.recipes import BrainsweepeeIngredient
-
-
-class definitelyTheRealObject(name, texture):
-    name: str
-    texture: str
-
 
 class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:struck_by_lightning_entity_types"):
     entityIn: ResourceLocation = Field(alias="entityIn")
@@ -38,7 +33,7 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
 
     @property
     def objectIn(self):
-        return definitelyTheRealObject(
+        return SimpleNamespace(
             name=self._nameIn,
             texture=self._textureIn,
         )
@@ -53,7 +48,7 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
 
     @property
     def objectOut(self):
-        return definitelyTheRealObject(
+        return SimpleNamespace(
             name=self._nameOut,
             texture=self._textureOut,
         )
