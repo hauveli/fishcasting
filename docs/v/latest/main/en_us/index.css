@@ -417,7 +417,7 @@ p.todo-note {
 .lightning-input-recipe-entity{
   position: absolute;
   top: 86px;
-  left: 56px;
+  left: 63px;
   transform: translate(-50%, -50%);
   max-height: 94px;
   max-width: 50px;
@@ -425,7 +425,7 @@ p.todo-note {
 .lightning-zap-recipe-entity{
   position: absolute;
   top: 86px;
-  left: 56px;
+  left: 66px;
   transform: translate(-50%, -50%);
   max-height: 94px;
   max-width: 50px;
@@ -433,7 +433,7 @@ p.todo-note {
 .lightning-output-recipe-entity{
   position: absolute;
   top: 86px;
-  left: 196px;
+  left: 167px;
   transform: translate(-50%, -50%);
   max-height: 94px;
   max-width: 50px;
