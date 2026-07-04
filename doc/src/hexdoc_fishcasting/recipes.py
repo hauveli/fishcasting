@@ -12,7 +12,7 @@ from pydantic import Field, PrivateAttr, ValidationInfo, model_validator
 from hexdoc_hexcasting.book.recipes import BrainsweepeeIngredient
 
 
-class definitelyTheRealObject:
+class definitelyTheRealObject(name, texture):
     name: str
     texture: str
 
