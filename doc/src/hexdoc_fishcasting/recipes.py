@@ -22,7 +22,6 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
     _nameOut: LocalizedStr = PrivateAttr()
     _textureOut: PNGTexture = PrivateAttr()
 
-
     @property
     def nameIn(self):
         return self._nameIn
@@ -133,4 +132,3 @@ class StruckByLightningRecipe(Recipe, ABC, type="fishcasting:struck_by_lightning
     @property
     def outObject(self) -> Any:
         return self.exchange.objectOut
-
