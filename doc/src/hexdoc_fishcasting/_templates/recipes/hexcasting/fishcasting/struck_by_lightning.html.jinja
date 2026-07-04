@@ -24,7 +24,7 @@
 
 
       {% block entityIn %}
-        {% with entityIn=recipe.input %}
+        {% with entityIn=recipe.inObject %}
           {% include recipe.inTemplate~".html.jinja" %}
         {% endwith %}
       {% endblock entityIn %}

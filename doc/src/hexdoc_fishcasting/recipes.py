@@ -12,11 +12,14 @@ from pydantic import Field, PrivateAttr, ValidationInfo, model_validator
 from hexdoc_hexcasting.book.recipes import BrainsweepeeIngredient
 
 
+class definitelyTheRealObject:
+    name: str
+    texture: str
+
+
 class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:struck_by_lightning_entity_types"):
     entityIn: ResourceLocation = Field(alias="entityIn")
     entityOut: ResourceLocation = Field(alias="entityOut")
-
-
 
     _nameIn: LocalizedStr = PrivateAttr()
     _textureIn: PNGTexture = PrivateAttr()
@@ -34,12 +37,26 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
         return self._textureIn
 
     @property
+    def objectIn(self):
+        return definitelyTheRealObject(
+            name=self._nameIn,
+            texture=self._textureIn,
+        )
+
+    @property
     def nameOut(self):
         return self._nameOut
 
     @property
     def textureOut(self):
         return self._textureOut
+
+    @property
+    def objectOut(self):
+        return definitelyTheRealObject(
+            name=self._nameOut,
+            texture=self._textureOut,
+        )
 
 
 
@@ -113,4 +130,12 @@ class StruckByLightningRecipe(Recipe, ABC, type="fishcasting:struck_by_lightning
     @property
     def outTemplate(self) -> Any:
         return self.exchange.templateOut
+
+    @property
+    def inObject(self) -> Any:
+        return self.exchange.objectIn
+
+    @property
+    def outObject(self) -> Any:
+        return self.exchange.objectOut
 
