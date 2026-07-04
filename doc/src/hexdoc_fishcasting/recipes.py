@@ -133,6 +133,8 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
             context=info.context,
         )
 
+        return self
+
 
 class StruckByLightningRecipe(Recipe, ABC, type="fishcasting:struck_by_lightning"):
     exchange: StruckByLightningIngredient
