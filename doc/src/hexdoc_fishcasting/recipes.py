@@ -47,13 +47,13 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
     def templateIn(self):
         # template_id is actually supposed to just be a string
         # but pydantic generics are hard :(
-        return f"ingredients/fishcasting/struck_by_lightning/input.html.jinja"
+        return f"ingredients/fishcasting/struck_by_lightning/input"
 
     @property
     def templateOut(self):
         # template_id is actually supposed to just be a string
         # but pydantic generics are hard :(
-        return f"ingredients/fishcasting/struck_by_lightning/output.html.jinja"
+        return f"ingredients/fishcasting/struck_by_lightning/output"
 
 
     @model_validator(mode="after")
