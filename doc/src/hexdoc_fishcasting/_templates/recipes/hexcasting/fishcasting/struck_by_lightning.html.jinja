@@ -29,19 +29,17 @@
         {% endwith %}
       {% endblock entityIn %}
 
-      {% block cost %}
-        <div class="lightning-output-recipe-entity texture item-texture">
-            <div class="texture item-texture">
-          {{ texture_macros.render_icon(recipe.inTex) }}
-            </div>
-        </div>
-      {% endblock cost %}
+      {% block entityOut %}
+        {% with entityOut=recipe.outObject %}
+          {% include recipe.inTemplate~".html.jinja" %}
+        {% endwith %}
+      {% endblock entityOut %}
 
-      {% block result %}
-        <div class="lightning-output-recipe-entity">
-          {{ texture_macros.render_icon(recipe.outTex) }}
-        </div>
-      {% endblock %}
+      {% block zap %}
+        {% with entityIn=recipe.zapObject %}
+          {% include recipe.inTemplate~".html.jinja" %}
+        {% endwith %}
+      {% endblock zap %}
     </div>
   </div>
 </details>

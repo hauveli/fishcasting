@@ -22,6 +22,9 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
     _nameOut: LocalizedStr = PrivateAttr()
     _textureOut: PNGTexture = PrivateAttr()
 
+    _nameZap: LocalizedStr = PrivateAttr()
+    _textureZap: PNGTexture = PrivateAttr()
+
     @property
     def nameIn(self):
         return self._nameIn
@@ -50,6 +53,13 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
         return SimpleNamespace(
             name=self._nameOut,
             texture=self._textureOut,
+        )
+
+    @property
+    def objectZap(self):
+        return SimpleNamespace(
+            name=self._nameZap,
+            texture=self._textureZap,
         )
 
 
@@ -95,6 +105,17 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
 
         return self
 
+    @model_validator(mode="after")
+    def _get_textureZap(self, info: ValidationInfo) -> Self:
+        assert info.context is not None
+        i18n = I18n.of(info)
+
+        self._nameZap = i18n.localize_entity("minecraft:lightning_bolt")
+
+        self._textureZap = PNGTexture.load_id(
+            id="textures/entities/lightning_bolt.png",
+            context=info.context,
+        )
 
 
 class StruckByLightningRecipe(Recipe, ABC, type="fishcasting:struck_by_lightning"):
@@ -132,3 +153,8 @@ class StruckByLightningRecipe(Recipe, ABC, type="fishcasting:struck_by_lightning
     @property
     def outObject(self) -> Any:
         return self.exchange.objectOut
+
+    @property
+    def zapObject(self) -> Any:
+        return self.exchange.objectZap
+
