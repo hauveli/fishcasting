@@ -26,8 +26,7 @@ import java.util.function.Function
 // God I am a horrible person
 @JvmRecord
 data class StruckByLightningRecipe(
-    @JvmField val exchange: StruckByLightningIngredient,
-    @JvmField val mediaCost: Long
+    @JvmField val exchange: StruckByLightningIngredient
 ) : Recipe<RecipeInput?> {
     fun matches(victim: Entity, level: ServerLevel?): Boolean {
         return this.exchange.test(victim, level)
@@ -95,11 +94,8 @@ data class StruckByLightningRecipe(
                             .fieldOf("exchange")
                             .forGetter(StruckByLightningRecipe::exchange),
 
-                        Codec.LONG
-                            .fieldOf("cost")
-                            .forGetter(StruckByLightningRecipe::mediaCost)
-                    ).apply(inst) { exchange, cost ->
-                        StruckByLightningRecipe(exchange, cost)
+                    ).apply(inst) { exchange ->
+                        StruckByLightningRecipe(exchange)
                     }
                 }
 
@@ -107,9 +103,6 @@ data class StruckByLightningRecipe(
                 StreamCodec.composite(
                     TYPED_STREAM_CODEC,
                     StruckByLightningRecipe::exchange,
-
-                    ByteBufCodecs.VAR_LONG,
-                    StruckByLightningRecipe::mediaCost,
 
                     ::StruckByLightningRecipe
                 )
