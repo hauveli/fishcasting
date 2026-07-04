@@ -76,6 +76,12 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
         # but pydantic generics are hard :(
         return f"ingredients/fishcasting/struck_by_lightning/output"
 
+    @property
+    def templateZap(self):
+        # template_id is actually supposed to just be a string
+        # but pydantic generics are hard :(
+        return f"ingredients/fishcasting/struck_by_lightning/zap"
+
 
     @model_validator(mode="after")
     def _get_textureIn(self, info: ValidationInfo) -> Self:
@@ -145,6 +151,10 @@ class StruckByLightningRecipe(Recipe, ABC, type="fishcasting:struck_by_lightning
     @property
     def outTemplate(self) -> Any:
         return self.exchange.templateOut
+
+    @property
+    def zapTemplate(self) -> Any:
+        return self.exchange.templateZap
 
     @property
     def inObject(self) -> Any:
