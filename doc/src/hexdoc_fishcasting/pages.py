@@ -1,12 +1,12 @@
 # .venv\Lib\site-packages\hexdoc_hexcasting\book\recipes.py
 # .venv\Lib\site-packages\hexdoc_hexcasting\_templates\recipes\hexcasting\brainsweep.html.jinja
 
+from hexdoc.patchouli.text import FormattingContext, FormatTree
 from hexdoc.patchouli.page import EmptyPage, PageWithText, PageWithTitle
 from hexdoc.core import IsVersion, ItemStack, ResourceLocation
 from hexdoc.minecraft.i18n import I18n, LocalizedStr
 from hexdoc_hexcasting.book.page.pages import BrainsweepPage
 from hexdoc_fishcasting.recipes import StruckByLightningRecipe as LightningRecipe
-from hexdoc.patchouli.book.text import FormattingContext, FormatTree
 from pydantic import Field, PrivateAttr, ValidationInfo, model_validator
 
 class VoidsweepPage(BrainsweepPage, type="hexcasting:fishcasting/brainsweep_void"):
