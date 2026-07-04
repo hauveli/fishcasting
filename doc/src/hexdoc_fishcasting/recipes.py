@@ -110,7 +110,7 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
         assert info.context is not None
         i18n = I18n.of(info)
 
-        self._nameZap = i18n.localize_entity("minecraft:lightning_bolt")
+        self._nameZap = i18n.localize_entity(ResourceLocation.from_str("minecraft:lightning_bolt"))
 
         self._textureZap = PNGTexture.load_id(
             id="textures/entities/lightning_bolt.png",
