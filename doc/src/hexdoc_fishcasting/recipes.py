@@ -15,6 +15,7 @@ from hexdoc_hexcasting.book.recipes import BrainsweepeeIngredient
 class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:struck_by_lightning_entity_types"):
     entityIn: ResourceLocation = Field(alias="entityIn")
     entityOut: ResourceLocation = Field(alias="entityOut")
+    entityZap: ResourceLocation = ResourceLocation(namespace="minecraft", path="lightning_bolt")
 
     _nameIn: LocalizedStr = PrivateAttr()
     _textureIn: PNGTexture = PrivateAttr()
@@ -116,7 +117,7 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
         assert info.context is not None
         i18n = I18n.of(info)
 
-        self._nameZap = i18n.localize_entity(ResourceLocation.from_str("minecraft:lightning_bolt"))
+        self._nameZap = i18n.localize_entity(self.entityZap)
 
         self._textureZap = PNGTexture.load_id(
             id="textures/entities/lightning_bolt.png",
