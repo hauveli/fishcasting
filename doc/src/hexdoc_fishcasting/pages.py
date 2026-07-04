@@ -22,11 +22,8 @@ class LightningPage(PageWithTitle, type="hexcasting:fishcasting/struck_by_lightn
     body: FormatTree = Field(alias="body")
     header: LocalizedStr = Field(alias="header")
 
-
-
 class LightningAltPage(LightningPage, type="hexcasting:fishcasting/struck_by_lightning_hint"):
     pass
-
 
 class LightningAltPage(LightningPage, type="hexcasting:fishcasting/struck_by_lightning_clueless"):
     pass

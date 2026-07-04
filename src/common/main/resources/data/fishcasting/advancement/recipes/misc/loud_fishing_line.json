@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fishcasting:loud_fishing_line"
+        "recipe": "fishcasting:loud_fishing_line_manual_only"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -37,8 +37,8 @@
   ],
   "rewards": {
     "recipes": [
-      "fishcasting:loud_fishing_line",
-      "fishcasting:loud_fishing_line_from_thought_knot"
+      "fishcasting:loud_fishing_line_manual_only",
+      "fishcasting:loud_fishing_line_from_thought_knot_manual_only"
     ]
   }
 }
