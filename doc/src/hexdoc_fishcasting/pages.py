@@ -6,6 +6,7 @@ from hexdoc.core import IsVersion, ItemStack, ResourceLocation
 from hexdoc.minecraft.i18n import I18n, LocalizedStr
 from hexdoc_hexcasting.book.page.pages import BrainsweepPage
 from hexdoc_fishcasting.recipes import StruckByLightningRecipe as LightningRecipe
+from hexdoc.patchouli.book.text import FormattingContext, FormatTree
 from pydantic import Field, PrivateAttr, ValidationInfo, model_validator
 
 class VoidsweepPage(BrainsweepPage, type="hexcasting:fishcasting/brainsweep_void"):
@@ -16,9 +17,9 @@ class VoidsweepPage(BrainsweepPage, type="hexcasting:fishcasting/brainsweep_void
     pass
 
 # todo: implement this thing here then reference it from the others
-class LightningPage(PageWithText, type="hexcasting:fishcasting/struck_by_lightning"):
+class LightningPage(PageWithTitle, type="hexcasting:fishcasting/struck_by_lightning"):
     recipe: LightningRecipe
-    body: LocalizedStr = Field(alias="body")
+    body: FormatTree = Field(alias="body")
     header: LocalizedStr = Field(alias="header")
 
 
