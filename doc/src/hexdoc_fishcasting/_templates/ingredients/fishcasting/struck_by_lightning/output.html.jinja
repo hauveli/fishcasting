@@ -1,0 +1,7 @@
+{% import "macros/textures.html.jinja" as texture_macros with context -%}
+
+{{ texture_macros.render_texture(
+  name=entityOut.name,
+  texture=entityOut.texture,
+  class_names=["lightning-output-recipe-entity"],
+) }}

@@ -22,11 +22,12 @@
         >
       {% endblock background %}
 
-      {% block ingredient %}
-        <div class="lightning-input-recipe-entity">
-          {{ texture_macros.render_icon(recipe.inTex) }}
-        </div>
-      {% endblock %}
+
+      {% block entityIn %}
+        {% with entityIn=recipe.input %}
+          {% include recipe.inTemplate~".html.jinja" %}
+        {% endwith %}
+      {% endblock entityIn %}
 
       {% block cost %}
         <div class="lightning-output-recipe-entity texture item-texture">

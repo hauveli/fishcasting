@@ -16,11 +16,14 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
     entityIn: ResourceLocation = Field(alias="entityIn")
     entityOut: ResourceLocation = Field(alias="entityOut")
 
+
+
     _nameIn: LocalizedStr = PrivateAttr()
     _textureIn: PNGTexture = PrivateAttr()
 
     _nameOut: LocalizedStr = PrivateAttr()
     _textureOut: PNGTexture = PrivateAttr()
+
 
     @property
     def nameIn(self):
@@ -37,6 +40,21 @@ class StruckByLightningIngredient(BrainsweepeeIngredient, type="fishcasting:stru
     @property
     def textureOut(self):
         return self._textureOut
+
+
+
+    @property
+    def templateIn(self):
+        # template_id is actually supposed to just be a string
+        # but pydantic generics are hard :(
+        return f"ingredients/fishcasting/struck_by_lightning/input.html.jinja"
+
+    @property
+    def templateOut(self):
+        # template_id is actually supposed to just be a string
+        # but pydantic generics are hard :(
+        return f"ingredients/fishcasting/struck_by_lightning/output.html.jinja"
+
 
     @model_validator(mode="after")
     def _get_textureIn(self, info: ValidationInfo) -> Self:
@@ -86,3 +104,13 @@ class StruckByLightningRecipe(Recipe, ABC, type="fishcasting:struck_by_lightning
     @property
     def outTex(self) -> Any:
         return self.exchange.textureOut
+
+
+    @property
+    def inTemplate(self) -> Any:
+        return self.exchange.templateIn
+
+    @property
+    def outTemplate(self) -> Any:
+        return self.exchange.templateOut
+
