@@ -23,13 +23,13 @@
       {% endblock background %}
 
       {% block ingredient %}
-        <div class="flay-recipe-block-ingredient">
+        <div class="lightning-input-recipe-entity">
           {{ texture_macros.render_icon(recipe.inTex) }}
         </div>
       {% endblock %}
 
       {% block cost %}
-        <div class="flay-recipe-cost texture item-texture">
+        <div class="lightning-output-recipe-entity texture item-texture">
             <div class="texture item-texture">
           {{ texture_macros.render_icon(recipe.inTex) }}
             </div>
@@ -37,7 +37,7 @@
       {% endblock cost %}
 
       {% block result %}
-        <div class="flay-recipe-result">
+        <div class="lightning-output-recipe-entity">
           {{ texture_macros.render_icon(recipe.outTex) }}
         </div>
       {% endblock %}
