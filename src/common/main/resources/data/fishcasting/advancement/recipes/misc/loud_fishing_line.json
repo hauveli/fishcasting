@@ -38,7 +38,7 @@
   "rewards": {
     "recipes": [
       "fishcasting:loud_fishing_line_manual_only",
-      "fishcasting:loud_fishing_line_from_thought_knot_manual_only"
+      "fishcasting:loud_fishing_line_from_thought_knot"
     ]
   }
 }
