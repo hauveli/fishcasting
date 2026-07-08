@@ -27,8 +27,11 @@ import java.util.function.Function;
 @Mixin(RecipeManager.class)
 public class stupidmixin {
 
+    // I'm mad at fabric for not letting me load it in the correct order (after Tide) to apply pack.mcmeta filters. This mixin exists because
+    // fabric somehow didn't support pack.mcmeta features because loading in a random order is epic.
+    // Fabric supports loading in specified orders after 1.21.5, I think
     private static final String fuckyou1 = "crystal_rod_smithing";
-    private static final String fuckyou2 = "bobbers/amethyst_bobber"; // tide:bobbers/amethyst in 2.0.3, tide:bobbers/amethyst_bobber in 2.1.0
+    private static final String fuckyou2 = "bobbers/amethyst_bobber";
 
     @Unique
     private boolean fishcasting$fuckedIfTrue(ResourceLocation id) {

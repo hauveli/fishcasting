@@ -52,6 +52,7 @@ object FabricFishcasting : ModInitializer {
                     Registry.register(registry, id, t)
                 }
             }
+
         FishcastingItems.registerItems(bind(BuiltInRegistries.ITEM))
         FishcastingRecipeRegistry.registerSerializers(bind(BuiltInRegistries.RECIPE_SERIALIZER))
         FishcastingRecipeRegistry.registerTypes(bind(BuiltInRegistries.RECIPE_TYPE))
@@ -73,8 +74,6 @@ object FabricFishcasting : ModInitializer {
         registerAttributeHolder()
         // why is this ok in fabric but not neoforge? what...
         registerItemModelProperties()
-
-        FishcastingCC.init() // oops...
     }
 
     fun registerOnJoinEvent() {

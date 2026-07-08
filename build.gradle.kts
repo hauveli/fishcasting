@@ -168,10 +168,6 @@ cloche {
                 value = "hauveli.fishcasting.datagen.FabricFishcastingDatagen"
                 adapter = "kotlin"
             }
-            entrypoint("cardinal-components") {
-                value = "hauveli.fishcasting.FishcastingCC"
-                adapter = "kotlin"
-            }
             dependencies {
                 /*
                 dependency {

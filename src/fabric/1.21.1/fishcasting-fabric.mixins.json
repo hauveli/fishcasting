@@ -6,7 +6,8 @@
   "client": [
   ],
   "mixins": [
-    "babysittingfabric.stupidmixin"
+    "babysittingfabric.stupidmixin",
+    "HexCardinalComponentsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
