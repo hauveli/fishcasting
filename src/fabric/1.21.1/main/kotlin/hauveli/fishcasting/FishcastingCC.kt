@@ -1,10 +1,11 @@
 package hauveli.fishcasting
 
+import at.petrak.hexcasting.api.HexAPI.modLoc
 import at.petrak.hexcasting.api.addldata.ItemDelegatingEntityIotaHolder
+import at.petrak.hexcasting.common.lib.HexDataComponents
 import at.petrak.hexcasting.fabric.cc.*
 import at.petrak.hexcasting.fabric.cc.HexCardinalComponents.IOTA_HOLDER
 import at.petrak.hexcasting.fabric.cc.adimpl.CCEntityIotaHolder
-import at.petrak.hexcasting.fabric.cc.adimpl.CCIotaHolder
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import hauveli.fishcasting.registry.FishcastingItems
 import net.minecraft.world.entity.Entity

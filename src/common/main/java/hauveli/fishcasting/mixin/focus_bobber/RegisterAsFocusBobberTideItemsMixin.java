@@ -3,6 +3,7 @@ package hauveli.fishcasting.mixin.focus_bobber;
 // holymoly what a funny thank you
 
 import com.li64.tide.registries.TideItems;
+import hauveli.fishcasting.Fishcasting;
 import hauveli.fishcasting.features.paraphernalia.TideyFocusItem;
 import net.minecraft.world.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,6 +35,6 @@ public abstract class RegisterAsFocusBobberTideItemsMixin {
             index = 1
     )
     private static Function<Item.Properties, Item> replaceAmethystBobber(Function<Item.Properties, Item> original) {
-        return props -> new TideyFocusItem(props);
+        return TideyFocusItem::new;
     }
 }

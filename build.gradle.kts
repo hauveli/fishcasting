@@ -30,7 +30,7 @@ repositories {
         mavenNeoforgedMeta()
         mavenNeoforged()
         mavenFabric()
-        mavenParchment()
+        // mavenParchment()
         librariesMinecraft()
         main()
     }
@@ -95,7 +95,7 @@ cloche {
 
         mappings {
             official()
-            parchment("2024.11.17")
+            // parchment("2024.11.17")
         }
 
         dependencies {
@@ -129,7 +129,7 @@ cloche {
 
         mappings {
             official()
-            parchment("2024.11.17")
+            // parchment("2024.11.17")
         }
 
         dependencies {
@@ -205,7 +205,7 @@ cloche {
 
         mappings {
             official()
-            parchment("2024.11.17")
+            // parchment("2024.11.17")
         }
 
         dependencies {

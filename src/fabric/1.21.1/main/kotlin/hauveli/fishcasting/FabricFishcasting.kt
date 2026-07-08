@@ -45,49 +45,19 @@ object FabricFishcasting : ModInitializer {
         Fishcasting.init()
     }
 
-    fun fuckEverything() {
-        class FuckEverything : IdentifiableResourceReloadListener {
-            override fun getFabricId(): ResourceLocation {
-                return ResourceLocation.fromNamespaceAndPath("mymod", "my_listener")
-            }
-
-            override fun getFabricDependencies(): MutableCollection<ResourceLocation> {
-                return mutableListOf(
-                    ResourceLocation.fromNamespaceAndPath("othermod", "their_listener")
-                )
-            } // reload implementation...
-
-            override fun reload(
-                preparationBarrier: PreparableReloadListener.PreparationBarrier,
-                resourceManager: ResourceManager,
-                preparationsProfiler: ProfilerFiller,
-                reloadProfiler: ProfilerFiller,
-                backgroundExecutor: Executor,
-                gameExecutor: Executor
-            ): CompletableFuture<Void?> {
-                TODO("Not yet implemented")
-                        // ??????????????????????????????
-            }
-
-        }
-
-        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(FuckEverything())
-    }
-
     init {
-        // AHHHHHHHHHHHHH why do I need this much code just to override a fucking recipe? really?
         fun <T> bind(registry: Registry<in T>): BiConsumer<T, ResourceLocation> =
             BiConsumer<T, ResourceLocation> { t, id ->
                 if (t != null) {
                     Registry.register(registry, id, t)
                 }
             }
+        FishcastingItems.registerItems(bind(BuiltInRegistries.ITEM))
         FishcastingRecipeRegistry.registerSerializers(bind(BuiltInRegistries.RECIPE_SERIALIZER))
         FishcastingRecipeRegistry.registerTypes(bind(BuiltInRegistries.RECIPE_TYPE))
         FishcastingEntities.registerEntities(bind(BuiltInRegistries.ENTITY_TYPE))
         FishcastingAttributes.registerAttributes(bind(BuiltInRegistries.ATTRIBUTE))
         FishcastingSounds.registerSounds(bind(BuiltInRegistries.SOUND_EVENT))
-        FishcastingItems.registerItems(bind(BuiltInRegistries.ITEM))
         FishcastingCreativeTabs.registerCreativeTabs(bind(BuiltInRegistries.CREATIVE_MODE_TAB))
         //bind(HexRegistries.IOTA_TYPE, FishcastingIotaTypes::registerTypes)
         FishcastingBrainsweepeeIngredients.registerBrainsweepeeIngredients(bind(IXplatAbstractions.INSTANCE.brainsweepeeIngredientRegistry))
@@ -181,14 +151,6 @@ object FabricFishcasting : ModInitializer {
             TideItemModelProperties.CAST_FUNCTION
         )
     }
-
-    /*
-        todo: what the fuck do I do to get capabilities in fabric? I can only think of registering a new entity, but I'd rather not...
-        modBus.apply {
-            addListener(::registerCaps)
-        }
-
-*/
 
 /*
 

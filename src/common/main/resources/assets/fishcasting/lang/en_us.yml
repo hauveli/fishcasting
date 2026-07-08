@@ -144,6 +144,9 @@ fishcasting:
       .: Fishcasting
       desc: Further, some texts vaguely related to some sort of figure in the "Fishcasting" society have surfaced... Literally.
 item:
+  tide:
+    crystal_fishing_rod: Crystal Casting Rod
+    amethyst_bobber: Amethyst Focus Bobber
   fishcasting:
     shepherds_casting_rod: Shepherd's Casting Rod
     blessed_focus_bobber: Blessed Focus Bobber
