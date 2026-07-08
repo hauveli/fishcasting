@@ -1,8 +1,11 @@
 package hauveli.fishcasting
 
+import at.petrak.hexcasting.api.addldata.ADIotaHolder
 import at.petrak.hexcasting.common.lib.hex.HexArithmetics
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import com.li64.tide.client.TideItemModelProperties
+import com.li64.tide.registries.TideEntityTypes
+import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
 import hauveli.fishcasting.features.chair.TackleBoxChairModel
 import hauveli.fishcasting.features.chair.TackleBoxChairRenderer
@@ -13,10 +16,8 @@ import hauveli.fishcasting.features.trader.BlessedRenderer
 import hauveli.fishcasting.registry.*
 import hauveli.fishcasting.registry.FishcastingCreativeTabs.key
 import net.fabricmc.api.ModInitializer
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
-import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
@@ -28,7 +29,6 @@ import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.server.packs.PackType
 import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ResourceManager
@@ -82,7 +82,6 @@ object FabricFishcasting : ModInitializer {
                     Registry.register(registry, id, t)
                 }
             }
-
         FishcastingRecipeRegistry.registerSerializers(bind(BuiltInRegistries.RECIPE_SERIALIZER))
         FishcastingRecipeRegistry.registerTypes(bind(BuiltInRegistries.RECIPE_TYPE))
         FishcastingEntities.registerEntities(bind(BuiltInRegistries.ENTITY_TYPE))
@@ -104,6 +103,8 @@ object FabricFishcasting : ModInitializer {
         registerAttributeHolder()
         // why is this ok in fabric but not neoforge? what...
         registerItemModelProperties()
+
+        FishcastingCC.init() // oops...
     }
 
     fun registerOnJoinEvent() {
@@ -187,15 +188,9 @@ object FabricFishcasting : ModInitializer {
             addListener(::registerCaps)
         }
 
-    fun registerCaps(event: RegisterCapabilitiesEvent) {
-        event.registerEntity<ADIotaHolder?, Void?, TideFishingHook>(
-            HexCapabilities.Entity.IOTA,
-            TideEntityTypes.FISHING_BOBBER,
-            ICapabilityProvider { entity: TideFishingHook, ctx: Void? -> ToTideFishingHookEntity(entity) }
-        )
-    }
+*/
 
-
+/*
 
     // I decided against it but I'm keeping it here just in case
     public static void registerSpawnPlacements(RegisterSpawnPlacementsEvent event) {

@@ -2,7 +2,6 @@ package hauveli.fishcasting.registry
 
 import at.petrak.hexcasting.api.addldata.ItemDelegatingEntityIotaHolder
 import com.google.common.base.Suppliers
-import com.li64.tide.client.TideItemModelProperties
 import com.li64.tide.data.rods.CustomRodManager
 import com.li64.tide.registries.entities.misc.fishing.HookAccessor
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
@@ -15,7 +14,6 @@ import hauveli.fishcasting.features.paraphernalia.HexyRodItem
 import hauveli.fishcasting.features.paraphernalia.LoudFishingLineItem
 import hauveli.fishcasting.features.paraphernalia.TideyFocusItem
 import hauveli.fishcasting.registry.FishcastingCreativeTabs.FISHCASTING
-import net.minecraft.client.renderer.item.ItemProperties
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvents.BUCKET_EMPTY_FISH
 import net.minecraft.world.item.*
