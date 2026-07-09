@@ -188,3 +188,15 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+/libs/tide-fabric-1.20.1-2.0.3.jar
+/libs/hexcasting-neoforge-1.21.1-0.12.0-devel-pre-20.jar
+/libs/hexcasting-common-1.21.1-0.12.0-devel-pre-20.jar
+/libs/hexcasting-fabric-1.21.1-0.12.0-devel-pre-20.jar
+/libs/tide-fabric-1.21.1-2.1.jar
+/libs/paucal-0.7.1-pre-27+1.21.1-fabric.jar
+/libs/tide-forge-1.20.1-2.0.3.jar
+/libs/tide-neoforge-1.21.1-2.1.jar
+/libs/paucal-0.7.1-pre-27+1.21.1-common.jar
+/libs/tide-fabric-1.21.1-2.0.3.jar
+/libs/tide-neoforge-1.21.1-2.0.3.jar
+/libs/paucal-0.7.1-pre-27+1.21.1-neoforge.jar

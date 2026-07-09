@@ -48,7 +48,6 @@ object FishcastingAdvancements {
     }
 
     fun tryUpdateProgress(serverPlayer: ServerPlayer, advancementResLoc: ResourceLocation) {
-        Fishcasting.LOGGER.info("This exists: {}", advancementResLoc)
         val advancement: AdvancementHolder = checkNotNull(serverPlayer.server.advancements.get(advancementResLoc))
         val progress = serverPlayer.advancements.getOrStartProgress(advancement)
         if (progress.isDone) return

@@ -19,7 +19,7 @@ import net.minecraft.world.level.Level
 
 
 // https://github.com/FallingColors/HexMod/blob/1.21/Common/src/main/java/at/petrak/hexcasting/common/items/storage/ItemFocus.java
-class TideyFocusItem(pProperties: Properties) : ItemFocus(pProperties.stacksTo(1)), IotaHolderItem, VariantItem {
+class TideyFocusItem(pProperties: Properties) : ItemFocus(pProperties.stacksTo(1)) {
     companion object {
         const val LUCK_TWEAKING_BOBBER_PROBABILITY = 1.0 / 1000.0
         val OVERLAY_PREDICATE: ResourceLocation = Fishcasting.id("overlay_layer")
@@ -31,16 +31,7 @@ class TideyFocusItem(pProperties: Properties) : ItemFocus(pProperties.stacksTo(1
         return NUM_VARIANTS
     }
 
-
     /*
-    override fun inventoryTick(itemStack: ItemStack, p1: Level, p2: Entity, p3: Int, p4: Boolean) {
-        super.inventoryTick(itemStack, p1, p2, p3, p4)
-        Fishcasting.LOGGER.info("___________")
-        Fishcasting.LOGGER.info("what the fuck: {}", itemStack.item.javaClass)
-        Fishcasting.LOGGER.info("the datum: {}", IXplatAbstractions.INSTANCE.findDataHolder(itemStack))
-        Fishcasting.LOGGER.info("___________")
-    }
-
     override fun readIota(): Iota? {
         TODO("Not yet implemented")
     }
