@@ -2,6 +2,8 @@ package hauveli.fishcasting
 
 import at.petrak.hexcasting.api.addldata.ADIotaHolder
 import at.petrak.hexcasting.common.lib.hex.HexArithmetics
+import at.petrak.hexcasting.fabric.cc.HexCardinalComponents.IOTA_HOLDER
+import at.petrak.hexcasting.fabric.cc.HexCardinalComponents.IOTA_HOLDER_LOOKUP
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import com.li64.tide.client.TideItemModelProperties
 import com.li64.tide.registries.TideEntityTypes
@@ -11,6 +13,7 @@ import hauveli.fishcasting.features.chair.TackleBoxChairModel
 import hauveli.fishcasting.features.chair.TackleBoxChairRenderer
 import hauveli.fishcasting.features.fish.CursedModel
 import hauveli.fishcasting.features.fish.CursedRenderer
+import hauveli.fishcasting.features.paraphernalia.TideyFocusItem
 import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
 import hauveli.fishcasting.registry.*
@@ -20,6 +23,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
+import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener

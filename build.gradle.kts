@@ -184,7 +184,9 @@ cloche {
         }
 
         runs {
-            client()
+            client {
+                jvmArguments.add("-XX:+AllowEnhancedClassRedefinition")
+            }
             server()
             data()
         }

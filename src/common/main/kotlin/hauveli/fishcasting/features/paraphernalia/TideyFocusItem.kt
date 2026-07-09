@@ -1,10 +1,12 @@
 package hauveli.fishcasting.features.paraphernalia
 
+import at.petrak.hexcasting.api.addldata.ADIotaHolder
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.item.IotaHolderItem
 import at.petrak.hexcasting.api.item.VariantItem
 import at.petrak.hexcasting.common.items.storage.ItemFocus
 import at.petrak.hexcasting.common.lib.HexDataComponents
+import at.petrak.hexcasting.xplat.IXplatAbstractions
 import com.li64.tide.registries.items.FishingBobberItem
 import hauveli.fishcasting.Fishcasting
 import net.minecraft.network.chat.Component
@@ -31,9 +33,25 @@ class TideyFocusItem(pProperties: Properties) : ItemFocus(pProperties.stacksTo(1
 
 
     /*
-    override fun inventoryTick(p0: ItemStack, p1: Level, p2: Entity, p3: Int, p4: Boolean) {
-        super.inventoryTick(p0, p1, p2, p3, p4)
-        Fishcasting.LOGGER.info("what the fuck: {}", p0.item.javaClass)
+    override fun inventoryTick(itemStack: ItemStack, p1: Level, p2: Entity, p3: Int, p4: Boolean) {
+        super.inventoryTick(itemStack, p1, p2, p3, p4)
+        Fishcasting.LOGGER.info("___________")
+        Fishcasting.LOGGER.info("what the fuck: {}", itemStack.item.javaClass)
+        Fishcasting.LOGGER.info("the datum: {}", IXplatAbstractions.INSTANCE.findDataHolder(itemStack))
+        Fishcasting.LOGGER.info("___________")
     }
+
+    override fun readIota(): Iota? {
+        TODO("Not yet implemented")
+    }
+
+    override fun writeIota(p0: Iota?, p1: Boolean): Boolean {
+        return this.writeable()
+    }
+
+    override fun writeable(): Boolean {
+        return true
+    }
+
      */
 }
