@@ -263,7 +263,7 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
                 || (fishLength == 0.0 && entity.random.nextFloat() < 0.025f)) {
                 allay.setItemInHand(
                     InteractionHand.MAIN_HAND,
-                    FishcastingItems.DISC.defaultInstance
+                    FishcastingItems.DISC.value.defaultInstance
                 )
             }
             entity.level().addFreshEntity(allay)

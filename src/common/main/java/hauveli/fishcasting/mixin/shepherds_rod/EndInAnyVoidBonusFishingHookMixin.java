@@ -54,7 +54,7 @@ public abstract class EndInAnyVoidBonusFishingHookMixin {
 
     @Unique
     private boolean fishcasting$shouldUseEndDimension() {
-        return rod.is(FishcastingItems.SHEPHERDS_CASTING_ROD)
+        return rod.is(FishcastingItems.SHEPHERDS_CASTING_ROD.getValue())
                 && medium == FishingMedium.VOID;
     }
 }

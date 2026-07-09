@@ -35,6 +35,6 @@ public abstract class RegisterAsFocusBobberTideItemsMixin {
             index = 1
     )
     private static Function<Item.Properties, Item> replaceAmethystBobber(Function<Item.Properties, Item> original) {
-        return TideyFocusItem::new;
+        return TideyFocusItem::new; // I've checked, amethyst bobber is of this type.
     }
 }

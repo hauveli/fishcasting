@@ -100,8 +100,8 @@ object BlessedTrades {
         rareFishTrade(TideFish.PENTAPUS, Items.CHORUS_FLOWER, wantTool = false),
         rareFishTrade(TideFish.WINDBASS, Items.WIND_CHARGE, 8),
         rareFishTrade(TideFish.ECHO_SNAPPER, Items.ECHO_SHARD),
-        rareFishTrade(TideFish.NEPHROSILU, FishcastingItems.MESSAGE_IN_A_BOTTLE, wantTool = false),
-        rareFishTrade(FishcastingItems.CURSED, Items.RABBIT_FOOT),
+        rareFishTrade(TideFish.NEPHROSILU, FishcastingItems.MESSAGE_IN_A_BOTTLE.value, wantTool = false),
+        rareFishTrade(FishcastingItems.CURSED.value, Items.RABBIT_FOOT),
         rareFishTrade(TideFish.SPORE_STALKER, Items.BROWN_MUSHROOM, 6),
         rareFishTrade(TideFish.SPORE_STALKER, Items.RED_MUSHROOM, 6)
     )

@@ -53,7 +53,6 @@ object FabricFishcasting : ModInitializer {
                 }
             }
 
-        FishcastingItems.registerItems(bind(BuiltInRegistries.ITEM))
         FishcastingRecipeRegistry.registerSerializers(bind(BuiltInRegistries.RECIPE_SERIALIZER))
         FishcastingRecipeRegistry.registerTypes(bind(BuiltInRegistries.RECIPE_TYPE))
         FishcastingEntities.registerEntities(bind(BuiltInRegistries.ENTITY_TYPE))
@@ -73,7 +72,7 @@ object FabricFishcasting : ModInitializer {
         registerEntityRenderers()
         registerAttributeHolder()
         // why is this ok in fabric but not neoforge? what...
-        registerItemModelProperties()
+        //registerItemModelProperties()
     }
 
     fun registerOnJoinEvent() {
@@ -139,16 +138,6 @@ object FabricFishcasting : ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register { server: MinecraftServer ->
             FishcastingAttributes.registerHolder(server.allLevels.first())
         }
-    }
-
-    // why am I not moving some of these to common? this one seems like it would be fine there...
-    // it's also a client only thing, so maybe I should really be moving it to client...
-    fun registerItemModelProperties() {
-        ItemProperties.register(
-            FishcastingItems.SHEPHERDS_CASTING_ROD,
-            TideItemModelProperties.CAST_PROPERTY,
-            TideItemModelProperties.CAST_FUNCTION
-        )
     }
 
 /*

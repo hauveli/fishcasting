@@ -39,7 +39,7 @@ public class CursedMostlyIndestructibleItemEntityMixin {
     @Unique
     private static void fishcasting$unbucketOnBucketDestroyed(CallbackInfoReturnable<Boolean> cir, ItemStack stack, ItemEntity entity) {
         if (!cir.getReturnValue()
-                && stack.is(CURSED_BUCKET)) {
+                && stack.is(CURSED_BUCKET.getValue())) {
             CursedEntity cursed = new CursedEntity(FishcastingEntities.CURSED, entity.level());
             CustomData fishData = stack.get(DataComponents.BUCKET_ENTITY_DATA);
             cursed.loadFromBucketTag(fishData.copyTag());

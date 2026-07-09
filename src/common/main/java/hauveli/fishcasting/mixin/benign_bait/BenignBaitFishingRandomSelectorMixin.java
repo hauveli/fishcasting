@@ -31,7 +31,7 @@ public class BenignBaitFishingRandomSelectorMixin {
             List<T> entries, FishingContext context, CallbackInfoReturnable<CatchResult> cir
     ) {
         boolean hasBenignBait = BaitUtils.getBaitItems(context.rod()).stream()
-                .anyMatch(stack -> stack.is(FishcastingItems.BENIGN_BAIT));
+                .anyMatch(stack -> stack.is(FishcastingItems.BENIGN_BAIT.getValue()));
         if (!hasBenignBait || (cir.getReturnValue().entry().isPresent() &&
                                 cir.getReturnValue().entry().get().matchesTestType(TestType.FISH))) {
             return;
@@ -52,6 +52,6 @@ public class BenignBaitFishingRandomSelectorMixin {
 
     @Unique
     private static boolean fishcasting$shouldForceFishOnly(ItemStack activeBait) {
-        return activeBait.getItem() == FishcastingItems.BENIGN_BAIT;
+        return activeBait.getItem() == FishcastingItems.BENIGN_BAIT.getValue();
     }
 }

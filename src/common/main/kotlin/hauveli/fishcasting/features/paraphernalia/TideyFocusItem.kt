@@ -28,4 +28,12 @@ class TideyFocusItem(pProperties: Properties) : ItemFocus(pProperties.stacksTo(1
     override fun numVariants(): Int {
         return NUM_VARIANTS
     }
+
+
+    /*
+    override fun inventoryTick(p0: ItemStack, p1: Level, p2: Entity, p3: Int, p4: Boolean) {
+        super.inventoryTick(p0, p1, p2, p3, p4)
+        Fishcasting.LOGGER.info("what the fuck: {}", p0.item.javaClass)
+    }
+     */
 }

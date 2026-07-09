@@ -36,7 +36,7 @@ public class YoinkTooltipRenderTideClientEventHandlerMixin {
         // (technically) access to loot from loot pools which would otherwise be impossible to reach depending on the server
         // Maybe I should make the luck tweak only work when void-fishing, though....
         // I could make it be a hidden bonus too, to be cheeky.
-        if (stack.is(FishcastingItems.BLESSED_FOCUS_BOBBER)) {
+        if (stack.is(FishcastingItems.BLESSED_FOCUS_BOBBER.getValue())) {
             lines.add(Component.translatable("text.fishcasting.bobber_tooltip.sound_bonus").withStyle(ChatFormatting.GOLD));
         }
         if (stack.getItem() instanceof TideyFocusItem) {
@@ -46,9 +46,9 @@ public class YoinkTooltipRenderTideClientEventHandlerMixin {
         // todo: do I want to move this into some other directory? this isn't strictly for the bobber anymore...
         // 2.1 uses this
         //if (stack.is(TideTags.Items.BAIT_ITEMS)) {
-        if (stack.getItem() == FishcastingItems.BENIGN_BAIT) {
+        if (stack.getItem() == FishcastingItems.BENIGN_BAIT.getValue()) {
             lines.add(Component.translatable("item.fishcasting.benign_bait.desc").withStyle(ChatFormatting.GOLD));
-        } else if (stack.getItem() == FishcastingItems.UNLUCKY_BAIT) {
+        } else if (stack.getItem() == FishcastingItems.UNLUCKY_BAIT.getValue()) {
             lines.add(Component.translatable("item.fishcasting.unlucky_bait.desc").withStyle(ChatFormatting.GOLD));
         }
     }

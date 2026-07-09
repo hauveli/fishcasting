@@ -1,10 +1,14 @@
 package hauveli.fishcasting
 
+import com.li64.tide.client.TideItemModelProperties
 import hauveli.fishcasting.config.FishcastingConfigs
+import hauveli.fishcasting.features.paraphernalia.TideyFocusItem
 //import hauveli.fishcasting.networking.FishcastingNetworking
 import hauveli.fishcasting.registry.FishcastingActions
 import hauveli.fishcasting.registry.FishcastingAdvancements
+import hauveli.fishcasting.registry.FishcastingItems
 import net.minecraft.advancements.AdvancementHolder
+import net.minecraft.client.renderer.item.ItemProperties
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import org.apache.logging.log4j.LogManager
@@ -30,7 +34,8 @@ object Fishcasting {
 
     fun init() {
         initRegistries(
-            FishcastingActions
+            FishcastingActions,
+            FishcastingItems
         )
         //FishcastingNetworking.init()
         FishcastingConfigs.init()

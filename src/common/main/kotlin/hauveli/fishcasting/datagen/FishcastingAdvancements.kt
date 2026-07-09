@@ -22,10 +22,12 @@ import java.util.function.Consumer
 class FishcastingAdvancements : AdvancementSubProvider {
     val ADVANCEMENTS = mutableMapOf<ResourceLocation, Advancement.Builder>()
 
+    /*
     val TACKLEBOX_CHAIR_FISHER = make("instructional/fished_in_tacklebox_chair",
         FishcastingItems.TACKLEBOX_CHAIR,
         "Title example",
         "Granted only by code")
+     */
 
     override fun generate(
         registries: HolderLookup.Provider,

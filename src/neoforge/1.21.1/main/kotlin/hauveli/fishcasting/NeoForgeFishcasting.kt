@@ -96,7 +96,6 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
         bind(Registries.ENTITY_TYPE, FishcastingEntities::registerEntities)
         bind(Registries.SOUND_EVENT, FishcastingSounds::registerSounds)
         bind(Registries.ATTRIBUTE, FishcastingAttributes::registerAttributes)
-        bind(Registries.ITEM, FishcastingItems::registerItems)
         bind(Registries.CREATIVE_MODE_TAB, FishcastingCreativeTabs::registerCreativeTabs)
         //bind(HexRegistries.IOTA_TYPE, FishcastingIotaTypes::registerTypes)
         bind(HexRegistries.BRAINSWEEPEE_INGREDIENT, FishcastingBrainsweepeeIngredients::registerBrainsweepeeIngredients)

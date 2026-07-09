@@ -34,7 +34,7 @@ public abstract class BlessedBobberJingleTideFishingHookMixin {
     )
     private void fishcasting$blessedBobberJingle(BlockPos pos, CallbackInfo ci) {
         // When a fish first touches the hook
-        if (this.getBobber().is(BLESSED_FOCUS_BOBBER)) {
+        if (this.getBobber().is(BLESSED_FOCUS_BOBBER.getValue())) {
             this.getPlayerOwner().level().playSound(
                     null, getPlayerOwner().blockPosition(),
                     SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.PLAYERS, 1.5f,

@@ -180,12 +180,11 @@ cloche {
                     version(libs.versions.fzzyConfig.fabric.get())
                 }
             }
+            // custom("cardinal-components", listOf("hexcasting:iota_holder"))
         }
 
         runs {
-            client {
-                jvmArguments.add("-XX:+AllowEnhancedClassRedefinition")
-            }
+            client()
             server()
             data()
         }

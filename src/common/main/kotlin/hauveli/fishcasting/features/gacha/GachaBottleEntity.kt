@@ -126,13 +126,14 @@ class GachaBottleEntity : ThrownPotion {
                     -> 90% chance 3 shards
                     -> 10% chance 4 shards
          */
-        this.spawnAtLocation(ItemStack(FishcastingItems.GLASS_SHARD))
+        val glassShard = FishcastingItems.GLASS_SHARD.value.defaultInstance
+        this.spawnAtLocation(glassShard)
         if (Fishcasting.random.nextFloat() > 0.10) {
-            this.spawnAtLocation(ItemStack(FishcastingItems.GLASS_SHARD))
+            this.spawnAtLocation(glassShard)
             if (Fishcasting.random.nextFloat() > 0.5) {
-                this.spawnAtLocation(ItemStack(FishcastingItems.GLASS_SHARD))
+                this.spawnAtLocation(glassShard)
                 if (Fishcasting.random.nextFloat() > 0.9) {
-                    this.spawnAtLocation(ItemStack(FishcastingItems.GLASS_SHARD))
+                    this.spawnAtLocation(glassShard)
                 }
             }
         }

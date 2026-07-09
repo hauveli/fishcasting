@@ -44,7 +44,7 @@ public class BenignBaitTideFishingManagerMixin {
                              CallbackInfoReturnable<Map<FishingEntry, Double>> cir) {
         // Do nothing if wrong bait or wrong TestType
         boolean hasBenignBait = BaitUtils.getBaitItems(context.rod()).stream()
-                .anyMatch(stack -> stack.is(FishcastingItems.BENIGN_BAIT));
+                .anyMatch(stack -> stack.is(FishcastingItems.BENIGN_BAIT.getValue()));
         if (!hasBenignBait || type != TestType.LOOT) {
             return;
         }

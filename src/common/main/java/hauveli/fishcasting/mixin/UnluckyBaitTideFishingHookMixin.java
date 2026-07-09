@@ -29,6 +29,6 @@ public abstract class UnluckyBaitTideFishingHookMixin {
     @Unique
     private boolean fishcasting$shouldPreventFish() {
         return BaitUtils.getBaitItems(rod).stream()
-                .anyMatch(stack -> stack.is(FishcastingItems.UNLUCKY_BAIT));
+                .anyMatch(stack -> stack.is(FishcastingItems.UNLUCKY_BAIT.getValue()));
     }
 }
