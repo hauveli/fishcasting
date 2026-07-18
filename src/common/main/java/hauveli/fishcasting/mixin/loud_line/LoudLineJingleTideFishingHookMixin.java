@@ -4,7 +4,6 @@ import com.li64.tide.data.fishing.FishingContext;
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook;
 import com.li64.tide.registries.items.TideFishingRodItem;
 import hauveli.fishcasting.registry.FishcastingTags;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
@@ -42,7 +41,7 @@ public abstract class LoudLineJingleTideFishingHookMixin {
     private void fishcasting$antiAnnoyingBeam(CallbackInfoReturnable<TideFishingRodItem> cir) {
         if (this.getLine().is(FishcastingTags.MOB_PACIFYING_LINES)) {
             Player player = this.getPlayerOwner();
-            if (player.level() instanceof ClientLevel) {
+            if (player.level().isClientSide) {
                 return; // abort!!!
             }
             Level level = player.level();

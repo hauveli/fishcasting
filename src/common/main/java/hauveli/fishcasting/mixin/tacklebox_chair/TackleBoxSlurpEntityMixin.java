@@ -80,7 +80,6 @@ public class TackleBoxSlurpEntityMixin {
             // only consider recently caught fish, implicitly these are always alive(?), but this prevents
             // some behaviours I'm not sure I'd like but I may change the maximumFishAgeForAutomaticBoxing variable
             //if (CATCH_TIMESTAMP.get(stack) != null) {
-            assert Minecraft.getInstance().level != null;
             //if (Minecraft.getInstance().level.getDayTime() < CATCH_TIMESTAMP.get(stack) + maximumFishAgeForAutomaticBoxing) {
             int targetBucketSlot = -1; // remains -1 if no valid slot is found or config disallows
             // Yippee?

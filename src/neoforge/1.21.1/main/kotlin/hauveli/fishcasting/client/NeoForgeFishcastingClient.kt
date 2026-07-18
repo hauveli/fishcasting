@@ -13,6 +13,12 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent
 object NeoForgeFishcastingClient {
     fun init(event: FMLClientSetupEvent) {
         FishcastingClient.init()
+        // what the fuck neoforge
+        ItemProperties.register(
+            SHEPHERDS_CASTING_ROD.value,
+            TideItemModelProperties.CAST_PROPERTY,
+            TideItemModelProperties.CAST_FUNCTION as ItemPropertyFunction
+        )
     }
 
     @SubscribeEvent

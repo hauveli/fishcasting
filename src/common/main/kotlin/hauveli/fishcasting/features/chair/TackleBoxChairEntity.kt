@@ -89,7 +89,7 @@ class TackleBoxChairEntity : ChestBoat {
     }
 
     override fun getDropItem(): Item {
-        return FishcastingItems.TACKLEBOX_CHAIR as Item
+        return FishcastingItems.TACKLEBOX_CHAIR.value
     }
 
     override fun getType(): EntityType<*> {

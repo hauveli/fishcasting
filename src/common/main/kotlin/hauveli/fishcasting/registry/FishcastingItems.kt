@@ -167,7 +167,7 @@ object FishcastingItems : FishcastingRegistrar<Item>(
             }
         })
 
-
+    // this works in my dev env but not outside of it. what the fuck?
     fun registerItemModelProperties() {
         ItemProperties.register(
             SHEPHERDS_CASTING_ROD.value,

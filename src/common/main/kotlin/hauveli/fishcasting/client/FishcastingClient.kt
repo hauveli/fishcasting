@@ -6,6 +6,7 @@ import net.minecraft.client.gui.screens.Screen
 
 object FishcastingClient {
     fun init() {
-        FishcastingItems.registerItemModelProperties()
+        // todo: figure out why neoforge hates this
+        // FishcastingItems.registerItemModelProperties()
     }
 }
