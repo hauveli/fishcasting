@@ -187,6 +187,7 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
         return false
     }
 
+    // update: it broke agin and I don't know why. awesome.
     // this looks fucked because I ran into so many issues with entityData.set and I have no fucking clue why or what is causing it exactly.
     // so I'm not touching it
     override fun setFromBucket(fromBucket: Boolean) {
@@ -210,8 +211,12 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
         //this.tide$setIsShiny(tag.contains(tide$SHINY_KEY) && tag.getBoolean(tide$SHINY_KEY));
     }
 
+    // fabric won't work with it, but!!!:
+    // neoforge requires the bucketable deprecated method
+    // what the fuck even is going on?
+    // this sucks so much..................
     override fun saveToBucketTag(stack: ItemStack) {
-        Bucketable.saveDefaultDataToBucketTag(this, stack)
+        // Bucketable.saveDefaultDataToBucketTag(this, stack)
         CustomData.update(DataComponents.BUCKET_ENTITY_DATA, stack, Consumer { tag: CompoundTag? ->
             tag!!.putDouble(
                 FishLengthHolder.`tide$LENGTH_KEY`, this.`tide$getLength`()
@@ -220,7 +225,8 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
     }
 
     override fun loadFromBucketTag(tag: CompoundTag) {
-        Bucketable.loadDefaultDataFromBucketTag(this, tag)
+        // Bucketable.loadDefaultDataFromBucketTag(this, tag)
+        setFromBucket(false)
         this.length =
             if (tag.contains(FishLengthHolder.`tide$LENGTH_KEY`)) tag.getDouble(FishLengthHolder.`tide$LENGTH_KEY`) else this.`tide$getLength`()
         //this.tide$setIsShiny(tag.contains(tide$SHINY_KEY) && tag.getBoolean(tide$SHINY_KEY));

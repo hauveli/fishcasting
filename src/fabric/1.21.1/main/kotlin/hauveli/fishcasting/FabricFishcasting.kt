@@ -72,8 +72,6 @@ object FabricFishcasting : ModInitializer {
         registerOnJoinEvent()
         registerCreativeModeTabItems()
         registerEntityAttributes()
-        registerLayerDefinitions()
-        registerEntityRenderers()
         registerAttributeHolder()
         // why is this ok in fabric but not neoforge? what...
         //registerItemModelProperties()
@@ -105,39 +103,6 @@ object FabricFishcasting : ModInitializer {
             Villager.createAttributes().build()
         )
     }
-
-    fun registerLayerDefinitions() {
-        EntityModelLayerRegistry.registerModelLayer(
-            TackleBoxChairModel.LAYER_LOCATION,
-            { TackleBoxChairModel.createBodyLayer() }
-        )
-        EntityModelLayerRegistry.registerModelLayer(
-            CursedModel.LAYER_LOCATION,
-            { CursedModel.createBodyLayer() }
-        )
-        EntityModelLayerRegistry.registerModelLayer(
-            BlessedModel.LAYER_LOCATION,
-            { BlessedModel.createBodyLayer() }
-        )
-    }
-
-    fun registerEntityRenderers() {
-        EntityRendererRegistry.register(
-            FishcastingEntities.TACKLEBOX_CHAIR,
-            ::TackleBoxChairRenderer
-        )
-
-        EntityRendererRegistry.register(
-            FishcastingEntities.CURSED,
-            ::CursedRenderer
-        )
-
-        EntityRendererRegistry.register(
-            FishcastingEntities.BLESSED,
-            ::BlessedRenderer
-        )
-    }
-
     fun registerAttributeHolder() {
         ServerLifecycleEvents.SERVER_STARTED.register { server: MinecraftServer ->
             FishcastingAttributes.registerHolder(server.allLevels.first())
