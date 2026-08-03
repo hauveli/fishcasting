@@ -206,7 +206,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                         } else if (ticksSincePain >= 2) { // pulled out much later than I'd like but it works, I guess....
                             // note: this technically provides a way to obtain this from the trader, but the timing is so tight I think it's ok.
                             // significantly easier to just make a cypher than it is it both get the good tick rng and to make it die at the same time
-                            this.setItemInHand(InteractionHand.MAIN_HAND, HexItems.ANCIENT_CYPHER.defaultInstance)
+                            this.setItemInHand(InteractionHand.MAIN_HAND, HexItems.ANCIENT_CYPHER.get().defaultInstance)
                         }
                         ticksSincePain += ticksSincePain + Fishcasting.random.nextInt(0, 2)
                     }
@@ -273,7 +273,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     @JvmOverloads
     fun doTheatrics(position: Vec3 = this.eyePosition) {
         doTheatricsAtVec(position, 30, 0.4f)
-        this.level().playSound(this, this.blockPosition(), HexSounds.CAST_SPELL, SoundSource.NEUTRAL, 0.1f, 1.0f)
+        this.level().playSound(this, this.blockPosition(), HexSounds.CAST_SPELL.value(), SoundSource.NEUTRAL, 0.1f, 1.0f)
         // AHHH ITS SO LOUD
     }
 

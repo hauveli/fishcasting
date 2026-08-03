@@ -17,7 +17,7 @@ import java.util.List
 
 class BobberBasedCastEnv(caster: ServerPlayer, castingHand: InteractionHand?, private val bobber: TideFishingHook) :
     PlayerBasedCastEnv(caster, castingHand) {
-    var sound: EvalSound = HexEvalSounds.NOTHING
+    var sound: EvalSound = HexEvalSounds.NOTHING.get()
     //    protected set
     private val distSqrToOwner: Long = bobber.position().distanceToSqr(caster.position()).toLong()
 

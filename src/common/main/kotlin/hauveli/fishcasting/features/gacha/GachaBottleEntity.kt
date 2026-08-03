@@ -6,6 +6,7 @@ import at.petrak.hexcasting.api.casting.iota.*
 import at.petrak.hexcasting.api.casting.math.HexPattern
 import at.petrak.hexcasting.api.item.IotaHolderItem
 import at.petrak.hexcasting.common.items.storage.ItemScroll
+import at.petrak.hexcasting.common.lib.HexRegistries
 import at.petrak.hexcasting.common.lib.hex.HexActions
 import com.li64.tide.data.loot.LootTableRef
 import hauveli.fishcasting.Fishcasting
@@ -191,11 +192,17 @@ class GachaBottleEntity : ThrownPotion {
     /// uhhhh what did intellij do here
     val randomPattern: HexPattern
         get() {
-            val patterns: MutableList<HexPattern> = ArrayList()
-            HexActions.register({ entry: ActionRegistryEntry?, id: ResourceLocation? ->
-                patterns.add(entry!!.prototype()) // heehee...
-            })
-            return patterns[Fishcasting.random.nextInt(0, patterns.size)]
+            val patterns = HexActions.REGISTRY.toList()
+            // what the fuck was I even doing here.... was I yoinking the register call just to populate the list? I think I was?
+            /*
+            HexActions.register(
+                {
+                    entry: ActionRegistryEntry?, id: ResourceLocation? ->
+                    patterns.add(entry!!.prototype()) // heehee...
+                }
+            )
+             */
+            return patterns[Fishcasting.random.nextInt(0, patterns.size)].prototype()
         }
 
     fun getNearbyMob(

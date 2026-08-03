@@ -3,6 +3,7 @@ package hauveli.fishcasting.mixin.tacklebox_chair;
 import com.li64.tide.Tide;
 import com.li64.tide.client.TideClientHelper;
 import com.li64.tide.config.TideConfig;
+import com.li64.tide.config.TideServerConfig;
 import com.li64.tide.data.FishLengthHolder;
 import com.li64.tide.data.fishing.FishData;
 import com.li64.tide.data.item.TideItemData;
@@ -83,7 +84,7 @@ public class TackleBoxSlurpEntityMixin {
             //if (Minecraft.getInstance().level.getDayTime() < CATCH_TIMESTAMP.get(stack) + maximumFishAgeForAutomaticBoxing) {
             int targetBucketSlot = -1; // remains -1 if no valid slot is found or config disallows
             // Yippee?
-            if (Tide.CONFIG.items.bucketableFishItems != TideConfig.Items.BucketableMode.NEVER) {
+            if (Tide.CONFIG.server().items.bucketableFishItems != TideServerConfig.Items.BucketableMode.NEVER) {
                 // https://github.com/Lightning-64/Tide-2/blob/f9fc2d04ae4d544ad134025cebd83c7438f67098/src/main/java/com/li64/tide/mixin/ItemMixin.java#L38
                 Optional<FishData> dataOp = FishData.get(stack);
                 if (dataOp.isEmpty())

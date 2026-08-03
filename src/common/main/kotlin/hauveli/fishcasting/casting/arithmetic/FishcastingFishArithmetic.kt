@@ -72,19 +72,27 @@ class FishcastingFishArithmetic : Arithmetic {
             Arithmetic.ABS
         )
 
+        /*
         val ACCEPTS: IotaMultiPredicate = IotaMultiPredicate.any(
-            IotaPredicate.ofType(HexIotaTypes.ENTITY),
+            IotaPredicate.ofType(HexIotaTypes.ENTITY.get()),
             IotaPredicate.ofType(FishcastingIotaTypes.FISH)
         )
+         */
 
         fun make1Double(
             op: BiFunction<Entity, CastingEnvironment, Double>
         ): OperatorBasic {
+
+            val ACCEPTS: IotaMultiPredicate = IotaMultiPredicate.any(
+                IotaPredicate.ofType(HexIotaTypes.ENTITY.get()),
+                IotaPredicate.ofType(FishcastingIotaTypes.FISH)
+            )
+
             return object : OperatorBasic(1, ACCEPTS) {
                 override fun apply(iotas: Iterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
                     val entity: Entity = downcast<EntityIota>(
                         iotas.iterator().next(),
-                        HexIotaTypes.ENTITY
+                        HexIotaTypes.ENTITY.get()
                     ).getEntity(env.castingEntity!!.level() as ServerLevel)
 
                     val result: Double = op.apply(entity, env)

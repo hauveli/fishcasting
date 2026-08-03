@@ -38,7 +38,7 @@ class FishcastingRecipeGen(
         )
             .unlockedBy(
                 "enlightenment",
-                Criterion<OvercastTrigger.Instance?>(HexAdvancementTriggers.OVERCAST_TRIGGER, HexAdvancements.ENLIGHTEN)
+                Criterion<OvercastTrigger.Instance?>(HexAdvancementTriggers.OVERCAST_TRIGGER.get(), HexAdvancements.ENLIGHTEN)
             )
             .save(recipes, id("budding_amethyst"))
     }

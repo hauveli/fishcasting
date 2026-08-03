@@ -4,6 +4,7 @@ import at.petrak.hexcasting.common.recipe.ingredient.brainsweep.BrainsweepeeIngr
 import at.petrak.hexcasting.common.recipe.ingredient.brainsweep.EntityTypeIngredient
 import com.li64.tide.Tide
 import com.li64.tide.config.TideConfig
+import com.li64.tide.config.TideServerConfig
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.core.registries.BuiltInRegistries
@@ -23,15 +24,16 @@ class FishingVoidEntityTypeIngredient(
     fun isFishableDimension(entity: Entity): Boolean {
         val level = entity.level()
 
-        return Tide.CONFIG.general.fishableVoidHeights.stream().anyMatch { entry: TideConfig.General.VoidHeightEntry? ->
+        return Tide.CONFIG.server().general.fishableVoidHeights.stream().anyMatch {
+            entry: TideServerConfig.General.VoidHeightEntry? ->
             entry!!.dimension == level.dimension().location().toString()
         }
     }
 
     private fun getHeightFromTideConfig(entity: Entity): Int {
         // check dimension too, void height may vary
-        val entry = Tide.CONFIG.general.fishableVoidHeights.stream()
-            .filter { e: TideConfig.General.VoidHeightEntry? ->
+        val entry = Tide.CONFIG.server().general.fishableVoidHeights.stream()
+            .filter { e: TideServerConfig.General.VoidHeightEntry? ->
                 e!!.dimension == entity.level().dimension().location().toString()
             }
             .findFirst()
@@ -41,15 +43,15 @@ class FishingVoidEntityTypeIngredient(
             val type = entry.get().type
             // to consider: fishing above the world height? I think that would also be cool...
             return when (type) {
-                TideConfig.General.VoidHeightEntry.Type.ABSOLUTE -> {
+                TideServerConfig.General.VoidHeightEntry.Type.ABSOLUTE -> {
                     height
                 }
 
-                TideConfig.General.VoidHeightEntry.Type.RELATIVE_TO_BOTTOM -> {
+                TideServerConfig.General.VoidHeightEntry.Type.RELATIVE_TO_BOTTOM -> {
                     entity.level().minBuildHeight + height
                 }
 
-                TideConfig.General.VoidHeightEntry.Type.RELATIVE_TO_TOP -> {
+                TideServerConfig.General.VoidHeightEntry.Type.RELATIVE_TO_TOP -> {
                     entity.level().maxBuildHeight + height
                 }
             }

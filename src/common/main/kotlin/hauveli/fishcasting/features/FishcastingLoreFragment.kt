@@ -22,7 +22,7 @@ import java.util.List
 // From hexcasting repo https://github.com/FallingColors/HexMod/blob/main/Common/src/main/java/at/petrak/hexcasting/common/items/ItemLoreFragment.java
 class FishcastingLoreFragment(properties: Properties?) : ItemLoreFragment(properties) {
     override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack?> {
-        player.playSound(HexSounds.READ_LORE_FRAGMENT, 1f, 1f)
+        player.playSound(HexSounds.READ_LORE_FRAGMENT.value(), 1f, 1f)
 
         val handStack = player.getItemInHand(usedHand)
         if (player !is ServerPlayer) {

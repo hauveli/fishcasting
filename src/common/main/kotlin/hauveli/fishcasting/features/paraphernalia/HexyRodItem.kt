@@ -87,11 +87,11 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
 
     // https://github.com/SuperKnux/HexMod/blob/indev/1.21.1/Common/src/main/java/at/petrak/hexcasting/common/items/magic/ItemPackagedHex.java
     fun hasHex(stack: ItemStack): Boolean {
-        return stack.has(HexDataComponents.IOTA_HOLDER_IOTA)
+        return stack.has(HexDataComponents.IOTA_HOLDER_IOTA.get())
     }
 
     fun getHex(stack: ItemStack, level: ServerLevel?): Iota? {
-        return stack.get<Iota?>(HexDataComponents.IOTA_HOLDER_IOTA)
+        return stack.get<Iota?>(HexDataComponents.IOTA_HOLDER_IOTA.get())
     }
 
     fun executeBobber(
@@ -163,12 +163,12 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
 
     private fun playNoise(player: Player) {
         //Minecraft.getInstance().getSoundManager().play(new ElytraOnPlayerSoundInstance((LocalPlayer) player));
-        player.playSound(HexSounds.CASTING_AMBIANCE, 1.0f, 1.0f)
+        player.playSound(HexSounds.CASTING_AMBIANCE.value(), 1.0f, 1.0f)
     }
 
     private fun stopNoise(level: Level) {
         if (level.isClientSide) {
-            Minecraft.getInstance().soundManager.stop(HexSounds.CASTING_AMBIANCE.location, SoundSource.PLAYERS)
+            Minecraft.getInstance().soundManager.stop(HexSounds.CASTING_AMBIANCE.value().location, SoundSource.PLAYERS)
         }
     }
 
@@ -232,7 +232,7 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
         }
         if (player.isShiftKeyDown) {
             if (level.isClientSide()) {
-                player.playSound(HexSounds.STAFF_RESET, 1f, 1f)
+                player.playSound(HexSounds.STAFF_RESET.value(), 1f, 1f)
             } else if (player is ServerPlayer) {
                 IXplatAbstractions.INSTANCE.clearCastingData(player)
                 val packet = MsgClearSpiralPatternsS2C(player.getUUID())
