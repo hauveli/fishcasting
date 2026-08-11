@@ -53,7 +53,7 @@
     "hidden": true,
     "icon": {
       "count": 1,
-      "id": "fishcasting:music_disc_returning_to_the_surface"
+      "id": "fishcasting:music_disc/returning_to_the_surface"
     },
     "title": {
       "translate": "advancements.fishcasting.lightning_struck_cursed.title",
@@ -69,7 +69,7 @@
   ],
   "rewards": {
     "experience": 200,
-    "function": "fishcasting:revoke_annihilation_notes_hint"
+    "function": "fishcasting:maybe_revoke_unneeded_hints"
   },
   "sends_telemetry_event": true
 }

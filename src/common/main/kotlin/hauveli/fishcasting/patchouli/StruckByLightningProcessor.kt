@@ -4,7 +4,7 @@ import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.common.lib.HexItems
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.casting.recipe.lightning.StruckByLightningRecipe
-import hauveli.fishcasting.registry.FishcastingRecipeRegistry
+import hauveli.fishcasting.registry.FishcastingRecipeTypes
 import net.minecraft.client.Minecraft
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.nbt.CompoundTag
@@ -45,7 +45,7 @@ class StruckByLightningProcessor : IComponentProcessor {
 
         val recman = level.recipeManager
         val brainsweepings =
-            recman.getAllRecipesFor(FishcastingRecipeRegistry.LIGHTNING_TYPE)
+            recman.getAllRecipesFor(FishcastingRecipeTypes.LIGHTNING.value)
         for (poisonApples in brainsweepings) {
             if (poisonApples.id() == id) {
                 this.recipe = poisonApples.value()

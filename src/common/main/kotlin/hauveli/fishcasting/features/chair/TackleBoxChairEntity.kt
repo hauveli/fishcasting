@@ -93,7 +93,7 @@ class TackleBoxChairEntity : ChestBoat {
     }
 
     override fun getType(): EntityType<*> {
-        return FishcastingEntities.TACKLEBOX_CHAIR
+        return FishcastingEntities.TACKLEBOX_CHAIR.value
     }
 
     override fun clampRotation(entityToUpdate: Entity) {

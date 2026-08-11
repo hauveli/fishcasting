@@ -36,14 +36,16 @@ class FishcastingFishArithmetic : Arithmetic {
     // env is here so I can debug
     fun getFishLength(entity: Entity, env: CastingEnvironment): Double {
         if (entity is FishLengthHolder) {
-            return entity.`tide$getLength`() // holyyy thank you tide dev
+            // dividing by 100 because fish length is in cm, it seems?
+            return entity.`tide$getLength`() / 100 // holyyy thank you tide dev
         }
         if (entity is ItemEntity) {
             val stack = entity.item
             // Ugh this was annoying to figure out
             val fishLength = stack.get(TideDataComponents.FISH_LENGTH)
             if (fishLength != null) {
-                return fishLength
+                // dividing by 100 because fish length is in cm, it seems?
+                return fishLength / 100
             }
             // this does not work...
             // return TideItemData.FISH_LENGTH.getOrDefault(stack, 0.0d); // FishLengthHolder.tide$LENGTH_KEY

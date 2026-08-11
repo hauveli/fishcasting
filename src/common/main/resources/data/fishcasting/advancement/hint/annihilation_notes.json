@@ -6,7 +6,7 @@
     }
   },
   "rewards": {
-    "function": "fishcasting:revoke_annihilation_hint"
+    "function": "fishcasting:maybe_revoke_unneeded_hints"
   },
   "sends_telemetry_event": false
 }

@@ -4,7 +4,8 @@ import at.petrak.hexcasting.common.recipe.RecipeSerializerBase
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
-import hauveli.fishcasting.registry.FishcastingRecipeRegistry
+import hauveli.fishcasting.registry.FishcastingRecipeSerializers
+import hauveli.fishcasting.registry.FishcastingRecipeTypes
 import net.minecraft.core.HolderLookup
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
@@ -33,11 +34,11 @@ data class StruckByLightningRecipe(
     }
 
     override fun getType(): RecipeType<*> {
-        return FishcastingRecipeRegistry.LIGHTNING_TYPE
+        return FishcastingRecipeTypes.LIGHTNING.value
     }
 
     override fun getSerializer(): RecipeSerializer<*> {
-        return FishcastingRecipeRegistry.LIGHTNING
+        return FishcastingRecipeSerializers.LIGHTNING.value
     }
 
     // in order to get this to be a "Recipe" we need to do a lot of bending-over-backwards

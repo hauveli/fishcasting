@@ -1,6 +1,7 @@
 package hauveli.fishcasting.registry
 
 import hauveli.fishcasting.Fishcasting
+import net.minecraft.core.Holder
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
@@ -52,6 +53,8 @@ abstract class FishcastingRegistrar<T : Any>(
 
         /** Do not access until the mod has been initialized! */
         val value by lazyValue
+
+        fun holder(): Holder<T> = registry.getHolderOrThrow(key)
 
         override fun equals(other: Any?) = when (other) {
             is FishcastingRegistrar<*>.Entry<*> -> key.registry().equals(other.key.registry()) && id.equals(other.id)

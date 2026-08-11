@@ -47,6 +47,7 @@ import java.util.function.BiConsumer
 object FabricFishcasting : ModInitializer {
     override fun onInitialize() {
         Fishcasting.init()
+        registerEntityAttributes() // todo: do something better than this
     }
 
     init {
@@ -57,30 +58,13 @@ object FabricFishcasting : ModInitializer {
                 }
             }
 
-        FishcastingRecipeRegistry.registerSerializers(bind(BuiltInRegistries.RECIPE_SERIALIZER))
-        FishcastingRecipeRegistry.registerTypes(bind(BuiltInRegistries.RECIPE_TYPE))
-        FishcastingEntities.registerEntities(bind(BuiltInRegistries.ENTITY_TYPE))
-        FishcastingAttributes.registerAttributes(bind(BuiltInRegistries.ATTRIBUTE))
-        FishcastingSounds.registerSounds(bind(BuiltInRegistries.SOUND_EVENT))
         FishcastingCreativeTabs.registerCreativeTabs(bind(BuiltInRegistries.CREATIVE_MODE_TAB))
-        //bind(HexRegistries.IOTA_TYPE, FishcastingIotaTypes::registerTypes)
         FishcastingBrainsweepeeIngredients.registerBrainsweepeeIngredients(bind(IXplatAbstractions.INSTANCE.brainsweepeeIngredientRegistry))
-        //bind(HexRegistries.BRAINSWEEPEE_INGREDIENT, FishcastingBrainsweepeeIngredients::registerBrainsweepeeIngredients)
-        //Registry.register(HexRegistries.BRAINSWEEPEE_INGREDIENT, Fishcasting.id(""), FishcastingBrainsweepeeIngredients)
         Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns"), FishcastingFishArithmetic())
 
-        registerOnJoinEvent()
         registerCreativeModeTabItems()
-        registerEntityAttributes()
-        registerAttributeHolder()
         // why is this ok in fabric but not neoforge? what...
         //registerItemModelProperties()
-    }
-
-    fun registerOnJoinEvent() {
-        ServerPlayConnectionEvents.JOIN.register { impl, sender, server ->
-            FishcastingAdvancements.onJoinAdvancementUpdate(impl.player)
-        }
     }
 
     fun registerCreativeModeTabItems() {
@@ -94,21 +78,15 @@ object FabricFishcasting : ModInitializer {
 
     fun registerEntityAttributes() {
         FabricDefaultAttributeRegistry.register(
-            FishcastingEntities.CURSED,
+            FishcastingEntities.CURSED.value,
             Axolotl.createAttributes().build()
         )
 
         FabricDefaultAttributeRegistry.register(
-            FishcastingEntities.BLESSED,
+            FishcastingEntities.BLESSED.value,
             Villager.createAttributes().build()
         )
     }
-    fun registerAttributeHolder() {
-        ServerLifecycleEvents.SERVER_STARTED.register { server: MinecraftServer ->
-            FishcastingAttributes.registerHolder(server.allLevels.first())
-        }
-    }
-
 /*
 
     // I decided against it but I'm keeping it here just in case

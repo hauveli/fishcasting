@@ -58,10 +58,4 @@ object FishcastingAdvancements {
         val checkThisNow = dependents[advancementResLoc]
         tryUpdateProgress(serverPlayer, checkThisNow!!)
     }
-
-    @JvmStatic
-    fun onJoinAdvancementUpdate(serverPlayer: ServerPlayer) {
-        tryUpdateProgress(serverPlayer, TRADER_BRAINSWEPT)
-        tryUpdateProgress(serverPlayer, CURSED_ZAPPED)
-    }
 }

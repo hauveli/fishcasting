@@ -52,6 +52,7 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         return registered
     }
 
+    /*
     fun props(): Item.Properties {
         return Item.Properties()
     }
@@ -68,24 +69,36 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         return Item(props())
     }
 
+     */
+
+    val props = Item.Properties()
+    val fireResistant = props.fireResistant()
+    val unstackable = Item.Properties().stacksTo(1)
+    val unstackableUncommon = unstackable.rarity(Rarity.UNCOMMON)
+    val fireResistantUnstackable = unstackable.fireResistant()
+
+    fun newItem(): Item {
+        return Item(props)
+    }
+
+    private fun musicDiscItem(resourceKey: ResourceKey<JukeboxSong>): Item {
+        return Item(unstackable.jukeboxPlayable(resourceKey))
+    }
+
     @JvmField
     val SHEPHERDS_CASTING_ROD =
-        make("shepherds_casting_rod", {HexyRodItem(3, 0.0, unstackableUncommon())})
+        make("shepherds_casting_rod", {HexyRodItem(3, 0.0, unstackableUncommon)})
 
     @JvmField
     val BLESSED_FOCUS_BOBBER = make(
-        "blessed_focus_bobber", {TideyFocusItem(
-            unstackableUncommon()
-        )}
+        "blessed_focus_bobber", {TideyFocusItem(unstackableUncommon)}
     )
     val LOUD_FISHING_LINE = make(
-        "loud_fishing_line", {LoudFishingLineItem(
-            props()
-        )}
+        "loud_fishing_line", {LoudFishingLineItem(props)}
     )
     val HOOKLESS_FISHING_HOOK = make(
         "hookless_fishing_hook",
-        {FishingHookItem(props(), "item.fishcasting.hookless_fishing_hook.desc")}
+        {FishingHookItem(props, "item.fishcasting.hookless_fishing_hook.desc")}
     ) // tide does this
     @JvmField
     val UNLUCKY_BAIT = make("unlucky_bait", {newItem()})
@@ -93,40 +106,36 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     val BENIGN_BAIT = make(
         "benign_bait", {newItem()}
     )
-    val TACKLEBOX_CHAIR = make("tacklebox_chair", {TackleBoxChairItem(unstackable())})
+    val TACKLEBOX_CHAIR = make("tacklebox_chair", {TackleBoxChairItem(unstackable)})
     val MESSAGE_IN_A_BOTTLE =
-        make("message_in_a_bottle", {GachaBottleItem(unstackableUncommon())})
-    val GLASS_SHARD = make("glass_shard", {Item(props().stacksTo(16))})
+        make("message_in_a_bottle", {GachaBottleItem(unstackableUncommon)})
+    val GLASS_SHARD = make("glass_shard", {Item(props.stacksTo(16))})
     val FISHCASTING_LORE_FRAGMENT = make(
-        "fishy_fragment", {FishcastingLoreFragment(
-            unstackable().rarity(Rarity.RARE)
-        )}
-    )
-    val DISC = make(
-        "music_disc_returning_to_the_surface", {Item(
-            unstackableUncommon()
-                .jukeboxPlayable(FishcastingSounds.RETURNING_TO_THE_SURFACE_JUKEBOX)
-        )}
+        "fishy_fragment", {FishcastingLoreFragment(unstackable.rarity(Rarity.RARE))}
     )
     @JvmField
-    val CURSED = make("cursed", {Item(props().rarity(Rarity.UNCOMMON).fireResistant())})
+    val DISC = make(FishcastingSounds.RETURNING_TO_THE_SURFACE.jukeboxSong.location().path) {
+        musicDiscItem(FishcastingSounds.RETURNING_TO_THE_SURFACE.jukeboxSong)
+    }
+    @JvmField
+    val CURSED = make("cursed", {Item(fireResistant.rarity(Rarity.UNCOMMON))})
     @JvmField
     val CURSED_BUCKET = make(
         "cursed_bucket", {MobBucketItem(
-            FishcastingEntities.CURSED,
+            FishcastingEntities.CURSED.value,
             WATER,
             BUCKET_EMPTY_FISH,
-            unstackableUncommon()
+            unstackableUncommon
         )}
     )
     val CURSED_SPAWN_EGG = make(
         "cursed_spawn_egg", {SpawnEggItem(
-            FishcastingEntities.CURSED, 16499171, 10890612, (Item.Properties())
+            FishcastingEntities.CURSED.value, 16499171, 10890612, (Item.Properties())
         )}
     ) // from axolotl thingy
     val BLESSED_SPAWN_EGG = make(
         "blessed_spawn_egg", {SpawnEggItem(
-            FishcastingEntities.BLESSED, 9433559, 7969893, (Item.Properties())
+            FishcastingEntities.BLESSED.value, 9433559, 7969893, (Item.Properties())
         )}
     ) // from drowned thingy
 

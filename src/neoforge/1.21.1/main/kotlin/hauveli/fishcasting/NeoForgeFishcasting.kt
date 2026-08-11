@@ -23,7 +23,6 @@ import hauveli.fishcasting.registry.FishcastingBrainsweepeeIngredients
 import hauveli.fishcasting.registry.FishcastingAttributes
 import hauveli.fishcasting.registry.FishcastingCreativeTabs
 import hauveli.fishcasting.registry.FishcastingEntities
-import hauveli.fishcasting.registry.FishcastingRecipeRegistry
 import hauveli.fishcasting.registry.FishcastingSounds
 import net.minecraft.core.MappedRegistry
 import net.minecraft.core.Registry
@@ -91,11 +90,11 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
         // at least it works now........
         NeoForge.EVENT_BUS.register(NeoForgeFishcasting)
 
-        bind(Registries.RECIPE_SERIALIZER, FishcastingRecipeRegistry::registerSerializers);
-        bind(Registries.RECIPE_TYPE, FishcastingRecipeRegistry::registerTypes);
-        bind(Registries.ENTITY_TYPE, FishcastingEntities::registerEntities)
-        bind(Registries.SOUND_EVENT, FishcastingSounds::registerSounds)
-        bind(Registries.ATTRIBUTE, FishcastingAttributes::registerAttributes)
+        //bind(Registries.RECIPE_SERIALIZER, FishcastingRecipeRegistry::registerSerializers);
+        //bind(Registries.RECIPE_TYPE, FishcastingRecipeRegistry::registerTypes);
+        //bind(Registries.ENTITY_TYPE, FishcastingEntities::registerEntities)
+        // bind(Registries.SOUND_EVENT, FishcastingSounds::registerSounds)
+        //bind(Registries.ATTRIBUTE, FishcastingAttributes::registerAttributes)
         bind(Registries.CREATIVE_MODE_TAB, FishcastingCreativeTabs::registerCreativeTabs)
         //bind(HexRegistries.IOTA_TYPE, FishcastingIotaTypes::registerTypes)
         bind(HexRegistries.BRAINSWEEPEE_INGREDIENT, FishcastingBrainsweepeeIngredients::registerBrainsweepeeIngredients)
@@ -129,11 +128,11 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
     // ugh I couldn't do anything better than this
     fun registerEntityAttributes(event: EntityAttributeCreationEvent) {
         event.put(
-            FishcastingEntities.CURSED,
+            FishcastingEntities.CURSED.value,
             Axolotl.createAttributes().build()
         )
         event.put(
-            FishcastingEntities.BLESSED,
+            FishcastingEntities.BLESSED.value,
             Villager.createAttributes().build()
         )
     }
@@ -156,15 +155,15 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
 
     fun registerEntityRenderers(event: EntityRenderersEvent.RegisterRenderers) {
         event.registerEntityRenderer(
-            FishcastingEntities.TACKLEBOX_CHAIR,
+            FishcastingEntities.TACKLEBOX_CHAIR.value,
             ::TackleBoxChairRenderer
         )
         event.registerEntityRenderer(
-            FishcastingEntities.CURSED,
+            FishcastingEntities.CURSED.value,
             ::CursedRenderer
         )
         event.registerEntityRenderer(
-            FishcastingEntities.BLESSED,
+            FishcastingEntities.BLESSED.value,
             ::BlessedRenderer
         )
     }
@@ -195,15 +194,13 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
         internal val container: ModContainer
             get() = ModList.get().getModContainerById(Fishcasting.MODID).get()
 
-        @SubscribeEvent
-        fun onPlayerLoggedIn(event: PlayerEvent.PlayerLoggedInEvent) {
-            FishcastingAdvancements.onJoinAdvancementUpdate(event.entity as ServerPlayer)
-        }
-
+        /*
         // I dont think this is even firing...
         @SubscribeEvent
         fun registerAttributeHolder(event: ServerStartedEvent) {
             FishcastingAttributes.registerHolder(event.server.allLevels.first())
         }
+
+         */
     }
 }

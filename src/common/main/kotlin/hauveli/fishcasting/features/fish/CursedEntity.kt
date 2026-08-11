@@ -193,7 +193,7 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
     override fun setFromBucket(fromBucket: Boolean) {
         this.entityData.set<Boolean>(
             FROM_BUCKET,
-            fromBucket == true // I don't fucking get it, type isn't `Boolean?` so why does it work now? error has to do with int but I can only see this failing if fromBucket is null without this check, or does java allow wrong type arguments? what the fuck even is the problem I had
+            fromBucket // I don't fucking get it, type isn't `Boolean?` so why does it work now? error has to do with int but I can only see this failing if fromBucket is null without this check, or does java allow wrong type arguments? what the fuck even is the problem I had
         )
     }
 
@@ -329,9 +329,9 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
         // all of the below from tide
         // https://github.com/Lightning-64/Tide-2/blob/f9fc2d04ae4d544ad134025cebd83c7438f67098/src/main/java/com/li64/tide/registries/entities/fish/AbstractTideFish.java#L46
         // whyat the fuck it returns an integer?
-        private val FROM_BUCKET: EntityDataAccessor<Boolean?> =
+        private val FROM_BUCKET: EntityDataAccessor<Boolean> =
             SynchedEntityData.defineId(AbstractTideFish::class.java, EntityDataSerializers.BOOLEAN)
-        private val IS_SHINY: EntityDataAccessor<Boolean?> =
+        private val IS_SHINY: EntityDataAccessor<Boolean> =
             SynchedEntityData.defineId(AbstractTideFish::class.java, EntityDataSerializers.BOOLEAN)
     }
 }

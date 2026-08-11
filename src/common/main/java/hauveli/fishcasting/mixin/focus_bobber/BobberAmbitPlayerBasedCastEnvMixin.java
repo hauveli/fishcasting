@@ -35,7 +35,7 @@ public abstract class BobberAmbitPlayerBasedCastEnvMixin {
                     && serverPlayer.level().dimension() == maybeHook.level().dimension()) {
                 // god I'm such a fat chud noob it took me at least an hour to figure out that this was an ok ish way to do this
                 //double ambitBobberRadius = serverPlayer.getAttributeValue(FishcastingAttributes.INSTANCE.getHolderForBobberRadius(serverPlayer.serverLevel()));
-                double ambitBobberRadius = serverPlayer.getAttributeValue(FishcastingAttributes.BOBBER_RADIUS_HOLDER);
+                double ambitBobberRadius = serverPlayer.getAttributeValue(FishcastingAttributes.BOBBER_AMBIT_RADIUS.holder());
                 cir.setReturnValue(
                         vec.distanceToSqr(maybeHook.position()) <= ambitBobberRadius * ambitBobberRadius + 0.00000000001
                 );

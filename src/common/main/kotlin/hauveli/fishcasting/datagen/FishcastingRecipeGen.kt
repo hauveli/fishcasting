@@ -33,7 +33,7 @@ class FishcastingRecipeGen(
     override fun buildRecipes(recipes: RecipeOutput) {
         BrainsweepRecipeBuilder(
             HexStateIngredients.of(Blocks.AMETHYST_BLOCK),
-            TaggedEntityTypeIngredient(FishcastingEntities.BLESSED, "${MODID}_yoinked"),
+            TaggedEntityTypeIngredient(FishcastingEntities.BLESSED.value, "${MODID}_yoinked"),
             Blocks.BUDDING_AMETHYST.defaultBlockState(), MediaConstants.CRYSTAL_UNIT * 10
         )
             .unlockedBy(

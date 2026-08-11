@@ -731,30 +731,30 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         return if (this.isSleeping) {
             null
         } else {
-            if (this.isTrading) FishcastingSounds.BLESSED_TRADE else FishcastingSounds.BLESSED_AMBIENT
+            if (this.isTrading) FishcastingSounds.BLESSED_TRADE.value else FishcastingSounds.BLESSED_AMBIENT.value
         }
     }
 
     override fun getHurtSound(damageSource: DamageSource): SoundEvent {
-        return FishcastingSounds.BLESSED_HURT
+        return FishcastingSounds.BLESSED_HURT.value
     }
 
     override fun getDeathSound(): SoundEvent {
-        return FishcastingSounds.BLESSED_DEATH
+        return FishcastingSounds.BLESSED_DEATH.value
     }
 
     // this is no longer needed, I think?
     override fun getDrinkingSound(stack: ItemStack): SoundEvent {
-        return if (stack.`is`(Items.MILK_BUCKET)) FishcastingSounds.BLESSED_DRINK_MILK else FishcastingSounds.BLESSED_DRINK_POTION
+        return if (stack.`is`(Items.MILK_BUCKET)) FishcastingSounds.BLESSED_DRINK_MILK.value else FishcastingSounds.BLESSED_DRINK_POTION.value
     }
 
     // TODO: include a lore message detailing the steps to make a "CURSED"
     override fun getTradeUpdatedSound(getYesSound: Boolean): SoundEvent {
-        return if (getYesSound) FishcastingSounds.BLESSED_YES else FishcastingSounds.BLESSED_NO
+        return if (getYesSound) FishcastingSounds.BLESSED_YES.value else FishcastingSounds.BLESSED_NO.value
     }
 
     override fun getNotifyTradeSound(): SoundEvent {
-        return FishcastingSounds.BLESSED_YES
+        return FishcastingSounds.BLESSED_YES.value
     }
 
     companion object {
@@ -767,7 +767,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
 
         fun poofIntoExistence(spawnPosition: Vec3, level: Level) {
             if (!level.isClientSide) {
-                val blessedEntity = BlessedEntity(FishcastingEntities.BLESSED, level)
+                val blessedEntity = BlessedEntity(FishcastingEntities.BLESSED.value, level)
                 blessedEntity.variant = Util.getRandom<BlessedVariant?>(
                     BlessedVariant.entries.toTypedArray(),
                     blessedEntity.random
@@ -798,7 +798,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
 
         @JvmStatic
         fun summonCursedAtPosition(entity: Entity) {
-            val cursed = CursedEntity(FishcastingEntities.CURSED, entity.level())
+            val cursed = CursedEntity(FishcastingEntities.CURSED.value, entity.level())
             cursed.setPos(entity.position())
 
             cursed.moveTo(

@@ -6,7 +6,12 @@ import hauveli.fishcasting.features.paraphernalia.TideyFocusItem
 //import hauveli.fishcasting.networking.FishcastingNetworking
 import hauveli.fishcasting.registry.FishcastingActions
 import hauveli.fishcasting.registry.FishcastingAdvancements
+import hauveli.fishcasting.registry.FishcastingAttributes
+import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingItems
+import hauveli.fishcasting.registry.FishcastingRecipeSerializers
+import hauveli.fishcasting.registry.FishcastingRecipeTypes
+import hauveli.fishcasting.registry.FishcastingSounds
 import net.minecraft.advancements.AdvancementHolder
 import net.minecraft.client.renderer.item.ItemProperties
 import net.minecraft.resources.ResourceLocation
@@ -35,9 +40,14 @@ object Fishcasting {
     fun init() {
         initRegistries(
             FishcastingActions,
+            FishcastingAttributes,
+            FishcastingEntities,
+            FishcastingRecipeTypes,
+            FishcastingRecipeSerializers,
+            FishcastingSounds,
             FishcastingItems
         )
-        //FishcastingNetworking.init()
+        // FishcastingNetworking.init()
         FishcastingConfigs.init()
     }
 

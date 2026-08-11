@@ -6,7 +6,8 @@
     }
   },
   "rewards": {
-    "experience": 0
+    "experience": 0,
+    "function": "fishcasting:maybe_revoke_unneeded_hints"
   },
   "sends_telemetry_event": false
 }

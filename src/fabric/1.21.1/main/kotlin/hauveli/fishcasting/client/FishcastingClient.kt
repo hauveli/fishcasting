@@ -46,17 +46,17 @@ object FabricFishcastingClient : ClientModInitializer {
 
     fun registerEntityRenderers() {
         EntityRendererRegistry.register(
-            FishcastingEntities.TACKLEBOX_CHAIR,
+            FishcastingEntities.TACKLEBOX_CHAIR.value,
             ::TackleBoxChairRenderer
         )
 
         EntityRendererRegistry.register(
-            FishcastingEntities.CURSED,
+            FishcastingEntities.CURSED.value,
             ::CursedRenderer
         )
 
         EntityRendererRegistry.register(
-            FishcastingEntities.BLESSED,
+            FishcastingEntities.BLESSED.value,
             ::BlessedRenderer
         )
     }
