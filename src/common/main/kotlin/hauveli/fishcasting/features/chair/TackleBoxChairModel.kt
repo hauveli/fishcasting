@@ -30,7 +30,7 @@ class TackleBoxChairModel<T : Entity>(root: ModelPart) : EntityModel<T>() {
         bone.render(poseStack, buffer, packedLight, packedOverlay, color)
     }
 
-    override fun setupAnim(t: T?, v: Float, v1: Float, v2: Float, v3: Float, v4: Float) {
+    override fun setupAnim(t: T, v: Float, v1: Float, v2: Float, v3: Float, v4: Float) {
     }
 
     companion object {

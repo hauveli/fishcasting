@@ -52,7 +52,7 @@ class StruckByLightningIngredient(
         return entityIn?.description?.string
     }
 
-    override fun exampleEntities(level: Level?): List<Entity?> {
+    override fun exampleEntities(level: Level): List<Entity?> {
         return listOf(entityIn?.create(level), entityOut?.create(level))
     }
 

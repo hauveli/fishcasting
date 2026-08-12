@@ -28,6 +28,6 @@ class CursedRenderer(context: EntityRendererProvider.Context) : MobRenderer<Curs
     }
 
     override fun getTextureLocation(cursedEntity: CursedEntity?): ResourceLocation {
-        return CursedModel.Companion.LAYER_LOCATION.model
+        return CursedModel.LAYER_LOCATION.model
     }
 }

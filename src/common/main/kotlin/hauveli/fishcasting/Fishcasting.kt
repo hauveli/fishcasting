@@ -7,6 +7,7 @@ import hauveli.fishcasting.features.paraphernalia.TideyFocusItem
 import hauveli.fishcasting.registry.FishcastingActions
 import hauveli.fishcasting.registry.FishcastingAdvancements
 import hauveli.fishcasting.registry.FishcastingAttributes
+import hauveli.fishcasting.registry.FishcastingCreativeTabs
 import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingItems
 import hauveli.fishcasting.registry.FishcastingRecipeSerializers
@@ -41,6 +42,7 @@ object Fishcasting {
         initRegistries(
             FishcastingActions,
             FishcastingAttributes,
+            FishcastingCreativeTabs,
             FishcastingEntities,
             FishcastingRecipeTypes,
             FishcastingRecipeSerializers,

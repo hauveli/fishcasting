@@ -16,7 +16,7 @@ class TackleBoxChairRenderer(context: EntityRendererProvider.Context) : EntityRe
     )
 
     override fun render(
-        pEntity: TackleBoxChairEntity?,
+        pEntity: TackleBoxChairEntity,
         entityYaw: Float,
         partialTick: Float,
         poseStack: PoseStack,
@@ -40,7 +40,7 @@ class TackleBoxChairRenderer(context: EntityRendererProvider.Context) : EntityRe
         super.render(pEntity, entityYaw, partialTick, poseStack, bufferSource, packedLight)
     }
 
-    override fun getTextureLocation(p0: TackleBoxChairEntity?): ResourceLocation {
+    override fun getTextureLocation(p0: TackleBoxChairEntity): ResourceLocation {
         return TackleBoxChairModel.LAYER_LOCATION.model
     }
 }

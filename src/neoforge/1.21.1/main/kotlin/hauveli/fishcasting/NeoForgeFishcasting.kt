@@ -88,14 +88,14 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
         }
         // I am not a big fan of how neoforge does events....
         // at least it works now........
-        NeoForge.EVENT_BUS.register(NeoForgeFishcasting)
+        // NeoForge.EVENT_BUS.register(NeoForgeFishcasting)
 
         //bind(Registries.RECIPE_SERIALIZER, FishcastingRecipeRegistry::registerSerializers);
         //bind(Registries.RECIPE_TYPE, FishcastingRecipeRegistry::registerTypes);
         //bind(Registries.ENTITY_TYPE, FishcastingEntities::registerEntities)
         // bind(Registries.SOUND_EVENT, FishcastingSounds::registerSounds)
         //bind(Registries.ATTRIBUTE, FishcastingAttributes::registerAttributes)
-        bind(Registries.CREATIVE_MODE_TAB, FishcastingCreativeTabs::registerCreativeTabs)
+        // bind(Registries.CREATIVE_MODE_TAB, FishcastingCreativeTabs::registerCreativeTabs)
         //bind(HexRegistries.IOTA_TYPE, FishcastingIotaTypes::registerTypes)
         bind(HexRegistries.BRAINSWEEPEE_INGREDIENT, FishcastingBrainsweepeeIngredients::registerBrainsweepeeIngredients)
         Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns"), FishcastingFishArithmetic())

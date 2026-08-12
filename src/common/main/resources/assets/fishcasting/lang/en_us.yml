@@ -163,7 +163,8 @@ item:
       .: Benign Bait
       desc: Prevents anything but fish from nibbling or biting
     message_in_a_bottle: Message in a Bottle
-    music_disc_returning_to_the_surface: Music Disc
+    music_disc:
+      returning_to_the_surface: Music Disc
     tacklebox_chair: Tacklebox Chair
     fishy_fragment: Soggy Lore Fragment
     glass_shard: Glass Shard
@@ -276,7 +277,7 @@ yapping_tooltips:
       message_in_a_bottle.desc: It is unclear who keeps tossing these into the ocean...
       glass_shard.desc: Ouch! Careful when walking near these!
       fishy_fragment.desc: At least this soggy thing is still legible.
-      music_disc_returning_to_the_surface.desc: Can be inserted into a jukebox to play cult-like tunes
+      music_disc/returning_to_the_surface.desc: Can be inserted into a jukebox to play cult-like tunes
       cursed.desc: Writhes.
       cursed_bucket.desc: Writhes and splashes lightly.
       cursed_spawn_egg.desc: Don't be too mean to them!

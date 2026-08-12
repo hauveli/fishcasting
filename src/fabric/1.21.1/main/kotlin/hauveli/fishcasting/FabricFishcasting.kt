@@ -58,7 +58,6 @@ object FabricFishcasting : ModInitializer {
                 }
             }
 
-        FishcastingCreativeTabs.registerCreativeTabs(bind(BuiltInRegistries.CREATIVE_MODE_TAB))
         FishcastingBrainsweepeeIngredients.registerBrainsweepeeIngredients(bind(IXplatAbstractions.INSTANCE.brainsweepeeIngredientRegistry))
         Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns"), FishcastingFishArithmetic())
 
@@ -71,7 +70,7 @@ object FabricFishcasting : ModInitializer {
         ItemGroupEvents.modifyEntriesEvent(FishcastingCreativeTabs.FISHCASTING.key).register { entries ->
             FishcastingItems.registerItemCreativeTab(
                 entries,
-                FishcastingCreativeTabs.FISHCASTING
+                FishcastingCreativeTabs.FISHCASTING.value
             )
         }
     }

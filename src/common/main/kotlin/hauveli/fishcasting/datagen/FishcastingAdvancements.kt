@@ -2,7 +2,6 @@ package hauveli.fishcasting.datagen
 
 import com.li64.tide.Tide
 import hauveli.fishcasting.Fishcasting
-import hauveli.fishcasting.registry.FishcastingItems
 import net.minecraft.advancements.Advancement
 import net.minecraft.advancements.AdvancementHolder
 import net.minecraft.advancements.AdvancementRequirements
@@ -10,12 +9,10 @@ import net.minecraft.advancements.AdvancementType
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.advancements.critereon.ImpossibleTrigger
 import net.minecraft.core.HolderLookup
-import net.minecraft.data.advancements.AdvancementProvider
 import net.minecraft.data.advancements.AdvancementSubProvider
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
-import net.minecraft.world.item.Items
 import java.util.function.Consumer
 
 
