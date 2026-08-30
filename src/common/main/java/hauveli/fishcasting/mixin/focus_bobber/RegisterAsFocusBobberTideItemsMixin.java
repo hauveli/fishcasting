@@ -3,7 +3,6 @@ package hauveli.fishcasting.mixin.focus_bobber;
 // holymoly what a funny thank you
 
 import com.li64.tide.registries.TideItems;
-import hauveli.fishcasting.Fishcasting;
 import hauveli.fishcasting.features.paraphernalia.TideyFocusItem;
 import net.minecraft.world.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,6 +11,8 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Slice;
 
 import java.util.function.Function;
+
+//import static hauveli.fishcasting.registry.FishcastingItems.AMETHYST_FOCUS_BOBBER_REFERENCE;
 
 @Mixin(TideItems.class)
 public abstract class RegisterAsFocusBobberTideItemsMixin {
@@ -35,6 +36,6 @@ public abstract class RegisterAsFocusBobberTideItemsMixin {
             index = 1
     )
     private static Function<Item.Properties, Item> replaceAmethystBobber(Function<Item.Properties, Item> original) {
-        return TideyFocusItem::new; // I've checked, amethyst bobber is of this type.
+        return props -> new TideyFocusItem(props); // I've checked, amethyst bobber is of this type. Still it for some reason doesn't act as writable. What gives?
     }
 }

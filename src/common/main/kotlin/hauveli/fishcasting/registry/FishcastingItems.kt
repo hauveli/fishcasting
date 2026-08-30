@@ -132,6 +132,14 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     val BLESSED_FOCUS_BOBBER = make(
         "blessed_focus_bobber", {TideyFocusItem(unstackableUncommon())}
     )
+
+    /*
+    @JvmField
+    val AMETHYST_FOCUS_BOBBER_REFERENCE = make(
+        "amethyst_focus_bobber", {TideyFocusItem(unstackableUncommon())}
+    )
+     */
+
     val LOUD_FISHING_LINE = make(
         "loud_fishing_line", {LoudFishingLineItem(props())}
     )
