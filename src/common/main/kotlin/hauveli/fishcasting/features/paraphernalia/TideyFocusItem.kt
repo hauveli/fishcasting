@@ -31,18 +31,19 @@ class TideyFocusItem(pProperties: Properties) : ItemFocus(pProperties.stacksTo(1
         return NUM_VARIANTS
     }
 
-    /*
-    override fun readIota(): Iota? {
-        TODO("Not yet implemented")
+    override fun readIota(p0: ItemStack?): Iota? {
+        return super.readIota(p0)
     }
 
-    override fun writeIota(p0: Iota?, p1: Boolean): Boolean {
-        return this.writeable()
+    override fun writeDatum(p0: ItemStack?, p1: Iota?) {
+        super.writeDatum(p0, p1)
     }
 
-    override fun writeable(): Boolean {
-        return true
+    override fun writeable(p0: ItemStack?): Boolean {
+        return super.writeable(p0)
     }
 
-     */
+    override fun canWrite(p0: ItemStack?, p1: Iota?): Boolean {
+        return super.canWrite(p0, p1)
+    }
 }
