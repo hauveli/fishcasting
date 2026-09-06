@@ -1,6 +1,8 @@
 package hauveli.fishcasting.config
 
 import hauveli.fishcasting.Fishcasting
+import me.fzzyhmstrs.fzzy_config.annotations.Translation
+import me.fzzyhmstrs.fzzy_config.annotations.Version
 import me.fzzyhmstrs.fzzy_config.config.Config
 import me.fzzyhmstrs.fzzy_config.validation.ValidatedField.Companion.withListener
 import me.fzzyhmstrs.fzzy_config.validation.collection.ValidatedChoiceList
@@ -14,6 +16,8 @@ import java.util.function.Supplier
 
 
 // guide: https://moddedmc.wiki/en/project/fzzy-config/latest/docs/config-design/New-Configs#2-config-creation
+@Version(version = 2)
+@Translation(prefix = Fishcasting.MODID + FishcastingConfigs.CONFIG_BASE_KEY + "client")
 class FishcastingClientConfig : Config(Fishcasting.id("client_config")) {
 
     var showForbiddenPatchouliKnowledge: ValidatedBoolean = ValidatedBoolean(false).withListener {

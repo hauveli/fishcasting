@@ -38,7 +38,7 @@ fishcasting:
     client:
       showForbiddenPatchouliKnowledge:
         .: Show Length Purification in Entity entry of Hex Notebook
-        'desc': Not recommended for new players as it will be confusing and not beneficial. Leave this off if you are including it in a modpack. REQUIRES JSONPATCHER.
+        'desc': Not recommended for new players as it will be confusing and not beneficial. Leave this off if you are including it in a modpack. Also leave this off in general if you aren't a specific kind of weird. REQUIRES JSONPATCHER.
       castingTypeClientPreference:
         .: Casting Rod cast method Client Pref.
         'desc': Specifies whether casts are charged or not. (Client Preference)
