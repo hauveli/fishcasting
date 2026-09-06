@@ -35,10 +35,13 @@ fishcasting:
       isLengthPurificationOnlyFish:
         .: Length Purification only applies to fish
         'desc': Specifies if length purification works on just fish when true, or all entities if false.
+      spawnFishyTraderChance:
+        .: Chance to spawn trader on crate reel
+        'desc': Specifies chance where 0.0 is disabled and 1.0 is every time.
     client:
       showForbiddenPatchouliKnowledge:
         .: Show Length Purification in Entity entry of Hex Notebook
-        'desc': Not recommended for new players as it will be confusing and not beneficial. Leave this off if you are including it in a modpack. Also leave this off in general if you aren't a specific kind of weird. REQUIRES JSONPATCHER.
+        'desc': Not recommended for new players as it will be confusing and not beneficial. Leave this off if you are including it in a modpack. Also leave this off in general if you aren't a specific kind of weird. Requires JsonPatcher.
       castingTypeClientPreference:
         .: Casting Rod cast method Client Pref.
         'desc': Specifies whether casts are charged or not. (Client Preference)
