@@ -1,5 +1,5 @@
 {
-  "parent": "hexcasting:root",
+  "parent": "tide:root",
   "criteria": {
     "fished": {
       "trigger": "minecraft:fishing_rod_hooked",

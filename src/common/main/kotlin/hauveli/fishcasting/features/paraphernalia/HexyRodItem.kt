@@ -20,6 +20,7 @@ import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.config.FishcastingConfigs.COMMON_CONFIG
 import hauveli.fishcasting.features.trader.BlessedEntity.Companion.poofIntoExistence
 import hauveli.fishcasting.casting.environments.BobberBasedCastEnv
+import hauveli.fishcasting.config.FishcastingConfigs
 import net.minecraft.client.Minecraft
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
@@ -63,7 +64,7 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
                     //executeBobber(level, player, player.getUsedItemHand(), bobberItemStack, bobberPos);
                     // This was moved to a different method
                     // chance to summon thingy when fishing with a hexy rod and tidey focus
-                    if (Fishcasting.random.nextFloat() > 0.9
+                    if (Fishcasting.random.nextFloat() < COMMON_CONFIG.spawnFishyTraderChance.get()
                         && activeHook.getCatchType() == TideFishingHook.CatchType.CRATE
                     ) {
                         poofIntoExistence(bobberPos, level)

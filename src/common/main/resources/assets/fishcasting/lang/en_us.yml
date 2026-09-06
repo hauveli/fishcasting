@@ -18,6 +18,32 @@ fishcasting:
       drink_milk: Blessed Trader drinks milk
       appears: Blessed Trader appears
       disappears: Blessed Trader disappears
+  config:
+    common:
+      castingTicksToCast:
+        .: Casting Rod Hex charge ticks
+        'desc': Specifies number of ticks until the purple is depleted when charging.
+      cooldownAfterFishing:
+        .: Casting Rod cooldown
+        'desc': Specifies number of ticks after reeling in the hook until casting rods are usable again.
+      castingTypeFreeChoice:
+        .: Cast method free choice
+        'desc': Specifies whether cast method can be chosen by player, or if it is set by the server.
+      castingType:
+        .: Casting Rod cast method
+        'desc': Specifies whether casts are charged or not.
+      isLengthPurificationOnlyFish:
+        .: Length Purification only applies to fish
+        'desc': Specifies if length purification works on just fish when true, or all entities if false.
+    client:
+      showForbiddenPatchouliKnowledge:
+        .: Show Length Purification in Entity entry of Hex Notebook
+        'desc': Not recommended for new players as it will be confusing and not beneficial. Leave this off if you are including it in a modpack. REQUIRES JSONPATCHER.
+      castingTypeClientPreference:
+        .: Casting Rod cast method Client Pref.
+        'desc': Specifies whether casts are charged or not. (Client Preference)
+
+
   book:
     fishing_spells:
       '1': On the rare occasion that I have come face to face with a finned foe, a simple spell to disable its movements is all I ever needed to deal with the issue.$(br)These spells are useless on most other more advanced beings, but for the simple creatures that fish are, they will suffice.

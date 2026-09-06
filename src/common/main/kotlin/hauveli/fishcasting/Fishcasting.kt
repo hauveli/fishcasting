@@ -23,13 +23,12 @@ import java.util.Random
 
 object Fishcasting {
     const val MODID = "fishcasting"
-    const val MOD_NAME: String = "Fishcasting"
+    const val MOD_NAME = "Fishcasting"
 
     @JvmField
     val LOGGER: Logger = LogManager.getLogger(MODID)
 
-    @JvmField
-    val FISHBERT_TAG: String = "$MODID:recently_caught"
+    const val FISHBERT_TAG = "$MODID:recently_caught"
 
     // I dont know if I should avoid using this or not, I noticed some classes have access to Entity.random...
     @JvmField

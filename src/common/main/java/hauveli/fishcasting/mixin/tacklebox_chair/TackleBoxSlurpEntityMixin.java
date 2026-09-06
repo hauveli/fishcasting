@@ -145,6 +145,9 @@ public class TackleBoxSlurpEntityMixin {
 
     }
 
+    // todo: is this something I should also add a server config for?
+    // adding a client config would possibly be preferable, but because I'm taking a gross shortcut by relying on Tide's stuff
+    // it means doing so would be simpler (and better) if I add my own toast system...
     @Unique
     private static void fishcasting$showFishPopUp(ItemStack displayItemStack, ItemStack lengthItemStack, ServerPlayer player) {
         if (player == null) return;

@@ -1,6 +1,8 @@
 package hauveli.fishcasting.config
 
 import hauveli.fishcasting.Fishcasting
+import me.fzzyhmstrs.fzzy_config.annotations.Translation
+import me.fzzyhmstrs.fzzy_config.annotations.Version
 import me.fzzyhmstrs.fzzy_config.config.Config
 import me.fzzyhmstrs.fzzy_config.validation.ValidatedField
 import me.fzzyhmstrs.fzzy_config.validation.ValidatedField.Companion.descriptionProvider
@@ -8,6 +10,7 @@ import me.fzzyhmstrs.fzzy_config.validation.ValidatedField.Companion.withListene
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedAny
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedEnum
+import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedFloat
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionHand
@@ -15,31 +18,27 @@ import java.util.function.BiFunction
 
 
 // guide: https://moddedmc.wiki/en/project/fzzy-config/latest/docs/config-design/New-Configs#2-config-creation
+@Version(version = 2)
+@Translation(prefix = Fishcasting.MODID + FishcastingConfigs.CONFIG_BASE_KEY + "common")
 class FishcastingCommonConfig : Config(Fishcasting.id("common_config")) {
 
-    // why are descriptions not just a default thing?
-    fun <T> ValidatedField<T>.addDescription(): ValidatedField<T> {
-        return this.descriptionProvider(
-            { value: T, key: String ->
-                Component.translatable("$key.description", value)
-            }
-        )
-    }
-
-    var castingTicksToCast: ValidatedInt = ValidatedInt(5, 100, 0).addDescription() as ValidatedInt
-    var cooldownAfterFishing: ValidatedInt = ValidatedInt(5, 100, 0).addDescription() as ValidatedInt
+    var castingTicksToCast: ValidatedInt = ValidatedInt(5, 100, 0)
+    var cooldownAfterFishing: ValidatedInt = ValidatedInt(5, 100, 0)
     // conditions should supply live values. Validated fields are a convenient mechanism to do that. A plain boolean won't update in-GUI until changes are applied.
     var castingTypeFreeChoice: ValidatedBoolean = ValidatedBoolean(false).withListener {
         FishcastingPatchouliConfigStuff.configurePatchouliFlags(FishcastingConfigs)
-    }.addDescription() as ValidatedBoolean
+    }
 
     // todo: make patchouli entries update? can I do this with a mixin? low priority but dang...
     var castingType: ValidatedEnum<CASTING_TYPE> = ValidatedEnum(CASTING_TYPE.MOMENTARY).withListener {
         FishcastingPatchouliConfigStuff.configurePatchouliFlags(FishcastingConfigs)
-    }.addDescription() as ValidatedEnum
+    }
     var isLengthPurificationOnlyFish: ValidatedBoolean = ValidatedBoolean(true).withListener {
         FishcastingPatchouliConfigStuff.configurePatchouliFlags(FishcastingConfigs)
-    }.addDescription() as ValidatedBoolean
+    }
+
+    // Some players may not want to deal with more mobs. I'm also not entirely satisfied with how it spawns at this time.
+    var spawnFishyTraderChance: ValidatedFloat = ValidatedFloat(0.05f, 1f, 0f)
 
     fun getCooldownAfterFishingMinigame(): Int {
         return cooldownAfterFishing.get()
