@@ -168,6 +168,7 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
         )
     }
 
+    // equivalent for this on fabric is done via a mixin to registering the cap...
     fun registerCaps(event: RegisterCapabilitiesEvent) {
         event.registerEntity<ADIotaHolder?, Void?, TideFishingHook>(
             HexCapabilities.Entity.IOTA,

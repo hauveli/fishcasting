@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(targets = "at.petrak.hexcasting.fabric.cc.HexCardinalComponents")
 public class HexCardinalComponentsMixin {
 
+    // todo: do it properly later instead of being lazy...?
     // Yes, I could do this via my own entrypoint using cardinal components. or I could use a mixin.
     @Inject(
             method = "registerEntityComponentFactories",
