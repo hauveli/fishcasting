@@ -18,10 +18,9 @@ import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import com.li64.tide.registries.items.TideFishingRodItem
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.config.FishcastingConfigs.COMMON_CONFIG
-import hauveli.fishcasting.features.trader.BlessedEntity.Companion.poofIntoExistence
-import hauveli.fishcasting.casting.environments.BobberBasedCastEnv
 import hauveli.fishcasting.config.FishcastingConfigs
 import net.minecraft.client.Minecraft
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
@@ -67,7 +66,8 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
                     if (Fishcasting.random.nextFloat() < COMMON_CONFIG.spawnFishyTraderChance.get()
                         && activeHook.getCatchType() == TideFishingHook.CatchType.CRATE
                     ) {
-                        poofIntoExistence(bobberPos, level)
+                        player.sendSystemMessage(Component.nullToEmpty("This is where I would spawn my entity, if one was registered..."))
+                        // poofIntoExistence(bobberPos, level)
                     }
                 }
 
@@ -126,6 +126,7 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
         subIotas!!.forEach(Consumer { e: Iota -> iotas.add(e) })
 
         val sPlayer = player as ServerPlayer
+        /*
         val ctx = BobberBasedCastEnv(sPlayer, usedHand, this.getHook(sPlayer))
         val vm: CastingVM = CastingVM.empty(ctx)
         val clientView = vm.queueExecuteAndWrapIotas(iotas.toList(), sPlayer.serverLevel())
@@ -159,6 +160,8 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
             )
         }
 
+
+         */
         return InteractionResultHolder.success<ItemStack?>(stack)
     }
 
@@ -176,6 +179,17 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
     override fun use(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack?> {
         // if bobber is already cast, we have to be able to pull it back in!
         // at least, I prefer it to behave this way.
+        // debugging AAAAAAAA
+        val offhand = player.getItemInHand(InteractionHand.OFF_HAND)
+        player.sendSystemMessage(Component.nullToEmpty(offhand.descriptionId))
+        if (offhand.item is TideyFocusItem) {
+            player.sendSystemMessage(Component.nullToEmpty("Item is a TideyFocusItem"))
+            val focusItem = offhand.item as TideyFocusItem
+            if (focusItem.writeable(offhand))
+                player.sendSystemMessage(Component.nullToEmpty("Item is writable"))
+            if (focusItem.canWrite(offhand, null))
+                player.sendSystemMessage(Component.nullToEmpty("Can write null to"))
+        }
         if (HookAccessor.getHook(player) != null) {
             return super.use(level, player, hand)
         }

@@ -9,11 +9,7 @@ import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import com.li64.tide.registries.items.FishingHookItem
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.Fishcasting.id
-import hauveli.fishcasting.features.FishcastingLoreFragment
-import hauveli.fishcasting.features.chair.TackleBoxChairItem
-import hauveli.fishcasting.features.gacha.GachaBottleItem
 import hauveli.fishcasting.features.paraphernalia.HexyRodItem
-import hauveli.fishcasting.features.paraphernalia.LoudFishingLineItem
 import hauveli.fishcasting.features.paraphernalia.TideyFocusItem
 import hauveli.fishcasting.registry.FishcastingCreativeTabs.FISHCASTING
 import net.minecraft.client.renderer.item.ItemProperties
@@ -132,59 +128,6 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     val BLESSED_FOCUS_BOBBER = make(
         "blessed_focus_bobber", {TideyFocusItem(unstackableUncommon())}
     )
-
-    /*
-    @JvmField
-    val AMETHYST_FOCUS_BOBBER_REFERENCE = make(
-        "amethyst_focus_bobber", {TideyFocusItem(unstackableUncommon())}
-    )
-     */
-
-    val LOUD_FISHING_LINE = make(
-        "loud_fishing_line", {LoudFishingLineItem(props())}
-    )
-    val HOOKLESS_FISHING_HOOK = make(
-        "hookless_fishing_hook",
-        {FishingHookItem(props(), "item.fishcasting.hookless_fishing_hook.desc")}
-    ) // tide does this
-    @JvmField
-    val UNLUCKY_BAIT = make("unlucky_bait", {newItem()})
-    @JvmField
-    val BENIGN_BAIT = make(
-        "benign_bait", {newItem()}
-    )
-    val TACKLEBOX_CHAIR = make("tacklebox_chair", {TackleBoxChairItem(unstackable())})
-    val MESSAGE_IN_A_BOTTLE =
-        make("message_in_a_bottle", {GachaBottleItem(unstackableUncommon())})
-    val GLASS_SHARD = make("glass_shard", {Item(stacksTo(stackSizeLimit = 16))})
-    val FISHCASTING_LORE_FRAGMENT = make(
-        "fishy_fragment", {FishcastingLoreFragment(unstackableRare())}
-    )
-    @JvmField
-    val DISC = make(FishcastingSounds.RETURNING_TO_THE_SURFACE.jukeboxSong.location().path) {
-        musicDiscItem(FishcastingSounds.RETURNING_TO_THE_SURFACE.jukeboxSong)
-    }
-    @JvmField
-    val CURSED = make("cursed", {Item(fireResistantRare())})
-    @JvmField
-    val CURSED_BUCKET = make(
-        "cursed_bucket", {MobBucketItem(
-            FishcastingEntities.CURSED.value,
-            WATER,
-            BUCKET_EMPTY_FISH,
-            unstackableFireResistantRare()
-        )}
-    )
-    val CURSED_SPAWN_EGG = make(
-        "cursed_spawn_egg", {SpawnEggItem(
-            FishcastingEntities.CURSED.value, 16499171, 10890612, props()
-        )}
-    ) // from axolotl thingy
-    val BLESSED_SPAWN_EGG = make(
-        "blessed_spawn_egg", {SpawnEggItem(
-            FishcastingEntities.BLESSED.value, 9433559, 7969893, props()
-        )}
-    ) // from drowned thingy
 
     private abstract class TabEntry {
         abstract fun register(r: CreativeModeTab.Output?)

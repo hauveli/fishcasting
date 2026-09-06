@@ -8,22 +8,10 @@ import at.petrak.hexcasting.forge.cap.HexCapabilities
 import com.li64.tide.registries.TideEntityTypes
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import hauveli.fishcasting.client.NeoForgeFishcastingClient
-import hauveli.fishcasting.features.chair.TackleBoxChairModel
-import hauveli.fishcasting.features.chair.TackleBoxChairRenderer
-import hauveli.fishcasting.features.fish.CursedModel
-import hauveli.fishcasting.features.fish.CursedRenderer
 import hauveli.fishcasting.registry.FishcastingItems
 import hauveli.fishcasting.registry.FishcastingItems.ToTideFishingHookEntity
 import hauveli.fishcasting.datagen.NeoForgeFishcastingDatagen
-import hauveli.fishcasting.features.trader.BlessedModel
-import hauveli.fishcasting.features.trader.BlessedRenderer
-import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
-import hauveli.fishcasting.registry.FishcastingAdvancements
-import hauveli.fishcasting.registry.FishcastingBrainsweepeeIngredients
-import hauveli.fishcasting.registry.FishcastingAttributes
 import hauveli.fishcasting.registry.FishcastingCreativeTabs
-import hauveli.fishcasting.registry.FishcastingEntities
-import hauveli.fishcasting.registry.FishcastingSounds
 import net.minecraft.core.MappedRegistry
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
@@ -52,21 +40,6 @@ import java.util.function.Consumer
 
 @Mod(Fishcasting.MODID)
 class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
-
-
-    fun fuckingUnfreeze() {
-        val rootRegistry = BuiltInRegistries.REGISTRY as? MappedRegistry<*>
-            ?: return
-
-        rootRegistry.unfreeze()
-    }
-
-    fun fuckingFreeze() {
-        val rootRegistry = BuiltInRegistries.REGISTRY as? MappedRegistry<*>
-            ?: return
-
-        rootRegistry.freeze()
-    }
 
     init {
         // thank you
@@ -97,8 +70,6 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
         //bind(Registries.ATTRIBUTE, FishcastingAttributes::registerAttributes)
         // bind(Registries.CREATIVE_MODE_TAB, FishcastingCreativeTabs::registerCreativeTabs)
         //bind(HexRegistries.IOTA_TYPE, FishcastingIotaTypes::registerTypes)
-        bind(HexRegistries.BRAINSWEEPEE_INGREDIENT, FishcastingBrainsweepeeIngredients::registerBrainsweepeeIngredients)
-        Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns"), FishcastingFishArithmetic())
         /*
 
 
@@ -115,9 +86,6 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
             addListener(NeoForgeFishcastingDatagen::init)
             addListener(NeoForgeFishcastingServer::init)
             //addListener(::registerAttributeHolder)
-            addListener(::registerEntityAttributes)
-            addListener(::registerLayerDefinitions)
-            addListener(::registerEntityRenderers)
             addListener(::registerCaps)
             addListener(::registerCreativeModeTabItems)
         }
@@ -125,48 +93,6 @@ class NeoForgeFishcasting(modBus: IEventBus, container: ModContainer) {
         Fishcasting.init()
     }
 
-    // ugh I couldn't do anything better than this
-    fun registerEntityAttributes(event: EntityAttributeCreationEvent) {
-        event.put(
-            FishcastingEntities.CURSED.value,
-            Axolotl.createAttributes().build()
-        )
-        event.put(
-            FishcastingEntities.BLESSED.value,
-            Villager.createAttributes().build()
-        )
-    }
-
-
-    fun registerLayerDefinitions(event: EntityRenderersEvent.RegisterLayerDefinitions) {
-        event.registerLayerDefinition(
-            TackleBoxChairModel.LAYER_LOCATION,
-            { TackleBoxChairModel.createBodyLayer() }
-        )
-        event.registerLayerDefinition(
-            CursedModel.LAYER_LOCATION,
-            { CursedModel.createBodyLayer() }
-        )
-        event.registerLayerDefinition(
-            BlessedModel.LAYER_LOCATION,
-            { BlessedModel.createBodyLayer() }
-        )
-    }
-
-    fun registerEntityRenderers(event: EntityRenderersEvent.RegisterRenderers) {
-        event.registerEntityRenderer(
-            FishcastingEntities.TACKLEBOX_CHAIR.value,
-            ::TackleBoxChairRenderer
-        )
-        event.registerEntityRenderer(
-            FishcastingEntities.CURSED.value,
-            ::CursedRenderer
-        )
-        event.registerEntityRenderer(
-            FishcastingEntities.BLESSED.value,
-            ::BlessedRenderer
-        )
-    }
 
     // equivalent for this on fabric is done via a mixin to registering the cap...
     fun registerCaps(event: RegisterCapabilitiesEvent) {

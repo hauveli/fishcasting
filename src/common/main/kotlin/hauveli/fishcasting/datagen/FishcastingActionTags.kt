@@ -4,7 +4,6 @@ import at.petrak.hexcasting.api.casting.ActionRegistryEntry
 import at.petrak.hexcasting.api.casting.castables.SpellAction
 import at.petrak.hexcasting.api.mod.HexTags
 import at.petrak.hexcasting.common.lib.HexRegistries
-import hauveli.fishcasting.registry.FishcastingActions
 import hauveli.fishcasting.registry.FishcastingRegistrar
 import net.minecraft.core.HolderLookup
 import net.minecraft.data.PackOutput

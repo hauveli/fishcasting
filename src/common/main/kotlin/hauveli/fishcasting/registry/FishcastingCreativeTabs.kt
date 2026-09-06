@@ -23,7 +23,7 @@ object FishcastingCreativeTabs : FishcastingRegistrar<CreativeModeTab>(
     // Fishex would have been a good addon name, too
     val FISHCASTING = register(MODID,
         CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
-            .icon({ FishcastingItems.LOUD_FISHING_LINE.value.defaultInstance })
+            .icon({ FishcastingItems.BLESSED_FOCUS_BOBBER.value.defaultInstance })
     )
     // hee heee heeee
     val CreativeModeTab.key: ResourceKey<CreativeModeTab>?

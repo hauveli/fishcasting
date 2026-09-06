@@ -14,13 +14,6 @@ import net.minecraft.world.item.TooltipFlag
 // Using code from:
 // https://github.com/FallingColors/HexMod/blob/1.21/Common/src/main/java/at/petrak/hexcasting/common/items/storage/ItemFocus.java
 class TideyFocusItem(pProperties: Properties) : FishingBobberItem(pProperties.stacksTo(1)), IotaHolderItem {
-    companion object {
-        const val LUCK_TWEAKING_BOBBER_PROBABILITY = 1.0 / 1000.0
-        val OVERLAY_PREDICATE: ResourceLocation = Fishcasting.id("overlay_layer")
-        val VARIANT_PRED: ResourceLocation = Fishcasting.id("variant")
-
-        const val NUM_VARIANTS: Int = 2 // todo: add a fish variant that is literally just the crystalline carp? I would need to load Tide's ResourceLocation to make that happen, I think
-    }
 
 
     override fun getDescriptionId(stack: ItemStack): String {
@@ -32,10 +25,6 @@ class TideyFocusItem(pProperties: Properties) : FishingBobberItem(pProperties.st
         return false // stack.has(HexDataComponents.SEALED_IOTA_HOLDER.get())
     }
 
-    // todo: make it a VariantItem
-    fun numVariants(): Int {
-        return NUM_VARIANTS
-    }
 
     override fun readIota(p0: ItemStack?): Iota? {
         return super.readIota(p0)

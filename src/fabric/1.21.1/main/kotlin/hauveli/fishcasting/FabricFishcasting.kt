@@ -6,16 +6,6 @@ import at.petrak.hexcasting.fabric.cc.HexCardinalComponents.IOTA_HOLDER
 import at.petrak.hexcasting.fabric.cc.HexCardinalComponents.IOTA_HOLDER_LOOKUP
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import com.li64.tide.client.TideItemModelProperties
-import com.li64.tide.registries.TideEntityTypes
-import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
-import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
-import hauveli.fishcasting.features.chair.TackleBoxChairModel
-import hauveli.fishcasting.features.chair.TackleBoxChairRenderer
-import hauveli.fishcasting.features.fish.CursedModel
-import hauveli.fishcasting.features.fish.CursedRenderer
-import hauveli.fishcasting.features.paraphernalia.TideyFocusItem
-import hauveli.fishcasting.features.trader.BlessedModel
-import hauveli.fishcasting.features.trader.BlessedRenderer
 import hauveli.fishcasting.registry.*
 import hauveli.fishcasting.registry.FishcastingCreativeTabs.key
 import net.fabricmc.api.ModInitializer
@@ -47,7 +37,6 @@ import java.util.function.BiConsumer
 object FabricFishcasting : ModInitializer {
     override fun onInitialize() {
         Fishcasting.init()
-        registerEntityAttributes() // todo: do something better than this
     }
 
     init {
@@ -57,10 +46,6 @@ object FabricFishcasting : ModInitializer {
                     Registry.register(registry, id, t)
                 }
             }
-
-        FishcastingBrainsweepeeIngredients.registerBrainsweepeeIngredients(bind(IXplatAbstractions.INSTANCE.brainsweepeeIngredientRegistry))
-        Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns"), FishcastingFishArithmetic())
-
         registerCreativeModeTabItems()
         // why is this ok in fabric but not neoforge? what...
         //registerItemModelProperties()
@@ -73,18 +58,6 @@ object FabricFishcasting : ModInitializer {
                 FishcastingCreativeTabs.FISHCASTING.value
             )
         }
-    }
-
-    fun registerEntityAttributes() {
-        FabricDefaultAttributeRegistry.register(
-            FishcastingEntities.CURSED.value,
-            Axolotl.createAttributes().build()
-        )
-
-        FabricDefaultAttributeRegistry.register(
-            FishcastingEntities.BLESSED.value,
-            Villager.createAttributes().build()
-        )
     }
 /*
 
