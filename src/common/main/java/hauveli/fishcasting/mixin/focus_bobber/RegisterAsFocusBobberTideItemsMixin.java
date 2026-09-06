@@ -1,6 +1,6 @@
 package hauveli.fishcasting.mixin.focus_bobber;
 // https://github.com/Lightning-64/Tide-2/blob/main/src/main/java/com/li64/tide/mixin/ItemsMixin.java
-// holymoly what a funny thank you
+// holymoly what a funny, thank you
 
 import com.li64.tide.registries.TideItems;
 import hauveli.fishcasting.Fishcasting;
@@ -17,6 +17,13 @@ import java.util.function.Function;
 
 @Mixin(TideItems.class)
 public abstract class RegisterAsFocusBobberTideItemsMixin {
+
+    /*
+        I'm replacing FishingBobberItem::new ....
+        public static final Item AMETHYST_BOBBER = register("amethyst_bobber", FishingBobberItem::new);
+
+     */
+
     @ModifyArg(
             method = "<clinit>",
             slice = @Slice(
@@ -37,8 +44,10 @@ public abstract class RegisterAsFocusBobberTideItemsMixin {
             index = 1
     )
     private static Function<Item.Properties, Item> replaceAmethystBobber(Function<Item.Properties, Item> original) {
-        Fishcasting.LOGGER.info("Registering something: {}", original);
-        Fishcasting.LOGGER.info("Registering something: {}", original.hashCode());
-        return props -> new TideyFocusItem(props); // I've checked, amethyst bobber is of this type. Still it for some reason doesn't act as writable. What gives?
+        Fishcasting.LOGGER.info("Registering something to replace: {}", original);
+        Fishcasting.LOGGER.info("Registering something to replace: {}", original.hashCode());
+
+        // return props -> new TideyFocusItem(props) // this makes no difference (I should hope not...)
+        return TideyFocusItem::new; // I've checked, amethyst bobber is of this type. Still it for some reason doesn't act as writable. What gives?
     }
 }

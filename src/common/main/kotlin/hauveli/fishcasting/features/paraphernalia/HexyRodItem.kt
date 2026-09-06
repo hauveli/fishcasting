@@ -86,15 +86,6 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
         }
     }
 
-    // https://github.com/SuperKnux/HexMod/blob/indev/1.21.1/Common/src/main/java/at/petrak/hexcasting/common/items/magic/ItemPackagedHex.java
-    fun hasHex(stack: ItemStack): Boolean {
-        return stack.has(HexDataComponents.IOTA_HOLDER_IOTA.get())
-    }
-
-    fun getHex(stack: ItemStack, level: ServerLevel?): Iota? {
-        return stack.get<Iota?>(HexDataComponents.IOTA_HOLDER_IOTA.get())
-    }
-
     fun executeBobber(
         world: Level,
         player: Player?,
@@ -102,66 +93,6 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
         stack: ItemStack,
         bobberPos: Vec3
     ): InteractionResultHolder<ItemStack?> {
-        // NOOO WHY ARE WE KILLING BOB
-        if (!hasHex(stack)) {
-            return InteractionResultHolder.fail<ItemStack?>(stack)
-        }
-
-        if (world.isClientSide) {
-            return InteractionResultHolder.success<ItemStack?>(stack)
-        }
-
-        //List<Iota> instrs = getHex(stack, (ServerLevel) world);
-        val iota = getHex(stack, world as ServerLevel)
-        if (iota == null) {
-            return InteractionResultHolder.fail<ItemStack?>(stack)
-        }
-        if (iota.subIotas() == null) {
-            return InteractionResultHolder.fail<ItemStack?>(stack)
-        }
-        val subIotas = iota.subIotas()
-
-        // ugh me monkey me lazy think about this later, want to have cake and eat too so use focus but treat like trinket
-        val iotas: MutableList<Iota> = ArrayList()
-        subIotas!!.forEach(Consumer { e: Iota -> iotas.add(e) })
-
-        val sPlayer = player as ServerPlayer
-        /*
-        val ctx = BobberBasedCastEnv(sPlayer, usedHand, this.getHook(sPlayer))
-        val vm: CastingVM = CastingVM.empty(ctx)
-        val clientView = vm.queueExecuteAndWrapIotas(iotas.toList(), sPlayer.serverLevel())
-
-        val patterns = iotas.stream()
-            .filter { i: Iota? -> i is PatternIota }
-            .map { i: Iota? -> (i as PatternIota).pattern }
-            .toList()
-        val packet = MsgNewSpiralPatternsS2C(sPlayer.getUUID(), patterns, 140)
-        IXplatAbstractions.INSTANCE.sendPacketToPlayer(sPlayer, packet)
-        IXplatAbstractions.INSTANCE.sendPacketTracking(sPlayer, packet)
-
-        val stat: Stat<*> = Stats.ITEM_USED.get(this)
-        player.awardStat(stat)
-
-        // Cooldown exists by virtue of casting rod
-        // sPlayer.getCooldowns().addCooldown(this, this.cooldown());
-        if (clientView.resolutionType.success) {
-            // Somehow we lost spraying particles on each new pattern, so do it here
-            // this also nicely prevents particle spam on trinkets
-            ParticleSpray(bobberPos, Vec3(0.0, 0.0, 0.0), 0.4, Math.PI / 3, 30)
-                .sprayParticles(sPlayer.serverLevel(), ctx.getPigment())
-        }
-
-        val sound = ctx.sound.sound()
-        if (sound != null) {
-            val soundPos = sPlayer.position()
-            sPlayer.level().playSound(
-                null, soundPos.x, soundPos.y, soundPos.z,
-                sound, SoundSource.PLAYERS, 1f, 1f
-            )
-        }
-
-
-         */
         return InteractionResultHolder.success<ItemStack?>(stack)
     }
 
