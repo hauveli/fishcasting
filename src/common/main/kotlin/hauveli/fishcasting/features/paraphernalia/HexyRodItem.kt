@@ -124,9 +124,12 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
              */
             val datumHolder = IXplatAbstractions.INSTANCE.findDataHolder(offhand)
             if (datumHolder != null && datumHolder.writeable()) {
-                player.sendSystemMessage(Component.nullToEmpty("Can write null to"))
+                player.sendSystemMessage(Component.nullToEmpty("Valid datum found!"))
             } else {
                 player.sendSystemMessage(Component.nullToEmpty("Not valid datum"))
+                player.sendSystemMessage(Component.nullToEmpty(datumHolder.toString()))
+                val hexHolder = IXplatAbstractions.INSTANCE.findHexHolder(offhand)
+                player.sendSystemMessage(Component.nullToEmpty(hexHolder.toString()))
             }
         }
         if (HookAccessor.getHook(player) != null) {

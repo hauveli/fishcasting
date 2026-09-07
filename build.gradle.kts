@@ -112,7 +112,7 @@ cloche {
                 dependency {
                     modId = "tide"
                     version(libs.versions.tide.get())
-                    ordering = CommonMetadata.Dependency.Ordering.After
+                    // ordering = CommonMetadata.Dependency.Ordering.After
                 }
             }
         }

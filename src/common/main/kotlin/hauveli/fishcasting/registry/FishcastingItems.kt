@@ -61,17 +61,15 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         return DUMMY_FOCUS_BOBBER_PROPS
     }
 
-    val AMETHYST_FOCUS_BOBBER = make(
-        "amethyst_focus_bobber", {TideyFocusItem(DUMMY_FOCUS_BOBBER_PROPS)}
-    )
-
+    // move this @JvmField annotator to BOBBER2 to change the writability...?
     @JvmField
-    val AMETHYST_FOCUS_BOBBER2 = make(
-        "amethyst_focus_bobber2", {
-            TideyFocusItem(Item.Properties())
-        }
+    val AMETHYST_FOCUS_BOBBER = make(
+        "amethyst_focus_bobber", {TideyFocusItem(Item.Properties())}
     )
 
+    val AMETHYST_FOCUS_BOBBER2 = make(
+        "amethyst_focus_bobber2", {TideyFocusItem(Item.Properties())}
+    )
 
     @JvmField
     val AMETHYST_FOCUS_BOBBER3 = make(
