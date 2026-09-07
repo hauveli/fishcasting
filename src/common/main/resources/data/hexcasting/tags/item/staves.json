@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "tide:crystal_fishing_rod",
-    "fishcasting:shepherds_casting_rod"
+    "tide:crystal_fishing_rod"
   ]
 }

@@ -75,74 +75,25 @@ object FishcastingItems : FishcastingRegistrar<Item>(
 
      */
 
-    // I don't know why I'm doing it but I thought it'd be fun to try and see if I can make any meaningful improvements but I think it's already good enough how it is to begin with...
-    // but I can sure make it less readable!!!!
-    private fun props(): Item.Properties {return Item.Properties()}
-    private fun stacksTo(props: Item.Properties = props(), stackSizeLimit: Int = 64): Item.Properties {
-        return props.stacksTo(stackSizeLimit)}
-    private fun uncommon(props: Item.Properties = props()): Item.Properties {
-        return props.rarity(Rarity.UNCOMMON) }
-    private fun rare(props: Item.Properties = props()): Item.Properties {
-        return props.rarity(Rarity.RARE) }
-    private fun epic(props: Item.Properties = props()): Item.Properties {
-        return props.rarity(Rarity.EPIC) }
-
-    private fun unstackable(props: Item.Properties = props()): Item.Properties {
-        return stacksTo(props, 1)}
-
-    private fun fireResistant(props: Item.Properties = props()): Item.Properties {
-        return props.fireResistant()}
-
-    private fun fireResistantUnstackable(props: Item.Properties = props()): Item.Properties {
-        return fireResistant(unstackable(props))}
-
-    private fun fireResistantUncommon(props: Item.Properties = props()): Item.Properties {
-        return fireResistant(uncommon(props))}
-    private fun fireResistantRare(props: Item.Properties = props()): Item.Properties {
-        return fireResistant(rare(props))}
-
-    private fun unstackableUncommon(props: Item.Properties = props()): Item.Properties {
-        return unstackable(uncommon(props))}
-    private fun unstackableRare(props: Item.Properties = props()): Item.Properties {
-        return unstackable(rare(props))}
-
-
-    private fun unstackableFireResistantUncommon(props: Item.Properties = props()): Item.Properties {
-        return unstackable(fireResistantUncommon(props))}
-    private fun unstackableFireResistantRare(props: Item.Properties = props()): Item.Properties {
-        return unstackable(fireResistantRare(props))}
-
-    fun newItem(): Item {
-        return Item(props())
-    }
-
-    private fun musicDiscItem(resourceKey: ResourceKey<JukeboxSong>): Item {
-        return Item(unstackableRare().jukeboxPlayable(resourceKey))
-    }
-
-    @JvmField
-    val SHEPHERDS_CASTING_ROD =
-        make("shepherds_casting_rod", {HexyRodItem(3, 0.0, unstackableUncommon())})
-
     @JvmField
     val BLESSED_FOCUS_BOBBER = make(
-        "blessed_focus_bobber", {TideyFocusItem(unstackableUncommon(props()))}
+        "blessed_focus_bobber", {TideyFocusItem(Item.Properties())}
     )
 
     @JvmField
     val AMETHYST_FOCUS_BOBBER = make(
-        "amethyst_focus_bobber", {TideyFocusItem(unstackableUncommon(props()))}
+        "amethyst_focus_bobber", {TideyFocusItem(Item.Properties())}
     )
 
     @JvmField
     val AMETHYST_FOCUS_BOBBER2 = make(
-        "amethyst_focus_bobber2", {TideyFocusItem(unstackableUncommon(props()))}
+        "amethyst_focus_bobber2", {TideyFocusItem(Item.Properties())}
     )
 
 
     @JvmField
     val AMETHYST_FOCUS_BOBBER3 = make(
-        "amethyst_focus_bobber3", {TideyFocusItem(unstackableUncommon(props()))}
+        "amethyst_focus_bobber3", {TideyFocusItem(Item.Properties())}
     )
 
     private abstract class TabEntry {
@@ -182,12 +133,4 @@ object FishcastingItems : FishcastingRegistrar<Item>(
             }
         })
 
-    // this works in my dev env but not outside of it. what the fuck?
-    fun registerItemModelProperties() {
-        ItemProperties.register(
-            SHEPHERDS_CASTING_ROD.value,
-            TideItemModelProperties.CAST_PROPERTY,
-            TideItemModelProperties.CAST_FUNCTION
-        )
-    }
 }
