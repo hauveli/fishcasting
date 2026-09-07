@@ -1,26 +1,17 @@
 package hauveli.fishcasting.registry
 
 import at.petrak.hexcasting.api.addldata.ItemDelegatingEntityIotaHolder
-import com.google.common.base.Suppliers
-import com.li64.tide.client.TideItemModelProperties
 import com.li64.tide.data.rods.CustomRodManager
+import com.li64.tide.registries.TideItems
 import com.li64.tide.registries.entities.misc.fishing.HookAccessor
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
-import com.li64.tide.registries.items.FishingHookItem
-import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.Fishcasting.id
-import hauveli.fishcasting.features.paraphernalia.HexyRodItem
 import hauveli.fishcasting.features.paraphernalia.TideyFocusItem
 import hauveli.fishcasting.registry.FishcastingCreativeTabs.FISHCASTING
-import net.minecraft.client.renderer.item.ItemProperties
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
-import net.minecraft.sounds.SoundEvents.BUCKET_EMPTY_FISH
 import net.minecraft.world.item.*
-import net.minecraft.world.level.material.Fluids.WATER
-import java.util.function.BiConsumer
 import java.util.function.Consumer
 import java.util.function.Supplier
 
@@ -63,17 +54,22 @@ object FishcastingItems : FishcastingRegistrar<Item>(
 
 
     // val DUMMY_FOCUS_BOBBER_ITEM = TideyFocusItem(Item.Properties())
-    @JvmField
     val DUMMY_FOCUS_BOBBER_PROPS = Item.Properties()
 
-    @JvmField
+    @JvmStatic
+    fun getProps(): Item.Properties {
+        return DUMMY_FOCUS_BOBBER_PROPS
+    }
+
     val AMETHYST_FOCUS_BOBBER = make(
-        "amethyst_focus_bobber", {TideyFocusItem(Item.Properties())}
+        "amethyst_focus_bobber", {TideyFocusItem(DUMMY_FOCUS_BOBBER_PROPS)}
     )
 
     @JvmField
     val AMETHYST_FOCUS_BOBBER2 = make(
-        "amethyst_focus_bobber2", {TideyFocusItem(DUMMY_FOCUS_BOBBER_PROPS)}
+        "amethyst_focus_bobber2", {
+            TideyFocusItem(Item.Properties())
+        }
     )
 
 

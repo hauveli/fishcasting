@@ -19,10 +19,6 @@ import java.util.function.Supplier
 @Version(version = 2)
 @Translation(prefix = Fishcasting.MODID + FishcastingConfigs.CONFIG_BASE_KEY + "client")
 class FishcastingClientConfig : Config(Fishcasting.id("client_config")) {
-
-    var showForbiddenPatchouliKnowledge: ValidatedBoolean = ValidatedBoolean(false).withListener {
-        FishcastingPatchouliConfigStuff.configurePatchouliFlags(FishcastingConfigs)
-    }
     // true = we show the entry that would be shown with jsonpatcher installed.
 
     //create a conditional validation with toCondition. Note that the type is no longer ValidatedInt directly.
@@ -33,7 +29,4 @@ class FishcastingClientConfig : Config(Fishcasting.id("client_config")) {
                 { FishcastingCommonConfig.CASTING_TYPE.MOMENTARY })
             .withFailTitle(Component.literal("Condition not met"),
                 Component.literal("Conditions not net"))
-            .withListener {
-                FishcastingPatchouliConfigStuff.configurePatchouliFlags(FishcastingConfigs)
-            }
 }

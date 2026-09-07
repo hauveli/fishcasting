@@ -25,17 +25,10 @@ class FishcastingCommonConfig : Config(Fishcasting.id("common_config")) {
     var castingTicksToCast: ValidatedInt = ValidatedInt(5, 100, 0)
     var cooldownAfterFishing: ValidatedInt = ValidatedInt(5, 100, 0)
     // conditions should supply live values. Validated fields are a convenient mechanism to do that. A plain boolean won't update in-GUI until changes are applied.
-    var castingTypeFreeChoice: ValidatedBoolean = ValidatedBoolean(false).withListener {
-        FishcastingPatchouliConfigStuff.configurePatchouliFlags(FishcastingConfigs)
-    }
+    var castingTypeFreeChoice: ValidatedBoolean = ValidatedBoolean(false)
 
     // todo: make patchouli entries update? can I do this with a mixin? low priority but dang...
-    var castingType: ValidatedEnum<CASTING_TYPE> = ValidatedEnum(CASTING_TYPE.MOMENTARY).withListener {
-        FishcastingPatchouliConfigStuff.configurePatchouliFlags(FishcastingConfigs)
-    }
-    var isLengthPurificationOnlyFish: ValidatedBoolean = ValidatedBoolean(true).withListener {
-        FishcastingPatchouliConfigStuff.configurePatchouliFlags(FishcastingConfigs)
-    }
+    var castingType: ValidatedEnum<CASTING_TYPE> = ValidatedEnum(CASTING_TYPE.MOMENTARY)
 
     // Some players may not want to deal with more mobs. I'm also not entirely satisfied with how it spawns at this time.
     var spawnFishyTraderChance: ValidatedFloat = ValidatedFloat(0.05f, 1f, 0f)

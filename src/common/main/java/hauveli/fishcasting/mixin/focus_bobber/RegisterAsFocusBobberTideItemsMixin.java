@@ -12,12 +12,13 @@ import org.spongepowered.asm.mixin.injection.Slice;
 
 import java.util.function.Function;
 
-import static hauveli.fishcasting.registry.FishcastingItems.*;
+import static hauveli.fishcasting.registry.FishcastingItems.getProps;
 
 //import static hauveli.fishcasting.registry.FishcastingItems.AMETHYST_FOCUS_BOBBER_REFERENCE;
 
 @Mixin(TideItems.class)
 public abstract class RegisterAsFocusBobberTideItemsMixin {
+
     @ModifyArg(
             method = "<clinit>",
             slice = @Slice(
@@ -38,6 +39,8 @@ public abstract class RegisterAsFocusBobberTideItemsMixin {
             index = 1
     )
     private static Function<Item.Properties, Item> replaceAmethystBobber(Function<Item.Properties, Item> original) {
-        return props -> new TideyFocusItem(DUMMY_FOCUS_BOBBER_PROPS); // I've checked, amethyst bobber is of this type. Still it for some reason doesn't act as writable. What gives?
+        return props -> {
+            return new TideyFocusItem(props);
+        }; // I've checked, amethyst bobber is of this type. Still it for some reason doesn't act as writable. What gives?
     }
 }

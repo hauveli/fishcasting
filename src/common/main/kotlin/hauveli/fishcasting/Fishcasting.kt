@@ -21,8 +21,6 @@ object Fishcasting {
     @JvmField
     val LOGGER: Logger = LogManager.getLogger(MODID)
 
-    const val FISHBERT_TAG = "$MODID:recently_caught"
-
     // I dont know if I should avoid using this or not, I noticed some classes have access to Entity.random...
     @JvmField
     val random: Random = Random()

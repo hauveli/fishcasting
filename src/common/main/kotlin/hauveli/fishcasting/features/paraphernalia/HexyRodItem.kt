@@ -116,10 +116,18 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
         if (offhand.item is TideyFocusItem) {
             player.sendSystemMessage(Component.nullToEmpty("Item is a TideyFocusItem"))
             val focusItem = offhand.item as TideyFocusItem
+            /*
             if (focusItem.writeable(offhand))
                 player.sendSystemMessage(Component.nullToEmpty("Item is writable"))
             if (focusItem.canWrite(offhand, null))
                 player.sendSystemMessage(Component.nullToEmpty("Can write null to"))
+             */
+            val datumHolder = IXplatAbstractions.INSTANCE.findDataHolder(offhand)
+            if (datumHolder != null && datumHolder.writeable()) {
+                player.sendSystemMessage(Component.nullToEmpty("Can write null to"))
+            } else {
+                player.sendSystemMessage(Component.nullToEmpty("Not valid datum"))
+            }
         }
         if (HookAccessor.getHook(player) != null) {
             return super.use(level, player, hand)
