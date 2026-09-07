@@ -126,7 +126,23 @@ object FishcastingItems : FishcastingRegistrar<Item>(
 
     @JvmField
     val BLESSED_FOCUS_BOBBER = make(
-        "blessed_focus_bobber", {TideyFocusItem(unstackableUncommon())}
+        "blessed_focus_bobber", {TideyFocusItem(unstackableUncommon(props()))}
+    )
+
+    @JvmField
+    val AMETHYST_FOCUS_BOBBER = make(
+        "amethyst_focus_bobber", {TideyFocusItem(unstackableUncommon(props()))}
+    )
+
+    @JvmField
+    val AMETHYST_FOCUS_BOBBER2 = make(
+        "amethyst_focus_bobber2", {TideyFocusItem(unstackableUncommon(props()))}
+    )
+
+
+    @JvmField
+    val AMETHYST_FOCUS_BOBBER3 = make(
+        "amethyst_focus_bobber3", {TideyFocusItem(unstackableUncommon(props()))}
     )
 
     private abstract class TabEntry {
