@@ -56,29 +56,15 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         return registered
     }
 
-    /*
-    fun props(): Item.Properties {
-        return Item.Properties()
-    }
-
-    fun unstackable(): Item.Properties {
-        return props().stacksTo(1)
-    }
-
-    fun unstackableUncommon(): Item.Properties {
-        return unstackable().rarity(Rarity.UNCOMMON)
-    }
-
-    fun newItem(): Item {
-        return Item(props())
-    }
-
-     */
-
     @JvmField
     val BLESSED_FOCUS_BOBBER = make(
         "blessed_focus_bobber", {TideyFocusItem(Item.Properties())}
     )
+
+
+    // val DUMMY_FOCUS_BOBBER_ITEM = TideyFocusItem(Item.Properties())
+    @JvmField
+    val DUMMY_FOCUS_BOBBER_PROPS = Item.Properties()
 
     @JvmField
     val AMETHYST_FOCUS_BOBBER = make(
@@ -87,7 +73,7 @@ object FishcastingItems : FishcastingRegistrar<Item>(
 
     @JvmField
     val AMETHYST_FOCUS_BOBBER2 = make(
-        "amethyst_focus_bobber2", {TideyFocusItem(Item.Properties())}
+        "amethyst_focus_bobber2", {TideyFocusItem(DUMMY_FOCUS_BOBBER_PROPS)}
     )
 
 
