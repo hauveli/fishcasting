@@ -6,6 +6,8 @@ import at.petrak.hexcasting.api.item.IotaHolderItem
 import at.petrak.hexcasting.common.lib.HexDataComponents
 import com.li64.tide.registries.items.FishingBobberItem
 import hauveli.fishcasting.Fishcasting
+import net.minecraft.core.component.DataComponentMap
+import net.minecraft.core.component.DataComponentPatch
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.Entity
@@ -22,8 +24,12 @@ class TideyFocusItem(val pProperties: Properties) : FishingBobberItem(
 
     override fun inventoryTick(p0: ItemStack, p1: Level, p2: Entity, p3: Int, p4: Boolean) {
         super.inventoryTick(p0, p1, p2, p3, p4)
-        pProperties
-            .component(HexDataComponents.IOTA_HOLDER_IOTA.get(), NullIota())
+        // pProperties.component(HexDataComponents.IOTA_HOLDER_IOTA.get(), NullIota())
+        p0.applyComponents(
+            DataComponentPatch.builder()
+                .set(HexDataComponents.IOTA_HOLDER_IOTA.get(), NullIota())
+                .build()
+        );
     }
 
     override fun getDescriptionId(stack: ItemStack): String {
