@@ -6,6 +6,7 @@ import at.petrak.hexcasting.api.casting.eval.vm.CastingVM
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.PatternIota
 import at.petrak.hexcasting.api.casting.math.HexPattern
+import at.petrak.hexcasting.api.item.IotaHolderItem
 import at.petrak.hexcasting.common.lib.HexAttributes
 import at.petrak.hexcasting.common.lib.HexDataComponents
 import at.petrak.hexcasting.common.lib.HexSounds
@@ -19,6 +20,7 @@ import com.li64.tide.registries.items.TideFishingRodItem
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.config.FishcastingConfigs.COMMON_CONFIG
 import hauveli.fishcasting.config.FishcastingConfigs
+import hauveli.fishcasting.registry.FishcastingItems.DUMMY_FOCUS_BOBBER_PROPS
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
@@ -113,9 +115,16 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
         // debugging AAAAAAAA
         val offhand = player.getItemInHand(InteractionHand.OFF_HAND)
         player.sendSystemMessage(Component.nullToEmpty(offhand.descriptionId))
+
         if (offhand.item is TideyFocusItem) {
-            player.sendSystemMessage(Component.nullToEmpty("Item is a TideyFocusItem"))
+
+            val iotaHolderItem = offhand.item as IotaHolderItem
+            val something = iotaHolderItem.readIota(offhand)
+            player.sendSystemMessage(Component.nullToEmpty(something.toString()))
             val focusItem = offhand.item as TideyFocusItem
+            val something2 = focusItem.readIota(offhand)
+            player.sendSystemMessage(Component.nullToEmpty(something2.toString()))
+            player.sendSystemMessage(Component.nullToEmpty("Item is a TideyFocusItem"))
             /*
             if (focusItem.writeable(offhand))
                 player.sendSystemMessage(Component.nullToEmpty("Item is writable"))

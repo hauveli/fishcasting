@@ -1,20 +1,30 @@
 package hauveli.fishcasting.features.paraphernalia
 
 import at.petrak.hexcasting.api.casting.iota.Iota
+import at.petrak.hexcasting.api.casting.iota.NullIota
 import at.petrak.hexcasting.api.item.IotaHolderItem
 import at.petrak.hexcasting.common.lib.HexDataComponents
 import com.li64.tide.registries.items.FishingBobberItem
 import hauveli.fishcasting.Fishcasting
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.TooltipFlag
+import net.minecraft.world.level.Level
 
 
 // Using code from:
 // https://github.com/FallingColors/HexMod/blob/1.21/Common/src/main/java/at/petrak/hexcasting/common/items/storage/ItemFocus.java
-class TideyFocusItem(pProperties: Properties) : FishingBobberItem(pProperties.stacksTo(1)), IotaHolderItem {
+class TideyFocusItem(val pProperties: Properties) : FishingBobberItem(
+    pProperties
+        .stacksTo(1)), IotaHolderItem {
 
+    override fun inventoryTick(p0: ItemStack, p1: Level, p2: Entity, p3: Int, p4: Boolean) {
+        super.inventoryTick(p0, p1, p2, p3, p4)
+        pProperties
+            .component(HexDataComponents.IOTA_HOLDER_IOTA.get(), NullIota())
+    }
 
     override fun getDescriptionId(stack: ItemStack): String {
         return super.getDescriptionId(stack) + (if (stack.has(HexDataComponents.SEALED_IOTA_HOLDER.get())) ".sealed" else "")

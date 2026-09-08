@@ -54,6 +54,7 @@ object FishcastingItems : FishcastingRegistrar<Item>(
 
 
     // val DUMMY_FOCUS_BOBBER_ITEM = TideyFocusItem(Item.Properties())
+    @JvmField
     val DUMMY_FOCUS_BOBBER_PROPS = Item.Properties()
 
     @JvmStatic
