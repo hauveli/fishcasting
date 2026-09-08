@@ -198,7 +198,7 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
     }
 
     override fun addAdditionalSaveData(compound: CompoundTag) {
-        compound.putBoolean("FromBucket", this.fromBucket()) // I just dont get it
+        // compound.putBoolean("FromBucket", this.fromBucket()) // I just dont get it
         compound.putDouble(FishLengthHolder.`tide$LENGTH_KEY`, this.length)
         super.addAdditionalSaveData(compound)
         //compound.putBoolean(tide$SHINY_KEY, this.isShiny);
