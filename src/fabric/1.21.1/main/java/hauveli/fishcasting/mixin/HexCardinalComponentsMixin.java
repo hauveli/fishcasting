@@ -35,6 +35,7 @@ public class HexCardinalComponentsMixin {
     }
 
 
+    /*
     @Inject(
             method = "registerItemComponentMigrations",
             at = @At("TAIL")
@@ -43,4 +44,6 @@ public class HexCardinalComponentsMixin {
         // IOTA_HOLDER_LOOKUP
         // registry.registerMigration(modLoc("iota_holder"), HexDataComponents.IOTA_HOLDER_IOTA.get());
     }
+
+     */
 }

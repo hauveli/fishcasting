@@ -49,7 +49,7 @@ public class AllFishingRodsAdvancementMixin {
                 : new JsonArray(); // and again
 
         // adding mine manually because I'm making this addon and I think this makes sense, it is obtainable via fishing alone, and serves a fishing purpose beyond just hexcasting.
-        fishcasting$addItemIdToAdvancementRequirement(advancement, criteria, requirements, FishcastingItems.SHEPHERDS_CASTING_ROD.toString());
+        fishcasting$addItemIdToAdvancementRequirement(advancement, criteria, requirements, FishcastingItems.SHEPHERDS_CASTING_ROD.getId().toString());
 
         // Set this to be empty just in case. I'm speculating, but if the datapack changes and/or world changes, some tags may be missed if I don't do this...
         // if I'm wrong, please open an issue or leave some type of message somewhere.
@@ -64,6 +64,8 @@ public class AllFishingRodsAdvancementMixin {
                 tagId.getNamespace(),
                 "tags/item/" + tagId.getPath() + ".json"
         );
+
+        Fishcasting.LOGGER.debug("tagPath here: {}", tagPath);
         return resourceManager.getResourceStack(tagPath);
     }
 
@@ -82,6 +84,8 @@ public class AllFishingRodsAdvancementMixin {
                     if (!element.isJsonPrimitive()) continue; // what the actual fuck was causing this to error without this line?
                     String value = element.getAsString();
 
+
+                    Fishcasting.LOGGER.debug("value here: {}", value);
                     if (value.startsWith("#")) {
                         if (VISITED_TAGS.contains(value)) {
                             return; // do NOT recurse
@@ -90,6 +94,7 @@ public class AllFishingRodsAdvancementMixin {
                         Fishcasting.LOGGER.debug("Found tag {}", tagId);
                         ResourceLocation targetTag = ResourceLocation.parse(value.replaceFirst("#", ""));
                         var possiblyMoreItems = fishcasting$loadMyFuckingTags(resourceManager, targetTag);
+                        Fishcasting.LOGGER.debug("possiblyMoreItems here: {}", possiblyMoreItems);
                         if (!possiblyMoreItems.isEmpty()) {
                             listOfItems.addAll(possiblyMoreItems);
                         }
@@ -128,7 +133,8 @@ public class AllFishingRodsAdvancementMixin {
         if (itemList.isEmpty()) return;
         for (Holder<Item> itemHolder : itemList) {
             Item item = itemHolder.value();
-            String someItemId = item.toString();
+            String someItemId = BuiltInRegistries.ITEM.getKey(item).toString();
+            Fishcasting.LOGGER.debug("The item id is this: {}", someItemId);
             if (fishcasting$criteriaContainsItemId(criteria, someItemId)) {
                 continue;
             }
@@ -200,6 +206,8 @@ public class AllFishingRodsAdvancementMixin {
         JsonObject conditions = new JsonObject();
         conditions.add("items", itemsArray);
         hadItemCriteria.add("conditions", conditions);
+
+        Fishcasting.LOGGER.debug(hadItemCriteria);
         return hadItemCriteria;
     }
 }
