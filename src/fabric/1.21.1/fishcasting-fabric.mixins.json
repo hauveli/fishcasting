@@ -7,6 +7,7 @@
   ],
   "mixins": [
     "babysittingfabric.stupidmixin",
+    "focus_bobber.RegisterAsFocusBobberTideItemsMixin",
     "HexCardinalComponentsMixin"
   ],
   "injectors": {

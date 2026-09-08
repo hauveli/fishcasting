@@ -26,7 +26,6 @@
     "focus_bobber.BobberAmbitCastingEnvironmentMixin",
     "focus_bobber.BobberAmbitPlayerBasedCastEnvMixin",
     "focus_bobber.BobberInWorldCastingEnvironmentMixin",
-    "focus_bobber.RegisterAsFocusBobberTideItemsMixin",
     "loud_line.AntiCreeperMixin",
     "loud_line.AntiPhantomMixin",
     "loud_line.LoudLineJingleTideFishingHookMixin",

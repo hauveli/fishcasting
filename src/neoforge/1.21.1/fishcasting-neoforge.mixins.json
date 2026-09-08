@@ -6,6 +6,7 @@
   "client": [
   ],
   "mixins": [
+    "focus_bobber.RegisterAsFocusBobberTideItemsMixin"
   ],
   "injectors": {
     "defaultRequire": 1
