@@ -261,13 +261,13 @@ _comment_pattern: PATTERN STUFF
 hexcasting:
   action:
     fishcasting:bobber/from_owner: 漂伯特之纯化
-    fishcasting:owner/from_bobber: 特雷漂之纯化
+    fishcasting:owner/from_bobber: 特伯漂之纯化
     fishcasting:catch/from_bobber: 漂布斯之纯化
     fishcasting:bobber/from_catch: 漂博之纯化
     fishcasting:fish/length: 格鲁漂之纯化
     fishcasting:fish/from_item: 鱼类运动
     fishcasting:fish/to_item: 鱼类静止
-    fishcasting:fish/rarity: PLACEHOLDER's之纯化
+    fishcasting:fish/rarity: PLACEHOLDER之纯化
   mishap:
     bad_item:
       fishcasting:
