@@ -6,8 +6,7 @@
   "client": [
   ],
   "mixins": [
-    "casting_rod.RegisterAsCastingRodTideItemsMixin",
-    "focus_bobber.RegisterAsFocusBobberTideItemsMixin"
+    "casting_rod.RegisterAsCastingRodTideItemsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

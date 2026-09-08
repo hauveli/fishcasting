@@ -2,8 +2,6 @@ package hauveli.fishcasting.mixin.focus_bobber;
 // https://github.com/Lightning-64/Tide-2/blob/main/src/main/java/com/li64/tide/mixin/ItemsMixin.java
 // holymoly what a funny thank you
 
-import at.petrak.hexcasting.api.casting.iota.NullIota;
-import at.petrak.hexcasting.common.lib.HexDataComponents;
 import com.li64.tide.registries.TideItems;
 import hauveli.fishcasting.features.paraphernalia.TideyFocusItem;
 import net.minecraft.world.item.Item;
@@ -13,9 +11,6 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Slice;
 
 import java.util.function.Function;
-
-import static hauveli.fishcasting.registry.FishcastingItems.DUMMY_FOCUS_BOBBER_PROPS;
-import static hauveli.fishcasting.registry.FishcastingItems.getProps;
 
 //import static hauveli.fishcasting.registry.FishcastingItems.AMETHYST_FOCUS_BOBBER_REFERENCE;
 

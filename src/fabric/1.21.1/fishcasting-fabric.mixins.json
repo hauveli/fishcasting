@@ -6,6 +6,7 @@
   "client": [
   ],
   "mixins": [
+    "focus_bobber.RegisterAsFocusBobberTideItemsMixin",
     "babysittingfabric.stupidmixin",
     "FabricXplatImplMixin",
     "HexCardinalComponentsMixin"
