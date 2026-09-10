@@ -2,11 +2,13 @@ package hauveli.fishcasting.features.chair
 
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
+import hauveli.fishcasting.Fishcasting.id
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRenderer
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.resources.ResourceLocation
+import kotlin.collections.get
 
 
 class TackleBoxChairRenderer(context: EntityRendererProvider.Context) : EntityRenderer<TackleBoxChairEntity>(context) {
@@ -27,7 +29,7 @@ class TackleBoxChairRenderer(context: EntityRendererProvider.Context) : EntityRe
         poseStack.translate(0.0, 1.5, 0.0)
         poseStack.scale(-1.0f, -1.0f, 1.0f)
         poseStack.mulPose(Axis.YP.rotationDegrees(entityYaw + 90))
-        val vertexConsumer = bufferSource.getBuffer(this.model.renderType(TackleBoxChairModel.LAYER_LOCATION.model))
+        val vertexConsumer = bufferSource.getBuffer(this.model.renderType(getTextureLocation(pEntity)))
         this.model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY)
         /*
         if (!p_entity.isUnderWater()) {
@@ -40,7 +42,15 @@ class TackleBoxChairRenderer(context: EntityRendererProvider.Context) : EntityRe
         super.render(pEntity, entityYaw, partialTick, poseStack, bufferSource, packedLight)
     }
 
-    override fun getTextureLocation(p0: TackleBoxChairEntity): ResourceLocation {
-        return TackleBoxChairModel.LAYER_LOCATION.model
+    override fun getTextureLocation(tackleBoxChairEntity: TackleBoxChairEntity): ResourceLocation {
+        return LOCATION_BY_VARIANT[tackleBoxChairEntity.variant]!!
+    }
+
+    companion object {
+        private val LOCATION_BY_VARIANT: Map<TackleBoxChairVariant, ResourceLocation> =
+            mapOf(
+                TackleBoxChairVariant.FACTORY to id("textures/entity/tacklebox_chair/tacklebox_chair.png"),
+                TackleBoxChairVariant.AERONAUTICSY to id("textures/entity/tacklebox_chair/tacklebox_chair_aeronautics.png")
+            )
     }
 }

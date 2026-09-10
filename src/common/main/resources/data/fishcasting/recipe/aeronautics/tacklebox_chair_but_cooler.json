@@ -1,4 +1,18 @@
 {
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "aeronautics"
+      ]
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "aeronautics"
+    }
+  ],
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
@@ -12,10 +26,10 @@
       "tag": "minecraft:wool_carpets"
     },
     "U": {
-      "tag": "c:buckets"
+      "item": "aeronautics:levitite_blend_bucket"
     },
     "I": {
-      "item": "minecraft:stick"
+      "item": "minecraft:breeze_rod"
     },
     "F": {
       "item": "tide:fish_satchel"

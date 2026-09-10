@@ -33,7 +33,7 @@
     {
       "type": "patchouli:crafting",
       "recipe": "fishcasting:unlucky_bait",
-      "recipe2": "fishcasting:loud_fishing_line_manual_only",
+      "recipe2": "fishcasting:loud_fishing_line",
       "text": "fishcasting.page.fishy_business.hexlikes"
     },
     {

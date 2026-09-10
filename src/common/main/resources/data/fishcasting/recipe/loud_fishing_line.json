@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "hexcasting:amethyst_dust"
+    },
+    "L": {
+      "item": "tide:fishing_line"
+    }
+  },
+  "pattern": [
+    "#",
+    "L",
+    "#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "fishcasting:loud_fishing_line"
+  }
+}

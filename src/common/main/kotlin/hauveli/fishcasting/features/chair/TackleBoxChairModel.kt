@@ -35,7 +35,7 @@ class TackleBoxChairModel<T : Entity>(root: ModelPart) : EntityModel<T>() {
 
     companion object {
         // So that I can re-remember that this is what the first argument in "model layer location" is meant to be
-        private val TEXTURE = id("textures/entity/tacklebox_chair.png")
+        private val TEXTURE = id("textures/entity/tacklebox_chair/tacklebox_chair.png")
 
         // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
         val LAYER_LOCATION: ModelLayerLocation = ModelLayerLocation(

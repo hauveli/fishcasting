@@ -21,7 +21,6 @@ class BlessedRenderer(context: EntityRendererProvider.Context) :
         return LOCATION_BY_VARIANT[blessedEntity.variant]!!
     }
 
-
     override fun getRenderType(
         livingEntity: BlessedEntity,
         bodyVisible: Boolean,
