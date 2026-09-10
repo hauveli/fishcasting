@@ -33,7 +33,9 @@
     "tacklebox_chair.ContentAccessorBucketItemMixin",
     "tacklebox_chair.TackleBoxSlurpEntityMixin",
     "voidsweep.AbstractVillagerInvoker",
-    "voidsweep.VoidsweepAiStepWanderingTraderMixin"
+    "voidsweep.VoidsweepAiStepWanderingTraderMixin",
+    "hexxy5.Hexxy5TideFishingHookAccessor",
+    "hexxy5.Hexxy5TideFishingHookMixin"
   ],
   "injectors": {
     "defaultRequire": 1

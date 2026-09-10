@@ -24,7 +24,6 @@ class FishcastingClientConfig : Config(Fishcasting.id("client_config")) {
         FishcastingPatchouliConfigStuff.configurePatchouliFlags(FishcastingConfigs)
     }
     // true = we show the entry that would be shown with jsonpatcher installed.
-
     //create a conditional validation with toCondition. Note that the type is no longer ValidatedInt directly.
     var castingTypeClientPreference: ValidatedCondition<FishcastingCommonConfig.CASTING_TYPE> =
         (ValidatedEnum(FishcastingCommonConfig.CASTING_TYPE.MOMENTARY))
@@ -36,4 +35,8 @@ class FishcastingClientConfig : Config(Fishcasting.id("client_config")) {
             .withListener {
                 FishcastingPatchouliConfigStuff.configurePatchouliFlags(FishcastingConfigs)
             }
+
+    var hexxy5KiltSableBugFix: ValidatedBoolean = ValidatedBoolean(false).withListener {
+
+    }
 }
