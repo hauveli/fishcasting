@@ -1,7 +1,9 @@
 package hauveli.fishcasting.client
 
 import com.li64.tide.client.TideItemModelProperties
+import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.client.FishcastingClient
+import hauveli.fishcasting.config.FishcastingConfigs
 import hauveli.fishcasting.features.chair.TackleBoxChairModel
 import hauveli.fishcasting.features.chair.TackleBoxChairRenderer
 import hauveli.fishcasting.features.fish.CursedModel
@@ -13,6 +15,7 @@ import hauveli.fishcasting.registry.FishcastingItems.SHEPHERDS_CASTING_ROD
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.renderer.item.ItemProperties
 
 object FabricFishcastingClient : ClientModInitializer {
@@ -25,6 +28,14 @@ object FabricFishcastingClient : ClientModInitializer {
         )
         registerLayerDefinitions()
         registerEntityRenderers()
+
+        // Hmm
+        if (!FishcastingConfigs.CLIENT_CONFIG.hexxy5KiltSableBugFix.get()
+            && FabricLoader.getInstance().isModLoaded("kilt")
+            && FabricLoader.getInstance().isModLoaded("sable")) {
+            Fishcasting.LOGGER.info("Detected kilt+sable, setting bugfix to true in client config.")
+            FishcastingConfigs.CLIENT_CONFIG.hexxy5KiltSableBugFix.validateAndSet(true)
+        }
     }
 
 
