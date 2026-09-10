@@ -6,7 +6,9 @@
   "client": [
     "casting_rod.WindUpCastBarOverlayMixin",
     "casting_rod.getDescriptionLinesTideFishingRodItemMixin",
-    "focus_bobber.YoinkTooltipRenderTideClientEventHandlerMixin"
+    "focus_bobber.YoinkTooltipRenderTideClientEventHandlerMixin",
+    "hexxy5.Hexxy5TideFishingHookAccessor",
+    "hexxy5.Hexxy5TideFishingHookMixin"
   ],
   "mixins": [
     "CursedMostlyIndestructibleItemEntityMixin",
@@ -33,9 +35,7 @@
     "tacklebox_chair.ContentAccessorBucketItemMixin",
     "tacklebox_chair.TackleBoxSlurpEntityMixin",
     "voidsweep.AbstractVillagerInvoker",
-    "voidsweep.VoidsweepAiStepWanderingTraderMixin",
-    "hexxy5.Hexxy5TideFishingHookAccessor",
-    "hexxy5.Hexxy5TideFishingHookMixin"
+    "voidsweep.VoidsweepAiStepWanderingTraderMixin"
   ],
   "injectors": {
     "defaultRequire": 1
