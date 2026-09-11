@@ -67,7 +67,8 @@ object FishcastingEntities : FishcastingRegistrar<EntityType<*>>(
     val TACKLEBOX_CHAIR = registerEntity(
         "tacklebox_chair", {
             EntityType.Builder.of(::TackleBoxChairEntity, MobCategory.MISC)
-                .sized(11.0f / 16.0f, 8.0f / 16.0f) // eyeballing it, todo: put exact values
+                .sized(22.0f / 16.0f, 9.0f / 16.0f) // vanilla boat... I think
+                //.sized(11.0f / 16.0f, 8.0f / 16.0f) // eyeballing it, todo: put exact values
                 .clientTrackingRange(10) // uhh enough to see it before players? idk
         }
     )

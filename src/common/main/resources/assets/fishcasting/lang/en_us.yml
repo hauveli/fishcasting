@@ -195,6 +195,7 @@ item:
     music_disc:
       returning_to_the_surface: Music Disc
     tacklebox_chair: Tacklebox Chair
+    tacklebox_chair_aeronautics: Levitite Tacklebox Chair
     fishy_fragment: Soggy Lore Fragment
     glass_shard: Glass Shard
     cursed: Cursed Thing
@@ -251,6 +252,7 @@ jukebox_song:
 entity:
   fishcasting:
     tacklebox_chair: Tacklebox Chair
+    tacklebox_chair_aeronautics: Levitite Tacklebox Chair
     cursed: Cursed Thing
     blessed: Blessed Trader
 journal:
@@ -289,6 +291,8 @@ _comment_config: CONFIGURATION STUFF
 compat:
   nomansland:
     tacklebox_chair: A throne/ fit for a king/ used only by commonfolk/.
+    tacklebox_chair_aeronautics: "A chair/ built for two purposes:/ fishing,/ and/ flying."
+
 yapping_tooltips:
   item:
     tide:
@@ -303,6 +307,7 @@ yapping_tooltips:
       unlucky_bait.desc: This bait kind of stinks...
       benign_bait.desc: Smells good and is shiny.
       tacklebox_chair.desc: A throne fit for a ruler of the seas - or the beach - or the local pond.
+      tacklebox_chair_aeronautics.desc: Pretty good, eh?
       message_in_a_bottle.desc: It is unclear who keeps tossing these into the ocean...
       glass_shard.desc: Ouch! Careful when walking near these!
       fishy_fragment.desc: At least this soggy thing is still legible.

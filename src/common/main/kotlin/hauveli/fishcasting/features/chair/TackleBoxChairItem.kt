@@ -20,7 +20,8 @@ import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.phys.HitResult
 import java.util.function.Predicate
 
-class TackleBoxChairItem(properties: Properties) : Item(properties) {
+open class TackleBoxChairItem(properties: Properties) : Item(properties) {
+    open val variant = TackleBoxChairVariant.FACTORY
     override fun use(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         val itemStack = player.getItemInHand(hand)
         val hitResult: HitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.ANY)
@@ -53,17 +54,7 @@ class TackleBoxChairItem(properties: Properties) : Item(properties) {
                 } else {
                     if (!level.isClientSide) {
                         level.addFreshEntity(chair)
-                        if (itemStack.has(DataComponents.CUSTOM_MODEL_DATA)) {
-                            val customModelData = itemStack.get(DataComponents.CUSTOM_MODEL_DATA)
-                            when(customModelData?.value()) {
-                                1 -> {
-                                    TackleBoxChairEntity.setVariant(chair, TackleBoxChairVariant.AERONAUTICSY, level)
-                                }
-                                else -> {TackleBoxChairEntity.setVariant(chair, TackleBoxChairVariant.FACTORY, level)}
-                            }
-                        } else {
-                            TackleBoxChairEntity.setVariant(chair, TackleBoxChairVariant.FACTORY, level)
-                        }
+                        TackleBoxChairEntity.setVariant(chair, variant, level)
                         level.gameEvent(player, GameEvent.ENTITY_PLACE, hitResult.getLocation())
                         itemStack.consume(1, player)
                     }

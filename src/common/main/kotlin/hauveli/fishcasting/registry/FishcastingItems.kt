@@ -10,6 +10,7 @@ import com.li64.tide.registries.items.FishingHookItem
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.Fishcasting.id
 import hauveli.fishcasting.features.FishcastingLoreFragment
+import hauveli.fishcasting.features.chair.TackleBoxChairAeronauticsItem
 import hauveli.fishcasting.features.chair.TackleBoxChairItem
 import hauveli.fishcasting.features.gacha.GachaBottleItem
 import hauveli.fishcasting.features.paraphernalia.HexyRodItem
@@ -154,6 +155,7 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         "benign_bait", {newItem()}
     )
     val TACKLEBOX_CHAIR = make("tacklebox_chair", {TackleBoxChairItem(unstackable())})
+    val TACKLEBOX_CHAIR_AERONAUTICS = make("tacklebox_chair_aeronautics", { TackleBoxChairAeronauticsItem(unstackableUncommon())})
     val MESSAGE_IN_A_BOTTLE =
         make("message_in_a_bottle", {GachaBottleItem(unstackableUncommon())})
     val GLASS_SHARD = make("glass_shard", {Item(stacksTo(stackSizeLimit = 16))})
