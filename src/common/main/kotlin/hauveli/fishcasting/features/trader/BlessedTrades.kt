@@ -97,7 +97,9 @@ object BlessedTrades {
     )
 
     private val RARE_FISH_TRADES = arrayOf<VillagerTrades.ItemListing>(
-        rareFishTrade(TideFish.PENTAPUS, Items.CHORUS_FLOWER, wantTool = false),
+        // need non-void access to chorus fruit and dragfons breath
+        rareFishTrade(TideFish.GILDED_MINNOW, Items.CHORUS_FLOWER, wantTool = false),
+        rareFishTrade(TideFish.BEDROCK_TETRA, Items.DRAGON_BREATH, wantTool = false),
         rareFishTrade(TideFish.WINDBASS, Items.WIND_CHARGE, 8),
         rareFishTrade(TideFish.ECHO_SNAPPER, Items.ECHO_SHARD),
         rareFishTrade(TideFish.NEPHROSILU, FishcastingItems.MESSAGE_IN_A_BOTTLE.value, wantTool = false),
