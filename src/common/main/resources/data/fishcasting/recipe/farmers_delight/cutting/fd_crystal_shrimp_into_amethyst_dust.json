@@ -15,9 +15,7 @@
   ],
   "type": "farmersdelight:cutting",
   "ingredients": [
-    {
-      "item": "tide:crystal_shrimp"
-    }
+      "tide:crystal_shrimp"
   ],
   "result": [
     {

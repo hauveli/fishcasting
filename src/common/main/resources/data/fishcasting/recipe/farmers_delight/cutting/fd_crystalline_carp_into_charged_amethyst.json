@@ -15,9 +15,7 @@
   ],
   "type": "farmersdelight:cutting",
   "ingredients": [
-    {
-      "item": "tide:crystalline_carp"
-    }
+    "tide:crystalline_carp"
   ],
   "result": [
     {

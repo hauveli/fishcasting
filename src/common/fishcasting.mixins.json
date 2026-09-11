@@ -8,7 +8,8 @@
     "casting_rod.getDescriptionLinesTideFishingRodItemMixin",
     "focus_bobber.YoinkTooltipRenderTideClientEventHandlerMixin",
     "hexxy5.Hexxy5TideFishingHookAccessor",
-    "hexxy5.Hexxy5TideFishingHookMixin"
+    "hexxy5.Hexxy5TideFishingHookMixin",
+    "hexxy5.Hexxy5TideFishingHookRendererMixin"
   ],
   "mixins": [
     "CursedMostlyIndestructibleItemEntityMixin",

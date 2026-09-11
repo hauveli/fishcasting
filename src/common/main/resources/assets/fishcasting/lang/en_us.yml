@@ -37,7 +37,7 @@ fishcasting:
         'desc': Specifies if length purification works on just fish when true, or all entities if false.
       spawnFishyTraderChance:
         .: Chance to spawn trader on crate reel
-        'desc': Specifies chance where 0.0 is disabled and 1.0 is every time.
+        'desc': Specifies chance where 0.0 is disabled and 1.0 is every time, ONLY affects chance while using casting and focus paraphernalia.
     client:
       showForbiddenPatchouliKnowledge:
         .: Show Length Purification in Entity entry of Hex Notebook

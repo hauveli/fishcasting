@@ -2,9 +2,7 @@ package hauveli.fishcasting.mixin.hexxy5;
 
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook;
 import hauveli.fishcasting.config.FishcastingConfigs;
-import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.world.entity.player.Player;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,6 +13,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class Hexxy5TideFishingHookMixin {
     @Shadow
     public abstract Player getPlayerOwner();
+
+    // I'm working on 0 hours of sleep so forgive me for not finishing the cleanup on this.
+    /*
+    @Shadow
+    private void updateOwnerInfo();
+     */
 
     @Inject(
             method = "onClientRemoval",
@@ -29,5 +33,6 @@ public abstract class Hexxy5TideFishingHookMixin {
             return;
         }
         ((Hexxy5TideFishingHookAccessor) hook).invokeUpdateOwnerInfo(null);
+        //hook.updateOwnerInfo(null);
     }
 }
