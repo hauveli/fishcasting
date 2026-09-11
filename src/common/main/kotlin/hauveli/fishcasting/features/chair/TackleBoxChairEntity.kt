@@ -123,11 +123,9 @@ class TackleBoxChairEntity : ChestBoat {
         return false
     }
 
-    /*
     override fun canBeCollidedWith(): Boolean {
         return super.canBeCollidedWith()
     }
-     */
 
     override fun hurt(p0: DamageSource, p1: Float): Boolean {
         this.sendSystemMessage(Component.nullToEmpty("Wtf" + p0.type().toString()))
@@ -158,7 +156,7 @@ class TackleBoxChairEntity : ChestBoat {
                 return
             if (player.position().subtract(this.position().add(0.0, 0.3, 0.0)).lengthSqr() > 1) // unsure what this should be so I'm guessing for now...
                 return
-            this.addDeltaMovement(Vec3(0.0, -0.01, 0.0))
+            this.addDeltaMovement(Vec3(0.0, -0.001, 0.0))
             player.addDeltaMovement(this.deltaMovement.scale(PLAYER_REPULSION))
         }
         if (this.onGround() || this.isInLiquid) {
