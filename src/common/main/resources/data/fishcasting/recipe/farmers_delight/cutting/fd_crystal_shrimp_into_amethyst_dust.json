@@ -1,7 +1,7 @@
 {
   "fabric:load_conditions": [
     {
-      "condition": "fabric:all_mods_loaded",
+      "condition": "fabric:all_mods_loaded" ,
       "values": [
         "farmersdelight"
       ]
@@ -13,42 +13,31 @@
       "modid": "farmersdelight"
     }
   ],
+  "forge:condition": {
+    "type": "forge:mod_loaded",
+    "modid": "farmersdelight"
+  },
   "type": "farmersdelight:cutting",
   "ingredients": [
-      "tide:crystal_shrimp"
+    {
+      "tag": "tide:cookable_fish"
+    }
   ],
   "result": [
     {
       "item": {
-        "count": 4,
-        "id": "hexcasting:amethyst_dust"
-      }
-    },
-    {
-      "chance": 0.5,
-      "item": {
         "count": 2,
-        "id": "hexcasting:amethyst_dust"
+        "id": "tide:fish_slice"
       }
     },
     {
-      "chance": 0.5,
       "item": {
         "count": 1,
-        "id": "minecraft:amethyst_shard"
+        "id": "minecraft:bone_meal"
       }
     }
   ],
-  "sound": {
-    "sound_id": "minecraft:item.axe.strip"
-  },
-  "tool": [
-    {
-      "type": "farmersdelight:item_ability",
-      "action": "knife_dig"
-    },
-    {
-      "tag": "c:tools/knife"
-    }
-  ]
+  "tool": {
+    "tag": "c:tools/knives"
+  }
 }
