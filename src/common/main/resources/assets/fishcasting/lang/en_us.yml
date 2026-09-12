@@ -179,6 +179,7 @@ item:
   fishcasting:
     shepherds_casting_rod: Shepherd's Casting Rod
     blessed_focus_bobber: Blessed Focus Bobber
+    hexxy_focus_bobber: Hexxy Focus Bobber
     loud_fishing_line:
       .: Loud Fishing Line
       desc: Pacifies creepers and phantoms
@@ -191,6 +192,12 @@ item:
     benign_bait:
       .: Benign Bait
       desc: Prevents anything but fish from nibbling or biting
+    tiny_bait:
+      .: Tiny Bait
+
+    slick_bait:
+      .: Slick Bait
+
     message_in_a_bottle: Message in a Bottle
     music_disc:
       returning_to_the_surface: Music Disc
@@ -206,6 +213,7 @@ accessory:
   item:
     fishcasting:
       blessed_focus_bobber: Blessed Bobber
+      hexxy_focus_bobber: Hexxy Bobber
       loud_fishing_line: Loud Line
       hookless_fishing_hook: Hookless Hook
 text:
@@ -302,6 +310,7 @@ yapping_tooltips:
     fishcasting:
       shepherds_casting_rod.desc: Carved from some tree you don't recognize.
       blessed_focus_bobber.desc: Its scent reminds you of times past.
+      hexxy_focus_bobber.desc: Yep.
       loud_fishing_line.desc: A nice sound rings out from time to time.
       hookless_fishing_hook.desc: At least your friends can't stop you from fishing anymore.
       unlucky_bait.desc: This bait kind of stinks...

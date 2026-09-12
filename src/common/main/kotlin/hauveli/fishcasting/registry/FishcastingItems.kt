@@ -110,6 +110,8 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         return unstackable(uncommon(props))}
     private fun unstackableRare(props: Item.Properties = props()): Item.Properties {
         return unstackable(rare(props))}
+    private fun unstackableEpic(props: Item.Properties = props()): Item.Properties {
+        return unstackable(epic(props))}
 
 
     private fun unstackableFireResistantUncommon(props: Item.Properties = props()): Item.Properties {
@@ -135,7 +137,7 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     )
 
     val HEXXY_FOCUS_BOBBER = make(
-        "hexxy_focus_bobber", {TideyFocusItem(unstackableRare())}
+        "hexxy_focus_bobber", {TideyFocusItem(unstackableEpic())}
     )
 
     /*
