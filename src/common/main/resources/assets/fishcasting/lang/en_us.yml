@@ -230,6 +230,7 @@ text:
       focus_bonus: Can be written to as a Focus when held or cast
       sound_bonus: Plays sound when a fish bites
       blessed_bonus: Rarely catches loot from any category
+      swamp_bonus: Rarely catches that dastardly swamp fish in any water
   autoconfig:
     fishcasting:
       title: Fishcasting Configuration
@@ -329,4 +330,5 @@ commands:
   fishing:
     entries:
       luck_tweaking_bobber_selector: Lucky Bobber Selector
+      slimy_bobber_selector: Slimy Bobber Selector
       benign_bait_selector: Benign Bait Selector

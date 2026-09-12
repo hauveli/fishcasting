@@ -1,7 +1,6 @@
 package hauveli.fishcasting.mixin.focus_bobber;
 
 
-import com.li64.tide.data.TideTags;
 import com.li64.tide.events.TideClientEventHandler;
 import hauveli.fishcasting.registry.FishcastingItems;
 import hauveli.fishcasting.registry.FishcastingTags;
@@ -30,6 +29,9 @@ public class YoinkTooltipRenderTideClientEventHandlerMixin {
     ) {
         if (stack.is(FishcastingTags.LUCK_TWEAKING_BOBBERS)) {
             lines.add(Component.translatable("text.fishcasting.bobber_tooltip.blessed_bonus").withStyle(ChatFormatting.GOLD));
+        }
+        if (stack.is(FishcastingTags.SLIMY_BOBBERS)) {
+            lines.add(Component.translatable("text.fishcasting.bobber_tooltip.swamp_bonus").withStyle(ChatFormatting.GOLD));
         }
         // Yes, really. The bell ring is more important to me than the luck tweak, but with the cost of this bobber, I thought having both was justified
         // and neither affects (positively) hexcasting afaik. the 0.1% luck tweak is likely detrimental in some scenarios, too... but it is funny, and allows

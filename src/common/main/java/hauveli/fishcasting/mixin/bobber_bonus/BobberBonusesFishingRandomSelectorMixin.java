@@ -1,13 +1,15 @@
-package hauveli.fishcasting.mixin.blessed_bobber;
+package hauveli.fishcasting.mixin.bobber_bonus;
 
 import com.li64.tide.data.TideData;
 import com.li64.tide.data.fishing.CatchResult;
+import com.li64.tide.data.fishing.FishData;
 import com.li64.tide.data.fishing.FishingContext;
 import com.li64.tide.data.fishing.selector.FishingEntry;
 import com.li64.tide.data.fishing.selector.FishingRandomSelector;
+import com.li64.tide.registries.TideFish;
+import hauveli.fishcasting.Fishcasting;
 import hauveli.fishcasting.registry.FishcastingTags;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +24,7 @@ import static hauveli.fishcasting.Fishcasting.random;
 import static hauveli.fishcasting.features.paraphernalia.TideyFocusItem.LUCK_TWEAKING_BOBBER_PROBABILITY;
 
 @Mixin(FishingRandomSelector.class)
-public class LuckTweakingBobberFishingRandomSelectorMixin {
+public class BobberBonusesFishingRandomSelectorMixin {
 
     @Unique
     private static List<FishingEntry> allPossibleCatches =
@@ -44,11 +46,20 @@ public class LuckTweakingBobberFishingRandomSelectorMixin {
             List<T> entries, FishingContext context, CallbackInfoReturnable<CatchResult> cir
     ) {
         if (context.hook() == null || context.hook().getBobber() == null) return;
-        if (!context.hook().getBobber().is(FishcastingTags.LUCK_TWEAKING_BOBBERS)
-                || random.nextFloat() > LUCK_TWEAKING_BOBBER_PROBABILITY) {
+        if (random.nextFloat() > LUCK_TWEAKING_BOBBER_PROBABILITY)
             return;
+        ItemStack bobberStack = context.hook().getBobber();
+        if (bobberStack.is(FishcastingTags.LUCK_TWEAKING_BOBBERS)) {
+            cir.setReturnValue(allPossibleCatches.get(random.nextInt(allPossibleCatches.size())).getResult(context));
+        } else if (bobberStack.is(FishcastingTags.SLIMY_BOBBERS)) {
+            // god I'm lazy, todo: be smarter about this.
+            if (!context.medium().equals("water")) {
+                return;
+            }
+            var maybeSlimySalmon = FishData.get(TideFish.SLIMY_SALMON.asItem());
+            maybeSlimySalmon.ifPresent(
+                    fishData ->
+                            cir.setReturnValue(fishData.getResult(context)));
         }
-
-        cir.setReturnValue(allPossibleCatches.get(random.nextInt(allPossibleCatches.size())).getResult(context));
     }
 }
