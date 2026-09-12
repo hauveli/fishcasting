@@ -18,6 +18,7 @@ import com.li64.tide.registries.TideItems
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import com.li64.tide.util.TideUtils
 import hauveli.fishcasting.Fishcasting
+import hauveli.fishcasting.config.FishcastingConfigs.COMMON_CONFIG
 import hauveli.fishcasting.features.fish.CursedEntity
 import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingSounds
@@ -613,7 +614,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     }
 
     private fun stopIfPlaying(animationState: AnimationState) {
-        if (animationState.isStarted()) {
+        if (animationState.isStarted) {
             animationState.stop()
         }
     }
@@ -766,8 +767,19 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         private val VARIANT: EntityDataAccessor<Int> =
             SynchedEntityData.defineId(BlessedEntity::class.java, EntityDataSerializers.INT)
 
-        fun poofIntoExistence(spawnPosition: Vec3, level: Level) {
+
+        private val lastFishyTraderTime = mutableMapOf<UUID, Long>()
+        fun poofIntoExistence(spawnPosition: Vec3, player: Player, level: Level) {
             if (!level.isClientSide) {
+                val playerUuid = player.uuid
+                val maybeTimeSinceLast = lastFishyTraderTime[playerUuid]
+                if (maybeTimeSinceLast != null) {
+                    val timeInMinutes = (level.gameTime - maybeTimeSinceLast) / 1200
+                    if (timeInMinutes >= COMMON_CONFIG.fishyTraderPerPlayerIntervalMinutes.get())
+                        return
+                }
+                lastFishyTraderTime[playerUuid] = level.gameTime
+
                 val blessedEntity = BlessedEntity(FishcastingEntities.BLESSED.value, level)
                 blessedEntity.variant = Util.getRandom<BlessedVariant?>(
                     BlessedVariant.entries.toTypedArray(),

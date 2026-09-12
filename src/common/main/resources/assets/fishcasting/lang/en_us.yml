@@ -38,6 +38,9 @@ fishcasting:
       spawnFishyTraderChance:
         .: Chance to spawn trader on crate reel
         'desc': Specifies chance where 0.0 is disabled and 1.0 is every time, ONLY affects chance while using casting and focus paraphernalia.
+        spawnFishyTraderChance:
+          .: Per-Player minutes between trader availability
+          'desc': Specifies time in minutes that must pass for a player to be able to reel another trader.
     client:
       showForbiddenPatchouliKnowledge:
         .: Show Length Purification in Entity entry of Hex Notebook
@@ -231,30 +234,6 @@ text:
       sound_bonus: Plays sound when a fish bites
       blessed_bonus: Rarely catches loot from any category
       swamp_bonus: Rarely catches that dastardly swamp fish in any water
-  autoconfig:
-    fishcasting:
-      title: Fishcasting Configuration
-      category:
-        gameplay: Gameplay
-        client: Client
-      option:
-        gameplay:
-          castingTicksToCast:
-            .: Casting Rod Hex charge ticks
-            '@Tooltip': Specifies number of ticks until the purple is depleted when charging.
-          cooldownAfterFishing:
-            .: Casting Rod cooldown
-            '@Tooltip': Specifies number of ticks after reeling in the hook until casting rods are usable again.
-          castingType:
-            .: Casting Rod cast method
-            '@Tooltip': Specifies whether casts are charged or not.
-          lengthPurificationOnlyFish:
-            .: Length Purification only applies to fish
-            '@Tooltip': Specifies if length purification works on all entities
-        client:
-          showForbiddenPatchouliKnowledge:
-            .: Show Length Purification in Entity entry of Hex Notebook
-            '@Tooltip': Not recommended for new players as it will be confusing and not beneficial. Leave this off if you are including it in a modpack. REQUIRES JSONPATCHER.
 jukebox_song:
   fishcasting:
     returning_to_the_surface: cookies+policy - Returning To The Surface

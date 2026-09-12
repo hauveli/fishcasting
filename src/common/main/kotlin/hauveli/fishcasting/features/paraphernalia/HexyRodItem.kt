@@ -64,16 +64,16 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
                     //executeBobber(level, player, player.getUsedItemHand(), bobberItemStack, bobberPos);
                     // This was moved to a different method
                     // chance to summon thingy when fishing with a hexy rod and tidey focus
-                    if (Fishcasting.random.nextFloat() < COMMON_CONFIG.spawnFishyTraderChance.get()
-                        && activeHook.getCatchType() == TideFishingHook.CatchType.CRATE
+                    if (activeHook.getCatchType() == TideFishingHook.CatchType.CRATE
+                        && Fishcasting.random.nextFloat() < COMMON_CONFIG.spawnFishyTraderChance.get()
                     ) {
-                        poofIntoExistence(bobberPos, level)
+                        poofIntoExistence(bobberPos, player, level)
                     }
                 }
 
                 val durabilityLoss = activeHook.retrieve(rod, level as ServerLevel, player)
                 // if durability is 0, respect vanilla behavior
-                if (rod.getMaxDamage() > 0) {
+                if (rod.maxDamage > 0) {
                     rod.hurtAndBreak(durabilityLoss, player, LivingEntity.getSlotForHand(player.getUsedItemHand()))
                 }
             }
