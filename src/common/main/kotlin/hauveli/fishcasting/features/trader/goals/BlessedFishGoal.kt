@@ -21,6 +21,7 @@ import net.minecraft.world.level.ClipContext
 import net.minecraft.world.phys.Vec3
 
 
+// todo: delete this class I guess........
 class BlessedFishGoal(private val mob: Mob) : Goal() {
     private val yd = 0.5f
     private var bobberActive = false
@@ -42,7 +43,7 @@ class BlessedFishGoal(private val mob: Mob) : Goal() {
             return false
         }
         val pos: BlockPos = this.fluid
-        val start = mob.getEyePosition()
+        val start = mob.eyePosition
         // should I check the top/sides/ figure out which side? I think this is usually ok...
         // I decided that checking the surface is most reasonable...
         val end = Vec3.atCenterOf(pos).add(raycastOffset)
@@ -57,7 +58,7 @@ class BlessedFishGoal(private val mob: Mob) : Goal() {
             )
         )
 
-        return result.getBlockPos() == pos
+        return result.blockPos == pos
     }
 
     private fun updateBobberPos() {

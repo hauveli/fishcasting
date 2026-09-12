@@ -31,6 +31,7 @@ import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
 import net.minecraft.stats.Stats
@@ -367,7 +368,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         this.setCanPickUpLoot(true)
 
         // to make it despawn at some point I gave it a mood meter
-        this.mood = Mood.NEUTRAL
+        this.mood = Mood.HAPPY
 
         // animation stuff
         if (this.level().isClientSide) {
@@ -770,25 +771,19 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
 
         private val lastFishyTraderTime = mutableMapOf<UUID, Long>()
         fun poofIntoExistence(spawnPosition: Vec3, player: Player, level: Level) {
-            if (!level.isClientSide) {
-                val playerUuid = player.uuid
-                val maybeTimeSinceLast = lastFishyTraderTime[playerUuid]
-                if (maybeTimeSinceLast != null) {
-                    val timeInMinutes = (level.gameTime - maybeTimeSinceLast) / 1200
-                    if (timeInMinutes >= COMMON_CONFIG.fishyTraderPerPlayerIntervalMinutes.get())
-                        return
-                }
-                lastFishyTraderTime[playerUuid] = level.gameTime
+            if (level.isClientSide
+                || player !is ServerPlayer
+                || BlessedSavedData.trueIfOnCooldown(player))
+                return
 
-                val blessedEntity = BlessedEntity(FishcastingEntities.BLESSED.value, level)
-                blessedEntity.variant = Util.getRandom<BlessedVariant?>(
-                    BlessedVariant.entries.toTypedArray(),
-                    blessedEntity.random
-                )
-                blessedEntity.setPos(spawnPosition)
-                level.addFreshEntity(blessedEntity)
-                blessedEntity.doTheatrics()
-            }
+            val blessedEntity = BlessedEntity(FishcastingEntities.BLESSED.value, level)
+            blessedEntity.variant = Util.getRandom<BlessedVariant?>(
+                BlessedVariant.entries.toTypedArray(),
+                blessedEntity.random
+            )
+            blessedEntity.setPos(spawnPosition)
+            level.addFreshEntity(blessedEntity)
+            blessedEntity.doTheatrics()
         }
 
         private val OUTTA_HERE = Vec3(0.0, 1000000.0, 0.0)

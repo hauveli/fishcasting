@@ -55,7 +55,11 @@ public class BobberBonusesTideFishingManagerMixin {
     @Unique
     private void fischasting$slimyTweak(CallbackInfoReturnable<Map<FishingEntry, Double>> cir) {
         Map<FishingEntry, Double> result = cir.getReturnValue();
-        result.put(slimyTweakSelector, Double.MAX_VALUE / 3);
+        double sum = 0.0;
+        for (double val : result.values()) {
+            sum += val;
+        }
+        result.put(luckTweakSelector, fishcasting$simpleSolver(LUCK_TWEAKING_BOBBER_PROBABILITY, sum));
     }
 
     @Unique
