@@ -189,9 +189,9 @@ object BlessedTrades {
 
     private val ENDGAME_TRADES_FISH = arrayOf<VillagerTrades.ItemListing>(
         fishcastingFishTrade(TideFish.ALPHA_FISH, FishcastingItems.HEXXY_FOCUS_BOBBER.value),
-        fishcastingFishTrade(TideFish.BEDROCK_TETRA, FishcastingItems.SLICK_BAIT.value),
-        fishcastingFishTrade(TideFish.CHASM_EEL, FishcastingItems.TINY_BAIT.value),
-        fishcastingFishTrade(TideFish.CHASM_EEL, HexItems.SPELLBOOK.get())
+        fishcastingFishTrade(TideFish.LUMINESCENT_JELLYFISH, FishcastingItems.SLICK_BAIT.value),
+        fishcastingFishTrade(TideFish.GILDED_MINNOW, FishcastingItems.TINY_BAIT.value),
+        fishcastingFishTrade(TideFish.URANIAS_PISCES, wantTool = false, item = HexItems.SPELLBOOK.get())
         // fishcastingFishTrade(TideFish.MAGMA_MACKEREL, FishcastingItems.TACKLEBOX_CHAIR_AERONAUTICS.value),
     )
 
