@@ -38,9 +38,9 @@ fishcasting:
       spawnFishyTraderChance:
         .: Chance to spawn trader on crate reel
         'desc': Specifies chance where 0.0 is disabled and 1.0 is every time, ONLY affects chance while using casting and focus paraphernalia.
-        spawnFishyTraderChance:
-          .: Per-Player minutes between trader availability
-          'desc': Specifies time in minutes that must pass for a player to be able to reel another trader.
+      fishyTraderPerPlayerIntervalMinutes:
+        .: Per-Player minutes between trader availability
+        'desc': Specifies time in minutes that must pass for a player to be able to reel another trader.
     client:
       showForbiddenPatchouliKnowledge:
         .: Show Length Purification in Entity entry of Hex Notebook
