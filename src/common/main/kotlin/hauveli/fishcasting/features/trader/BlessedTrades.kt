@@ -2,6 +2,8 @@ package hauveli.fishcasting.features.trader
 
 import at.petrak.hexcasting.common.lib.HexItems
 import com.google.common.collect.ImmutableMap
+import com.li64.tide.data.fishing.FishData
+import com.li64.tide.data.journal.FishRarity
 import com.li64.tide.registries.TideFish
 import hauveli.fishcasting.registry.FishcastingItems
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap
@@ -115,7 +117,7 @@ object BlessedTrades {
     )
 
     private val NETHER_AND_END_TRADES = arrayOf<VillagerTrades.ItemListing>(
-        dimensionalFishTrade(TideFish.MAGMA_MACKEREL, Items.MAGMA_BLOCK),
+        dimensionalFishTrade(TideFish.MAGMA_MACKEREL, Items.BLAZE_ROD),
         dimensionalFishTrade(TideFish.CRIMSON_FANGJAW, Items.CRIMSON_NYLIUM),
         dimensionalFishTrade(TideFish.WARPED_GUPPY, Items.WARPED_NYLIUM),
         dimensionalFishTrade(TideFish.INFERNO_GUPPY, Items.LAVA_BUCKET, wantTool = false),
@@ -126,8 +128,9 @@ object BlessedTrades {
     )
 
     private fun itemsForDyes(itemStackHave: ItemStack): VillagerTrades.ItemListing {
-        return ItemsForItems(TideFish.PLUTO_SNAIL.defaultInstance, itemStackHave,
-            DYE_ITEMS_SUPPLY, 5)
+        return ItemsForItems(TideFish.PLUTO_SNAIL.defaultInstance, 1, false,
+            itemStackHave, 64,
+            DYE_ITEMS_SUPPLY, 5, 1f)
     }
 
     private val ALL_DYES: TagKey<Item?> = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyes"))
@@ -136,7 +139,9 @@ object BlessedTrades {
         BuiltInRegistries.ITEM.getTag(ALL_DYES)
             .orElseThrow()
             .map { holder ->
-                itemsForDyes(holder.value().defaultInstance)
+                val stack = holder.value().defaultInstance
+                stack.count = 64
+                itemsForDyes(stack)
             }
             .toTypedArray()
 
@@ -185,15 +190,68 @@ object BlessedTrades {
     private val ENDGAME_TRADES_FISH = arrayOf<VillagerTrades.ItemListing>(
         fishcastingFishTrade(TideFish.ALPHA_FISH, FishcastingItems.HEXXY_FOCUS_BOBBER.value),
         fishcastingFishTrade(TideFish.BEDROCK_TETRA, FishcastingItems.SLICK_BAIT.value),
-        fishcastingFishTrade(TideFish.CHASM_EEL, FishcastingItems.TINY_BAIT.value)
+        fishcastingFishTrade(TideFish.CHASM_EEL, FishcastingItems.TINY_BAIT.value),
+        fishcastingFishTrade(TideFish.CHASM_EEL, HexItems.SPELLBOOK.get())
         // fishcastingFishTrade(TideFish.MAGMA_MACKEREL, FishcastingItems.TACKLEBOX_CHAIR_AERONAUTICS.value),
     )
 
-    // TACKLEBOX_CHAIR_AERONAUTICS I could add this chair to the trades, for access without aeronautics...
-    private val ENDGAME_TRADES_CASTING = arrayOf<VillagerTrades.ItemListing>(
-        hexcastingFishTrade(TideFish.ANCHOVY, HexItems.BATTERY_CRYSTAL_STACK.get().item),
-        hexcastingFishTrade(TideFish.AQUATHORN, HexItems.SPELLBOOK.get())
-    )
+    // any 1-star
+    private fun itemsForDustBatteries(itemStackWant: ItemStack): ItemsForItems {
+        return ItemsForItems(itemStackWant,
+            HexItems.BATTERY_DUST_STACK.get(),
+            HEXCASTING_SUPPLY, 5)
+    }
+
+    // any 2-star
+    private fun itemsForShardBatteries(itemStackWant: ItemStack): ItemsForItems {
+        return ItemsForItems(itemStackWant,
+            HexItems.BATTERY_SHARD_STACK.get(),
+            HEXCASTING_SUPPLY, 5)
+    }
+
+    // any 3-star
+    private fun itemsForCrystalBatteries(itemStackWant: ItemStack): ItemsForItems {
+        return ItemsForItems(itemStackWant,
+            HexItems.BATTERY_CRYSTAL_STACK.get(),
+            HEXCASTING_SUPPLY, 5)
+    }
+
+    // any 4-star
+    private fun itemsForQuenchedBatteries(itemStackWant: ItemStack): ItemsForItems {
+        return ItemsForItems(itemStackWant,
+            HexItems.BATTERY_QUENCHED_SHARD_STACK.get(),
+            HEXCASTING_SUPPLY, 5)
+    }
+
+    // any 5-star
+    private fun itemsForQuenchedBlockBatteries(itemStackWant: ItemStack): ItemsForItems {
+        return ItemsForItems(itemStackWant,
+            HexItems.BATTERY_QUENCHED_BLOCK_STACK.get(),
+            HEXCASTING_SUPPLY, 5)
+    }
+
+    // I think this should be fine, because the distribution of the rarer fish is such that there's essentially no chance
+    // that the player gets a ton of quenched block, or even quenched batteries. But it's possible! (And really rare!)
+    private fun itemsForBatteries(itemStackFishyFish: ItemStack): ItemsForItems {
+        val fishyData = FishData.get(itemStackFishyFish).get()
+        return when (fishyData.profile().rarity()) {
+            FishRarity.LEGENDARY -> itemsForQuenchedBlockBatteries(itemStackFishyFish)
+            FishRarity.VERY_RARE -> itemsForQuenchedBatteries(itemStackFishyFish)
+            FishRarity.RARE -> itemsForCrystalBatteries(itemStackFishyFish)
+            FishRarity.UNCOMMON -> itemsForShardBatteries(itemStackFishyFish)
+            else -> itemsForDustBatteries(itemStackFishyFish)
+        }
+    }
+
+    private val ALL_FISH: TagKey<Item?> = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("tide", "fish"))
+
+    private val ALL_BATTERY_TRADES: Array<VillagerTrades.ItemListing> =
+        BuiltInRegistries.ITEM.getTag(ALL_FISH)
+            .orElseThrow()
+            .map { holder ->
+                itemsForBatteries(holder.value().defaultInstance)
+            }
+            .toTypedArray()
 
     init {
         BLESSED_TRADER_TRADES = toIntMap(
@@ -204,7 +262,7 @@ object BlessedTrades {
                 4, ALL_DYE_TRADES,
                 5, ALL_CHASM_EEL_TRADES,
                 6, ENDGAME_TRADES_FISH,
-                7, ENDGAME_TRADES_CASTING
+                7, ALL_BATTERY_TRADES
             )
         )
     }
