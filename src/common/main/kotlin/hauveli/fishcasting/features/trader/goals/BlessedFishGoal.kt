@@ -32,7 +32,7 @@ class BlessedFishGoal(private val mob: Mob) : Goal() {
 
     private val fluid: BlockPos
         get() {
-            val memory = mob.getBrain().getMemory<GlobalPos?>(MemoryModuleType.JOB_SITE)
+            val memory = mob.getBrain().getMemory(MemoryModuleType.JOB_SITE)
             return memory.get().pos()
         }
 

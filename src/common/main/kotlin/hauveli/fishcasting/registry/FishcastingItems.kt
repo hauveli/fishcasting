@@ -117,8 +117,8 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     private fun unstackableFireResistantRare(props: Item.Properties = props()): Item.Properties {
         return unstackable(fireResistantRare(props))}
 
-    fun newItem(): Item {
-        return Item(props())
+    fun newItem(props: Item.Properties = props()): Item {
+        return Item(props)
     }
 
     private fun musicDiscItem(resourceKey: ResourceKey<JukeboxSong>): Item {
@@ -132,6 +132,10 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     @JvmField
     val BLESSED_FOCUS_BOBBER = make(
         "blessed_focus_bobber", {TideyFocusItem(unstackableUncommon())}
+    )
+
+    val HEXXY_FOCUS_BOBBER = make(
+        "hexxy_focus_bobber", {TideyFocusItem(unstackableRare())}
     )
 
     /*
@@ -151,9 +155,11 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     @JvmField
     val UNLUCKY_BAIT = make("unlucky_bait", {newItem()})
     @JvmField
-    val BENIGN_BAIT = make(
-        "benign_bait", {newItem()}
-    )
+    val BENIGN_BAIT = make("benign_bait", {newItem()})
+    val SLICK_BAIT = make("slick_bait", {Item(uncommon())})
+    val TINY_BAIT = make("tiny_bait", {
+        Item(stacksTo(props = uncommon(), stackSizeLimit = 99)) // I'll consider increasing this later
+    })
     val TACKLEBOX_CHAIR = make("tacklebox_chair", {TackleBoxChairItem(unstackable())})
     val TACKLEBOX_CHAIR_AERONAUTICS = make("tacklebox_chair_aeronautics", { TackleBoxChairAeronauticsItem(unstackableUncommon())})
     val MESSAGE_IN_A_BOTTLE =

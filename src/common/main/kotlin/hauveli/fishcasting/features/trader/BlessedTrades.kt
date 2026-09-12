@@ -1,5 +1,6 @@
 package hauveli.fishcasting.features.trader
 
+import at.petrak.hexcasting.common.lib.HexItems
 import com.google.common.collect.ImmutableMap
 import com.li64.tide.registries.TideFish
 import hauveli.fishcasting.registry.FishcastingItems
@@ -26,6 +27,8 @@ object BlessedTrades {
     private const val RARE_ITEMS_SUPPLY = 2
     private const val DYE_ITEMS_SUPPLY = 4
     private const val CHASM_EEL_SUPPLY = 3
+    private const val FISCHASTING_SUPPLY = 6
+    private const val HEXCASTING_SUPPLY = 2
     private const val XP_LEVEL_1_SELL = 1
     private const val XP_LEVEL_1_BUY = 2
     private const val XP_LEVEL_2_SELL = 5
@@ -81,32 +84,34 @@ object BlessedTrades {
     private val COMMON_FISH_TRADES = arrayOf(
         fishTrade(Items.TADPOLE_BUCKET, Items.EMERALD, 2, false),
         fishTrade(Items.FROGSPAWN, Items.EMERALD, 2, false),
-        fishTrade(TideFish.SLIMY_SALMON, Items.SLIME_BALL, 2),
+        fishTrade(TideFish.SLIMY_SALMON, Items.SLIME_BALL, 9),
         fishTrade(TideFish.DRIPSTONE_DARTER, Items.POINTED_DRIPSTONE, 3),
-        fishTrade(TideFish.CARP, Items.STRING, 2),
-        fishTrade(TideFish.MIRAGE_CATFISH, Items.STRING, 4),
+        fishTrade(TideFish.CARP, Items.STRING, 6),
+        fishTrade(TideFish.MIRAGE_CATFISH, Items.STRING, 8),
         fishTrade(TideFish.DEEP_GROUPER, Items.DEEPSLATE, 4),
-        fishTrade(TideFish.FROSTBITE_FLOUNDER, Items.BLUE_ICE),
+        fishTrade(TideFish.FROSTBITE_FLOUNDER, Items.BLUE_ICE, 4),
         fishTrade(TideFish.BLOSSOM_BASS, Items.CHERRY_SAPLING, wantTool = false),
-        fishTrade(TideFish.ANGLERFISH, Items.GLOWSTONE_DUST, 2),
-        fishTrade(TideFish.RED_SNAPPER, Items.REDSTONE, 4),
+        fishTrade(TideFish.ANGLERFISH, Items.GLOWSTONE_DUST, 9),
+        fishTrade(TideFish.RED_SNAPPER, Items.REDSTONE, 9),
         fishTrade(TideFish.SAND_TIGER_SHARK, Items.SAND, 16),
-        fishTrade(TideFish.DEEP_BLUE, Items.LEATHER, 2),
-        fishTrade(TideFish.ANGELFISH, Items.FEATHER, 3, false),
-        fishTrade(TideFish.INCANDESCENT_LARVA, Items.END_STONE, wantTool = false)
+        fishTrade(TideFish.DEEP_BLUE, Items.LEATHER, 5),
+        fishTrade(TideFish.ANGELFISH, Items.FEATHER, 7, false),
+        // end stone requires void access + void fishing
+        fishTrade(TideFish.INCANDESCENT_LARVA, Items.END_STONE, 3, wantTool = false)
     )
 
     private val RARE_FISH_TRADES = arrayOf<VillagerTrades.ItemListing>(
         // need non-void access to chorus fruit and dragfons breath
         rareFishTrade(TideFish.GILDED_MINNOW, Items.CHORUS_FRUIT, wantTool = false),
-        rareFishTrade(TideFish.PENTAPUS, Items.CHORUS_FLOWER, wantTool = false),
         rareFishTrade(TideFish.BEDROCK_TETRA, Items.DRAGON_BREATH, wantTool = false),
-        rareFishTrade(TideFish.WINDBASS, Items.WIND_CHARGE, 8),
+        rareFishTrade(TideFish.WINDBASS, Items.BREEZE_ROD),
         rareFishTrade(TideFish.ECHO_SNAPPER, Items.ECHO_SHARD),
-        rareFishTrade(TideFish.NEPHROSILU, FishcastingItems.MESSAGE_IN_A_BOTTLE.value, wantTool = false),
-        rareFishTrade(FishcastingItems.CURSED.value, Items.RABBIT_FOOT),
         rareFishTrade(TideFish.SPORE_STALKER, Items.BROWN_MUSHROOM, 6),
-        rareFishTrade(TideFish.SPORE_STALKER, Items.RED_MUSHROOM, 6)
+        rareFishTrade(TideFish.SPORE_STALKER, Items.RED_MUSHROOM, 6),
+        // these require void access
+        rareFishTrade(TideFish.PENTAPUS, Items.HEART_OF_THE_SEA, wantTool = false), // hmmm... is this reasonable? I couldn't think of anything really...
+        rareFishTrade(TideFish.NEPHROSILU, FishcastingItems.MESSAGE_IN_A_BOTTLE.value, wantTool = false),
+        rareFishTrade(FishcastingItems.CURSED.value, Items.RABBIT_FOOT, 4)
     )
 
     private val NETHER_AND_END_TRADES = arrayOf<VillagerTrades.ItemListing>(
@@ -117,7 +122,7 @@ object BlessedTrades {
         dimensionalFishTrade(TideFish.SOULSCALE, Items.SOUL_SAND),
         dimensionalFishTrade(TideFish.ENDERFIN, Items.ENDER_PEARL, 3),
         dimensionalFishTrade(TideFish.ENDERGAZER, Items.ENDER_EYE, 2),
-        dimensionalFishTrade(TideFish.CHORUS_COD, Items.CHORUS_FLOWER, 2),
+        dimensionalFishTrade(TideFish.CHORUS_COD, Items.CHORUS_FLOWER, 1),
     )
 
     private fun itemsForDyes(itemStackHave: ItemStack): VillagerTrades.ItemListing {
@@ -136,10 +141,14 @@ object BlessedTrades {
             .toTypedArray()
 
     private val CHASM_EEL_TRADES = listOf(
-        TideFish.DEVILS_HOLE_PUPFISH,
+        // these can be obtained from the void
+        TideFish.MANTYVERN,
+        TideFish.SNATCHER_SQUID,
+        TideFish.DARKNESS_EATER,
+        // these can be obtained before the void
+        TideFish.STURGEON,
         TideFish.MIDAS_FISH,
-        TideFish.COELACANTH,
-        TideFish.SHOOTING_STARFISH
+        TideFish.SAILFISH,
     )
 
     private fun itemsForChasmEel(itemStackWant: ItemStack): ItemsForItems {
@@ -153,6 +162,39 @@ object BlessedTrades {
             .map { fish -> itemsForChasmEel(fish.defaultInstance) }
             .toTypedArray()
 
+
+    private fun fishcastingFishTrade(
+        fish: Item,
+        item: Item,
+        count: Int = 1,
+        wantTool: Boolean = true,
+        maxUses: Int = FISCHASTING_SUPPLY
+    ): VillagerTrades.ItemListing =
+        fishTrade(fish, item, count, wantTool, maxUses)
+
+    private fun hexcastingFishTrade(
+        fish: Item,
+        item: Item,
+        count: Int = 1,
+        wantTool: Boolean = true,
+        maxUses: Int = HEXCASTING_SUPPLY
+    ): VillagerTrades.ItemListing =
+        fishTrade(fish, item, count, wantTool, maxUses)
+
+
+    private val ENDGAME_TRADES_FISH = arrayOf<VillagerTrades.ItemListing>(
+        fishcastingFishTrade(TideFish.ALPHA_FISH, FishcastingItems.HEXXY_FOCUS_BOBBER.value),
+        fishcastingFishTrade(TideFish.BEDROCK_TETRA, FishcastingItems.SLICK_BAIT.value),
+        fishcastingFishTrade(TideFish.CHASM_EEL, FishcastingItems.TINY_BAIT.value)
+        // fishcastingFishTrade(TideFish.MAGMA_MACKEREL, FishcastingItems.TACKLEBOX_CHAIR_AERONAUTICS.value),
+    )
+
+    // TACKLEBOX_CHAIR_AERONAUTICS I could add this chair to the trades, for access without aeronautics...
+    private val ENDGAME_TRADES_CASTING = arrayOf<VillagerTrades.ItemListing>(
+        hexcastingFishTrade(TideFish.ANCHOVY, HexItems.BATTERY_CRYSTAL_STACK.get().item),
+        hexcastingFishTrade(TideFish.AQUATHORN, HexItems.SPELLBOOK.get())
+    )
+
     init {
         BLESSED_TRADER_TRADES = toIntMap(
             ImmutableMap.of<Int, Array<VillagerTrades.ItemListing>>(
@@ -160,7 +202,9 @@ object BlessedTrades {
                 2, RARE_FISH_TRADES,
                 3, NETHER_AND_END_TRADES,
                 4, ALL_DYE_TRADES,
-                5, ALL_CHASM_EEL_TRADES
+                5, ALL_CHASM_EEL_TRADES,
+                6, ENDGAME_TRADES_FISH,
+                7, ENDGAME_TRADES_CASTING
             )
         )
     }

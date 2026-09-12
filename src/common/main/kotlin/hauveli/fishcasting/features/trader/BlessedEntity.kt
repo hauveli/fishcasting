@@ -19,7 +19,6 @@ import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import com.li64.tide.util.TideUtils
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.features.fish.CursedEntity
-import hauveli.fishcasting.registry.FishcastingAdvancements
 import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingSounds
 import net.minecraft.Util
@@ -31,7 +30,6 @@ import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
 import net.minecraft.stats.Stats
@@ -139,8 +137,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         LEAVING
     }
 
-    // todo: java made this ok, in kotlin this hides brain
-    private var brain = CustomBrain.DEFAULT
+    private var customBrain = CustomBrain.DEFAULT
 
     override fun registerGoals() {
         super.registerGoals()
@@ -184,10 +181,10 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 this.mood = Mood.VERY_HAPPY // funny
                 return
             }
-            when (brain) {
+            when (customBrain) {
                 CustomBrain.DEFAULT -> {
                     if (!this.atMaximumHealth()) {
-                        brain = CustomBrain.INJURED
+                        customBrain = CustomBrain.INJURED
                     } else {
                         //this.setItemInHand(InteractionHand.MAIN_HAND, Items.AIR.getDefaultInstance());
                     }
@@ -196,12 +193,12 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 CustomBrain.INJURED -> {
                     if (this.isDeadOrDying) return
                     if (this.atMaximumHealth()) {
-                        brain = CustomBrain.DEFAULT
+                        customBrain = CustomBrain.DEFAULT
                         ticksSincePain = 0
                         this.setItemInHand(InteractionHand.MAIN_HAND, Items.AIR.defaultInstance)
                     } else {
                         if (ticksSincePain > 20) {
-                            brain = CustomBrain.LEAVING
+                            customBrain = CustomBrain.LEAVING
                             this.doTheatrics()
                         } else if (ticksSincePain >= 2) { // pulled out much later than I'd like but it works, I guess....
                             // note: this technically provides a way to obtain this from the trader, but the timing is so tight I think it's ok.
@@ -235,6 +232,8 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         val nonOverworldListing = BlessedTrades.BLESSED_TRADER_TRADES.get(3) as Array<VillagerTrades.ItemListing>
         val dyeListing = BlessedTrades.BLESSED_TRADER_TRADES.get(4) as Array<VillagerTrades.ItemListing>
         val bedrockEaterListing = BlessedTrades.BLESSED_TRADER_TRADES.get(5) as Array<VillagerTrades.ItemListing>
+        val fishcastingItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(6) as Array<VillagerTrades.ItemListing>
+        val hexcastingItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(7) as Array<VillagerTrades.ItemListing>
 
         val merchantoffers = this.getOffers()
         this.addOffersFromItemListings(merchantoffers, commonListing, 3)
@@ -242,6 +241,8 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         addRandomListing(merchantoffers, nonOverworldListing)
         addRandomListing(merchantoffers, dyeListing)
         addRandomListing(merchantoffers, bedrockEaterListing)
+        addRandomListing(merchantoffers, fishcastingItemsListing)
+        addRandomListing(merchantoffers, hexcastingItemsListing)
     }
 
 
@@ -641,7 +642,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 }
 
                 Mood.VERY_SAD -> {
-                    this.brain = CustomBrain.LEAVING
+                    this.customBrain = CustomBrain.LEAVING
                     doTheatrics()
                 }
 

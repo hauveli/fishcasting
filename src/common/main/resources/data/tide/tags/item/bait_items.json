@@ -1,6 +1,8 @@
 {
   "values": [
     "fishcasting:benign_bait",
-    "fishcasting:unlucky_bait"
+    "fishcasting:unlucky_bait",
+    "fishcasting:slick_bait",
+    "fishcasting:tiny_bait"
   ]
 }
