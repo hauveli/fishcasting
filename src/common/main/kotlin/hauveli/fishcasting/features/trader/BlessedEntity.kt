@@ -1,6 +1,7 @@
 package hauveli.fishcasting.features.trader
 
 import at.petrak.hexcasting.api.HexAPI
+import at.petrak.hexcasting.api.HexAPI.modLoc
 import at.petrak.hexcasting.api.casting.ParticleSpray
 import at.petrak.hexcasting.api.pigment.FrozenPigment
 import at.petrak.hexcasting.common.lib.HexItems
@@ -18,11 +19,11 @@ import com.li64.tide.registries.TideItems
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import com.li64.tide.util.TideUtils
 import hauveli.fishcasting.Fishcasting
-import hauveli.fishcasting.config.FishcastingConfigs.COMMON_CONFIG
 import hauveli.fishcasting.features.fish.CursedEntity
 import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingSounds
 import net.minecraft.Util
+import net.minecraft.advancements.AdvancementHolder
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
 import net.minecraft.nbt.CompoundTag
@@ -73,6 +74,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     private var ticksSincePain = 0
     private var isFishing = false
     private var isHappy = false
+    var wasFishedByEnlightenedPlayer = true // default true for creative mode spawn egg reasons!!!
     var fakeBobberPos: Vec3
 
     enum class Mood(val value: Int) {
@@ -244,7 +246,8 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         addRandomListing(merchantoffers, dyeListing)
         addRandomListing(merchantoffers, bedrockEaterListing)
         addRandomListing(merchantoffers, fishcastingItemsListing)
-        addRandomListing(merchantoffers, hexcastingItemsListing)
+        if (this.wasFishedByEnlightenedPlayer)
+            addRandomListing(merchantoffers, hexcastingItemsListing)
     }
 
 
@@ -769,6 +772,14 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             SynchedEntityData.defineId(BlessedEntity::class.java, EntityDataSerializers.INT)
 
 
+        // https://github.com/FallingColors/HexMod/blob/1.21/Common/src/main/java/at/petrak/hexcasting/api/casting/eval/CastingEnvironment.java#L225
+        private fun isPlayerEnlightened(serverPlayer: ServerPlayer): Boolean {
+            /* TODO: class org.jetbrains.kotlin.nj2k.types.JKJavaNullPrimitiveType */
+            val adv: AdvancementHolder = serverPlayer.server.advancements.get(modLoc("enlightenment")) ?: return false
+
+            return serverPlayer.advancements.getOrStartProgress(adv).isDone
+        }
+
         private val lastFishyTraderTime = mutableMapOf<UUID, Long>()
         fun poofIntoExistence(spawnPosition: Vec3, player: Player, level: Level) {
             if (level.isClientSide
@@ -776,7 +787,11 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 || BlessedSavedData.trueIfOnCooldown(player))
                 return
 
+
+
             val blessedEntity = BlessedEntity(FishcastingEntities.BLESSED.value, level)
+            // Media trade should only be availabl if the player can cast Craft Phial!!! (todo: hexagony gated spell compat)
+            blessedEntity.wasFishedByEnlightenedPlayer = isPlayerEnlightened(player)
             blessedEntity.variant = Util.getRandom<BlessedVariant?>(
                 BlessedVariant.entries.toTypedArray(),
                 blessedEntity.random
