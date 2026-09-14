@@ -1,5 +1,6 @@
 package hauveli.fishcasting.features.fish
 
+import com.li64.tide.Tide
 import com.li64.tide.data.FishLengthHolder
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.fishing.mediums.FishingMedium
@@ -268,7 +269,7 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
             // with fish length disabled it has to be possible to obtain the disc somehow
             val fishLength = getFishLength(entity)
             if (fishLength >= 66.6
-                || (fishLength == 0.0 && entity.random.nextFloat() < 0.025f)) {
+                || (Tide.CONFIG.server().items.fishItemSizes.key != "ALWAYS" && entity.random.nextFloat() < 0.025f)) {
                 allay.setItemInHand(
                     InteractionHand.MAIN_HAND,
                     FishcastingItems.DISC.value.defaultInstance
