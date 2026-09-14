@@ -38,7 +38,7 @@ class FishcastingCommonConfig : Config(Fishcasting.id("common_config")) {
     }
 
     // Some players may not want to deal with more mobs. I'm also not entirely satisfied with how it spawns at this time.
-    var spawnFishyTraderChance: ValidatedFloat = ValidatedFloat(0.05f, 1f, 0f)
+    var spawnFishyTraderChance: ValidatedFloat = ValidatedFloat(0.10f, 1f, 0f)
 
     var fishyTraderPerPlayerIntervalMinutes: ValidatedFloat = ValidatedFloat(120f, 1200f, 0f)
 

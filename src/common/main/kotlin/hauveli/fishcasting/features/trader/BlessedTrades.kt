@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableMap
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.journal.FishRarity
 import com.li64.tide.registries.TideFish
+import com.li64.tide.registries.TideItems
 import hauveli.fishcasting.registry.FishcastingItems
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
@@ -29,6 +30,7 @@ object BlessedTrades {
     private const val RARE_ITEMS_SUPPLY = 2
     private const val DYE_ITEMS_SUPPLY = 4
     private const val CHASM_EEL_SUPPLY = 3
+    private const val BOTTLE_SUPPLY = 4
     private const val FISCHASTING_SUPPLY = 6
     private const val HEXCASTING_SUPPLY = 2
     private const val XP_LEVEL_1_SELL = 1
@@ -112,7 +114,6 @@ object BlessedTrades {
         rareFishTrade(TideFish.SPORE_STALKER, Items.RED_MUSHROOM, 6),
         // these require void access
         rareFishTrade(TideFish.PENTAPUS, Items.HEART_OF_THE_SEA, wantTool = false), // hmmm... is this reasonable? I couldn't think of anything really...
-        rareFishTrade(TideFish.NEPHROSILU, FishcastingItems.MESSAGE_IN_A_BOTTLE.value, wantTool = false),
         rareFishTrade(FishcastingItems.CURSED.value, Items.RABBIT_FOOT, 4)
     )
 
@@ -168,6 +169,8 @@ object BlessedTrades {
             .toTypedArray()
 
 
+
+
     private fun fishcastingFishTrade(
         fish: Item,
         item: Item,
@@ -188,10 +191,11 @@ object BlessedTrades {
 
 
     private val ENDGAME_TRADES_FISH = arrayOf<VillagerTrades.ItemListing>(
-        fishcastingFishTrade(TideFish.ALPHA_FISH, FishcastingItems.HEXXY_FOCUS_BOBBER.value),
+        fishcastingFishTrade(TideFish.ALPHA_FISH, count = 6, item = FishcastingItems.HEXXY_FOCUS_BOBBER.value),
         fishcastingFishTrade(TideFish.LUMINESCENT_JELLYFISH, FishcastingItems.SLICK_BAIT.value, count = 6),
         fishcastingFishTrade(TideFish.GILDED_MINNOW, FishcastingItems.TINY_BAIT.value, count = 11),
-        fishcastingFishTrade(TideFish.URANIAS_PISCES, wantTool = false, item = HexItems.SPELLBOOK.get())
+        fishcastingFishTrade(TideFish.MIDAS_FISH, wantTool = false, item = HexItems.SPELLBOOK.get()),
+        fishcastingFishTrade(TideFish.ECHO_SNAPPER, count = 10, wantTool = false, item = TideItems.ECHO_FISHING_ROD), // unsure about this one...
         // fishcastingFishTrade(TideFish.MAGMA_MACKEREL, FishcastingItems.TACKLEBOX_CHAIR_AERONAUTICS.value),
     )
 
@@ -253,6 +257,24 @@ object BlessedTrades {
             }
             .toTypedArray()
 
+    private fun itemsForBottles(itemStackFishyFish: ItemStack): ItemsForItems? {
+        val fishyData = FishData.get(itemStackFishyFish).get()
+        return when (fishyData.profile().rarity()) {
+            FishRarity.RARE -> ItemsForItems(itemStackFishyFish,
+                FishcastingItems.MESSAGE_IN_A_BOTTLE.value.defaultInstance,
+                BOTTLE_SUPPLY, 5)
+            else -> null
+        }
+    }
+
+    private val ALL_BOTTLE_TRADES: Array<VillagerTrades.ItemListing> =
+        BuiltInRegistries.ITEM.getTag(ALL_FISH)
+            .orElseThrow()
+            .mapNotNull { holder ->
+                itemsForBottles(holder.value().defaultInstance)
+            }
+            .toTypedArray()
+
     init {
         BLESSED_TRADER_TRADES = toIntMap(
             ImmutableMap.of<Int, Array<VillagerTrades.ItemListing>>(
@@ -261,8 +283,9 @@ object BlessedTrades {
                 3, NETHER_AND_END_TRADES,
                 4, ALL_DYE_TRADES,
                 5, ALL_CHASM_EEL_TRADES,
-                6, ENDGAME_TRADES_FISH,
-                7, ALL_BATTERY_TRADES
+                6, ALL_BOTTLE_TRADES,
+                7, ENDGAME_TRADES_FISH,
+                8, ALL_BATTERY_TRADES,
             )
         )
     }

@@ -75,6 +75,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     private var isFishing = false
     private var isHappy = false
     var wasFishedByEnlightenedPlayer = true // default true for creative mode spawn egg reasons!!!
+    var wasFishedByFishyPlayer = true
     var fakeBobberPos: Vec3
 
     enum class Mood(val value: Int) {
@@ -236,8 +237,9 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         val nonOverworldListing = BlessedTrades.BLESSED_TRADER_TRADES.get(3) as Array<VillagerTrades.ItemListing>
         val dyeListing = BlessedTrades.BLESSED_TRADER_TRADES.get(4) as Array<VillagerTrades.ItemListing>
         val bedrockEaterListing = BlessedTrades.BLESSED_TRADER_TRADES.get(5) as Array<VillagerTrades.ItemListing>
-        val fishcastingItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(6) as Array<VillagerTrades.ItemListing>
-        val hexcastingItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(7) as Array<VillagerTrades.ItemListing>
+        val bottleItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(6) as Array<VillagerTrades.ItemListing>
+        val fishcastingItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(7) as Array<VillagerTrades.ItemListing>
+        val hexcastingItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(8) as Array<VillagerTrades.ItemListing>
 
         val merchantoffers = this.getOffers()
         this.addOffersFromItemListings(merchantoffers, commonListing, 3)
@@ -245,7 +247,9 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         addRandomListing(merchantoffers, nonOverworldListing)
         addRandomListing(merchantoffers, dyeListing)
         addRandomListing(merchantoffers, bedrockEaterListing)
-        addRandomListing(merchantoffers, fishcastingItemsListing)
+        addRandomListing(merchantoffers, bottleItemsListing)
+        if (this.wasFishedByFishyPlayer)
+            addRandomListing(merchantoffers, fishcastingItemsListing)
         if (this.wasFishedByEnlightenedPlayer)
             addRandomListing(merchantoffers, hexcastingItemsListing)
     }
@@ -780,6 +784,12 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             return serverPlayer.advancements.getOrStartProgress(adv).isDone
         }
 
+        private fun isPlayerFishy(serverPlayer: ServerPlayer): Boolean {
+            val adv: AdvancementHolder = serverPlayer.server.advancements.get(Tide.resource("all_fishing_rods")) ?: return false
+
+            return serverPlayer.advancements.getOrStartProgress(adv).isDone
+        }
+
         private val lastFishyTraderTime = mutableMapOf<UUID, Long>()
         fun poofIntoExistence(spawnPosition: Vec3, player: Player, level: Level) {
             if (level.isClientSide
@@ -792,6 +802,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             val blessedEntity = BlessedEntity(FishcastingEntities.BLESSED.value, level)
             // Media trade should only be availabl if the player can cast Craft Phial!!! (todo: hexagony gated spell compat)
             blessedEntity.wasFishedByEnlightenedPlayer = isPlayerEnlightened(player)
+            blessedEntity.wasFishedByFishyPlayer = isPlayerFishy(player)
             blessedEntity.variant = Util.getRandom<BlessedVariant?>(
                 BlessedVariant.entries.toTypedArray(),
                 blessedEntity.random
