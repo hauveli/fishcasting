@@ -9,8 +9,12 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
 import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.ktxt.UseOnContext
+import com.li64.tide.Tide
+import com.li64.tide.config.TideConfig
+import com.li64.tide.config.TideServerConfig
 import com.li64.tide.data.FishLengthHolder
 import com.li64.tide.data.fishing.FishData
+import com.li64.tide.data.item.TideDataComponents
 import com.li64.tide.registries.entities.fish.TideFishEntity
 import hauveli.fishcasting.Fishcasting
 import net.minecraft.core.Direction
@@ -43,6 +47,14 @@ object OpFishifyItem : SpellAction {
         }
         if (maybeTideFish.get().bucket().isEmpty) {
             throw MishapBadEntity.of(target, "fishcasting.not_a_fish.bucketable")
+        }
+        val isAlive = target.item.get(TideDataComponents.IS_BUCKETABLE)
+        if (isAlive != null && isAlive) {
+            // a little unsure if this is what a user might expect, but it's what I would expect
+            // if ALWAYS -> always works
+            // if NEVER -> the check doesn't matter -> always works
+            if (Tide.SERVER_CONFIG.items.bucketableFishItems.equals(TideServerConfig.Items.BucketableMode.WHEN_LIVING))
+                throw MishapBadEntity.of(target, "fishcasting.not_a_fish.bucketable")
         }
 
         return SpellAction.Result(
