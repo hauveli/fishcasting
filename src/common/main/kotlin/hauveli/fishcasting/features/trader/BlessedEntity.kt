@@ -12,8 +12,10 @@ import com.li64.tide.compat.seasons.SeasonsCompat
 import com.li64.tide.data.commands.TestType
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.fishing.FishingContext
+import com.li64.tide.data.fishing.SizeData
 import com.li64.tide.data.fishing.mediums.FishingMedium
 import com.li64.tide.data.fishing.selector.FishingEntry
+import com.li64.tide.data.item.TideItemData
 import com.li64.tide.registries.TideEntityTypes
 import com.li64.tide.registries.TideItems
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
@@ -836,6 +838,12 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         @JvmStatic
         fun summonCursedAtPosition(entity: Entity) {
             val cursed = CursedEntity(FishcastingEntities.CURSED.value, entity.level())
+
+            // It MUST have a length which enables the record to be obtained.
+            val size = FishData.get(cursed).get().size().get().sample(entity.random, 1.0)
+
+            cursed.`tide$setLength`(size)
+
             cursed.setPos(entity.position())
 
             cursed.moveTo(

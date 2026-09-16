@@ -15,23 +15,6 @@ class CursedRenderer(
     CursedModel(context),
     0.3f
 ) {
-    private val model: CursedModel = super.getModel()
-
-    fun render(
-        pEntity: CursedEntity?,
-        entityYaw: Float,
-        partialTick: Float,
-        poseStack: PoseStack,
-        bufferSource: MultiBufferSource,
-        packedLight: Int
-    ) {
-        super.render(pEntity, entityYaw, partialTick, poseStack, bufferSource, packedLight)
-    }
-
-    fun getTextureLocation(cursedEntity: CursedEntity?): ResourceLocation {
-        return CursedModel.LAYER_LOCATION.model
-    }
-
     override fun getTextureLocation(p0: Mob): ResourceLocation {
         return CursedModel.LAYER_LOCATION.model
     }
