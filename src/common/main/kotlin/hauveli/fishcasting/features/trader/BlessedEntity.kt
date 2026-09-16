@@ -74,6 +74,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     private var ticksSincePain = 0
     private var isFishing = false
     private var isHappy = false
+    private var completedTheatrics = false // lazy fix to avoid looping the visuals
     var wasFishedByEnlightenedPlayer = true // default true for creative mode spawn egg reasons!!!
     var wasFishedByFishyPlayer = true
     var fakeBobberPos: Vec3
@@ -282,6 +283,8 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     // public static final Supplier<FrozenPigment> BLESSED = () -> new FrozenPigment(new ItemStack(HexItems.UUID_PIGMENT), UUID.fromString(""));
     @JvmOverloads
     fun doTheatrics(position: Vec3 = this.eyePosition) {
+        if (this.completedTheatrics)
+            return
         doTheatricsAtVec(position, 30, 0.4f)
         this.level().playSound(this, this.blockPosition(), HexSounds.CAST_SPELL.value(), SoundSource.NEUTRAL, 0.1f, 1.0f)
         // AHHH ITS SO LOUD

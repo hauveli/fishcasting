@@ -38,6 +38,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.component.CustomData
 import net.minecraft.world.level.Level
+import net.minecraft.world.phys.Vec3
 import java.util.function.Consumer
 import java.util.function.Function
 
@@ -108,6 +109,11 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
         if (FishingMedium.VOID.isInVoid(position(), level())) {
             this.deltaMovement = this.deltaMovement.add(0.0, 0.005, 0.0);
         }
+    }
+
+    // todo: CHECK THIS in create and vanilla
+    override fun getPassengerRidingPosition(p0: Entity): Vec3 {
+        return super.getPassengerRidingPosition(p0).add(Vec3(0.0,1.0,0.0))
     }
 
     override fun hurt(source: DamageSource, amount: Float): Boolean {

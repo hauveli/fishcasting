@@ -13,6 +13,7 @@ import hauveli.fishcasting.casting.actions.patterns.OpGetOwnersBobber
 import hauveli.fishcasting.casting.actions.spells.OpFishifyItem
 import hauveli.fishcasting.casting.actions.spells.OpItemifyFish
 import hauveli.fishcasting.casting.actions.spells.OpMoonPhaseChange
+import hauveli.fishcasting.casting.actions.spells.OpSpinTheEarth
 
 object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     HexRegistries.ACTION,
@@ -39,7 +40,8 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     val FISHIFY_ITEM = make("fish/from_item", HexDir.SOUTH_EAST, "dewqdaqeqqqeaeqwede", OpFishifyItem)
     val ITEMIFY_FISH = make("fish/to_item", HexDir.SOUTH_EAST, "dewqeaeqqqeqadqwede", OpItemifyFish)
 
-    val ONE_DAY_FORWARD = make("world/skip_today", HexDir.SOUTH_WEST, "awa", OpMoonPhaseChange)
+    val MOVE_MOON = make("world/moon", HexDir.SOUTH_WEST, "awa", OpMoonPhaseChange)
+    val MOVE_SUN = make("world/sun", HexDir.SOUTH_WEST, "awaw", OpSpinTheEarth)
 
     // I didnt check the regex but I'm hoping this stops it
     //val CONGRATULATE = make("congratulate" - , HexDir.WEST, - "eed", OpCongratulate)

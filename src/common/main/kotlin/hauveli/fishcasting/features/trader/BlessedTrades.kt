@@ -171,6 +171,25 @@ object BlessedTrades {
 
 
 
+    private fun greedyFishTrade(
+        fish: Item,
+        wantCount: Int = 1,
+        item: Item,
+        count: Int = 1,
+        wantTool: Boolean = true,
+        maxUses: Int = COMMON_ITEMS_SUPPLY
+    ): VillagerTrades.ItemListing =
+        ItemsForItems(
+            fish.defaultInstance,
+            wantCount,
+            wantTool,
+            item.defaultInstance,
+            count,
+            maxUses,
+            5,
+            1f
+        )
+
     private fun fishcastingFishTrade(
         fish: Item,
         item: Item,
@@ -191,7 +210,7 @@ object BlessedTrades {
 
 
     private val ENDGAME_TRADES_FISH = arrayOf<VillagerTrades.ItemListing>(
-        fishcastingFishTrade(TideFish.ALPHA_FISH, count = 6, item = FishcastingItems.HEXXY_FOCUS_BOBBER.value),
+        greedyFishTrade(TideFish.ALPHA_FISH, 6, item = FishcastingItems.HEXXY_FOCUS_BOBBER.value),
         fishcastingFishTrade(TideFish.LUMINESCENT_JELLYFISH, FishcastingItems.SLICK_BAIT.value, count = 6),
         fishcastingFishTrade(TideFish.GILDED_MINNOW, FishcastingItems.TINY_BAIT.value, count = 11),
         fishcastingFishTrade(TideFish.MIDAS_FISH, wantTool = false, item = HexItems.SPELLBOOK.get()),
