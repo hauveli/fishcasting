@@ -5,18 +5,19 @@ import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.Mob
 
 
-class CursedRenderer(context: EntityRendererProvider.Context) : MobRenderer<CursedEntity?, CursedModel<CursedEntity?>>(
+class CursedRenderer(
+    context: EntityRendererProvider.Context
+) : MobRenderer<Mob, CursedModel>(
     context,
-    CursedModel(
-        context.bakeLayer(CursedModel.LAYER_LOCATION)
-    ),
+    CursedModel(context),
     0.3f
 ) {
-    private val model: CursedModel<*> = super.getModel()
+    private val model: CursedModel = super.getModel()
 
-    override fun render(
+    fun render(
         pEntity: CursedEntity?,
         entityYaw: Float,
         partialTick: Float,
@@ -27,7 +28,11 @@ class CursedRenderer(context: EntityRendererProvider.Context) : MobRenderer<Curs
         super.render(pEntity, entityYaw, partialTick, poseStack, bufferSource, packedLight)
     }
 
-    override fun getTextureLocation(cursedEntity: CursedEntity?): ResourceLocation {
+    fun getTextureLocation(cursedEntity: CursedEntity?): ResourceLocation {
+        return CursedModel.LAYER_LOCATION.model
+    }
+
+    override fun getTextureLocation(p0: Mob): ResourceLocation {
         return CursedModel.LAYER_LOCATION.model
     }
 }

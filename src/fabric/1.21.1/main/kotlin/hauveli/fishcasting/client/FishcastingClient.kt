@@ -1,6 +1,7 @@
 package hauveli.fishcasting.client
 
 import com.li64.tide.client.TideItemModelProperties
+import com.li64.tide.registries.entities.renderers.FishRenderer
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.client.FishcastingClient
 import hauveli.fishcasting.config.FishcastingConfigs
@@ -8,6 +9,7 @@ import hauveli.fishcasting.features.chair.TackleBoxChairModel
 import hauveli.fishcasting.features.chair.TackleBoxChairRenderer
 import hauveli.fishcasting.features.fish.CursedModel
 import hauveli.fishcasting.features.fish.CursedRenderer
+// import hauveli.fishcasting.features.fish.CursedRenderer
 import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
 import hauveli.fishcasting.registry.FishcastingEntities
@@ -60,6 +62,7 @@ object FabricFishcastingClient : ClientModInitializer {
             FishcastingEntities.TACKLEBOX_CHAIR.value,
             ::TackleBoxChairRenderer
         )
+
 
         EntityRendererRegistry.register(
             FishcastingEntities.CURSED.value,

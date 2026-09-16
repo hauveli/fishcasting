@@ -11,6 +11,7 @@ import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.ktxt.UseOnContext
 import com.li64.tide.data.FishLengthHolder
 import com.li64.tide.data.fishing.FishData
+import com.li64.tide.registries.entities.fish.TideFishEntity
 import hauveli.fishcasting.Fishcasting
 import net.minecraft.core.Direction
 import net.minecraft.core.component.DataComponents

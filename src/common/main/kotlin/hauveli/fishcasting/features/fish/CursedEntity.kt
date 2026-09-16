@@ -44,35 +44,15 @@ import java.util.function.Function
 
 
 // melted axolotl fish
-class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl(entityType, level), Bucketable,
-    FishLengthHolder {
+class CursedEntity(
+    entityType: EntityType<out TideVoidFish>,
+    level: Level
+) : TideVoidFish(entityType, level), Bucketable, FishLengthHolder {
     private val bucketItem: Item
     private var length: Double
 
     override fun getHeadRotSpeed(): Int {
         return 1
-    }
-
-    /*
-    @Override
-    public void saveToBucketTag(ItemStack stack) {
-        Bucketable.saveDefaultDataToBucketTag(this, stack);
-        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, stack, (p_330644_) -> {
-            p_330644_.putInt("Variant", this.getVariant().getId());
-            p_330644_.putInt("Age", this.getAge());
-            Brain<?> brain = this.getBrain();
-            if (brain.hasMemoryValue(MemoryModuleType.HAS_HUNTING_COOLDOWN)) {
-                p_330644_.putLong("HuntingCooldown", brain.getTimeUntilExpiry(MemoryModuleType.HAS_HUNTING_COOLDOWN));
-            }
-
-        });
-    }
-
-     */
-
-
-    override fun canBreed(): Boolean {
-        return false
     }
 
     override fun getBucketItemStack(): ItemStack {
@@ -93,7 +73,7 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
     }
 
     override fun isInWater(): Boolean {
-        return false
+        return super.isInWater() // false
     }
 
     override fun isInWaterOrRain(): Boolean {
@@ -102,13 +82,6 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
 
     override fun isInWaterRainOrBubble(): Boolean {
         return false
-    }
-
-    override fun tick() {
-        super.tick()
-        if (FishingMedium.VOID.isInVoid(position(), level())) {
-            this.deltaMovement = this.deltaMovement.add(0.0, 0.005, 0.0);
-        }
     }
 
     // todo: CHECK THIS in create and vanilla
@@ -169,84 +142,8 @@ class CursedEntity(entityType: EntityType<out Axolotl?>, level: Level) : Axolotl
         this.length = length
     }
 
-
-    override fun fromBucket(): Boolean {
-        // I don't fucking understand what this is sometimes it is bool sometimes it is int... I must b e doing something wrong TODO:<<<<
-        /*
-            Caused by: java.lang.ClassCastException: class java.lang.Integer cannot be cast to class java.lang.Boolean (java.lang.Integer and java.lang.Boolean are in module java.base of loader 'bootstrap'
-            on line:
-            return (Boolean) this.entityData.get(FROM_BUCKET);
-
-            But compiler complains! I can not cast boolean to integer! Runtime is int -> bool, compiletime is bool -> int...
-            So which is it? is it an integer or is it a bool? What the fuck is this thing?
-
-            can not instanceof on Java 21 either.
-        if (this.entityData.get(FROM_BUCKET) instanceof Boolean bool) {
-            return bool;
-        }
-        var monster = this.entityData.get(FROM_BUCKET);
-        return (Boolean) (Object) monster; // I really really don't understand
-         */
-        return false // this.entityData.get(FROM_BUCKET) == true
-    }
-
-    fun fuckThisThingMan(what: Int): Boolean {
-        return what > 0
-    }
-
-    fun fuckThisThingMan(what: Boolean): Boolean {
-        return what
-    }
-
     override fun isBaby(): Boolean {
         return false
-    }
-
-    // update: it broke agin and I don't know why. awesome.
-    // this looks fucked because I ran into so many issues with entityData.set and I have no fucking clue why or what is causing it exactly.
-    // so I'm not touching it
-    override fun setFromBucket(fromBucket: Boolean) {
-        /*
-        this.entityData.set<Boolean>(
-            FROM_BUCKET,
-            fromBucket // I don't fucking get it, type isn't `Boolean?` so why does it work now? error has to do with int but I can only see this failing if fromBucket is null without this check, or does java allow wrong type arguments? what the fuck even is the problem I had
-        )
-        */
-    }
-
-    override fun addAdditionalSaveData(compound: CompoundTag) {
-        // compound.putBoolean("FromBucket", this.fromBucket()) // I just dont get it
-        compound.putDouble(FishLengthHolder.`tide$LENGTH_KEY`, this.length)
-        super.addAdditionalSaveData(compound)
-        //compound.putBoolean(tide$SHINY_KEY, this.isShiny);
-    }
-
-    override fun readAdditionalSaveData(tag: CompoundTag) {
-        super.readAdditionalSaveData(tag)
-        this.setFromBucket(tag.contains("FromBucket") && tag.getBoolean("FromBucket"))
-        this.length = if (tag.contains(FishLengthHolder.`tide$LENGTH_KEY`)) tag.getDouble(FishLengthHolder.`tide$LENGTH_KEY`) else this.length
-        //this.tide$setIsShiny(tag.contains(tide$SHINY_KEY) && tag.getBoolean(tide$SHINY_KEY));
-    }
-
-    // fabric won't work with it, but!!!:
-    // neoforge requires the bucketable deprecated method
-    // what the fuck even is going on?
-    // this sucks so much..................
-    override fun saveToBucketTag(stack: ItemStack) {
-        // Bucketable.saveDefaultDataToBucketTag(this, stack)
-        CustomData.update(DataComponents.BUCKET_ENTITY_DATA, stack, Consumer { tag: CompoundTag? ->
-            tag!!.putDouble(
-                FishLengthHolder.`tide$LENGTH_KEY`, this.`tide$getLength`()
-            )
-        })
-    }
-
-    override fun loadFromBucketTag(tag: CompoundTag) {
-        // Bucketable.loadDefaultDataFromBucketTag(this, tag)
-        setFromBucket(false)
-        this.length =
-            if (tag.contains(FishLengthHolder.`tide$LENGTH_KEY`)) tag.getDouble(FishLengthHolder.`tide$LENGTH_KEY`) else this.`tide$getLength`()
-        //this.tide$setIsShiny(tag.contains(tide$SHINY_KEY) && tag.getBoolean(tide$SHINY_KEY));
     }
 
     companion object {

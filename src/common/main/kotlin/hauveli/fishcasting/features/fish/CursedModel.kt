@@ -1,7 +1,9 @@
 package hauveli.fishcasting.features.fish
 
+import com.li64.tide.registries.entities.models.FishModel
 import hauveli.fishcasting.Fishcasting.id
 import net.minecraft.client.model.AxolotlModel
+import net.minecraft.client.model.Model
 import net.minecraft.client.model.geom.ModelLayerLocation
 import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
@@ -9,10 +11,10 @@ import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
+import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.world.entity.LerpingModel
 
-
-class CursedModel<T>(root: ModelPart) : AxolotlModel<T?>(root) where T : CursedEntity?, T : LerpingModel? {
+class CursedModel(context: EntityRendererProvider.Context) : FishModel( context, LAYER_LOCATION ) {
     companion object {
         // So that I can re-remember that this is what the first argument in "model layer location" is meant to be
         private val TEXTURE = id("textures/entity/cursed.png")
@@ -26,7 +28,7 @@ class CursedModel<T>(root: ModelPart) : AxolotlModel<T?>(root) where T : CursedE
 
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
-            val partdefinition = meshdefinition.getRoot()
+            val partdefinition = meshdefinition.root
 
             val body = partdefinition.addOrReplaceChild(
                 "body",
