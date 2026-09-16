@@ -842,8 +842,6 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             // It MUST have a length which enables the record to be obtained.
             val size = FishData.get(cursed).get().size().get().sample(entity.random, 1.0)
 
-            cursed.`tide$setLength`(size)
-
             cursed.setPos(entity.position())
 
             cursed.moveTo(
@@ -863,7 +861,8 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             }
 
             cursed.remainingFireTicks = entity.remainingFireTicks
-            cursed.setFromBucket(false)
+
+            cursed.`tide$setLength`(size)
             entity.level().addFreshEntity(cursed)
         }
 
