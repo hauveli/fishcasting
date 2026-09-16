@@ -177,7 +177,11 @@ class HexyRodItem // why does TideFishingRodItem take no baitslots here when it 
         // if bobber is already cast, we have to be able to pull it back in!
         // at least, I prefer it to behave this way.
         if (HookAccessor.getHook(player) != null) {
-            return super.use(level, player, hand)
+            return if (player.isShiftKeyDown) {
+                useStaff(level, player, hand)
+            } else {
+                super.use(level, player, hand)
+            }
         }
         if (COMMON_CONFIG.castingIsMomentary()) {
             player.startUsingItem(hand)
