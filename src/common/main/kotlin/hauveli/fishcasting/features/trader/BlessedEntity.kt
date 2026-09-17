@@ -9,13 +9,13 @@ import at.petrak.hexcasting.common.lib.HexSounds
 import com.google.common.collect.ImmutableList
 import com.li64.tide.Tide
 import com.li64.tide.compat.seasons.SeasonsCompat
+import com.li64.tide.data.FreezableMob
 import com.li64.tide.data.commands.TestType
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.fishing.FishingContext
-import com.li64.tide.data.fishing.SizeData
 import com.li64.tide.data.fishing.mediums.FishingMedium
 import com.li64.tide.data.fishing.selector.FishingEntry
-import com.li64.tide.data.item.TideItemData
+import com.li64.tide.mixin.MobMixin
 import com.li64.tide.registries.TideEntityTypes
 import com.li64.tide.registries.TideItems
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
@@ -280,11 +280,16 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         }
     }
 
+    fun isFrozen(): Boolean =
+        (this as FreezableMob).`tide$isFrozen`()
+
     // I couldn't figure out how to directly write the pigment color values
     // BlessedEntity.class.getPackage().getName().split("\\.")[0] // if I wanted to use my github username
     // public static final Supplier<FrozenPigment> BLESSED = () -> new FrozenPigment(new ItemStack(HexItems.UUID_PIGMENT), UUID.fromString(""));
     @JvmOverloads
     fun doTheatrics(position: Vec3 = this.eyePosition) {
+        if (this.isFrozen())
+            return
         if (this.completedTheatrics)
             return
         doTheatricsAtVec(position, 30, 0.4f)
@@ -299,6 +304,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     }
 
     fun doTheatricsAtVec(pos: Vec3, count: Int, fuzziness: Float, spread: Double) {
+        completedTheatrics = true
         val level = this.level()
         // for some reason this happens at its feet...
         ParticleSpray(pos, Vec3(0.0, 1.5, 0.0), fuzziness.toDouble(), spread, count)

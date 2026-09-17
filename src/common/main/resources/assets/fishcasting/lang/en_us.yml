@@ -1,4 +1,16 @@
 fishcasting:
+  environment:
+    dimension:
+      minecraft:
+        overworld: Overworld
+        the_nether: The Nether
+        the_end: The End
+  iota:
+    weather:
+      clear: Clear Skies
+      rain: Rainy Clouds
+      storm: Thunderstorm
+      unknown: Unknown Weather
   remove_from_names:
     bucket: Bucket
   toast:

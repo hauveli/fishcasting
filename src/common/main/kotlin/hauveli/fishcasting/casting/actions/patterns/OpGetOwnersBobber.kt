@@ -9,6 +9,7 @@ import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.misc.MediaConstants
 import com.li64.tide.registries.entities.misc.fishing.HookAccessor
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.player.Player
 
 
@@ -21,7 +22,7 @@ object OpGetOwnersBobber : ConstMediaAction {
         // I dont understand why argc is used instead of getFirst/getLast but I will not break the convention
         // in favor of applying it for no reason at all and also likely incorrectly
         val caster = env.castingEntity
-        val serverLevel = caster!!.server!!.getLevel(caster.level().dimension())
+        val serverLevel = env.world
         val unknownIota: Iota = args[0]
 
         // Not an entity
@@ -37,7 +38,7 @@ object OpGetOwnersBobber : ConstMediaAction {
 
         val target = unknownEntity
         // Too far, only check if not owned by self
-        if (!target.`is`(caster)) {
+        if (caster is ServerPlayer && !target.`is`(caster)) {
             env.assertEntityInRange(target)
         }
 

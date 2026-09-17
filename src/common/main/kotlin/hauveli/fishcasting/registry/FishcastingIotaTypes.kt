@@ -4,6 +4,7 @@ import at.petrak.hexcasting.api.casting.iota.IotaType
 import at.petrak.hexcasting.common.lib.HexRegistries
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import hauveli.fishcasting.Fishcasting.id
+import hauveli.fishcasting.casting.iota.DimensionIota
 import hauveli.fishcasting.casting.iota.FishIota
 import hauveli.fishcasting.casting.iota.MoonPhaseIota
 import hauveli.fishcasting.casting.iota.MediumIota
@@ -19,6 +20,7 @@ object FishcastingIotaTypes : FishcastingRegistrar<IotaType<*>>(
     val MOON_PHASE = make("moon") { MoonPhaseIota.TYPE }
     val WEATHER = make("weather") { WeatherIota.TYPE }
     val MEDIUM = make("medium") { MediumIota.TYPE }
+    val DIMENSION = make("dimension") { DimensionIota.TYPE }
 
     private fun <T : IotaType<*>> make(name: String, builder: () -> T):
             FishcastingRegistrar<IotaType<*>>.Entry<T> {

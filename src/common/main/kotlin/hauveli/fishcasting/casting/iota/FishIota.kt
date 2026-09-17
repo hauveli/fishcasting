@@ -2,6 +2,7 @@ package hauveli.fishcasting.casting.iota
 
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import com.li64.tide.data.fishing.FishData
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -42,7 +43,7 @@ class FishIota : Iota {
     public override fun toleratesOther(that: Iota?): Boolean {
         return typesMatch(this, that)
                 && that is FishIota
-                && this.fishData === that.fishData
+                && this.fishData.get() === this.fishData.get()
     }
 
     override fun isTruthy(): Boolean {

@@ -12,6 +12,7 @@ import hauveli.fishcasting.Fishcasting.id
 import hauveli.fishcasting.features.FishcastingLoreFragment
 import hauveli.fishcasting.features.chair.TackleBoxChairAeronauticsItem
 import hauveli.fishcasting.features.chair.TackleBoxChairItem
+import hauveli.fishcasting.features.food.CrystalShrimpFriedRiceItem
 import hauveli.fishcasting.features.gacha.GachaBottleItem
 import hauveli.fishcasting.features.paraphernalia.HexyRodItem
 import hauveli.fishcasting.features.paraphernalia.LoudFishingLineItem
@@ -162,6 +163,7 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     val TINY_BAIT = make("tiny_bait", {
         Item(stacksTo(props = uncommon(), stackSizeLimit = 99)) // I'll consider increasing this later
     })
+    val SHRIMPY_RICE = make("crystal_shrimp_fried_rice") { CrystalShrimpFriedRiceItem(props()) }
     val TACKLEBOX_CHAIR = make("tacklebox_chair", {TackleBoxChairItem(unstackable())})
     val TACKLEBOX_CHAIR_AERONAUTICS = make("tacklebox_chair_aeronautics", { TackleBoxChairAeronauticsItem(unstackableUncommon())})
     val MESSAGE_IN_A_BOTTLE =

@@ -2,6 +2,7 @@ package hauveli.fishcasting.casting.iota
 
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
+import at.petrak.hexcasting.api.utils.asTranslatedComponent
 import at.petrak.hexcasting.api.utils.styledWith
 import at.petrak.hexcasting.interop.inline.InlinePatternData
 import com.li64.tide.util.MoonPhases.*
@@ -58,21 +59,21 @@ class MoonPhaseIota : Iota {
 
     companion object {
 
-        fun getNameWithColon(phase: Int): String {
-            return getName(phase) + ": "
+        fun getNameWithColon(phase: Int): MutableComponent {
+            return getName(phase).asTranslatedComponent.append(": ")
         }
 
         fun getName(phase: Int): String {
             return when (phase) {
-                FULL_MOON -> "Full Moon"
-                WANING_GIBBOUS -> "Waning Gibbous"
-                THIRD_QUARTER -> "Third Quarter"
-                WANING_CRESCENT -> "Waning Crescent"
-                NEW_MOON -> "New Moon"
-                WAXING_CRESCENT -> "Waxing Crescent"
-                FIRST_QUARTER -> "First Quarter"
-                WAXING_GIBBOUS -> "Waxing Gibbous"
-                else -> "Unknown Moon Phase"
+                FULL_MOON -> "journal.info.moon_phase.0"
+                WANING_GIBBOUS -> "journal.info.moon_phase.1"
+                THIRD_QUARTER -> "journal.info.moon_phase.2"
+                WANING_CRESCENT -> "journal.info.moon_phase.3"
+                NEW_MOON -> "journal.info.moon_phase.4"
+                WAXING_CRESCENT -> "journal.info.moon_phase.5"
+                FIRST_QUARTER -> "journal.info.moon_phase.6"
+                WAXING_GIBBOUS -> "journal.info.moon_phase.7"
+                else -> "Unknown journal.info.moon_phase.tile"
             }
         }
 

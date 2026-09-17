@@ -2,6 +2,7 @@ package hauveli.fishcasting.casting.iota
 
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
+import at.petrak.hexcasting.api.utils.asTranslatedComponent
 import at.petrak.hexcasting.api.utils.styledWith
 import at.petrak.hexcasting.interop.inline.InlinePatternData
 import com.li64.tide.data.fishing.conditions.types.WeatherType
@@ -60,16 +61,16 @@ class WeatherIota : Iota {
 
     companion object {
 
-        fun getNameWithColon(weather: Int): String {
-            return getName(weather) + ": "
+        fun getNameWithColon(weather: Int): MutableComponent {
+            return getName(weather).asTranslatedComponent.append(": ")
         }
 
-        fun getName(phase: Int): String {
-            return when (phase) {
-                WeatherType.CLEAR.ordinal -> "Clear Skies"
-                WeatherType.RAIN.ordinal -> "Rainy Clouds"
-                WeatherType.STORM.ordinal -> "Thunderstorm"
-                else -> "Unknown Weather"
+        fun getName(weather: Int): String {
+            return when (weather) {
+                WeatherType.CLEAR.ordinal -> "fishcasting.iota.weather.clear"
+                WeatherType.RAIN.ordinal -> "fishcasting.iota.weather.rain"
+                WeatherType.STORM.ordinal -> "fishcasting.iota.weather.storm"
+                else -> "fishcasting.iota.weather.unknown"
             }
         }
 

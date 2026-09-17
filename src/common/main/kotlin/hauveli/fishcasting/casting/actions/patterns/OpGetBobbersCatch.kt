@@ -11,6 +11,7 @@ import at.petrak.hexcasting.api.misc.MediaConstants
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import hauveli.fishcasting.Fishcasting
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.item.ItemEntity
 
 
@@ -20,7 +21,7 @@ object OpGetBobbersCatch : ConstMediaAction {
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val caster = env.castingEntity
-        val serverLevel = caster!!.server!!.getLevel(caster.level().dimension())
+        val serverLevel = env.world
 
         val unknownIota: Iota = args[0] // first? I think args must have 1 argument so this is safe?
         // Not an entity
@@ -36,7 +37,7 @@ object OpGetBobbersCatch : ConstMediaAction {
 
         val target = unknownEntity
         // Too far, only check if not owned by self
-        if (!target.playerOwner.`is`(caster)) {
+        if (caster is ServerPlayer && !target.playerOwner.`is`(caster)) {
             env.assertEntityInRange(target)
         }
 

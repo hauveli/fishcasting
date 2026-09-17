@@ -16,7 +16,7 @@ object OpGetCatchesBobber : ConstMediaAction {
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val caster = env.castingEntity
-        val serverLevel = caster!!.server!!.getLevel(caster.level().dimension())
+        val serverLevel = env.world
         val unknownIota: Iota = args[0]
 
         // Not an entity

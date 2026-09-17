@@ -1,0 +1,104 @@
+package hauveli.fishcasting.interop.inline.dimension
+import com.li64.tide.Tide
+import com.samsthenerd.inline.api.client.GlowHandling
+import com.samsthenerd.inline.api.client.InlineRenderer
+import hauveli.fishcasting.Fishcasting
+import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.network.chat.Style
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.dimension.DimensionType
+
+// https://github.com/FallingColors/HexMod/blob/1.21/Common/src/main/java/at/petrak/hexcasting/interop/inline/InlinePatternRenderer.java
+
+class InlineDimensionRenderer : InlineRenderer<InlineDimensionData> {
+    override fun getId(): ResourceLocation {
+        return InlineDimensionData.rendererId
+    }
+
+    override fun getGlowPreference(forData: InlineDimensionData?): GlowHandling {
+        return GlowHandling.None()
+    }
+
+    enum class KnownDimensions(
+        val dimension: String
+    ) {
+        OVERWORLD(Level.OVERWORLD.location().toLanguageKey()),
+        NETHER(Level.NETHER.location().toLanguageKey()),
+        END(Level.END.location().toLanguageKey());
+
+        companion object {
+            fun of(dimension: String): KnownDimensions? =
+                entries.firstOrNull { it.dimension == dimension }
+        }
+    }
+    // mostly static
+    private val DIMENSION_TYPES = Tide.resource("textures/gui/journal/dimensions.png")
+    private val MOON_PHASE_ATLAS_WIDTH = 30
+    private val MOON_PHASE_ATLAS_HEIGHT = 10
+    private val FALLBACK_SIZE = 10
+    private val MOON_SECTION = 10 // area dedicated to one moon phase stage
+    private val COLUMNS = 3
+    private val ROWS = 1
+
+    private val DISPLAY_SIZE = 10 // scaling, probably don't change this unless needed
+
+    // set by me
+    private val MOON_DIAMETER = 10 // pixels of the moon to show. must be even
+
+    private val MOON_OFFSET = MOON_SECTION / 2 - MOON_DIAMETER / 2 // starting offset for the corner of what I want to show the player
+    private val STATES = COLUMNS * ROWS
+
+    // https://docs.fabricmc.net/develop/rendering/gui-graphics#drawing-a-portion-of-a-texture
+    // is this not relevant?
+    override fun render(
+        data: InlineDimensionData,
+        graphics: GuiGraphics,
+        index: Int,
+        style: Style,
+        codepoint: Int,
+        textRenderingContext: InlineRenderer.TextRenderingContext
+    ): Int {
+        graphics.pose().pushPose()
+
+        val maybeKnownDimension = KnownDimensions.of(data.dimension)
+        if (maybeKnownDimension == null) {
+
+        // assume 10x10 pixels
+            graphics.blit(
+                Fishcasting.id("textures/gui/dimensions/${data.dimension.replace(":","/")}.png"),
+                0, -1,
+                DISPLAY_SIZE, DISPLAY_SIZE,
+                0f, 0f,
+                FALLBACK_SIZE, FALLBACK_SIZE,
+                FALLBACK_SIZE, FALLBACK_SIZE
+            )
+        } else {
+            val phase = maybeKnownDimension.ordinal % STATES
+            val u = (phase % COLUMNS) * MOON_SECTION + MOON_OFFSET
+            val v = (phase / COLUMNS) * MOON_SECTION + MOON_OFFSET // int flooring so I dont forget
+
+            graphics.blit(
+                DIMENSION_TYPES,
+                0, -1,
+                DISPLAY_SIZE, DISPLAY_SIZE,
+                u.toFloat(), v.toFloat(),
+                MOON_DIAMETER, MOON_DIAMETER, // 12
+                MOON_PHASE_ATLAS_WIDTH, MOON_PHASE_ATLAS_HEIGHT // 128, 64
+            )
+        }
+
+        graphics.pose().popPose()
+        return charWidth(data, style, codepoint)
+    }
+
+    override fun charWidth(data: InlineDimensionData?, style: Style?, codepoint: Int): Int {
+
+        return 0 // must be ZERO or it's FUCKED
+    }
+
+    companion object {
+        val INSTANCE: InlineDimensionRenderer = InlineDimensionRenderer()
+    }
+}

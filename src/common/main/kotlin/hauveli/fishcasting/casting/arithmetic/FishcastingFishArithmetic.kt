@@ -13,11 +13,16 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.math.HexPattern
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import com.li64.tide.data.FishLengthHolder
+import com.li64.tide.data.fishing.FishData
+import com.li64.tide.data.fishing.SizeData
 import com.li64.tide.data.item.TideDataComponents
+import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.registry.FishcastingIotaTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.item.ItemEntity
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
 import java.util.function.BiFunction
 import kotlin.math.max
 
@@ -34,7 +39,7 @@ class FishcastingFishArithmetic : Arithmetic {
     // Any future additions for detecting length of an ENTITY (fish or otherwise) would go here
     // This includes item entities as clearly shown below
     // env is here so I can debug
-    fun getFishLength(entity: Entity, env: CastingEnvironment): Double {
+    fun getFishLength(entity: Entity): Double {
         if (entity is FishLengthHolder) {
             // dividing by 100 because fish length is in cm, it seems?
             return entity.`tide$getLength`() / 100 // holyyy thank you tide dev
@@ -59,19 +64,85 @@ class FishcastingFishArithmetic : Arithmetic {
         return largestDimension
     }
 
-    override fun getOperator(pattern: HexPattern): Operator {
-        if (pattern == Arithmetic.ABS) {
-            return make1Double(
-                { entity: Entity, env: CastingEnvironment -> getFishLength(entity, env) }
-            )
+    fun getFishSizeData(entity: Entity): SizeData {
+        Fishcasting.LOGGER.info(FishData.get(entity))
+        return FishData.get(entity).get().size().get()
+    }
+
+    fun getFishSizeData(item: ItemStack): SizeData {
+        return FishData.get(item).get().size().get()
+    }
+
+    fun getFishMinLength(entity: Entity): Double {
+        if (entity is FishLengthHolder ) {
+            // dividing by 100 because fish length is in cm, it seems?
+            val minimumLength = getFishSizeData(entity).recordLowCm().get()
+            return minimumLength / 100.0 // holyyy thank you tide dev
         }
-        throw InvalidOperatorException("$pattern is not a valid operator in Arithmetic $this.")
+        if (entity is ItemEntity) {
+            val stack = entity.item
+            // Ugh this was annoying to figure out
+            val fishLength = stack.get(TideDataComponents.FISH_LENGTH)
+            if (fishLength != null) {
+                // dividing by 100 because fish length is in cm, it seems?
+                val minimumLength = getFishSizeData(entity.item).recordLowCm().get()
+                return minimumLength / 100.0 // holyyy thank you tide dev
+            }
+        }
+        return 0.0
+    }
+
+    fun getFishMaxLength(entity: Entity): Double {
+        if (entity is FishLengthHolder) {
+            // dividing by 100 because fish length is in cm, it seems?
+            val minimumLength = getFishSizeData(entity).recordHighCm()
+            return minimumLength / 100.0 // holyyy thank you tide dev
+        }
+        if (entity is ItemEntity) {
+            val stack = entity.item
+            // Ugh this was annoying to figure out
+            val fishLength = stack.get(TideDataComponents.FISH_LENGTH)
+            if (fishLength != null) {
+                // dividing by 100 because fish length is in cm, it seems?
+                val minimumLength = getFishSizeData(entity).recordHighCm()
+                return minimumLength / 100.0 // holyyy thank you tide dev
+            }
+        }
+        return 0.0
+    }
+
+    override fun getOperator(pattern: HexPattern): Operator {
+        when (pattern) {
+            Arithmetic.ABS -> {
+                return make1Double(
+                    { entity: Entity, env: CastingEnvironment -> getFishLength(entity) }
+                )
+            }
+
+            Arithmetic.FLOOR -> {
+                return make1Double(
+                    { entity: Entity, env: CastingEnvironment -> getFishMinLength(entity) }
+                )
+            }
+
+            Arithmetic.CEIL -> {
+                return make1Double(
+                    { entity: Entity, env: CastingEnvironment -> getFishMaxLength(entity) }
+                )
+            }
+
+            else -> {
+                throw InvalidOperatorException("$pattern is not a valid operator in Arithmetic $this.")
+            }
+        }
     }
 
     companion object {
         // so, I thought it would be funny.
         val OPS: List<HexPattern> = listOf(
-            Arithmetic.ABS
+            Arithmetic.ABS,
+            Arithmetic.FLOOR,
+            Arithmetic.CEIL
         )
 
         /*
@@ -95,7 +166,7 @@ class FishcastingFishArithmetic : Arithmetic {
                     val entity: Entity = downcast<EntityIota>(
                         iotas.iterator().next(),
                         HexIotaTypes.ENTITY.get()
-                    ).getEntity(env.castingEntity!!.level() as ServerLevel)
+                    ).getEntity(env.world)
 
                     val result: Double = op.apply(entity, env)
 

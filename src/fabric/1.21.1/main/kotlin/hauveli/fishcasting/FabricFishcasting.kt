@@ -9,6 +9,7 @@ import com.li64.tide.data.fishing.conditions.types.WeatherType
 import com.li64.tide.registries.TideFish
 import com.li64.tide.util.MoonPhases
 import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
+import hauveli.fishcasting.casting.iota.DimensionIota
 import hauveli.fishcasting.casting.iota.MoonPhaseIota
 import hauveli.fishcasting.casting.iota.MediumIota
 import hauveli.fishcasting.casting.iota.WeatherIota
@@ -20,6 +21,10 @@ import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.animal.axolotl.Axolotl
 import net.minecraft.world.entity.npc.Villager
+import net.minecraft.world.level.Level.END
+import net.minecraft.world.level.Level.NETHER
+import net.minecraft.world.level.Level.OVERWORLD
+import net.minecraft.world.level.dimension.DimensionType
 import java.util.function.BiConsumer
 
 
@@ -68,6 +73,20 @@ object FabricFishcasting : ModInitializer {
     }
 
     fun registerMoonPhaseFishies() {
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+            // todo: replace with weatherIota
+            return@Static ListIota(listOf(MediumIota(0), MediumIota(1), MediumIota(2)))
+        }
+        }, TideFish.MAGMA_MACKEREL)
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+            // todo: replace with weatherIota
+            return@Static ListIota(listOf(DimensionIota(OVERWORLD), DimensionIota(NETHER), DimensionIota(END)))
+        }
+        }, TideFish.ENDERGAZER)
 
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {
