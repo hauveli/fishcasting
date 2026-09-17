@@ -18,7 +18,6 @@ import net.minecraft.network.chat.Style
 import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.server.level.ServerLevel
-import java.util.*
 import java.util.function.Supplier
 
 
@@ -118,13 +117,13 @@ class MoonPhaseIota : Iota {
         }
     }
 
-    override fun equals(p0: Any?): Boolean {
-        if (this === p0) return true
-        if (javaClass != p0?.javaClass) return false
-        if (!super.equals(p0)) return false
+    override fun equals(iotaToCompare: Any?): Boolean {
+        if (this === iotaToCompare) return true
+        if (javaClass != iotaToCompare?.javaClass) return false
+        if (!super.equals(iotaToCompare)) return false
 
-        p0 as MoonPhaseIota
+        iotaToCompare as MoonPhaseIota
 
-        return moonPhase == p0.moonPhase
+        return moonPhase == iotaToCompare.moonPhase
     }
 }
