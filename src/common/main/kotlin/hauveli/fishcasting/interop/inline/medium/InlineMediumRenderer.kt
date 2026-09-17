@@ -27,13 +27,13 @@ class InlineMediumRenderer : InlineRenderer<InlineMediumData> {
     private val MOON_PHASE_ATLAS_WIDTH = 16
     private val MOON_PHASE_ATLAS_HEIGHT = 16
     private val MOON_SECTION = 16 // area dedicated to one moon phase stage
-    private val COLUMNS = 1
+    private val COLUMNS = MEDIUMS.count()
     private val ROWS = 1
 
     private val DISPLAY_SIZE = 10 // scaling, probably don't change this unless needed
 
     // set by me
-    private val MOON_DIAMETER = 10 // pixels of the moon to show. must be even
+    private val MOON_DIAMETER = 16 // pixels of the moon to show. must be even
 
     // calculate the rest
 
