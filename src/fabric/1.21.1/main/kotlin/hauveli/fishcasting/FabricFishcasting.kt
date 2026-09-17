@@ -5,13 +5,13 @@ import at.petrak.hexcasting.common.lib.hex.HexArithmetics
 import at.petrak.hexcasting.fabric.cc.HexCardinalComponents
 import at.petrak.hexcasting.fabric.cc.adimpl.CCItemIotaHolder
 import at.petrak.hexcasting.xplat.IXplatAbstractions
-import com.li64.tide.data.TideData
-import com.li64.tide.data.fishing.FishData
-import com.li64.tide.data.fishing.selector.FishingEntry
+import com.li64.tide.data.fishing.conditions.types.WeatherType
 import com.li64.tide.registries.TideFish
 import com.li64.tide.util.MoonPhases
 import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
 import hauveli.fishcasting.casting.iota.MoonPhaseIota
+import hauveli.fishcasting.casting.iota.MediumIota
+import hauveli.fishcasting.casting.iota.WeatherIota
 import hauveli.fishcasting.registry.*
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
@@ -21,7 +21,6 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.animal.axolotl.Axolotl
 import net.minecraft.world.entity.npc.Villager
 import java.util.function.BiConsumer
-import java.util.stream.Stream
 
 
 object FabricFishcasting : ModInitializer {
@@ -69,6 +68,21 @@ object FabricFishcasting : ModInitializer {
     }
 
     fun registerMoonPhaseFishies() {
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+            // todo: replace with weatherIota
+            return@Static ListIota(listOf(MediumIota(0), MediumIota(1), MediumIota(2)))
+        }
+        }, TideFish.ALPHA_FISH)
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+                    // todo: replace with weatherIota
+            return@Static ListIota(listOf(WeatherIota(WeatherType.RAIN.ordinal), WeatherIota(WeatherType.STORM.ordinal)))
+        }
+        }, TideFish.COELACANTH)
+
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {
             return@Static MoonPhaseIota(MoonPhases.FULL_MOON)
