@@ -37,6 +37,9 @@ public class OpLightningSpellMixin {
         // when cursed is hit check if the source is the lightning bolt/if the lightning bnolt is close enough to it to trigger transformation...
         // and then removing the lightning bolt upon its discard/kill, somehow.
         // other suggestions welcomed.
+        // TODO: 2: a pr was made to fix this and another issue at once!
+        // this mixin is now deprecated, but I am leaving it in until it is merged into the dev version.
+        // shouldn't matter even if they both run, because of setCuase not calling a bunch of bullshit (I think)
         if (env.getCastingEntity() instanceof ServerPlayer serverPlayer) {
             lightning.setCause(serverPlayer);
         }

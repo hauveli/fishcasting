@@ -43,6 +43,7 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
 
     val MOVE_MOON = make("world/moon", HexDir.SOUTH_WEST, "awa", OpMoonPhaseChange)
     val PHASE_FROM_MOON = make("world/moon/phase", HexDir.SOUTH_WEST, "weeee", OpGetMoonPhase)
+
     val MOVE_SUN = make("world/sun", HexDir.SOUTH_WEST, "awaw", OpSpinTheEarth)
 
     // I didnt check the regex but I'm hoping this stops it
