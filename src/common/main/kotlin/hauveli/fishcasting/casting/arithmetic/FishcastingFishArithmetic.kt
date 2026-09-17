@@ -87,7 +87,7 @@ class FishcastingFishArithmetic : Arithmetic {
 
             val ACCEPTS: IotaMultiPredicate = IotaMultiPredicate.any(
                 IotaPredicate.ofType(HexIotaTypes.ENTITY.get()),
-                IotaPredicate.ofType(FishcastingIotaTypes.FISH)
+                IotaPredicate.ofType(FishcastingIotaTypes.FISH.value)
             )
 
             return object : OperatorBasic(1, ACCEPTS) {

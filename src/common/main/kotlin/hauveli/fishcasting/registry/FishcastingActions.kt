@@ -9,6 +9,7 @@ import at.petrak.hexcasting.common.lib.hex.HexActions
 import hauveli.fishcasting.casting.actions.patterns.OpGetBobbersCatch
 import hauveli.fishcasting.casting.actions.patterns.OpGetBobbersOwner
 import hauveli.fishcasting.casting.actions.patterns.OpGetCatchesBobber
+import hauveli.fishcasting.casting.actions.patterns.OpGetMoonPhase
 import hauveli.fishcasting.casting.actions.patterns.OpGetOwnersBobber
 import hauveli.fishcasting.casting.actions.spells.OpFishifyItem
 import hauveli.fishcasting.casting.actions.spells.OpItemifyFish
@@ -41,6 +42,7 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     val ITEMIFY_FISH = make("fish/to_item", HexDir.SOUTH_EAST, "dewqeaeqqqeqadqwede", OpItemifyFish)
 
     val MOVE_MOON = make("world/moon", HexDir.SOUTH_WEST, "awa", OpMoonPhaseChange)
+    val PHASE_FROM_MOON = make("world/moon/phase", HexDir.SOUTH_WEST, "weeee", OpGetMoonPhase)
     val MOVE_SUN = make("world/sun", HexDir.SOUTH_WEST, "awaw", OpSpinTheEarth)
 
     // I didnt check the regex but I'm hoping this stops it

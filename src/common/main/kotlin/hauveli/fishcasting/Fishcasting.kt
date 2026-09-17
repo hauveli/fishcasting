@@ -9,6 +9,7 @@ import hauveli.fishcasting.registry.FishcastingAdvancements
 import hauveli.fishcasting.registry.FishcastingAttributes
 import hauveli.fishcasting.registry.FishcastingCreativeTabs
 import hauveli.fishcasting.registry.FishcastingEntities
+import hauveli.fishcasting.registry.FishcastingIotaTypes
 import hauveli.fishcasting.registry.FishcastingItems
 import hauveli.fishcasting.registry.FishcastingRecipeSerializers
 import hauveli.fishcasting.registry.FishcastingRecipeTypes
@@ -43,6 +44,7 @@ object Fishcasting {
             FishcastingAttributes,
             FishcastingCreativeTabs,
             FishcastingEntities,
+            FishcastingIotaTypes,
             FishcastingRecipeTypes,
             FishcastingRecipeSerializers,
             FishcastingSounds,

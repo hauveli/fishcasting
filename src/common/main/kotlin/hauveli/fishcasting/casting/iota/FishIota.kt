@@ -24,14 +24,14 @@ class FishIota : Iota {
     val fishData: Optional<FishData>
     val resourceLocation: ResourceLocation
 
-    constructor(fishData: FishData) : super(Supplier { FishcastingIotaTypes.FISH }) {
+    constructor(fishData: FishData) : super(Supplier { FishcastingIotaTypes.FISH.value }) {
         this.fishData = Optional.ofNullable(fishData)
         checkNotNull(fishData)
         val fishActually = fishData.fish().value()
         this.resourceLocation = BuiltInRegistries.ITEM.getKey(fishActually)
     }
 
-    constructor(resourceLocation: ResourceLocation) : super(Supplier { FishcastingIotaTypes.FISH }) {
+    constructor(resourceLocation: ResourceLocation) : super(Supplier { FishcastingIotaTypes.FISH.value }) {
         this.resourceLocation = resourceLocation
         this.fishData = FishData.get(BuiltInRegistries.ITEM.get(resourceLocation))
     }
@@ -53,7 +53,7 @@ class FishIota : Iota {
         val fish = this.fishData
         if (fish.isPresent) {
             val fishItem = fish.get().fish().value()
-            return fishItem.getName(fishItem.getDefaultInstance()).copy().withStyle(ChatFormatting.DARK_BLUE)
+            return fishItem.getName(fishItem.defaultInstance).copy().withStyle(ChatFormatting.DARK_BLUE)
         }
         return Component.translatable("fishcasting.spelldata.fish.whoknows")
     }
