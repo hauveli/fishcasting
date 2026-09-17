@@ -1,8 +1,17 @@
 package hauveli.fishcasting
 
+import at.petrak.hexcasting.api.casting.iota.ListIota
 import at.petrak.hexcasting.common.lib.hex.HexArithmetics
+import at.petrak.hexcasting.fabric.cc.HexCardinalComponents
+import at.petrak.hexcasting.fabric.cc.adimpl.CCItemIotaHolder
 import at.petrak.hexcasting.xplat.IXplatAbstractions
+import com.li64.tide.data.TideData
+import com.li64.tide.data.fishing.FishData
+import com.li64.tide.data.fishing.selector.FishingEntry
+import com.li64.tide.registries.TideFish
+import com.li64.tide.util.MoonPhases
 import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
+import hauveli.fishcasting.casting.iota.MoonPhaseIota
 import hauveli.fishcasting.registry.*
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
@@ -12,6 +21,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.animal.axolotl.Axolotl
 import net.minecraft.world.entity.npc.Villager
 import java.util.function.BiConsumer
+import java.util.stream.Stream
 
 
 object FabricFishcasting : ModInitializer {
@@ -32,6 +42,7 @@ object FabricFishcasting : ModInitializer {
         Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns"), FishcastingFishArithmetic())
 
         registerCreativeModeTabItems()
+        registerMoonPhaseFishies()
         // why is this ok in fabric but not neoforge? what...
         //registerItemModelProperties()
     }
@@ -55,6 +66,51 @@ object FabricFishcasting : ModInitializer {
             FishcastingEntities.BLESSED.value,
             Villager.createAttributes().build()
         )
+    }
+
+    fun registerMoonPhaseFishies() {
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+            return@Static MoonPhaseIota(MoonPhases.FULL_MOON)
+        }
+        }, TideFish.SHOOTING_STARFISH)
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+            return@Static MoonPhaseIota(MoonPhases.FULL_MOON)
+        }
+        }, TideFish.SUN_EMBLEM)
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+            return@Static MoonPhaseIota(MoonPhases.FIRST_QUARTER)
+        }
+        }, TideFish.SATURN_CUTTLEFISH)
+
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+            return@Static MoonPhaseIota(MoonPhases.NEW_MOON)
+        }
+        }, TideFish.NEPTUNE_KOI)
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+            return@Static MoonPhaseIota(MoonPhases.THIRD_QUARTER)
+        }
+        }, TideFish.URANIAS_PISCES)
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+            return@Static ListIota(listOf(MoonPhaseIota(MoonPhases.WANING_CRESCENT), MoonPhaseIota(MoonPhases.WAXING_CRESCENT)))
+        }
+        }, TideFish.PLUTO_SNAIL)
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+            return@Static ListIota(listOf(MoonPhaseIota(MoonPhases.WANING_GIBBOUS), MoonPhaseIota(MoonPhases.WAXING_GIBBOUS)))
+        }
+        }, TideFish.MARSTILUS)
     }
 /*
 

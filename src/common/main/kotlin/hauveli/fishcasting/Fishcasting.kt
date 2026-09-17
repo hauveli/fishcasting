@@ -3,6 +3,7 @@ package hauveli.fishcasting
 import com.li64.tide.client.TideItemModelProperties
 import hauveli.fishcasting.config.FishcastingConfigs
 import hauveli.fishcasting.features.paraphernalia.TideyFocusItem
+import hauveli.fishcasting.interop.inline.InlineFishcastingServer
 //import hauveli.fishcasting.networking.FishcastingNetworking
 import hauveli.fishcasting.registry.FishcastingActions
 import hauveli.fishcasting.registry.FishcastingAdvancements
@@ -50,6 +51,7 @@ object Fishcasting {
             FishcastingSounds,
             FishcastingItems
         )
+        InlineFishcastingServer.init()
         // FishcastingNetworking.init()
         FishcastingConfigs.init()
     }

@@ -49,7 +49,7 @@ class MoonPhaseIota : Iota {
     override fun display(): Component {
         val inlineMoonPhase = (InlineMoonData(moonPhase)).asText(true)
         val baseText = getNameWithColon(moonPhase).styledWith(Style.EMPTY.withColor(0xBACADA))
-        return baseText.append(inlineMoonPhase)
+        return baseText.append(inlineMoonPhase).append("   ") // inline was being evil and this is simple
     }
 
     override fun hashCode(): Int {

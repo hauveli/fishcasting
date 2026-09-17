@@ -7,7 +7,9 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.casting.getEntity
 import at.petrak.hexcasting.api.casting.ParticleSpray
+import at.petrak.hexcasting.api.casting.eval.env.PlayerBasedCastEnv
 import at.petrak.hexcasting.api.casting.getInt
+import at.petrak.hexcasting.api.casting.mishaps.MishapBadCaster
 import at.petrak.hexcasting.api.utils.asTranslatedComponent
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.config.FishcastingConfigs
@@ -26,11 +28,15 @@ object OpSpinTheEarth : SpellAction {
         // Mishap immediately if Nature disallows it
         // need: spell to get Nature's wrath level (timer based on how close to a multiple of pi the last tick was, to avoid annoying flickering, but allow smooth panning)
 
+        val caster = env.castingEntity
+        if (caster !is ServerPlayer) {
+            throw MishapBadCaster()
+        }
+
         // Else continue as normal
 
         val ticksToSkip = args.getInt(0, argc)
-        val caster = env.castingEntity
-        val eye = caster?.eyePosition ?: Vec3.ZERO
+        val eye = caster.eyePosition ?: Vec3.ZERO
 
         val dayTime = env.world.dayTime
 
@@ -49,7 +55,7 @@ object OpSpinTheEarth : SpellAction {
             0.0
         ).normalize()
 
-        val distanceFromCaster = caster?.eyeHeight?.times(5)?.toDouble() ?: 8.0
+        val distanceFromCaster = caster.eyeHeight.times(5).toDouble() ?: 8.0
 
         val finalTarget = eye.add(sunDirection.scale(distanceFromCaster))
         // just checking and showing that they are different

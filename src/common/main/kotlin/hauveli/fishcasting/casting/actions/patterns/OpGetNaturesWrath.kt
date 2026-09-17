@@ -3,25 +3,26 @@ package hauveli.fishcasting.casting.actions.patterns
 import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.iota.DoubleIota
-import at.petrak.hexcasting.api.casting.iota.EntityIota
 import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.iota.NullIota
-import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
+import at.petrak.hexcasting.api.casting.mishaps.MishapBadCaster
 import at.petrak.hexcasting.api.misc.MediaConstants
-import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import hauveli.fishcasting.casting.iota.MoonPhaseIota
+import hauveli.fishcasting.features.natures_wrath.NaturesWrathSavedData
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.Entity
 
-object OpGetMoonPhase : ConstMediaAction {
+object OpGetNaturesWrath : ConstMediaAction {
     override val argc: Int = 0
     override val mediaCost: Long = MediaConstants.DUST_UNIT // should also cost something, unsure how much...
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
-        val envWorld = env.world
+        val caster = env.castingEntity
+        if (caster !is ServerPlayer) {
+            throw MishapBadCaster()
+        }
 
-        // this is perhaps mean, but I'm leaving this without a safety check because if there is an error, I want to know.
-        val moonPhase = envWorld.moonPhase
+        val ticksRemaining = NaturesWrathSavedData.ticksRemaining(caster).toDouble()
 
-        return listOf(MoonPhaseIota(moonPhase))
+        return listOf(DoubleIota(ticksRemaining))
     }
 }

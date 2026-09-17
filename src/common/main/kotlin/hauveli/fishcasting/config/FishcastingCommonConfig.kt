@@ -42,6 +42,8 @@ class FishcastingCommonConfig : Config(Fishcasting.id("common_config")) {
 
     var fishyTraderPerPlayerIntervalMinutes: ValidatedFloat = ValidatedFloat(120f, 1200f, 0f)
 
+    var timeSkipPerPlayerIntervalMinutes: ValidatedFloat = ValidatedFloat(0f, 1200f, 0f)
+
     fun getCooldownAfterFishingMinigame(): Int {
         return cooldownAfterFishing.get()
     }
