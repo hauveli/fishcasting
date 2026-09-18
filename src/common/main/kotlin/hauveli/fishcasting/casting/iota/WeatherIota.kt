@@ -51,7 +51,7 @@ class WeatherIota : Iota {
 
     override fun display(): Component {
         val inlineWeather = (InlineWeatherData(weather)).asText(true)
-        val baseText = getNameWithColon(weather).styledWith(Style.EMPTY.withColor(0xBACADA))
+        val baseText = getNameWithColon(weather).styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
         return baseText.append(inlineWeather).append("   ") // inline was being evil and this is simple
     }
 
@@ -110,7 +110,7 @@ class WeatherIota : Iota {
             }
 
             override fun color(): Int {
-                return 0xBACADA
+                return EnvironmentIota.TYPE.color()
             }
         }
     }

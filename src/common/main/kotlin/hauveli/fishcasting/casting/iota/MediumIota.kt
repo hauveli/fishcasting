@@ -65,7 +65,7 @@ class MediumIota : Iota {
 
     override fun display(): Component {
         val inlineMedium = (InlineMediumData(medium.ordinal)).asText(true)
-        val baseText = getNameWithColon(medium.ordinal).styledWith(Style.EMPTY.withColor(0xBACADA))
+        val baseText = getNameWithColon(medium.ordinal).styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
         return baseText.append(inlineMedium).append("   ") // inline was being evil and this is simple
     }
 
@@ -125,7 +125,7 @@ class MediumIota : Iota {
             }
 
             override fun color(): Int {
-                return 0xBACADA
+                return EnvironmentIota.TYPE.color()
             }
         }
     }

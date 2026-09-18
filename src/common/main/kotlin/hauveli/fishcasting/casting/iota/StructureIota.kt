@@ -14,6 +14,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.interop.inline.dimension.InlineDimensionData
 import hauveli.fishcasting.interop.inline.medium.InlineMediumData
+import hauveli.fishcasting.interop.inline.structure.InlineStructureData
 import hauveli.fishcasting.interop.inline.weather.InlineWeatherData
 import hauveli.fishcasting.registry.FishcastingIotaTypes
 import me.fzzyhmstrs.fzzy_config.util.FcText.transLit
@@ -87,8 +88,8 @@ class StructureIota : Iota {
     }
 
     override fun display(): Component {
-        val inlineValue = (InlineDimensionData(value.toString())).asText(true)
-        val baseText = getNameWithColon().styledWith(Style.EMPTY.withColor(0xBACADA))
+        val inlineValue = (InlineStructureData(value.toString())).asText(true)
+        val baseText = getNameWithColon().styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
         return baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
     }
 
@@ -147,7 +148,7 @@ class StructureIota : Iota {
             }
 
             override fun color(): Int {
-                return 0xBACADA
+                return EnvironmentIota.TYPE.color()
             }
         }
     }

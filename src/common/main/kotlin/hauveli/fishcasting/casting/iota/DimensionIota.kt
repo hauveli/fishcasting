@@ -12,8 +12,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.interop.inline.dimension.InlineDimensionData
 import hauveli.fishcasting.interop.inline.medium.InlineMediumData
+import hauveli.fishcasting.interop.inline.structure.InlineStructureData
 import hauveli.fishcasting.interop.inline.weather.InlineWeatherData
 import hauveli.fishcasting.registry.FishcastingIotaTypes
+import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.Component
@@ -26,6 +28,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.dimension.DimensionType
+import java.util.Locale
 import java.util.function.Supplier
 
 
@@ -54,13 +57,31 @@ class DimensionIota : Iota {
         return "${Fishcasting.MODID}.environment.${SHORTNAME}.${value.location().toLanguageKey()}"
     }
 
+    // I wonder if the compiler is smart enuogh to see the usages of these are such that it could just squish them together instead of using jmp...
+    fun String.capitalizeFirstLetterOfEachWord(): String {
+        return this
+            .split(" ")
+            .joinToString(" ") {
+                it.replaceFirstChar { char ->
+                    char.titlecase(Locale.getDefault())
+                }
+            }
+    }
+
+    fun getNameWithFallback(): MutableComponent {
+        val titleCase = value.location().path.replace("_", " ").capitalizeFirstLetterOfEachWord()
+        val comp = getName().asTranslatedComponent.translation(titleCase)
+        // what even sets this... does translation set it forever? why?
+        return comp.withStyle(comp.style.withItalic(false))
+    }
+
     fun getNameWithColon(): MutableComponent {
-        return getName().asTranslatedComponent.append(": ")
+        return getNameWithFallback().append(": ")
     }
 
     override fun display(): Component {
-        val inlineValue = (InlineDimensionData(value.location().toLanguageKey())).asText(true)
-        val baseText = getNameWithColon().styledWith(Style.EMPTY.withColor(0xBACADA))
+        val inlineValue = (InlineDimensionData(value.toString())).asText(true)
+        val baseText = getNameWithColon().styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
         return baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
     }
 
@@ -119,7 +140,7 @@ class DimensionIota : Iota {
             }
 
             override fun color(): Int {
-                return 0xBACADA
+                return EnvironmentIota.TYPE.color()
             }
         }
     }

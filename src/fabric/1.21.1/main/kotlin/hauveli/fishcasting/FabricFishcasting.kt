@@ -81,51 +81,51 @@ object FabricFishcasting : ModInitializer {
     }
 
     fun registerMoonPhaseFishies() {
+
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {
-            // todo: replace with weatherIota
             return@Static StructureIota(BuiltinStructures.ANCIENT_CITY)
         }
         }, TideFish.ECHO_SNAPPER)
 
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {
-            // todo: replace with weatherIota
             return@Static StructureIota(BuiltinStructures.TRIAL_CHAMBERS)
         }
         }, TideFish.WINDBASS)
 
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {
-            // todo: replace with weatherIota
             return@Static BiomeIota(Biomes.CHERRY_GROVE)
         }
         }, TideFish.BLOSSOM_BASS)
 
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {
-            // todo: replace with weatherIota
+            return@Static BiomeIota(Biomes.JUNGLE)
+        }
+        }, TideFish.ARAPAIMA)
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
             return@Static DimensionIota(OVERWORLD)
         }
         }, TideFish.ALPHA_FISH)
 
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {
-            // todo: replace with weatherIota
             return@Static DimensionIota(NETHER)
         }
-        }, TideFish.WITHERFIN)
+        }, TideFish.BLAZING_SWORDFISH)
 
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {
-            // todo: replace with weatherIota
             return@Static DimensionIota(END)
         }
-        }, TideFish.ENDERGAZER)
+        }, TideFish.DRAGON_FISH)
 
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {
-                    // todo: replace with weatherIota
             return@Static ListIota(listOf(WeatherIota(WeatherType.RAIN.ordinal), WeatherIota(WeatherType.STORM.ordinal)))
         }
         }, TideFish.COELACANTH)

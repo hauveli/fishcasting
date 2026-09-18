@@ -40,7 +40,7 @@ import java.util.function.Supplier
 
 // https://github.com/SuperKnux/HexMod/blob/indev/1.21.1/Common/src/main/java/at/petrak/hexcasting/api/casting/iota/EntityIota.java
 // https://github.com/Lightning-64/Tide-2/blob/main/src/main/java/com/li64/tide/util/MoonPhases.java
-class BiomeIota : Iota {
+class EnvironmentIota : Iota {
     val value: ResourceKey<Biome>
 
     constructor(biome: ResourceKey<Biome>) : super(Supplier { FishcastingIotaTypes.BIOME.value }) {
@@ -50,7 +50,7 @@ class BiomeIota : Iota {
 
     override fun toleratesOther(that: Iota?): Boolean {
         return typesMatch(this, that)
-                && that is BiomeIota
+                && that is EnvironmentIota
                 && this.value == that.value
     }
 
@@ -87,7 +87,7 @@ class BiomeIota : Iota {
 
     override fun display(): Component {
         val inlineValue = (InlineBiomeData(value.toString())).asText(true)
-        val baseText = getNameWithColon().styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
+        val baseText = getNameWithColon().styledWith(Style.EMPTY.withColor(0xBACADA))
         return baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
     }
 
@@ -97,14 +97,14 @@ class BiomeIota : Iota {
 
     companion object {
 
-        var TYPE: IotaType<BiomeIota> = object : IotaType<BiomeIota>() {
+        var TYPE: IotaType<EnvironmentIota> = object : IotaType<EnvironmentIota>() {
 
-            val CODEC: MapCodec<BiomeIota> =
+            val CODEC: MapCodec<EnvironmentIota> =
                 Codec.STRING
                     .fieldOf("biome")
                     .xmap(
                         { string ->
-                            BiomeIota(
+                            EnvironmentIota(
                                 ResourceKey.create(
                                     Registries.BIOME,
                                     ResourceLocation.parse(string)
@@ -116,12 +116,12 @@ class BiomeIota : Iota {
                         }
                     )
 
-            val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, BiomeIota> =
+            val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, EnvironmentIota> =
                 StreamCodec.composite(
                     ByteBufCodecs.STRING_UTF8,
                     { it.value.location().toString() },
                     { string ->
-                        BiomeIota(
+                        EnvironmentIota(
                             ResourceKey.create(
                                 Registries.BIOME,
                                 ResourceLocation.parse(string)
@@ -131,23 +131,25 @@ class BiomeIota : Iota {
                 )
 
             override fun validate(
-                iota: BiomeIota?,
+                iota: EnvironmentIota?,
                 level: ServerLevel
             ): Boolean {
                 return iota != null && true // iota.isValid()
             }
 
-            override fun codec(): MapCodec<BiomeIota> {
+            override fun codec(): MapCodec<EnvironmentIota> {
                 return CODEC
             }
 
-            override fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, BiomeIota> {
+            override fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, EnvironmentIota> {
                 return STREAM_CODEC
             }
 
             override fun color(): Int {
-                return EnvironmentIota.TYPE.color()
+                return COLOR
             }
+
+            val COLOR = 0x82add9
         }
     }
 
@@ -156,7 +158,7 @@ class BiomeIota : Iota {
         if (javaClass != iotaToCompare?.javaClass) return false
         if (!super.equals(iotaToCompare)) return false
 
-        iotaToCompare as BiomeIota
+        iotaToCompare as EnvironmentIota
 
         return value == iotaToCompare.value
     }

@@ -3,6 +3,7 @@ import com.li64.tide.Tide
 import com.samsthenerd.inline.api.client.GlowHandling
 import com.samsthenerd.inline.api.client.InlineRenderer
 import hauveli.fishcasting.Fishcasting
+import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Style
 import net.minecraft.resources.ResourceKey
@@ -50,6 +51,8 @@ class InlineDimensionRenderer : InlineRenderer<InlineDimensionData> {
     private val MOON_OFFSET = MOON_SECTION / 2 - MOON_DIAMETER / 2 // starting offset for the corner of what I want to show the player
     private val STATES = COLUMNS * ROWS
 
+    private val FALLBACK = Fishcasting.id("textures/gui/environment/fallback.png")
+
     // https://docs.fabricmc.net/develop/rendering/gui-graphics#drawing-a-portion-of-a-texture
     // is this not relevant?
     override fun render(
@@ -64,16 +67,27 @@ class InlineDimensionRenderer : InlineRenderer<InlineDimensionData> {
 
         val maybeKnownDimension = KnownDimensions.of(data.dimension)
         if (maybeKnownDimension == null) {
-
-        // assume 10x10 pixels
-            graphics.blit(
-                Fishcasting.id("textures/gui/environment/dimensions/${data.dimension.replace(":","/")}.png"),
-                0, -1,
-                DISPLAY_SIZE, DISPLAY_SIZE,
-                0f, 0f,
-                FALLBACK_SIZE, FALLBACK_SIZE,
-                FALLBACK_SIZE, FALLBACK_SIZE
-            )
+            val resMan = Minecraft.getInstance().resourceManager
+            val resLoc = Fishcasting.id("textures/gui/environment/dimension/${data.dimension.replace(":","/")}.png")
+            if (resMan.getResource(resLoc).isPresent) {
+                graphics.blit(
+                    resLoc,
+                    0, -1,
+                    DISPLAY_SIZE, DISPLAY_SIZE,
+                    0f, 0f,
+                    FALLBACK_SIZE, FALLBACK_SIZE,
+                    FALLBACK_SIZE, FALLBACK_SIZE
+                )
+            } else {
+                graphics.blit(
+                    FALLBACK,
+                    0, -1,
+                    DISPLAY_SIZE, DISPLAY_SIZE,
+                    0f, 0f,
+                    FALLBACK_SIZE, FALLBACK_SIZE,
+                    FALLBACK_SIZE, FALLBACK_SIZE
+                )
+            }
         } else {
             val phase = maybeKnownDimension.ordinal % STATES
             val u = (phase % COLUMNS) * MOON_SECTION + MOON_OFFSET
