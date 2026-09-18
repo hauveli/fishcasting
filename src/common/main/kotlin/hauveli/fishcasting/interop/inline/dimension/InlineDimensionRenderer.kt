@@ -67,7 +67,7 @@ class InlineDimensionRenderer : InlineRenderer<InlineDimensionData> {
 
         // assume 10x10 pixels
             graphics.blit(
-                Fishcasting.id("textures/gui/dimensions/${data.dimension.replace(":","/")}.png"),
+                Fishcasting.id("textures/gui/environment/dimensions/${data.dimension.replace(":","/")}.png"),
                 0, -1,
                 DISPLAY_SIZE, DISPLAY_SIZE,
                 0f, 0f,

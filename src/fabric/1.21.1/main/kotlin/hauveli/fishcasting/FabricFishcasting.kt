@@ -9,22 +9,30 @@ import com.li64.tide.data.fishing.conditions.types.WeatherType
 import com.li64.tide.registries.TideFish
 import com.li64.tide.util.MoonPhases
 import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
+import hauveli.fishcasting.casting.iota.BiomeIota
 import hauveli.fishcasting.casting.iota.DimensionIota
 import hauveli.fishcasting.casting.iota.MoonPhaseIota
 import hauveli.fishcasting.casting.iota.MediumIota
+import hauveli.fishcasting.casting.iota.StructureIota
 import hauveli.fishcasting.casting.iota.WeatherIota
 import hauveli.fishcasting.registry.*
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 import net.minecraft.core.Registry
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.core.registries.Registries
+import net.minecraft.data.worldgen.Structures
+import net.minecraft.data.worldgen.TrialChambersStructurePools
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.animal.axolotl.Axolotl
 import net.minecraft.world.entity.npc.Villager
 import net.minecraft.world.level.Level.END
 import net.minecraft.world.level.Level.NETHER
 import net.minecraft.world.level.Level.OVERWORLD
+import net.minecraft.world.level.biome.Biomes
 import net.minecraft.world.level.dimension.DimensionType
+import net.minecraft.world.level.levelgen.structure.BuiltinStructures
 import java.util.function.BiConsumer
 
 
@@ -73,27 +81,47 @@ object FabricFishcasting : ModInitializer {
     }
 
     fun registerMoonPhaseFishies() {
-
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {
             // todo: replace with weatherIota
-            return@Static ListIota(listOf(MediumIota(0), MediumIota(1), MediumIota(2)))
+            return@Static StructureIota(BuiltinStructures.ANCIENT_CITY)
         }
-        }, TideFish.MAGMA_MACKEREL)
+        }, TideFish.ECHO_SNAPPER)
 
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {
             // todo: replace with weatherIota
-            return@Static ListIota(listOf(DimensionIota(OVERWORLD), DimensionIota(NETHER), DimensionIota(END)))
+            return@Static StructureIota(BuiltinStructures.TRIAL_CHAMBERS)
         }
-        }, TideFish.ENDERGAZER)
+        }, TideFish.WINDBASS)
 
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {
             // todo: replace with weatherIota
-            return@Static ListIota(listOf(MediumIota(0), MediumIota(1), MediumIota(2)))
+            return@Static BiomeIota(Biomes.CHERRY_GROVE)
+        }
+        }, TideFish.BLOSSOM_BASS)
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+            // todo: replace with weatherIota
+            return@Static DimensionIota(OVERWORLD)
         }
         }, TideFish.ALPHA_FISH)
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+            // todo: replace with weatherIota
+            return@Static DimensionIota(NETHER)
+        }
+        }, TideFish.WITHERFIN)
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+            // todo: replace with weatherIota
+            return@Static DimensionIota(END)
+        }
+        }, TideFish.ENDERGAZER)
 
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {

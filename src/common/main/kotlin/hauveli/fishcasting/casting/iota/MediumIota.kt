@@ -43,7 +43,7 @@ class MediumIota : Iota {
         }
     }
 
-    constructor(medium: Int) : super(Supplier { FishcastingIotaTypes.MEDIUM.value }) {
+    constructor(medium: Int) : super(Supplier { FishcastingIotaTypes. MEDIUM.value }) {
         // sure, you could put a number outside of 0,7 in here, but that's not going to happen unless somebody does something silly
         this.medium = Medium.of(medium)
     }

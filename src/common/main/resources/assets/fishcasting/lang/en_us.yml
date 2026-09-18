@@ -1,10 +1,14 @@
 fishcasting:
   environment:
+    structure:
+      minecraft:
+        trial_chambers: Trial Chambers
+    biome:
+      minecraft:
+        cherry_grove: Cherry Grove
     dimension:
       minecraft:
         overworld: Overworld
-        the_nether: The Nether
-        the_end: The End
   iota:
     weather:
       clear: Clear Skies
