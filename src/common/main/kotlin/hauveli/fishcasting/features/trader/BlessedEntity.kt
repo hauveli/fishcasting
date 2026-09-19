@@ -21,7 +21,13 @@ import com.li64.tide.registries.TideItems
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import com.li64.tide.util.TideUtils
 import hauveli.fishcasting.Fishcasting
+import hauveli.fishcasting.config.FishcastingConfigs
 import hauveli.fishcasting.features.fish.CursedEntity
+import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_COMMON
+import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_LEGENDARY
+import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_RARE
+import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_UNCOMMON
+import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_VERY_RARE
 import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingSounds
 import net.minecraft.Util
@@ -57,6 +63,7 @@ import net.minecraft.world.entity.npc.WanderingTrader
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import net.minecraft.world.item.trading.MerchantOffer
 import net.minecraft.world.item.trading.MerchantOffers
 import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.GameRules
@@ -155,8 +162,8 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
 
         // remove milk and potion goals.
         this.goalSelector.availableGoals.stream()
-            .filter { wrappedGoal: WrappedGoal? -> wrappedGoal!!.goal is UseItemGoal<*> }
-            .forEach { wrappedGoal: WrappedGoal? -> this.goalSelector.removeGoal(wrappedGoal!!.goal) }
+            .filter { wrappedGoal: WrappedGoal? -> wrappedGoal?.goal is UseItemGoal<*> }
+            .forEach { wrappedGoal: WrappedGoal? -> if (wrappedGoal != null) this.goalSelector.removeGoal(wrappedGoal.goal) }
     }
 
 
@@ -234,6 +241,38 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         }
     }
 
+    protected fun addWeightedListing(merchantoffers: MerchantOffers, itemListing: Array<VillagerTrades.ItemListing>) {
+        val weights = listOf(
+            PHIAL_TRADES_COMMON to FishcastingConfigs.COMMON_CONFIG.traderPhialWeights.common,
+            PHIAL_TRADES_UNCOMMON to FishcastingConfigs.COMMON_CONFIG.traderPhialWeights.uncommon,
+            PHIAL_TRADES_RARE to FishcastingConfigs.COMMON_CONFIG.traderPhialWeights.rare,
+            PHIAL_TRADES_VERY_RARE to FishcastingConfigs.COMMON_CONFIG.traderPhialWeights.veryRare,
+            PHIAL_TRADES_LEGENDARY to FishcastingConfigs.COMMON_CONFIG.traderPhialWeights.legendary
+        ).filter { (trades, weight) ->
+            trades.isNotEmpty() && weight > 0
+        }
+
+        Fishcasting.LOGGER.info(PHIAL_TRADES_COMMON.count())
+        Fishcasting.LOGGER.info(PHIAL_TRADES_UNCOMMON.count())
+        Fishcasting.LOGGER.info(PHIAL_TRADES_RARE.count())
+        Fishcasting.LOGGER.info(PHIAL_TRADES_VERY_RARE.count())
+        Fishcasting.LOGGER.info(PHIAL_TRADES_LEGENDARY.count())
+
+        val totalWeight = weights.sumOf { it.second }
+        var roll = random.nextInt(totalWeight) // [0, totalWeight[
+
+        for ((trades, weight) in weights) {
+            if (roll < weight) {
+                val listing = trades[random.nextInt(trades.size)]
+                val offer = listing.getOffer(this, random)
+                merchantoffers.add(offer)
+
+                break
+            }
+            roll -= weight
+        }
+    }
+
     override fun updateTrades() {
         val commonListing = BlessedTrades.BLESSED_TRADER_TRADES.get(1) as Array<VillagerTrades.ItemListing>
         val rareListing = BlessedTrades.BLESSED_TRADER_TRADES.get(2) as Array<VillagerTrades.ItemListing>
@@ -242,6 +281,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         val bedrockEaterListing = BlessedTrades.BLESSED_TRADER_TRADES.get(5) as Array<VillagerTrades.ItemListing>
         val bottleItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(6) as Array<VillagerTrades.ItemListing>
         val fishcastingItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(7) as Array<VillagerTrades.ItemListing>
+        // I'm not using this anymore because of how I decided to deal with the randomization... is that going to be an issue?
         val hexcastingItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(8) as Array<VillagerTrades.ItemListing>
 
         val merchantoffers = this.getOffers()
@@ -254,7 +294,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         if (this.wasFishedByFishyPlayer)
             addRandomListing(merchantoffers, fishcastingItemsListing)
         if (this.wasFishedByEnlightenedPlayer)
-            addRandomListing(merchantoffers, hexcastingItemsListing)
+            addWeightedListing(merchantoffers, hexcastingItemsListing)
     }
 
 

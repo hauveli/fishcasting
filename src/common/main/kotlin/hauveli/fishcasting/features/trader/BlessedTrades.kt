@@ -33,17 +33,6 @@ object BlessedTrades {
     private const val BOTTLE_SUPPLY = 4
     private const val FISCHASTING_SUPPLY = 6
     private const val HEXCASTING_SUPPLY = 2
-    private const val XP_LEVEL_1_SELL = 1
-    private const val XP_LEVEL_1_BUY = 2
-    private const val XP_LEVEL_2_SELL = 5
-    private const val XP_LEVEL_2_BUY = 10
-    private const val XP_LEVEL_3_SELL = 10
-    private const val XP_LEVEL_3_BUY = 20
-    private const val XP_LEVEL_4_SELL = 15
-    private const val XP_LEVEL_4_BUY = 30
-    private const val XP_LEVEL_5_TRADE = 30
-    private const val LOW_TIER_PRICE_MULTIPLIER = 0.05f
-    private const val HIGH_TIER_PRICE_MULTIPLIER = 0.2f
     val BLESSED_TRADER_TRADES: Int2ObjectMap<Array<VillagerTrades.ItemListing>>
 
     private fun toIntMap(map: ImmutableMap<Int, Array<VillagerTrades.ItemListing>>): Int2ObjectMap<Array<VillagerTrades.ItemListing>> {
@@ -87,7 +76,7 @@ object BlessedTrades {
 
     private val COMMON_FISH_TRADES = arrayOf(
         fishTrade(Items.TADPOLE_BUCKET, Items.EMERALD, 2, false),
-        fishTrade(Items.FROGSPAWN, Items.EMERALD, 2, false),
+        fishTrade(Items.FROGSPAWN, Items.EMERALD, 18, false),
         fishTrade(TideFish.SLIMY_SALMON, Items.SLIME_BALL, 9),
         fishTrade(TideFish.DRIPSTONE_DARTER, Items.POINTED_DRIPSTONE, 3),
         fishTrade(TideFish.CARP, Items.STRING, 6),
@@ -210,47 +199,71 @@ object BlessedTrades {
 
 
     private val ENDGAME_TRADES_FISH = arrayOf<VillagerTrades.ItemListing>(
-        greedyFishTrade(TideFish.ALPHA_FISH, 6, wantTool = false, item = FishcastingItems.HEXXY_FOCUS_BOBBER.value),
+        // the easter egg bobber, originally intended as a joke in case it was not possible to find a swamp.
+        greedyFishTrade(TideFish.ALPHA_FISH, wantCount = 6, wantTool = false, item = FishcastingItems.HEXXY_FOCUS_BOBBER.value),
         fishcastingFishTrade(TideFish.LUMINESCENT_JELLYFISH, FishcastingItems.SLICK_BAIT.value, count = 6),
         fishcastingFishTrade(TideFish.GILDED_MINNOW, FishcastingItems.TINY_BAIT.value, count = 11),
+        // unsure if this one is too expensive or not, but it's really somewhat cheap-ish by the time you are fishing endgame
         fishcastingFishTrade(TideFish.MIDAS_FISH, wantTool = false, item = HexItems.SPELLBOOK.get()),
-        greedyFishTrade(TideFish.ECHO_SNAPPER, count = 10, wantTool = false, item = TideItems.ECHO_FISHING_ROD), // unsure about this one...
+        // these rods may be difficult to obtain if you have no more chests nearby to open, or guardians to kill, so I think it might be nice to have an alternative method to obtain them...
+        // it's also significantly easier to get these normally than it is to catch this many of the fish, so I don't think it trivializes it in any way, but mayb these
+        // are too expensive...
+        greedyFishTrade(TideFish.ECHO_SNAPPER, wantCount = 10, wantTool = false, item = TideItems.ECHO_FISHING_ROD), // unsure about this one...
+        greedyFishTrade(TideFish.AQUATHORN, wantCount = 10, wantTool = false, item = TideItems.PRISMARINE_FISHING_ROD), // unsure about this one...
+        greedyFishTrade(TideFish.INFERNO_GUPPY, wantCount = 30, wantTool = false, item = TideItems.BLAZING_FISHING_ROD), // unsure about this one...
+        // my wip chair that I'm not happy with yet
         // fishcastingFishTrade(TideFish.MAGMA_MACKEREL, FishcastingItems.TACKLEBOX_CHAIR_AERONAUTICS.value),
     )
 
+    val PHIAL_TRADES_LEGENDARY = mutableListOf<BlessedTrades.ItemsForItems>()
+    val PHIAL_TRADES_VERY_RARE = mutableListOf<BlessedTrades.ItemsForItems>()
+    val PHIAL_TRADES_RARE = mutableListOf<BlessedTrades.ItemsForItems>()
+    val PHIAL_TRADES_UNCOMMON = mutableListOf<BlessedTrades.ItemsForItems>()
+    val PHIAL_TRADES_COMMON = mutableListOf<BlessedTrades.ItemsForItems>()
+
     // any 1-star
     private fun itemsForDustBatteries(itemStackWant: ItemStack): ItemsForItems {
-        return ItemsForItems(itemStackWant,
+        val trade = ItemsForItems(itemStackWant,
             HexItems.BATTERY_DUST_STACK.get(),
             HEXCASTING_SUPPLY, 5)
+        PHIAL_TRADES_COMMON.addLast(trade)
+        return trade
     }
 
     // any 2-star
     private fun itemsForShardBatteries(itemStackWant: ItemStack): ItemsForItems {
-        return ItemsForItems(itemStackWant,
+        val trade = ItemsForItems(itemStackWant,
             HexItems.BATTERY_SHARD_STACK.get(),
             HEXCASTING_SUPPLY, 5)
+        PHIAL_TRADES_UNCOMMON.addLast(trade)
+        return trade
     }
 
     // any 3-star
     private fun itemsForCrystalBatteries(itemStackWant: ItemStack): ItemsForItems {
-        return ItemsForItems(itemStackWant,
+        val trade = ItemsForItems(itemStackWant,
             HexItems.BATTERY_CRYSTAL_STACK.get(),
             HEXCASTING_SUPPLY, 5)
+        PHIAL_TRADES_RARE.addLast(trade)
+        return trade
     }
 
     // any 4-star
     private fun itemsForQuenchedBatteries(itemStackWant: ItemStack): ItemsForItems {
-        return ItemsForItems(itemStackWant,
+        val trade = ItemsForItems(itemStackWant,
             HexItems.BATTERY_QUENCHED_SHARD_STACK.get(),
             HEXCASTING_SUPPLY, 5)
+        PHIAL_TRADES_VERY_RARE.addLast(trade)
+        return trade
     }
 
     // any 5-star
     private fun itemsForQuenchedBlockBatteries(itemStackWant: ItemStack): ItemsForItems {
-        return ItemsForItems(itemStackWant,
+        val trade = ItemsForItems(itemStackWant,
             HexItems.BATTERY_QUENCHED_BLOCK_STACK.get(),
             HEXCASTING_SUPPLY, 5)
+        PHIAL_TRADES_LEGENDARY.addLast(trade)
+        return trade
     }
 
     // I think this should be fine, because the distribution of the rarer fish is such that there's essentially no chance
