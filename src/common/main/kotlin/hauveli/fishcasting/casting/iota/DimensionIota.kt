@@ -80,7 +80,7 @@ class DimensionIota : Iota {
     }
 
     override fun display(): Component {
-        val inlineValue = (InlineDimensionData(value.toString())).asText(true)
+        val inlineValue = (InlineDimensionData(value.location().toLanguageKey())).asText(true)
         val baseText = getNameWithColon().styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
         return baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
     }

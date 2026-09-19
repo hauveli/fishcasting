@@ -1,4 +1,4 @@
-package hauveli.fishcasting.casting.actions.patterns
+package hauveli.fishcasting.casting.actions.patterns.bobber
 
 import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment

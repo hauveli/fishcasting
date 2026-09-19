@@ -1,4 +1,4 @@
-package hauveli.fishcasting.casting.actions.spells
+package hauveli.fishcasting.casting.actions.spells.fish
 
 import at.petrak.hexcasting.api.casting.ParticleSpray
 import at.petrak.hexcasting.api.casting.RenderedSpell
@@ -8,29 +8,16 @@ import at.petrak.hexcasting.api.casting.getEntity
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
 import at.petrak.hexcasting.api.misc.MediaConstants
-import at.petrak.hexcasting.ktxt.UseOnContext
 import com.li64.tide.Tide
-import com.li64.tide.config.TideConfig
 import com.li64.tide.config.TideServerConfig
 import com.li64.tide.data.FishLengthHolder
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.item.TideDataComponents
-import com.li64.tide.registries.entities.fish.TideFishEntity
 import hauveli.fishcasting.Fishcasting
-import net.minecraft.core.Direction
-import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvents
-import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Entity
-import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.animal.Bucketable
 import net.minecraft.world.entity.item.ItemEntity
-import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.MobBucketItem
-import net.minecraft.world.item.component.CustomData
-import net.minecraft.world.phys.BlockHitResult
-import net.minecraft.world.phys.Vec3
 
 object OpFishifyItem : SpellAction {
     override val argc = 1

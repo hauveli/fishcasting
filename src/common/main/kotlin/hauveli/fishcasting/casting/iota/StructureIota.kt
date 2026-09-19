@@ -88,7 +88,7 @@ class StructureIota : Iota {
     }
 
     override fun display(): Component {
-        val inlineValue = (InlineStructureData(value.toString())).asText(true)
+        val inlineValue = (InlineStructureData(value.location().toLanguageKey())).asText(true)
         val baseText = getNameWithColon().styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
         return baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
     }

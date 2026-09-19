@@ -1,4 +1,4 @@
-package hauveli.fishcasting.casting.actions.spells
+package hauveli.fishcasting.casting.actions.spells.fish
 
 import at.petrak.hexcasting.api.casting.ParticleSpray
 import at.petrak.hexcasting.api.casting.RenderedSpell
@@ -11,10 +11,7 @@ import at.petrak.hexcasting.api.misc.MediaConstants
 import com.li64.tide.data.FishLengthHolder
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.item.TideItemData
-import com.li64.tide.registries.TideEntityTypes.FISH_ENTITIES
 import com.li64.tide.registries.entities.fish.AmphibiousFish
-import com.li64.tide.registries.entities.fish.TideFishEntity
-import hauveli.fishcasting.Fishcasting
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.item.ItemEntity

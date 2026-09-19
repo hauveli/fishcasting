@@ -82,6 +82,7 @@ object FabricFishcasting : ModInitializer {
 
     fun registerMoonPhaseFishies() {
 
+        /*
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {
             return@Static StructureIota(BuiltinStructures.ANCIENT_CITY)
@@ -172,6 +173,7 @@ object FabricFishcasting : ModInitializer {
             return@Static ListIota(listOf(MoonPhaseIota(MoonPhases.WANING_GIBBOUS), MoonPhaseIota(MoonPhases.WAXING_GIBBOUS)))
         }
         }, TideFish.MARSTILUS)
+         */
     }
 /*
 

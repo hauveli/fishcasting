@@ -1,22 +1,15 @@
-package hauveli.fishcasting.casting.actions.spells
+package hauveli.fishcasting.casting.actions.spells.environment
 
 import at.petrak.hexcasting.api.casting.RenderedSpell
 import at.petrak.hexcasting.api.casting.castables.SpellAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.misc.MediaConstants
-import at.petrak.hexcasting.api.casting.getEntity
 import at.petrak.hexcasting.api.casting.ParticleSpray
-import at.petrak.hexcasting.api.casting.eval.env.PlayerBasedCastEnv
 import at.petrak.hexcasting.api.casting.getInt
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadCaster
-import at.petrak.hexcasting.api.utils.asTranslatedComponent
-import hauveli.fishcasting.Fishcasting
-import hauveli.fishcasting.config.FishcastingConfigs
-import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.util.Mth
-import net.minecraft.world.entity.Entity
 import net.minecraft.world.phys.Vec3
 import kotlin.math.cos
 import kotlin.math.sin

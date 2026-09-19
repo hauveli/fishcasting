@@ -1,4 +1,4 @@
-package hauveli.fishcasting.casting.actions.spells
+package hauveli.fishcasting.casting.actions.spells.environment
 
 import at.petrak.hexcasting.api.casting.RenderedSpell
 import at.petrak.hexcasting.api.casting.castables.SpellAction
@@ -6,9 +6,10 @@ import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.misc.MediaConstants
 import at.petrak.hexcasting.api.casting.ParticleSpray
-import at.petrak.hexcasting.api.casting.getInt
 import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
+import kotlin.math.cos
+import kotlin.math.sin
 
 object OpMoonPhaseChange : SpellAction {
     override val argc = 0
@@ -34,8 +35,8 @@ object OpMoonPhaseChange : SpellAction {
         }
 
         val sunDirection = Vec3(
-            -kotlin.math.sin(angle),
-            kotlin.math.cos(angle),
+            -sin(angle),
+            cos(angle),
             0.0
         ).normalize()
 

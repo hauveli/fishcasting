@@ -20,7 +20,7 @@ class FishcastingActionTags(
         // per-world great spells
         for (entry in arrayOf<FishcastingRegistrar<ActionRegistryEntry>.Entry<ActionRegistryEntry>>(
             FishcastingActions.MOVE_MOON,
-            FishcastingActions.MOVE_SUN,
+            // FishcastingActions.MOVE_SUN,
         )) {
             tag(HexTags.Actions.CAN_START_ENLIGHTEN).add(entry.key)
             tag(HexTags.Actions.PER_WORLD_PATTERN).add(entry.key)

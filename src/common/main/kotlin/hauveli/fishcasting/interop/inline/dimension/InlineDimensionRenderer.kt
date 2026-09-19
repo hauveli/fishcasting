@@ -66,6 +66,7 @@ class InlineDimensionRenderer : InlineRenderer<InlineDimensionData> {
         graphics.pose().pushPose()
 
         val maybeKnownDimension = KnownDimensions.of(data.dimension)
+
         if (maybeKnownDimension == null) {
             val resMan = Minecraft.getInstance().resourceManager
             val resLoc = Fishcasting.id("textures/gui/environment/dimension/${data.dimension.replace(":","/")}.png")

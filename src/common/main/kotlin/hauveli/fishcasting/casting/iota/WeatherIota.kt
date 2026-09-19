@@ -29,6 +29,11 @@ import java.util.function.Supplier
 class WeatherIota : Iota {
     val weather: Int
 
+    /*
+        Hmmm...
+        IF I treat this as a precipitation spell instead, can I infer thunder?
+     */
+
     constructor(weather: Int) : super(Supplier { FishcastingIotaTypes.WEATHER.value }) {
         // sure, you could put a number outside of 0,7 in here, but that's not going to happen unless somebody does something silly
         this.weather = weather

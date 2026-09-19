@@ -1,20 +1,17 @@
-package hauveli.fishcasting.casting.actions.spells
+package hauveli.fishcasting.casting.actions.spells.bobber
 
 import at.petrak.hexcasting.api.casting.ParticleSpray
 import at.petrak.hexcasting.api.casting.RenderedSpell
 import at.petrak.hexcasting.api.casting.castables.SpellAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.getEntity
-import at.petrak.hexcasting.api.casting.iota.EntityIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
-import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.misc.MediaConstants
 import com.li64.tide.data.FishLengthHolder
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import hauveli.fishcasting.Fishcasting
-import hauveli.fishcasting.casting.actions.patterns.OpGetBobbersCatch
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvents
@@ -43,12 +40,12 @@ object OpAttachBobber : SpellAction {
 
         // Not a hook
         if (maybeBobberEntity !is TideFishingHook) {
-            throw MishapBadEntity.of(maybeBobberEntity, "fishcasting.fishing_hook")
+            throw MishapBadEntity.Companion.of(maybeBobberEntity, "fishcasting.fishing_hook")
         }
 
         // how do I check if a target is hookable?
         if (maybeTargetEntity != null) {
-            throw MishapBadEntity.of(maybeTargetEntity, "fishcasting.fishing_hookable")
+            throw MishapBadEntity.Companion.of(maybeTargetEntity, "fishcasting.fishing_hookable")
         }
 
         // Too far, only check if not owned by self
@@ -66,7 +63,7 @@ object OpAttachBobber : SpellAction {
         return SpellAction.Result(
             Spell(maybeBobberEntity, maybeTargetEntity),
             MediaConstants.SHARD_UNIT,
-            listOf(ParticleSpray.cloud(maybeTargetEntity.position().add(0.0, maybeTargetEntity.eyeHeight / 2.0, 0.0), 1.0))
+            listOf(ParticleSpray.Companion.cloud(maybeTargetEntity.position().add(0.0, maybeTargetEntity.eyeHeight / 2.0, 0.0), 1.0))
         )
     }
 

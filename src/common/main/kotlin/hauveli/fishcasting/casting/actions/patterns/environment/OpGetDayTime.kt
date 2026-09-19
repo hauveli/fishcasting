@@ -1,18 +1,12 @@
-package hauveli.fishcasting.casting.actions.patterns
+package hauveli.fishcasting.casting.actions.patterns.environment
 
 import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.iota.DoubleIota
-import at.petrak.hexcasting.api.casting.iota.EntityIota
 import at.petrak.hexcasting.api.casting.iota.Iota
-import at.petrak.hexcasting.api.casting.iota.NullIota
-import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.misc.MediaConstants
-import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
-import hauveli.fishcasting.casting.iota.MoonPhaseIota
-import net.minecraft.world.entity.Entity
 
-object OpGetMoonPhase : ConstMediaAction {
+object OpGetDayTime : ConstMediaAction {
     override val argc: Int = 0
     override val mediaCost: Long = MediaConstants.DUST_UNIT // should also cost something, unsure how much...
 
@@ -20,8 +14,8 @@ object OpGetMoonPhase : ConstMediaAction {
         val envWorld = env.world
 
         // this is perhaps mean, but I'm leaving this without a safety check because if there is an error, I want to know.
-        val moonPhase = envWorld.moonPhase
+        val dayTime = envWorld.dayTime
 
-        return listOf(MoonPhaseIota(moonPhase))
+        return listOf(DoubleIota(dayTime.toDouble()))
     }
 }

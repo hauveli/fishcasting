@@ -1,4 +1,4 @@
-package hauveli.fishcasting.casting.actions.patterns
+package hauveli.fishcasting.casting.actions.patterns.environment
 
 import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
@@ -6,10 +6,8 @@ import at.petrak.hexcasting.api.casting.iota.DoubleIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadCaster
 import at.petrak.hexcasting.api.misc.MediaConstants
-import hauveli.fishcasting.casting.iota.MoonPhaseIota
 import hauveli.fishcasting.features.natures_wrath.NaturesWrathSavedData
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.entity.Entity
 
 object OpGetNaturesWrath : ConstMediaAction {
     override val argc: Int = 0
