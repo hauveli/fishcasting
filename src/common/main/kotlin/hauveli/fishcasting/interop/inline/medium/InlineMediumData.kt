@@ -19,23 +19,16 @@ class InlineMediumData(val medium: Int) : InlineData<InlineMediumData> {
         return Companion.rendererId
     }
 
-    /*
-    override fun getExtraStyle(): Style {
-        val scrollStack = ItemStack(HexItems.SCROLL_MEDIUM.get())
-        HexItems.SCROLL_MEDIUM.get().writeDatum(scrollStack, PatternIota(pattern))
-        scrollStack.set<MutableComponent?>(
-            DataComponents.ITEM_NAME, getPatternName(pattern)!!.copy().withStyle(
-                ChatFormatting.WHITE
-            )
-        )
-        val he = HoverEvent(HoverEvent.Action.SHOW_ITEM, HoverEvent.ItemStackInfo(scrollStack))
-        val ce = ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, pattern.toString())
-        return Style.EMPTY.withHoverEvent(he).withClickEvent(ce)
+    fun getName(): MutableComponent {
+        return Component.translatable(getTranslatable())
     }
-     */
+
+    fun getTranslatable(): String {
+        return "${rendererId.toShortLanguageKey()}.${MediumIota.Medium.of(medium).name.replace(":",".")}"
+    }
 
     override fun asText(withExtra: Boolean): Component {
-        return getMediumName(medium).withStyle(asStyle(withExtra))
+        return getName().withStyle(asStyle(withExtra))
     }
 
     class InlineMediumDataType : InlineData.InlineDataType<InlineMediumData> {
@@ -58,9 +51,5 @@ class InlineMediumData(val medium: Int) : InlineData<InlineMediumData> {
 
     companion object {
         val rendererId: ResourceLocation = Fishcasting.id("medium")
-
-        fun getMediumName(medium: Int): MutableComponent {
-            return Component.translatable(MediumIota.getName(medium))
-        }
     }
 }

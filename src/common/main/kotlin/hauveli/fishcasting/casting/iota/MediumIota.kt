@@ -9,9 +9,12 @@ import com.li64.tide.data.fishing.mediums.FishingMedium
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import hauveli.fishcasting.Fishcasting
+import hauveli.fishcasting.interop.inline.dimension.InlineDimensionData
 import hauveli.fishcasting.interop.inline.medium.InlineMediumData
 import hauveli.fishcasting.interop.inline.weather.InlineWeatherData
 import hauveli.fishcasting.registry.FishcastingIotaTypes
+import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
@@ -19,6 +22,7 @@ import net.minecraft.network.chat.Style
 import net.minecraft.network.codec.ByteBufCodecs
 import net.minecraft.network.codec.StreamCodec
 import net.minecraft.server.level.ServerLevel
+import java.util.Locale
 import java.util.function.Supplier
 
 
@@ -30,16 +34,19 @@ class MediumIota : Iota {
     enum class Medium(
         val fishingMedium: FishingMedium
     ) {
-        WATER(FishingMedium.WATER),
-        LAVA(FishingMedium.LAVA),
-        VOID(FishingMedium.VOID);
+        Water(FishingMedium.WATER),
+        Lava(FishingMedium.LAVA),
+        Void(FishingMedium.VOID);
 
         companion object {
-            fun of(ordinal: Int): Medium {
-                if (Medium.entries.lastIndex >= ordinal)
-                    return Medium.entries[ordinal]
-                return Medium.WATER
-            }
+            private val byFishingMedium =
+                entries.associateBy(Medium::fishingMedium)
+
+            fun of(ordinal: Int): Medium =
+                entries.getOrNull(ordinal) ?: Water
+
+            fun of(medium: FishingMedium): Medium =
+                byFishingMedium[medium] ?: Water
         }
     }
 
@@ -60,13 +67,40 @@ class MediumIota : Iota {
 
     // in case I decided I need to check it later
     fun isValid(): Boolean {
-        return this.medium.ordinal in Medium.WATER.ordinal..Medium.VOID.ordinal
+        return this.medium.ordinal in Medium.Water.ordinal..Medium.Void.ordinal
+    }
+
+    final val SHORTNAME = "medium"
+    fun getName(): String {
+        return "${Fishcasting.MODID}.environment.${SHORTNAME}.${medium.name}"
+    }
+
+    // I wonder if the compiler is smart enuogh to see the usages of these are such that it could just squish them together instead of using jmp...
+    fun String.capitalizeFirstLetterOfEachWord(): String {
+        return this
+            .split(" ")
+            .joinToString(" ") {
+                it.replaceFirstChar { char ->
+                    char.titlecase(Locale.getDefault())
+                }
+            }
+    }
+
+    fun getNameWithFallback(): MutableComponent {
+        val titleCase = medium.name.replace("_", " ").capitalizeFirstLetterOfEachWord()
+        val comp = getName().asTranslatedComponent.translation(titleCase)
+        // what even sets this... does translation set it forever? why?
+        return comp.withStyle(comp.style.withItalic(false))
+    }
+
+    fun getNameWithColon(): MutableComponent {
+        return getNameWithFallback().append(": ")
     }
 
     override fun display(): Component {
-        val inlineMedium = (InlineMediumData(medium.ordinal)).asText(true)
-        val baseText = getNameWithColon(medium.ordinal).styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
-        return baseText.append(inlineMedium).append("   ") // inline was being evil and this is simple
+        val inlineValue = (InlineMediumData(medium.ordinal)).asText(true)
+        val baseText = getNameWithColon().styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
+        return baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
     }
 
     override fun hashCode(): Int {
@@ -74,20 +108,6 @@ class MediumIota : Iota {
     }
 
     companion object {
-
-        fun getNameWithColon(medium: Int): MutableComponent {
-            return getName(medium).asTranslatedComponent.append(": ")
-        }
-
-        // FishingMedium.WATER FishingMedium.LAVA FishingMedium.VOID
-        fun getName(medium: Int): String {
-            return when (medium) {
-                Medium.WATER.ordinal -> "journal.info.location.freshwater"
-                Medium.LAVA.ordinal -> "journal.info.location.lava"
-                Medium.VOID.ordinal -> "journal.info.location.void"
-                else -> "Unknown Medium"
-            }
-        }
 
         var TYPE: IotaType<MediumIota> = object : IotaType<MediumIota>() {
 

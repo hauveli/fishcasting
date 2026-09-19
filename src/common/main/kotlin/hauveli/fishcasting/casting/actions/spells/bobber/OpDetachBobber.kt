@@ -21,7 +21,7 @@ import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.projectile.FishingHook
 
-object OpAttachBobber : SpellAction {
+object OpDetachBobber : SpellAction {
     override val argc = 2
 
 
@@ -30,8 +30,7 @@ object OpAttachBobber : SpellAction {
         val serverLevel = env.world
 
         // I think these do the entity Iota check for me
-        val maybeBobberEntity = args.getEntity(serverLevel, 0) // first? I think args must have 1 argument so this is safe?
-        val maybeTargetEntity = args.getEntity(serverLevel, 1)
+        val maybeBobberEntity = args.getEntity(serverLevel, 0)
         // Not an entity
         /*
         if (maybeTargetEntityIota !is EntityIota) {
@@ -43,12 +42,7 @@ object OpAttachBobber : SpellAction {
 
         // Not a hook
         if (maybeBobberEntity !is TideFishingHook) {
-            throw MishapBadEntity.Companion.of(maybeBobberEntity, "fishcasting.fishing_hook")
-        }
-
-        // how do I check if a target is hookable?
-        if (maybeTargetEntity != null) {
-            throw MishapBadEntity.Companion.of(maybeTargetEntity, "fishcasting.fishing_hookable")
+            throw MishapBadEntity.of(maybeBobberEntity, "fishcasting.fishing_hook")
         }
 
         // Too far, only check if not owned by self
@@ -57,47 +51,18 @@ object OpAttachBobber : SpellAction {
         }
 
         // These should not error, as they are expected behaviour despite returning null
-        val justReeled = getFishOnHook(maybeBobberEntity)
-        val haul = maybeBobberEntity.hookedIn
-        if (justReeled != null || haul != null) {
-            // throw MishapAlreadyHooked() // "expected a place to attach an entity, found [other entity]"? "The bobber rejected the []"? "The hook
-        }
-
-        if (!maybeBobberEntity.boundingBox.intersects(maybeTargetEntity)) {
-            throw MishapEntityTooFarAway(maybeTargetEntity)
-        }
 
         return SpellAction.Result(
-            Spell(maybeBobberEntity, maybeTargetEntity),
+            Spell(maybeBobberEntity),
             MediaConstants.SHARD_UNIT,
-            listOf(ParticleSpray.Companion.cloud(maybeTargetEntity.position().add(0.0, maybeTargetEntity.eyeHeight / 2.0, 0.0), 1.0))
+            listOf(ParticleSpray.Companion.cloud(maybeBobberEntity.position().add(0.0, maybeBobberEntity.eyeHeight / 2.0, 0.0), 1.0))
         )
     }
 
-
-    fun getFishOnHook(hook: TideFishingHook): ItemEntity? {
-        // certain identify the correct entity?
-        for (fishbert in hook.level().getEntitiesOfClass(
-            ItemEntity::class.java,
-            hook.boundingBox.inflate(10.0)
-        )) {
-            // TODO: somehow obtain when player began fishing minigame?
-            val marginOfError = 500
-            val opData = FishData.get(fishbert.item)
-            if (fishbert.tickCount == 0
-                && fishbert.tags
-                    .containsAll(listOf<String>(Fishcasting.FISHBERT_TAG, hook.playerOwner.getStringUUID()))
-            ) {
-                return fishbert
-            }
-        }
-        return null
-    }
-
-    private data class Spell(val bobber: TideFishingHook, val target: Entity) : RenderedSpell {
+    private data class Spell(val bobber: TideFishingHook) : RenderedSpell {
         // IMPORTANT: do not throw mishaps in this method! mishaps should ONLY be thrown in SpellAction.execute
         override fun cast(env: CastingEnvironment) {
-            (bobber as SetHookedEntityTideFishingHookAccessor).`fishcasting$setHookedEntity`(target)
+            (bobber as SetHookedEntityTideFishingHookAccessor).`fishcasting$setHookedEntity`(null)
         }
     }
 }

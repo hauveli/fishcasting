@@ -33,7 +33,7 @@ class InlineMediumRenderer : InlineRenderer<InlineMediumData> {
     private val DISPLAY_SIZE = 10 // scaling, probably don't change this unless needed
 
     // set by me
-    private val MOON_DIAMETER = 16 // pixels of the moon to show. must be even
+    private val MOON_DIAMETER = 10 // pixels of the moon to show. must be even
 
     // calculate the rest
 
@@ -70,8 +70,8 @@ class InlineMediumRenderer : InlineRenderer<InlineMediumData> {
         graphics.pose().pushPose()
 
         val phase = (data.medium) % STATES
-        val u = (phase % COLUMNS) * MOON_SECTION + MOON_OFFSET
-        val v = (phase / COLUMNS) * MOON_SECTION + MOON_OFFSET // int flooring so I dont forget
+        val u = 0
+        val v = 0
 
         graphics.blit(
             MEDIUMS[phase],

@@ -20,27 +20,27 @@ import net.minecraft.world.level.levelgen.structure.StructureStart
 
 object OpGetStructure : ConstMediaAction {
     override val argc: Int = 1
-    override val mediaCost: Long = MediaConstants.DUST_UNIT // should also cost something, unsure how much...
+    override val mediaCost: Long = MediaConstants.CRYSTAL_UNIT // should also cost something, unsure how much...
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val blockPos = args.getBlockPos(0, argc)
         env.assertPosInRange(blockPos)
 
-        val structuresAt = getStructuresAt(env.world, blockPos)
+        val structuresAtBlockPos = getStructuresAt(env.world, blockPos)
 
-        return listOf(ListIota(getStructuresAt(env.world, blockPos).map(::StructureIota)))
+        return listOf(ListIota(structuresAtBlockPos.map(::StructureIota)))
     }
 
     // oh my fucking god there has to be a better way to do this, this mega sucks I feel like
     fun getStructuresAt(
         level: ServerLevel,
-        pos: BlockPos
+        blockPos: BlockPos
     ): List<ResourceKey<Structure>> {
         val lookup = level.registryAccess()
             .lookupOrThrow(Registries.STRUCTURE)
 
         return level.structureManager()
-            .getAllStructuresAt(pos)
+            .getAllStructuresAt(blockPos)
             .keys
             .mapNotNull { structure ->
                 lookup.listElements()

@@ -9,12 +9,15 @@ import at.petrak.hexcasting.common.lib.hex.HexActions
 import hauveli.fishcasting.casting.actions.patterns.bobber.OpGetBobbersCatch
 import hauveli.fishcasting.casting.actions.patterns.bobber.OpGetBobbersOwner
 import hauveli.fishcasting.casting.actions.patterns.bobber.OpGetCatchesBobber
+import hauveli.fishcasting.casting.actions.patterns.bobber.OpGetMedium
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetMoonPhase
 import hauveli.fishcasting.casting.actions.patterns.bobber.OpGetOwnersBobber
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetBiome
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetDayTime
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetStructure
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetWeather
+import hauveli.fishcasting.casting.actions.spells.bobber.OpAttachBobber
+import hauveli.fishcasting.casting.actions.spells.bobber.OpDetachBobber
 import hauveli.fishcasting.casting.actions.spells.fish.OpFishifyItem
 import hauveli.fishcasting.casting.actions.spells.fish.OpItemifyFish
 import hauveli.fishcasting.casting.actions.spells.environment.OpMoonPhaseChange
@@ -38,8 +41,10 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     val CATCH_FROM_BOBBER = make("catch/from_bobber", HexDir.SOUTH_EAST, "weeede", OpGetBobbersCatch)
     val BOBBER_FROM_CATCH = make("bobber/from_catch", HexDir.NORTH_WEST, "qaqqqw", OpGetCatchesBobber)
 
-    val BOBBER_ATTACH = make("bobber/attach", HexDir.SOUTH_EAST, "weeedd", OpGetCatchesBobber)
-    val BOBBER_DETACH = make("bobber/detach", HexDir.NORTH_EAST, "aaqqqw", OpGetCatchesBobber)
+    val BOBBER_ATTACH = make("bobber/attach", HexDir.SOUTH_EAST, "weeedd", OpAttachBobber)
+    val BOBBER_DETACH = make("bobber/detach", HexDir.NORTH_EAST, "aaqqqw", OpDetachBobber)
+
+    val BOBBER_MEDIM = make("bobber/medium", HexDir.SOUTH_EAST, "weeedew", OpGetMedium)
 
     val FISHIFY_ITEM = make("fish/from_item", HexDir.SOUTH_EAST, "dewqdaqeqqqeaeqwede", OpFishifyItem)
     val ITEMIFY_FISH = make("fish/to_item", HexDir.SOUTH_EAST, "dewqeaeqqqeqadqwede", OpItemifyFish)
