@@ -20,11 +20,19 @@ import com.li64.tide.data.fishing.conditions.FishingConditionType
 import com.li64.tide.data.fishing.conditions.types.BiomeWhitelistCondition
 import com.li64.tide.data.fishing.conditions.types.FishingMediumCondition
 import com.li64.tide.data.fishing.conditions.types.FreshwaterCondition
+import com.li64.tide.data.fishing.conditions.types.MoonPhaseCondition
 import com.li64.tide.data.fishing.conditions.types.SaltwaterCondition
+import com.li64.tide.data.fishing.conditions.types.StructuresCondition
+import com.li64.tide.data.fishing.conditions.types.WeatherCondition
+import com.li64.tide.data.fishing.conditions.types.WeatherType
 import com.li64.tide.data.player.FishStats
 import com.li64.tide.data.player.TidePlayerData
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.casting.iota.BiomeIota
+import hauveli.fishcasting.casting.iota.MediumIota
+import hauveli.fishcasting.casting.iota.MoonPhaseIota
+import hauveli.fishcasting.casting.iota.StructureIota
+import hauveli.fishcasting.casting.iota.WeatherIota
 import hauveli.fishcasting.mixin.environment_spells.BiomeWhitelistConditionAccessor
 import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.core.registries.Registries
@@ -39,7 +47,7 @@ to consider:
 bucketing fish spell by right "writing" a stored fish iota (attached to focus bobber) to your bucket
 unbucketing fish spell by reading a stored fish bucket (with a focus bobber out)
 */
-object OpFishFoundFromBiome : ConstMediaAction {
+object OpFishFoundFromWeather : ConstMediaAction {
     override val argc: Int = 2
     override val mediaCost: Long = 0 // MediaConstants.DUST_UNIT // free is ok I think
 
@@ -47,11 +55,11 @@ object OpFishFoundFromBiome : ConstMediaAction {
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val target = args.getEntity(env.world, 0, argc)
         val someIota = args[1]
-        if (someIota !is BiomeIota) {
+        if (someIota !is WeatherIota) {
             throw MishapInvalidIota(
                 someIota,
                 1,
-                BiomeIota.translation("testing this")
+                WeatherIota.translation("testing this")
             )
         }
 
@@ -67,44 +75,23 @@ object OpFishFoundFromBiome : ConstMediaAction {
 
         val relevantConditions = definitelyFish.conditions()
             .filter {
-                it is BiomeWhitelistCondition ||
-                        it is FreshwaterCondition ||
-                        it is SaltwaterCondition
+                it is StructuresCondition
             }
         if (relevantConditions.isEmpty())
-            return listOf(NullIota())
+            return listOf(NullIota()) // if it has no moonphase, it can be found... should it maybe return null if it doesn't care?
 
-        val biomeKey = someIota.value
+        val weather = WeatherType.valueOf(WeatherIota.getName(someIota.weather))
 
-        val biomeHolder = env.world.registryAccess()
-            .lookupOrThrow(Registries.BIOME)
-            .getOrThrow(biomeKey)
-
-        val foundInBiome = relevantConditions.all { condition ->
+        val foundInMoonPhase = relevantConditions.all { condition ->
             when (condition) {
-                is BiomeWhitelistCondition -> {
-                    val accessor = condition as BiomeWhitelistConditionAccessor
-
-                    // I couldn't think of a better way to do this but I need to check the tags as well as the resourceLocations to be sure...
-                    // todo: is there a better way? some of these tags may be nested...
-                    accessor.`tide$getBiomes`().contains(someIota.value.location()) ||
-                            accessor.`tide$getTags`().any { tag ->
-                                biomeHolder.`is`(tag)
-                            }
-                }
-
-                is FreshwaterCondition -> {
-                    !biomeHolder.`is`(TideTags.Biomes.IS_SALTWATER)
-                }
-
-                is SaltwaterCondition -> {
-                    biomeHolder.`is`(TideTags.Biomes.IS_SALTWATER)
+                is WeatherCondition -> {
+                    condition.weatherTypes.contains(weather)
                 }
 
                 else -> true // ugh
             }
         }
 
-        return listOf(BooleanIota(foundInBiome))
+        return listOf(BooleanIota(foundInMoonPhase))
     }
 }
