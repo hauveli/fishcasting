@@ -9,10 +9,12 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
 import at.petrak.hexcasting.api.misc.MediaConstants
 import com.li64.tide.Tide
+import com.li64.tide.config.TideConfig
 import com.li64.tide.config.TideServerConfig
 import com.li64.tide.data.FishLengthHolder
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.item.TideDataComponents
+import com.li64.tide.data.item.TideItemData
 import hauveli.fishcasting.Fishcasting
 import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvents
@@ -35,8 +37,12 @@ object OpFishifyItem : SpellAction {
         if (maybeTideFish.get().bucket().isEmpty) {
             throw MishapBadEntity.of(target, "fishcasting.not_a_fish.bucketable")
         }
-        val isAlive = target.item.get(TideDataComponents.IS_BUCKETABLE)
-        if (isAlive != null && isAlive) {
+
+        val isAlive = TideItemData.IS_BUCKETABLE.getOptional(target.item)
+        val length = TideItemData.FISH_LENGTH.getOptional(target.item)
+        if (isAlive.isPresent && isAlive.get()
+            && (length.isPresent && length.get() > 0.0
+                    || Tide.SERVER_CONFIG.items.fishItemSizes != TideServerConfig.Items.SizeMode.ALWAYS)) {
             // a little unsure if this is what a user might expect, but it's what I would expect
             // if ALWAYS -> always works
             // if NEVER -> the check doesn't matter -> always works
@@ -56,6 +62,8 @@ object OpFishifyItem : SpellAction {
         override fun cast(env: CastingEnvironment) {
             // ummmm... casting Entity has to be a player to get a UseOnContext... What do I do?
             var length: Double = 0.0
+            // itemEntities are not FishLengthHolders.... uhh...
+            // todo: fix this
             if (target is FishLengthHolder) {
                 length = target.`tide$getLength`() // holyyy thank you tide dev
             }

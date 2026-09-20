@@ -75,7 +75,7 @@ object BlessedTrades {
         fishTrade(fish, item, count, wantTool, maxUses)
 
     private val COMMON_FISH_TRADES = arrayOf(
-        fishTrade(Items.TADPOLE_BUCKET, Items.EMERALD, 2, false),
+        fishTrade(Items.TADPOLE_BUCKET, Items.EMERALD, 18, false),
         fishTrade(Items.FROGSPAWN, Items.EMERALD, 18, false),
         fishTrade(TideFish.SLIMY_SALMON, Items.SLIME_BALL, 9),
         fishTrade(TideFish.DRIPSTONE_DARTER, Items.POINTED_DRIPSTONE, 3),

@@ -14,6 +14,7 @@
   "mixins": [
     "CursedMostlyIndestructibleItemEntityMixin",
     "HooklessFishingHookTideFishingHookMixin",
+    "SetHookedEntityTideFishingHookAccessor",
     "TagRecentlyCaughtByTideFishingHookMixin",
     "UnluckyBaitTideFishingHookMixin",
     "advancements.AllFishingRodsAdvancementMixin",
@@ -26,6 +27,8 @@
     "bobber_bonus.BobberBonusesFishingRandomSelectorMixin",
     "casting_rod.RegisterAsCastingRodTideItemsMixin",
     "casting_rod.RodCooldownAndBobberExecutionTideFishingHookMixin",
+    "environment_spells.BiomeWhitelistConditionAccessor",
+    "environment_spells.FishingMediumConditionAccessor",
     "focus_bobber.BobberAmbitCastingEnvironmentMixin",
     "focus_bobber.BobberAmbitPlayerBasedCastEnvMixin",
     "focus_bobber.BobberInWorldCastingEnvironmentMixin",

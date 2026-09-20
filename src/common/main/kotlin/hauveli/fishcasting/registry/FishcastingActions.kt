@@ -16,11 +16,16 @@ import hauveli.fishcasting.casting.actions.patterns.environment.OpGetBiome
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetDayTime
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetStructure
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetWeather
+import hauveli.fishcasting.casting.actions.patterns.fish.OpFishFoundFromBiome
+import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishMaximum
+import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishMedium
+import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishMinimum
 import hauveli.fishcasting.casting.actions.spells.bobber.OpAttachBobber
 import hauveli.fishcasting.casting.actions.spells.bobber.OpDetachBobber
 import hauveli.fishcasting.casting.actions.spells.fish.OpFishifyItem
 import hauveli.fishcasting.casting.actions.spells.fish.OpItemifyFish
 import hauveli.fishcasting.casting.actions.spells.environment.OpMoonPhaseChange
+import hauveli.fishcasting.casting.actions.spells.fish.OpClobberFishToDeath
 
 object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     HexRegistries.ACTION,
@@ -48,19 +53,25 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
 
     val FISHIFY_ITEM = make("fish/from_item", HexDir.SOUTH_EAST, "dewqdaqeqqqeaeqwede", OpFishifyItem)
     val ITEMIFY_FISH = make("fish/to_item", HexDir.SOUTH_EAST, "dewqeaeqqqeqadqwede", OpItemifyFish)
+    val KILL_FISH = make("fish/kill", HexDir.SOUTH_EAST, "dewqeaeqqqeqadqwedewwww", OpClobberFishToDeath)
+
+    val FISH_MIN = make("fish/min", HexDir.NORTH_WEST, "wqaqwwewq", OpGetFishMinimum)
+    val FISH_MAX = make("fish/max", HexDir.NORTH_WEST, "wqaqwwqwe", OpGetFishMaximum)
+    val FISH_MEDIUM = make("fish/medium", HexDir.NORTH_WEST, "wqaqwqdadad", OpGetFishMedium) // hehe min max medium
+    val FISH_BIOME = make("fish/biome", HexDir.NORTH_WEST, "wqaqwqwdaqqqa", OpFishFoundFromBiome) // hehe min max medium
 
     // dimension, weather, moon can be their own base shape
-    val MOVE_MOON = make("world/moon", HexDir.SOUTH_WEST, "awa", OpMoonPhaseChange)
-    val PHASE_FROM_MOON = make("world/moon/phase", HexDir.NORTH_EAST, "wqaqwedqdqdwwdqd", OpGetMoonPhase)
+    val MOVE_MOON = make("environment/moon", HexDir.SOUTH_WEST, "awa", OpMoonPhaseChange)
+    val PHASE_FROM_MOON = make("environment/moon/phase", HexDir.NORTH_EAST, "wqaqwedqdqdwwdqd", OpGetMoonPhase)
 
     // medium, biome, structure can be their own base shape
-    val BIOME_FROM_BLOCKPOS = make("world/biome", HexDir.NORTH_EAST, "wqaqwdaaeaeawwaea", OpGetBiome)
-    val PRECIPITATION_FROM_BLOCKPOS = make("world/weather", HexDir.NORTH_EAST, "wqaqwdaaeaeawwaea", OpGetWeather)
-    val STRUCTURES_FROM_BLOCKPOS = make("world/structure", HexDir.NORTH_EAST, "wqaqwdwdqdwwdqdqd", OpGetStructure)
+    val BIOME_FROM_BLOCKPOS = make("environment/biome", HexDir.NORTH_EAST, "wqaqwdaaeaeawwaea", OpGetBiome)
+    // val PRECIPITATION_FROM_BLOCKPOS = make("environment/weather", HexDir.NORTH_EAST, "wqaqwdaaeaeawwaea", OpGetWeather)
+    val STRUCTURES_FROM_BLOCKPOS = make("environment/structure", HexDir.NORTH_EAST, "wqaqwdwdqdwwdqdqd", OpGetStructure)
 
-    // daytime get
-    val DAYTIME = make("world/daytime", HexDir.WEST, "dwdwewewewewewqeweeqee", OpGetDayTime)
-    // val MOVE_SUN = make("world/sun", HexDir.SOUTH_WEST, "awaw", OpSpinTheEarth)
+    // daytime get (DISTINCT FROM GAMETIME IN HEXAL!!!!) (THIS ONE IS USEFUL FOR FISHING!!!!!)
+    val DAYTIME = make("environment/daytime", HexDir.WEST, "dwdwewewewewewqeweeqee", OpGetDayTime)
+    // val MOVE_SUN = make("environment/sun", HexDir.SOUTH_WEST, "awaw", OpSpinTheEarth)
 
     // I didnt check the regex but I'm hoping this stops it
     //val CONGRATULATE = make("congratulate" - , HexDir.WEST, - "eed", OpCongratulate)

@@ -12,7 +12,7 @@ import net.minecraft.world.entity.Entity
 
 object OpGetCatchesBobber : ConstMediaAction {
     override val argc: Int = 1
-    override val mediaCost: Long = MediaConstants.CRYSTAL_UNIT // should also cost something, unsure how much...
+    override val mediaCost: Long = MediaConstants.SHARD_UNIT // should also cost something, unsure how much...
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val caster = env.castingEntity

@@ -129,9 +129,11 @@ class CursedEntity(
         val key = BuiltInRegistries.ENTITY_TYPE.getKey(entityType)
         val fishItem = BuiltInRegistries.ITEM.getOptional(key).orElseThrow()
         this.bucketItem = BuiltInRegistries.ITEM.getOptional(key.withSuffix("_bucket")).orElseThrow()
-        this.length =
-            FishData.get(fishItem).map(Function { data: FishData? -> data!!.getRandomLength(getRandom()) })
-                .orElse(0.0)!!
+        // sure whatever
+        this.length = FishData.get(fishItem).map(Function {
+                data: FishData ->
+            data.getRandomLength(getRandom())
+        }).orElse(0.0) ?: 0.0
     }
 
     override fun `tide$getLength`(): Double {

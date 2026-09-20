@@ -251,13 +251,6 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         ).filter { (trades, weight) ->
             trades.isNotEmpty() && weight > 0
         }
-
-        Fishcasting.LOGGER.info(PHIAL_TRADES_COMMON.count())
-        Fishcasting.LOGGER.info(PHIAL_TRADES_UNCOMMON.count())
-        Fishcasting.LOGGER.info(PHIAL_TRADES_RARE.count())
-        Fishcasting.LOGGER.info(PHIAL_TRADES_VERY_RARE.count())
-        Fishcasting.LOGGER.info(PHIAL_TRADES_LEGENDARY.count())
-
         val totalWeight = weights.sumOf { it.second }
         var roll = random.nextInt(totalWeight) // [0, totalWeight[
 

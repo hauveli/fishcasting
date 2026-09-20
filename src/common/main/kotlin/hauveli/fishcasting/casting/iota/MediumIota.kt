@@ -39,14 +39,17 @@ class MediumIota : Iota {
         Void(FishingMedium.VOID);
 
         companion object {
-            private val byFishingMedium =
-                entries.associateBy(Medium::fishingMedium)
+            private val byFishingMedium = entries.associateBy(Medium::fishingMedium)
+            private val byFishingMediumString = entries.associateBy(Medium::name)
 
             fun of(ordinal: Int): Medium =
                 entries.getOrNull(ordinal) ?: Water
 
             fun of(medium: FishingMedium): Medium =
                 byFishingMedium[medium] ?: Water
+
+            fun of(medium: String): Medium =
+                byFishingMediumString[medium] ?: Water
         }
     }
 
