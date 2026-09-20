@@ -14,9 +14,11 @@ import hauveli.fishcasting.casting.actions.patterns.environment.OpGetMoonPhase
 import hauveli.fishcasting.casting.actions.patterns.bobber.OpGetOwnersBobber
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetBiome
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetDayTime
+import hauveli.fishcasting.casting.actions.patterns.environment.OpGetDimension
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetStructure
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetWeather
 import hauveli.fishcasting.casting.actions.patterns.fish.OpFishFoundFromBiome
+import hauveli.fishcasting.casting.actions.patterns.fish.OpFishFoundFromDimension
 import hauveli.fishcasting.casting.actions.patterns.fish.OpFishFoundFromMedium
 import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishMaximum
 import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishMinimum
@@ -59,10 +61,13 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     val FISH_MAX = make("fish/max", HexDir.NORTH_WEST, "wqaqwwqwe", OpGetFishMaximum)
     val FISH_MEDIUM = make("fish/medium", HexDir.NORTH_WEST, "wqaqwqdadad", OpFishFoundFromMedium) // hehe min max medium
     val FISH_BIOME = make("fish/biome", HexDir.NORTH_WEST, "wqaqwqwdaqqqa", OpFishFoundFromBiome) // hehe min max medium
+    val FISH_DIMENSION = make("fish/dimension", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromDimension) // hehe min max medium
 
     // dimension, weather, moon can be their own base shape
-    val MOVE_MOON = make("environment/moon", HexDir.SOUTH_WEST, "awa", OpMoonPhaseChange)
-    val PHASE_FROM_MOON = make("environment/moon/phase", HexDir.NORTH_EAST, "wqaqwedqdqdwwdqd", OpGetMoonPhase)
+    val MOVE_MOON = make("environment/moon/increment", HexDir.SOUTH_WEST, "awa", OpMoonPhaseChange)
+    val PHASE_FROM_MOON = make("environment/moon/get", HexDir.NORTH_EAST, "wqaqwedqdqdwwdqd", OpGetMoonPhase)
+
+    val DIMENSION_FROM_LEVEL = make("environment/dimension", HexDir.NORTH_EAST, "wqaqwqaeawwaeaea", OpGetDimension)
 
     // daytime get (DISTINCT FROM GAMETIME IN HEXAL!!!!) (THIS ONE IS USEFUL FOR FISHING!!!!!)
     val DAYTIME = make("environment/daytime", HexDir.WEST, "dwdwewewewewewqeweeqee", OpGetDayTime)
