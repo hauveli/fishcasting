@@ -73,7 +73,7 @@ object OpFishFoundFromMedium : ConstMediaAction {
         if (relevantConditions.isEmpty())
             return listOf(BooleanIota(false))
 
-        val medium = someIota.medium.fishingMedium.id().toString()
+        val medium = someIota.medium.fishingMedium.id().path // I'm not so sure this is the best option going forwards........ what about other mediums from other mods?
 
         val foundInMedium = relevantConditions.all { condition ->
             when (condition) {
