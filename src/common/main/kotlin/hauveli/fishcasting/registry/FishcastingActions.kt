@@ -16,10 +16,9 @@ import hauveli.fishcasting.casting.actions.patterns.environment.OpGetBiome
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetDayTime
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetDimension
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetStructure
-import hauveli.fishcasting.casting.actions.patterns.environment.OpGetWeather
-import hauveli.fishcasting.casting.actions.patterns.fish.OpFishFoundFromBiome
-import hauveli.fishcasting.casting.actions.patterns.fish.OpFishFoundFromDimension
-import hauveli.fishcasting.casting.actions.patterns.fish.OpFishFoundFromMedium
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromBiome
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromDimension
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromMedium
 import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishMaximum
 import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishMinimum
 import hauveli.fishcasting.casting.actions.spells.bobber.OpAttachBobber

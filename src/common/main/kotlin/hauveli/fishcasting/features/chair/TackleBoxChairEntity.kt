@@ -123,9 +123,11 @@ class TackleBoxChairEntity : ChestBoat {
         return false
     }
 
+    /*
     override fun canBeCollidedWith(): Boolean {
         return super.canBeCollidedWith()
     }
+     */
 
     override fun hurt(p0: DamageSource, p1: Float): Boolean {
         this.sendSystemMessage(Component.nullToEmpty("Wtf" + p0.type().toString()))
