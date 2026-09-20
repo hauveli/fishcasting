@@ -17,8 +17,8 @@ import hauveli.fishcasting.casting.actions.patterns.environment.OpGetDayTime
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetStructure
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetWeather
 import hauveli.fishcasting.casting.actions.patterns.fish.OpFishFoundFromBiome
+import hauveli.fishcasting.casting.actions.patterns.fish.OpFishFoundFromMedium
 import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishMaximum
-import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishMedium
 import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishMinimum
 import hauveli.fishcasting.casting.actions.spells.bobber.OpAttachBobber
 import hauveli.fishcasting.casting.actions.spells.bobber.OpDetachBobber
@@ -57,7 +57,7 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
 
     val FISH_MIN = make("fish/min", HexDir.NORTH_WEST, "wqaqwwewq", OpGetFishMinimum)
     val FISH_MAX = make("fish/max", HexDir.NORTH_WEST, "wqaqwwqwe", OpGetFishMaximum)
-    val FISH_MEDIUM = make("fish/medium", HexDir.NORTH_WEST, "wqaqwqdadad", OpGetFishMedium) // hehe min max medium
+    val FISH_MEDIUM = make("fish/medium", HexDir.NORTH_WEST, "wqaqwqdadad", OpFishFoundFromMedium) // hehe min max medium
     val FISH_BIOME = make("fish/biome", HexDir.NORTH_WEST, "wqaqwqwdaqqqa", OpFishFoundFromBiome) // hehe min max medium
 
     // dimension, weather, moon can be their own base shape
