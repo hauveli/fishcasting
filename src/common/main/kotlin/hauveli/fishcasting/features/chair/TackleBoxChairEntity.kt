@@ -5,12 +5,10 @@ import com.li64.tide.config.TideServerConfig
 import com.li64.tide.data.player.TidePlayerData
 import com.li64.tide.network.messages.OpenJournalMsg
 import com.li64.tide.registries.TideItems
-import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingItems
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.network.syncher.EntityDataAccessor
@@ -29,11 +27,9 @@ import net.minecraft.world.entity.monster.piglin.PiglinAi
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.entity.vehicle.ChestBoat
 import net.minecraft.world.item.Item
-import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.gameevent.GameEvent
-import net.minecraft.world.level.levelgen.structure.BoundingBox
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 
@@ -102,7 +98,7 @@ class TackleBoxChairEntity : ChestBoat {
 
     override fun getDropItem(): Item {
         if (variant?.id == 1)
-            return FishcastingItems.TACKLEBOX_CHAIR_AERONAUTICS.value
+            return FishcastingItems.TACKLEBOX_CHAIR_FLOATY.value
         else
             return FishcastingItems.TACKLEBOX_CHAIR.value
     }

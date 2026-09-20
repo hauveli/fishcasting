@@ -20,6 +20,6 @@ import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.phys.HitResult
 import java.util.function.Predicate
 
-class TackleBoxChairAeronauticsItem(properties: Properties) : TackleBoxChairItem(properties) {
-    override val variant = TackleBoxChairVariant.AERONAUTICSY
+class TackleBoxChairSecretItem(properties: Properties) : TackleBoxChairItem(properties) {
+    override val variant = TackleBoxChairVariant.SECRET
 }

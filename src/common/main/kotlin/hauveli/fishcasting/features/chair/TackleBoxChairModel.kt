@@ -43,6 +43,7 @@ class TackleBoxChairModel<T : Entity>(root: ModelPart) : EntityModel<T>() {
             "main"
         )
 
+        // TODO: add custom bodylayer for the other variant HERE I think
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
             val partdefinition = meshdefinition.root

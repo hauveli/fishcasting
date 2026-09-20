@@ -26,14 +26,14 @@
   "result": [
     {
       "item": {
-        "count": 4,
+        "count": 8,
         "id": "hexcasting:amethyst_dust"
       }
     },
     {
       "chance": 0.5,
       "item": {
-        "count": 2,
+        "count": 4,
         "id": "hexcasting:amethyst_dust"
       }
     },

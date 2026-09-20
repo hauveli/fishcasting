@@ -1,17 +1,16 @@
 package hauveli.fishcasting.registry
 
 import at.petrak.hexcasting.api.addldata.ItemDelegatingEntityIotaHolder
-import com.google.common.base.Suppliers
 import com.li64.tide.client.TideItemModelProperties
 import com.li64.tide.data.rods.CustomRodManager
 import com.li64.tide.registries.entities.misc.fishing.HookAccessor
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import com.li64.tide.registries.items.FishingHookItem
-import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.Fishcasting.id
 import hauveli.fishcasting.features.FishcastingLoreFragment
-import hauveli.fishcasting.features.chair.TackleBoxChairAeronauticsItem
+import hauveli.fishcasting.features.chair.TackleBoxChairFloatyItem
 import hauveli.fishcasting.features.chair.TackleBoxChairItem
+import hauveli.fishcasting.features.chair.TackleBoxChairSecretItem
 import hauveli.fishcasting.features.food.CrystalShrimpFriedRiceItem
 import hauveli.fishcasting.features.gacha.GachaBottleItem
 import hauveli.fishcasting.features.paraphernalia.HexyRodItem
@@ -22,11 +21,9 @@ import net.minecraft.client.renderer.item.ItemProperties
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvents.BUCKET_EMPTY_FISH
 import net.minecraft.world.item.*
 import net.minecraft.world.level.material.Fluids.WATER
-import java.util.function.BiConsumer
 import java.util.function.Consumer
 import java.util.function.Supplier
 
@@ -59,6 +56,12 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     private fun <T : Item> make(name: String, builder: () -> T): FishcastingRegistrar<Item>.Entry<T> {
         val registered = register(id(name), builder)
         ITEMS.add(registered)
+        return registered
+    }
+
+    private fun <T : Item> makeNoCreativeMenu(name: String, builder: () -> T): FishcastingRegistrar<Item>.Entry<T> {
+        val registered = register(id(name), builder)
+        // ITEMS.add(registered)
         return registered
     }
 
@@ -165,7 +168,8 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     })
     val SHRIMPY_RICE = make("crystal_shrimp_fried_rice") { CrystalShrimpFriedRiceItem(props()) }
     val TACKLEBOX_CHAIR = make("tacklebox_chair", {TackleBoxChairItem(unstackable())})
-    val TACKLEBOX_CHAIR_AERONAUTICS = make("tacklebox_chair_aeronautics", { TackleBoxChairAeronauticsItem(unstackableUncommon())})
+    val TACKLEBOX_CHAIR_FLOATY = make("tacklebox_chair_floaty", { TackleBoxChairFloatyItem(unstackableUncommon())})
+    val TACKLEBOX_CHAIR_SECRET = makeNoCreativeMenu("tacklebox_chair_secret", { TackleBoxChairSecretItem(unstackableEpic()) })
     val MESSAGE_IN_A_BOTTLE =
         make("message_in_a_bottle", {GachaBottleItem(unstackableUncommon())})
     val GLASS_SHARD = make("glass_shard", {Item(stacksTo(stackSizeLimit = 16))})

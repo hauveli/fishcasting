@@ -50,7 +50,8 @@ class TackleBoxChairRenderer(context: EntityRendererProvider.Context) : EntityRe
         private val LOCATION_BY_VARIANT: Map<TackleBoxChairVariant, ResourceLocation> =
             mapOf(
                 TackleBoxChairVariant.FACTORY to id("textures/entity/tacklebox_chair/tacklebox_chair.png"),
-                TackleBoxChairVariant.AERONAUTICSY to id("textures/entity/tacklebox_chair/tacklebox_chair_aeronautics.png")
+                TackleBoxChairVariant.FLOATY to id("textures/entity/tacklebox_chair/tacklebox_chair_floaty.png"),
+                TackleBoxChairVariant.SECRET to id("textures/entity/tacklebox_chair/tacklebox_chair_secret.png")
             )
     }
 }
