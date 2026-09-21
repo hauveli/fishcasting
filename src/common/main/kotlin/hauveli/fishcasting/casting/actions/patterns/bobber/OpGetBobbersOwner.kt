@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerPlayer
 
 object OpGetBobbersOwner : ConstMediaAction {
     override val argc: Int = 1
-    override val mediaCost: Long = MediaConstants.SHARD_UNIT // Should cost at least something, I feel like, but not much.
+    override val mediaCost: Long = MediaConstants.DUST_UNIT // Should cost at least something, I feel like, but not much.
 
     // I don't understand why java complains where kotlin is happy
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {

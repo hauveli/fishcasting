@@ -75,10 +75,10 @@ fishcasting:
     fishing_patterns:
       '1': I came across a soggy book in my travels written by a sage fisher who went by the name $(italic)'Babs'/$. While most of the text consists of the ramblings of a sailor, found within the pages were some mundane patterns for fishing. Marine life may not be my focus, but for the sake of my work I must note these down. These would come in handy I ever decide to use a $(l:items/casting_rod#fishcasting:landing)$(thing)Casting Rod/$.
       title: Fishing Patterns
-      bobber/from_owner: Transforms a player on the stack into the bobber attached to their fishing pole (or $(l:casting/influences)$(thing)Null/$ if there isn't one). Costs about one $(l:items/amethyst)$(item)Amethyst Dust/$.
-      owner/from_bobber: Transforms a bobber on the stack into the player which cast it. Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
-      catch/from_bobber: Transforms a bobber on the stack into the entity caught on its hook (or $(l:casting/influences)$(thing)Null/$ if there isn't one). Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
-      bobber/from_catch: Transforms an entity on the stack into the bobber it is caught on (or $(l:casting/influences)$(thing)Null/$ if there isn't one). Costs about one $(l:items/amethyst)$(item)Charged Amethyst/$.
+      bobber/from_owner: Transforms a player on the stack into the bobber attached to their fishing pole (or $(l:casting/influences)$(thing)Null/$ if there isn't one). Costs a negligible amount of _media.
+      owner/from_bobber: Transforms a bobber on the stack into the player which cast it. Costs about one $(l:items/amethyst)$(item)Amethyst Dust/$.
+      catch/from_bobber: Transforms a bobber on the stack into the entity caught on its hook (or $(l:casting/influences)$(thing)Null/$ if there isn't one). Costs a negligible amount of _media.
+      bobber/from_catch: Transforms an entity on the stack into the bobber it is caught on (or $(l:casting/influences)$(thing)Null/$ if there isn't one). Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
       fish/length: Measure the length of the fish entity. Returns 0 if the entity could not be measured or was not a fish.
       fish/length_all_entities: |-
         Compute the largest dimension of the entity. For a fish, this returns its $(t:Tide 2 provides fish as items and
