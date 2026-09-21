@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:heavy_core"
+  },
+  "base": [
+    {
+      "item": "tide:amethyst_bobber"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "fishcasting:sampling_focus_bobber"
+  },
+  "template": {
+    "item": "minecraft:bottle"
+  }
+}

@@ -144,6 +144,10 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         "hexxy_focus_bobber", {TideyFocusItem(unstackableEpic())}
     )
 
+    val SAMPLING_FOCUS_BOBBER = make(
+        "sampling_focus_bobber", {TideyFocusItem(unstackableEpic())}
+    )
+
     /*
     @JvmField
     val AMETHYST_FOCUS_BOBBER_REFERENCE = make(
