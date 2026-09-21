@@ -13,6 +13,6 @@
     "id": "fishcasting:sampling_focus_bobber"
   },
   "template": {
-    "item": "minecraft:bottle"
+    "item": "fishcasting:glass_shard"
   }
 }
