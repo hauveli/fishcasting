@@ -1,0 +1,29 @@
+{
+  name: "fishcasting.book.bobber_spells.title",
+  category: "hexcasting:patterns/spells",
+  icon: "tide:duck_bobber",
+  advancement: "hexcasting:root",
+  "sortnum": 8,
+  pages: [
+    {
+      "type": "patchouli:text",
+      "text": "fishcasting.book.bobber_spells.1"
+    },
+    {
+      type: "hexcasting:pattern",
+      op_id: "fishcasting:bobber/attach",
+      anchor: "fishcasting:bobber/attach",
+      input: "entity",
+      output: "",
+      text: "fishcasting.book.bobber_spells.bobber/attach"
+    },
+    {
+      type: "hexcasting:pattern",
+      op_id: "fishcasting:bobber/detach",
+      anchor: "fishcasting:bobber/detach",
+      input: "entity",
+      output: "",
+      text: "fishcasting.book.bobber_spells.bobber/detach"
+    }
+  ],
+}

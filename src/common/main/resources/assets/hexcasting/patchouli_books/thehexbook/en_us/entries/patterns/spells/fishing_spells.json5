@@ -25,5 +25,13 @@
       output: "",
       text: "fishcasting.book.fishing_spells.fish/to_item"
     },
+    {
+      type: "hexcasting:pattern",
+      op_id: "fishcasting:fish/kill",
+      anchor: "fishcasting:fish/kill",
+      input: "entity",
+      output: "",
+      text: "fishcasting.book.fishing_spells.fish/kill"
+    }
   ],
 }
