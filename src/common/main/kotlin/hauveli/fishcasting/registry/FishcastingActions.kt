@@ -13,6 +13,7 @@ import hauveli.fishcasting.casting.actions.patterns.bobber.OpGetMedium
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetMoonPhase
 import hauveli.fishcasting.casting.actions.patterns.bobber.OpGetOwnersBobber
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetBiome
+import hauveli.fishcasting.casting.actions.patterns.environment.OpGetClimate
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetDayTime
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetDimension
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetStructure
@@ -77,8 +78,8 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     val BIOME_FROM_BLOCKPOS = make("environment/biome", HexDir.NORTH_EAST, "wqaqwdaaeaeawwaea", OpGetBiome)
     val PRECIPITATION_FROM_BLOCKPOS = make("environment/weather", HexDir.NORTH_EAST, "wqaqwqaeawwaeawdd", OpGetWeather)
     val STRUCTURES_FROM_BLOCKPOS = make("environment/structure", HexDir.NORTH_EAST, "wqaqwdwdqdwwdqdqd", OpGetStructure)
+    val CLIMATE_FROM_BLOCKPOS = make("environment/climate", HexDir.NORTH_EAST, "wqaqweddwaeawwaea", OpGetClimate)
 
-    // unused: wqaqweddwaeawwaea
 
     // I didnt check the regex but I'm hoping this stops it
     //val CONGRATULATE = make("congratulate" - , HexDir.WEST, - "eed", OpCongratulate)
