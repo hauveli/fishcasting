@@ -45,7 +45,7 @@
       type: 'hexcasting:pattern',
       op_id: 'fishcasting:bobber/medium',
       anchor: 'fishcasting:bobber/medium',
-      input: 'bobber',
+      input: 'entity',
       output: 'environment',
       text: 'fishcasting.book.environmental_patterns.bobber/medium',
     },

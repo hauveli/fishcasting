@@ -6,6 +6,7 @@ import at.petrak.hexcasting.api.casting.getEntity
 import at.petrak.hexcasting.api.casting.iota.DoubleIota
 import at.petrak.hexcasting.api.casting.iota.EntityIota
 import at.petrak.hexcasting.api.casting.iota.Iota
+import at.petrak.hexcasting.api.casting.iota.NullIota
 import at.petrak.hexcasting.api.casting.mishaps.Mishap
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadLocation
@@ -36,10 +37,7 @@ object OpGetMedium : ConstMediaAction {
             env.assertEntityInRange(target)
         }
 
-        val medium = target.currentMedium
-        if (medium == null) {
-            throw MishapBadLocation(target.position())
-        }
+        val medium = target.currentMedium ?: return listOf(NullIota())
 
         return listOf(MediumIota(MediumIota.Medium.of(medium).ordinal))
     }

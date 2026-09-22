@@ -62,14 +62,14 @@
       op_id: 'fishcasting:environment/climate',
       anchor: 'fishcasting:environment/climate',
       input: 'vec',
-      output: 'environment',
+      output: 'number',
       text: 'fishcasting.book.environmental_patterns.environment/climate',
     },
     {
       type: 'hexcasting:pattern',
       op_id: 'fishcasting:bobber/medium',
       anchor: 'fishcasting:bobber/medium',
-      input: 'bobber',
+      input: 'entity',
       output: 'environment',
       text: 'fishcasting.book.environmental_patterns.bobber/medium',
     }

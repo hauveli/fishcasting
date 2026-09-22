@@ -83,7 +83,7 @@ fishcasting:
       environment/structure: Pushes a list of structures found at the given position to the stack. Costs a negligible amount of _media.
       environment/weather: Pushes the weather found at the given position to the stack. Costs a negligible amount of _media.
       environment/climate: Pushes the water climate found at the given position to the stack. Costs a negligible amount of _media.
-      bobber/medium: Pushes the medium of the bobber to the stack. Costs a negligible amount of _media.
+      bobber/medium: Transforms a bobber on the stack into the medium is in, or null if it is not in one. Costs a negligible amount of _media.
     fishing_spells:
       '1': On the rare occasion that I have come face to face with a finned foe, a simple spell to disable its movements is all I ever needed to deal with the issue.$(br)These spells are useless on most other more advanced beings, but for the simple creatures that fish are, they will suffice.
       title: Fishing Spells
