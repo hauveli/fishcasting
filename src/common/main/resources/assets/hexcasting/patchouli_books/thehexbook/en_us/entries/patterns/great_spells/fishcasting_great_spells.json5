@@ -14,7 +14,7 @@
       anchor: "fishcasting:environment/daytime",
       input: "",
       output: "number",
-      text: "fishcasting.book.environmental_great_spells.environment/daytime"
+      text: "fishcasting.book.environmental_patterns.environment/daytime"
     },
     {
       type: "hexcasting:pattern",
@@ -30,7 +30,7 @@
       anchor: "fishcasting:environment/moon/get",
       input: "",
       output: "environment",
-      text: "fishcasting.book.environmental_great_spells.environment/moon/get"
+      text: "fishcasting.book.environmental_patterns.environment/moon/get"
     }
   ],
 }

@@ -70,10 +70,14 @@ fishcasting:
     environmental_great_spells:
       '1': Found in a tome missing a page, spells detailing the manipulation of the night skies can be found in this section.
       title: Stellar Manipulation
-      environment/daytime: This pattern pushes a number relating to the time of day onto the stack. Dividing the output by 24000 and taking the remainder gives an easily readable number. As a remainder reminder, 06:00 corresponds to 0 and 12:00 to 6000. Costs a negligible amount of _media. $(br)
       environment/moon/increment: It is frightening to imagine the consequences of manipulating something as large as the world itself... It is nearly a consolation that it costs about one stack of $(l:items/amethyst)$(item)Charged Amethyst/$.
-      environment/moon/get: Pushes the phase of the moon to the stack. Costs a negligible amount of _media.
 
+
+    environmental_patterns:
+      '1': Placeholder Text
+      title: Environmental Patterns
+      environment/daytime: This pattern pushes a number relating to the time of day onto the stack. Dividing the output by 24000 and taking the remainder gives an easily readable number. As a remainder reminder, 06:00 corresponds to 0 and 12:00 to 6000. Costs a negligible amount of _media. $(br)
+      environment/moon/get: Pushes the phase of the moon to the stack. Costs a negligible amount of _media.
     fishing_spells:
       '1': On the rare occasion that I have come face to face with a finned foe, a simple spell to disable its movements is all I ever needed to deal with the issue.$(br)These spells are useless on most other more advanced beings, but for the simple creatures that fish are, they will suffice.
       title: Fishing Spells

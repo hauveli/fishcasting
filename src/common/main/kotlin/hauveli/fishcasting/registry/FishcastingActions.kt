@@ -16,6 +16,7 @@ import hauveli.fishcasting.casting.actions.patterns.environment.OpGetBiome
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetDayTime
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetDimension
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetStructure
+import hauveli.fishcasting.casting.actions.patterns.environment.OpGetWeather
 import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromBiome
 import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromDimension
 import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromMedium
@@ -75,7 +76,7 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     // medium, biome, structure can be their own base shape
     // val BIOME_FROM_BLOCKPOS = make("environment/biome", HexDir.NORTH_EAST, "wqaqwdaaeaeawwaea", OpGetBiome)
     val BIOME_FROM_BLOCKPOS = make("environment/biome", HexDir.NORTH_EAST, "wqaqwdaaeaeawwaea", OpGetBiome)
-    // val PRECIPITATION_FROM_BLOCKPOS = make("environment/weather", HexDir.NORTH_EAST, "wqaqwdaaeaeawwaea", OpGetWeather)
+    val PRECIPITATION_FROM_BLOCKPOS = make("environment/weather", HexDir.NORTH_EAST, "wqaqwdaaeaeawwaea", OpGetWeather)
     val STRUCTURES_FROM_BLOCKPOS = make("environment/structure", HexDir.NORTH_EAST, "wqaqwdwdqdwwdqdqd", OpGetStructure)
 
 
