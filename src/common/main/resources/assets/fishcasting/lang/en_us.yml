@@ -67,6 +67,13 @@ fishcasting:
 
 
   book:
+    environmental_great_spells:
+      '1': Found in a tome missing a page, spells detailing the manipulation of the night skies can be found in this section.
+      title: Stellar Manipulation
+      environment/daytime: This pattern pushes a number relating to the time of day onto the stack. Dividing the output by 24000 and taking the remainder gives an easily readable number. As a remainder reminder, 06:00 corresponds to 0 and 12:00 to 6000. Costs a negligible amount of _media. $(br)
+      environment/moon/increment: It is frightening to imagine the consequences of manipulating something as large as the world itself... It is nearly a consolation that it costs about one stack of $(l:items/amethyst)$(item)Charged Amethyst/$.
+      environment/moon/get: Pushes the phase of the moon to the stack. Costs a negligible amount of _media.
+
     fishing_spells:
       '1': On the rare occasion that I have come face to face with a finned foe, a simple spell to disable its movements is all I ever needed to deal with the issue.$(br)These spells are useless on most other more advanced beings, but for the simple creatures that fish are, they will suffice.
       title: Fishing Spells
@@ -199,6 +206,7 @@ item:
     shepherds_casting_rod: Shepherd's Casting Rod
     blessed_focus_bobber: Blessed Focus Bobber
     hexxy_focus_bobber: Hexxy Focus Bobber
+    sampling_focus_bobber: Sampling Focus Bobber
     loud_fishing_line:
       .: Loud Fishing Line
       desc: Pacifies creepers and phantoms
@@ -213,9 +221,9 @@ item:
       desc: Prevents anything but fish from nibbling or biting
     tiny_bait:
       .: Tiny Bait
-
     slick_bait:
       .: Slick Bait
+    crystal_shrimp_fried_rice: Crystal Shrimp Fried Rice
 
     message_in_a_bottle: Message in a Bottle
     music_disc:
@@ -275,6 +283,10 @@ hexcasting:
     fishcasting:fish/from_item: Fish Motion
     fishcasting:fish/to_item: Fish Stillness
     fishcasting:fish/rarity: PLACEHOLDER's Purification
+
+    fishcasting:environment/daytime: Daytime Reflection
+    fishcasting:environment/moon/increment: Increment Moon Phase
+    fishcasting:environment/moon/get: Moon Phase Reflection
   mishap:
     bad_item:
       fishcasting:
@@ -308,12 +320,17 @@ yapping_tooltips:
       shepherds_casting_rod.desc: Carved from some tree you don't recognize.
       blessed_focus_bobber.desc: Its scent reminds you of times past.
       hexxy_focus_bobber.desc: Yep.
+      sampling_focus_bobber: Good for sampling in the upper atmosphere.
       loud_fishing_line.desc: A nice sound rings out from time to time.
       hookless_fishing_hook.desc: At least your friends can't stop you from fishing anymore.
       unlucky_bait.desc: This bait kind of stinks...
       benign_bait.desc: Smells good and is shiny.
+      slick_bait.desc: Very colorful and glowy...
+      tiny_bait.desc: Compact and very shiny!
+      crystal_shrimp_fried_rice.desc: Crunchy and fresh!
       tacklebox_chair.desc: A throne fit for a ruler of the seas - or the beach - or the local pond.
-      tacklebox_chair_aeronautics.desc: Pretty good, eh?
+      tacklebox_chair_floaty.desc: Pretty good, eh?
+      tacklebox_chair_secret.desc: les go
       message_in_a_bottle.desc: It is unclear who keeps tossing these into the ocean...
       glass_shard.desc: Ouch! Careful when walking near these!
       fishy_fragment.desc: At least this soggy thing is still legible.

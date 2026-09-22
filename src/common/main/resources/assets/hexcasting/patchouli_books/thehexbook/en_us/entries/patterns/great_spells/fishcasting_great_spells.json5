@@ -1,0 +1,36 @@
+{
+  name: "fishcasting.book.environmental_great_spells.title",
+  category: "hexcasting:patterns/great_spells",
+  icon: "tide:shooting_starfish",
+  advancement: "hexcasting:root",
+  pages: [
+    {
+      "type": "patchouli:text",
+      "text": "fishcasting.book.environmental_great_spells.1"
+    },
+    {
+      type: "hexcasting:pattern",
+      op_id: "fishcasting:environment/daytime",
+      anchor: "fishcasting:environment/daytime",
+      input: "",
+      output: "number",
+      text: "fishcasting.book.environmental_great_spells.environment/daytime"
+    },
+    {
+      type: "hexcasting:pattern",
+      op_id: "fishcasting:environment/moon/increment",
+      anchor: "fishcasting:environment/moon/increment",
+      input: "",
+      output: "",
+      text: "fishcasting.book.environmental_great_spells.environment/moon/increment"
+    },
+    {
+      type: "hexcasting:pattern",
+      op_id: "fishcasting:environment/moon/get",
+      anchor: "fishcasting:environment/moon/get",
+      input: "",
+      output: "environment",
+      text: "fishcasting.book.environmental_great_spells.environment/moon/get"
+    }
+  ],
+}

@@ -56,7 +56,7 @@ object OpMoonPhaseChange : SpellAction {
         // should it cost more? this is (20 * x / 10) => 2x per second, (in this case 2*1=2, so 2 per second)
         return SpellAction.Result(
             Spell(),
-            (MediaConstants.QUENCHED_BLOCK_UNIT), // 1 block = 12 charged
+            (MediaConstants.CRYSTAL_UNIT * 64), // 1 block = 12 charged
             listOf(ParticleSpray.cloud(finalTarget, 2.0))
         )
     }
