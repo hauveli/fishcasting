@@ -129,11 +129,6 @@
 		"fixed": {
 			"translation": [-0.5, 12.5, -0.1],
 			"scale": [2, 2, 2]
-		},
-		"on_shelf": {
-			"rotation": [0, 90, 0],
-			"translation": [0, 80, 4.5],
-			"scale": [4, 4, 4]
 		}
 	},
 	"groups": [
