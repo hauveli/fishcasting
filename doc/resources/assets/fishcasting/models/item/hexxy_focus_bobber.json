@@ -1,6 +1,6 @@
 {
 	"parent": "minecraft:item/generated",
 	"textures": {
-		"layer0": "fishcasting:item/blessed_focus_bobber"
+		"layer0": "fishcasting:blessed_focus_bobber"
 	}
 }
