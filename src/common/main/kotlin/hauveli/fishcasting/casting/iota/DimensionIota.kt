@@ -86,15 +86,12 @@ class DimensionIota : EnvironmentIota {
             // I suppose I should re-do the renderers if I ever redo this, so that my equality check doesn't look like this..
             // (for making them all actually a single type of Iota)
             override fun equals(other: Any?): Boolean {
-                return when (other) {
-                    BiomeIota.TYPE -> true
-                    DimensionIota.TYPE -> true
-                    MediumIota.TYPE -> true
-                    MoonPhaseIota.TYPE -> true
-                    StructureIota.TYPE -> true
-                    WeatherIota.TYPE -> true
-                    else -> super.equals(other)
-                }
+                return BiomeIota.TYPE === other
+                        || DimensionIota.TYPE === other
+                        || MediumIota.TYPE === other
+                        || MoonPhaseIota.TYPE === other
+                        || StructureIota.TYPE === other
+                        || WeatherIota.TYPE === other
             }
 
             val CODEC: MapCodec<DimensionIota> =
