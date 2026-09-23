@@ -23,6 +23,12 @@ import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFr
 import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromMedium
 import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishMaximum
 import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishMinimum
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromClimate
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromDepth
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromMoonPhase
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromStructure
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromTimeOfDay
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromWeather
 import hauveli.fishcasting.casting.actions.spells.bobber.OpAttachBobber
 import hauveli.fishcasting.casting.actions.spells.bobber.OpDetachBobber
 import hauveli.fishcasting.casting.actions.spells.fish.OpFishifyItem
@@ -51,8 +57,14 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     val FISH_MIN = make("fish/min", HexDir.NORTH_WEST, "wqaqwwewq", OpGetFishMinimum)
     val FISH_MAX = make("fish/max", HexDir.NORTH_WEST, "wqaqwwqwe", OpGetFishMaximum)
     val FISH_MEDIUM = make("fish/medium", HexDir.NORTH_WEST, "wqaqwqdadad", OpFishFoundFromMedium) // hehe min max medium
-    val FISH_BIOME = make("fish/biome", HexDir.NORTH_WEST, "wqaqwqwdaqqqa", OpFishFoundFromBiome) // hehe min max medium
-    val FISH_DIMENSION = make("fish/dimension", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromDimension) // hehe min max medium
+    val FISH_BIOME = make("fish/biome", HexDir.NORTH_WEST, "wqaqwqwdaqqqa", OpFishFoundFromBiome)
+    val FISH_DIMENSION = make("fish/dimension", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromDimension)
+    val FISH_MOON = make("fish/moon", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromMoonPhase)
+    val FISH_STRUCTURE = make("fish/structure", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromStructure)
+    val FISH_DAYTIME = make("fish/daytime", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromTimeOfDay)
+    val FISH_WEATHER = make("fish/weather", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromWeather)
+    val FISH_DEPTH = make("fish/depth", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromDepth)
+    val FISH_CLIMATE = make("fish/climate", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromClimate)
 
     // dimension, weather, moon can be their own base shape
     val MOVE_MOON = make("environment/moon/increment", HexDir.SOUTH_WEST, "awa", OpMoonPhaseChange)

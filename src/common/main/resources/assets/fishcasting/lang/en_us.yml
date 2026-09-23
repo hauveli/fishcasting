@@ -83,7 +83,6 @@ fishcasting:
       environment/structure: Pushes a list of structures found at the given position to the stack. Costs a negligible amount of _media.
       environment/weather: Pushes the weather found at the given position to the stack. Costs a negligible amount of _media.
       environment/climate: Pushes the water climate found at the given position to the stack. Costs a negligible amount of _media.
-      bobber/medium: Transforms a bobber on the stack into the medium is in, or null if it is not in one. Costs a negligible amount of _media.
     bobber_patterns:
       '1': I came across a soggy book in my travels written by a sage fisher who went by the name $(italic)'Babs'/$. While most of the text consists of the ramblings of a sailor, found within the pages were some mundane patterns for fishing. Marine life may not be my focus, but for the sake of my work I must note these down. These would come in handy I ever decide to use a $(l:items/casting_rod#fishcasting:landing)$(thing)Casting Rod/$.
       title: Bobber Patterns
@@ -91,9 +90,10 @@ fishcasting:
       owner/from_bobber: Transforms a bobber on the stack into the player which cast it. Costs about one $(l:items/amethyst)$(item)Amethyst Dust/$.
       catch/from_bobber: Transforms a bobber on the stack into the entity caught on its hook (or $(l:casting/influences)$(thing)Null/$ if there isn't one). Costs a negligible amount of _media.
       bobber/from_catch: Transforms an entity on the stack into the bobber it is caught on (or $(l:casting/influences)$(thing)Null/$ if there isn't one). Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
+      bobber/medium: Transforms a bobber on the stack into the medium it is in, or null if it is not in one. Costs a negligible amount of _media.
     bobber_spells:
       title: Bobber Spells
-      '1': Placeholder Text
+      '1': A small collection of spells pertaining to the hook and bobber of the fishing rod itself.
       bobber/attach: Removes two entities from the top of the stack, then attaches the entity on the top of the stack to the bobber first on the stack. Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
       bobber/detach: Removes one entity from the top of the stack. Detaches the bobber from any entity hooked to it. Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
     fishing_spells:
@@ -101,6 +101,7 @@ fishcasting:
       title: Fishing Spells
       fish/from_item: Removes an entity from the stack and if it was a fish, enlivens it to move once more. Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
       fish/to_item: Removes an entity from the stack and if it was a fish, coerces it to remain still. Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
+      fish/kill: Removes an entity from the stack and if it was a fish, humanely excises whatever life it may have had left. Costs a negligible amount of _media.
     fishing_patterns:
       title: Fishing Patterns
       '1': A collection of patterns for evaluating fish, courtesy of a fisher.
@@ -147,7 +148,7 @@ fishcasting:
       smithing: A construction similar to the $(l:items/staff)$(thing)Staves/$.
     focus_bobber:
       '1': A truly remarkable invention for such a trite sport. A $(thing)Focus Bobber/$ not only extends my ambit by about an arms length from its origin, it also casts any stored hex within once I pull on it with enough force. This added range does not come for free however, as casting via the Focus Bobber costs $(l:items/amethyst)$(item)Amethyst Dust/$ equal to the square of the length of the vector from myself to the bobber.
-      crafting: A construction similar to the $(l:items/focus)$(thing)Focus/$.
+      crafting: A construction similar to the $(l:items/focus)$(thing)Focus/$. Much like a focus, it can be written to when in my hand, or when on the ground, as well as when it has been cast by a rod.
     fishy_business:
       '1': Some useful recipes to be certain, should I ever come across a fool foolish enough to part with these without knowing their true value as sources of _Media.
       crystal_shrimp:
@@ -303,6 +304,7 @@ hexcasting:
     fishcasting:fish/length: Glub's Purification
     fishcasting:fish/from_item: Fish Motion
     fishcasting:fish/to_item: Fish Stillness
+    fishcasting:fish/kill: Pith Fish
     fishcasting:fish/rarity: PLACEHOLDER's Purification
 
     fishcasting:environment/daytime: Daytime Reflection

@@ -71,7 +71,7 @@
       anchor: 'fishcasting:bobber/medium',
       input: 'entity',
       output: 'environment',
-      text: 'fishcasting.book.environmental_patterns.bobber/medium',
+      text: 'fishcasting.book.bobber_patterns.bobber/medium',
     }
   ],
 }
