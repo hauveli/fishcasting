@@ -15,9 +15,11 @@ import hauveli.fishcasting.casting.actions.patterns.bobber.OpGetOwnersBobber
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetBiome
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetClimate
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetDayTime
+import hauveli.fishcasting.casting.actions.patterns.environment.OpGetDepth
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetDimension
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetStructure
 import hauveli.fishcasting.casting.actions.patterns.environment.OpGetWeather
+import hauveli.fishcasting.casting.actions.patterns.fish.OpFishFoundFromCondition
 import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromBiome
 import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromDimension
 import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromMedium
@@ -56,15 +58,7 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
 
     val FISH_MIN = make("fish/min", HexDir.NORTH_WEST, "wqaqwwewq", OpGetFishMinimum)
     val FISH_MAX = make("fish/max", HexDir.NORTH_WEST, "wqaqwwqwe", OpGetFishMaximum)
-    val FISH_MEDIUM = make("fish/medium", HexDir.NORTH_WEST, "wqaqwqdadad", OpFishFoundFromMedium) // hehe min max medium
-    val FISH_BIOME = make("fish/biome", HexDir.NORTH_WEST, "wqaqwqwdaqqqa", OpFishFoundFromBiome)
-    val FISH_DIMENSION = make("fish/dimension", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromDimension)
-    val FISH_MOON = make("fish/moon", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromMoonPhase)
-    val FISH_STRUCTURE = make("fish/structure", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromStructure)
-    val FISH_DAYTIME = make("fish/daytime", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromTimeOfDay)
-    val FISH_WEATHER = make("fish/weather", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromWeather)
-    val FISH_DEPTH = make("fish/depth", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromDepth)
-    val FISH_CLIMATE = make("fish/climate", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromClimate)
+    val FISH_CONDITION = make("fish/condition", HexDir.NORTH_WEST, "wqaqwqdadad", OpFishFoundFromCondition) // hehe min max medium
 
     // dimension, weather, moon can be their own base shape
     val MOVE_MOON = make("environment/moon/increment", HexDir.NORTH_WEST, "qwqwqwwqwqwqaedaqddqe", OpMoonPhaseChange)
@@ -82,6 +76,7 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     val PRECIPITATION_FROM_BLOCKPOS = make("environment/weather", HexDir.NORTH_EAST, "wqaqwqaeawwaeawdd", OpGetWeather)
     val STRUCTURES_FROM_BLOCKPOS = make("environment/structure", HexDir.NORTH_EAST, "wqaqwdwdqdwwdqdqd", OpGetStructure)
     val CLIMATE_FROM_BLOCKPOS = make("environment/climate", HexDir.NORTH_EAST, "wqaqweddwaeawwaea", OpGetClimate)
+    val DEPTH_FROM_BLOCKPOS = make("environment/depth", HexDir.NORTH_EAST, "awa", OpGetDepth)
 
 
     // I didnt check the regex but I'm hoping this stops it

@@ -14,7 +14,7 @@
       op_id: 'fishcasting:environment/daytime',
       anchor: 'fishcasting:environment/daytime',
       input: '',
-      output: 'number',
+      output: 'environment',
       text: 'fishcasting.book.environmental_patterns.environment/daytime',
     },
     {
@@ -62,8 +62,16 @@
       op_id: 'fishcasting:environment/climate',
       anchor: 'fishcasting:environment/climate',
       input: 'vec',
-      output: 'number',
+      output: 'environment',
       text: 'fishcasting.book.environmental_patterns.environment/climate',
+    },
+    {
+      type: 'hexcasting:pattern',
+      op_id: 'fishcasting:environment/depth',
+      anchor: 'fishcasting:environment/depth',
+      input: 'vec',
+      output: 'environment',
+      text: 'fishcasting.book.environmental_patterns.environment/depth',
     },
     {
       type: 'hexcasting:pattern',

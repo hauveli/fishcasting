@@ -14,7 +14,7 @@ import java.rmi.registry.Registry
 
 object OpGetBiome : ConstMediaAction {
     override val argc: Int = 1
-    override val mediaCost: Long = MediaConstants.DUST_UNIT // should also cost something, unsure how much...
+    override val mediaCost: Long = MediaConstants.DUST_UNIT / 100 // should also cost something, unsure how much...
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val envWorld = env.world

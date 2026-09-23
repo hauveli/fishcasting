@@ -20,7 +20,7 @@ import net.minecraft.world.level.levelgen.structure.StructureStart
 
 object OpGetStructure : ConstMediaAction {
     override val argc: Int = 1
-    override val mediaCost: Long = MediaConstants.CRYSTAL_UNIT // should also cost something, unsure how much...
+    override val mediaCost: Long = MediaConstants.DUST_UNIT / 100 // should also cost something, unsure how much...
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val blockPos = args.getBlockPos(0, argc)

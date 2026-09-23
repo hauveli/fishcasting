@@ -14,7 +14,7 @@ import net.minecraft.server.level.ServerLevel
 
 object OpGetDimension : ConstMediaAction {
     override val argc: Int = 0
-    override val mediaCost: Long = MediaConstants.DUST_UNIT // should also cost something, unsure how much...
+    override val mediaCost: Long = MediaConstants.DUST_UNIT / 100 // should also cost something, unsure how much...
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         return listOf(DimensionIota(env.world.dimension()))
