@@ -86,11 +86,11 @@ fishcasting:
     bobber_patterns:
       '1': I came across a soggy book in my travels written by a sage fisher who went by the name $(italic)'Babs'/$. While most of the text consists of the ramblings of a sailor, found within the pages were some mundane patterns for fishing. Marine life may not be my focus, but for the sake of my work I must note these down. These would come in handy I ever decide to use a $(l:items/casting_rod#fishcasting:landing)$(thing)Casting Rod/$.
       title: Bobber Patterns
-      bobber/from_owner: Transforms a player on the stack into the bobber attached to their fishing pole (or $(l:casting/influences)$(thing)Null/$ if there isn't one). Costs a negligible amount of _media.
+      bobber/from_owner: Transforms a player on the stack into the bobber attached to their fishing pole (or $(thing)Null/$ if there isn't one). Costs a negligible amount of _media.
       owner/from_bobber: Transforms a bobber on the stack into the player which cast it. Costs about one $(l:items/amethyst)$(item)Amethyst Dust/$.
-      catch/from_bobber: Transforms a bobber on the stack into the entity caught on its hook (or $(l:casting/influences)$(thing)Null/$ if there isn't one). Costs a negligible amount of _media.
-      bobber/from_catch: Transforms an entity on the stack into the bobber it is caught on (or $(l:casting/influences)$(thing)Null/$ if there isn't one). Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
-      bobber/medium: Transforms a bobber on the stack into the medium it is in, or null if it is not in one. Costs a negligible amount of _media.
+      catch/from_bobber: Transforms a bobber on the stack into the entity caught on its hook (or $(thing)Null/$ if there isn't one). Costs a negligible amount of _media.
+      bobber/from_catch: Transforms an entity on the stack into the bobber it is caught on (or $(thing)Null/$ if there isn't one). Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
+      bobber/medium: Transforms a bobber on the stack into the medium it is in, or $(thing)Null/$ if it is not in one. Costs a negligible amount of _media.
     bobber_spells:
       title: Bobber Spells
       '1': A small collection of spells pertaining to the hook and bobber of the fishing rod itself.
@@ -105,6 +105,17 @@ fishcasting:
     fishing_patterns:
       title: Fishing Patterns
       '1': A collection of patterns for evaluating fish, courtesy of a fisher.
+      fish/min: Removes an entity from the stack and if it was a fish, pushes the smallest specimen caught by the caster as a number. Costs a negligible amount of _media.
+      fish/max: Removes an entity from the stack and if it was a fish, pushes the largest specimen caught by the caster as a number. Costs a negligible amount of _media.
+      fish/biome: Removes an entity and an environment from the stack and then pushes true if the entity was a fish which can be found in that environment, false if it can not, or $(thing)Null/$ if the given environment has no effect on the fish. Costs a negligible amount of _media.
+      fish/medium: Removes an entity and an environment from the stack and then pushes true if the entity was a fish which can be found in that environment, false if it can not, or $(thing)Null/$ if the given environment has no effect on the fish. Costs a negligible amount of _media.
+      fish/dimension: Removes an entity and an environment from the stack and then pushes true if the entity was a fish which can be found in that environment, false if it can not, or $(thing)Null/$ if the given environment has no effect on the fish. Costs a negligible amount of _media.
+      fish/structure: Removes an entity and an environment from the stack and then pushes true if the entity was a fish which can be found in that environment, false if it can not, or $(thing)Null/$ if the given environment has no effect on the fish. Costs a negligible amount of _media.
+      fish/moon: Removes an entity and an environment from the stack and then pushes true if the entity was a fish which can be found in that climate, false if it can not, or $(thing)Null/$ if the given climate has no effect on the fish. Costs a negligible amount of _media.
+      fish/weather: Removes an entity and an environment from the stack and then pushes true if the entity was a fish which can be found in that climate, false if it can not, or $(thing)Null/$ if the given climate has no effect on the fish. Costs a negligible amount of _media.
+      fish/climate: Removes an entity and a number from the stack and then pushes true if the entity was a fish which can be found in that climate, false if it can not, or $(thing)Null/$ if the climate has no effect on the fish. Costs a negligible amount of _media.
+      fish/depth: Removes an entity and a number from the stack and then pushes true if the entity was a fish which can be found at that depth, false if it can not, or $(thing)Null/$ if the depth has no effect on the fish. Costs a negligible amount of _media.
+      fish/daytime: Removes an entity and a number from the stack and then pushes true if the entity was a fish which can be found at that time of day, false if it can not, or $(thing)Null/$ if the time of day has no effect on the fish. Costs a negligible amount of _media.
       fish/length: Measure the length of the fish entity. Returns 0 if the entity could not be measured or was not a fish.
       fish/length_all_entities: |-
         Compute the largest dimension of the entity. For a fish, this returns its $(t:Tide 2 provides fish as items and
@@ -301,11 +312,25 @@ hexcasting:
     fishcasting:bobber/attach: Attach Bobber
     fishcasting:bobber/detach: Detach Bobber
 
+
+    fishcasting:fish/min: Fishy Minimum Reflection
+    fishcasting:fish/max: Fishy Maximum Reflection
+
+    fishcasting:fish/biome: Fishy Biome Distillation
+    fishcasting:fish/climate: Fishy Climate Distillation
+    fishcasting:fish/depth: Fishy Depth Distillation
+    fishcasting:fish/dimension: Fishy Dimension Distillation
+    fishcasting:fish/medium: Fishy Medium Distillation
+    fishcasting:fish/moon: Fishy Moon Phase Distillation
+    fishcasting:fish/structure: Fishy Structure Distillation
+    fishcasting:fish/daytime: Fishy Daytime Distillation
+    fishcasting:fish/weather: Fishy Weather Distillation
     fishcasting:fish/length: Glub's Purification
+    fishcasting:fish/rarity: PLACEHOLDER's Purification
+
     fishcasting:fish/from_item: Fish Motion
     fishcasting:fish/to_item: Fish Stillness
     fishcasting:fish/kill: Pith Fish
-    fishcasting:fish/rarity: PLACEHOLDER's Purification
 
     fishcasting:environment/daytime: Daytime Reflection
     fishcasting:environment/moon/increment: Increment Moon Phase
