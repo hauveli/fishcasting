@@ -40,7 +40,7 @@ import java.util.function.Supplier
 
 // https://github.com/SuperKnux/HexMod/blob/indev/1.21.1/Common/src/main/java/at/petrak/hexcasting/api/casting/iota/EntityIota.java
 // https://github.com/Lightning-64/Tide-2/blob/main/src/main/java/com/li64/tide/util/MoonPhases.java
-class BiomeIota : Iota {
+class BiomeIota : EnvironmentIota {
     val value: ResourceKey<Biome>
 
     constructor(biome: ResourceKey<Biome>) : super(Supplier { FishcastingIotaTypes.BIOME.value }) {
@@ -61,17 +61,6 @@ class BiomeIota : Iota {
     final val SHORTNAME = "biome"
     fun getName(): String {
         return "${Fishcasting.MODID}.environment.${SHORTNAME}.${value.location().toLanguageKey()}"
-    }
-
-    // I wonder if the compiler is smart enuogh to see the usages of these are such that it could just squish them together instead of using jmp...
-    fun String.capitalizeFirstLetterOfEachWord(): String {
-        return this
-            .split(" ")
-            .joinToString(" ") {
-                it.replaceFirstChar { char ->
-                    char.titlecase(Locale.getDefault())
-                }
-            }
     }
 
     fun getNameWithFallback(): MutableComponent {
@@ -95,9 +84,30 @@ class BiomeIota : Iota {
         return value.hashCode() // what am I supposed to put here.....
     }
 
+    /*
+    override fun getType(): IotaType<out Iota?> {
+        return FishcastingIotaTypes.ENVIRONMENT.value
+    }
+     */
+
     companion object {
 
         var TYPE: IotaType<BiomeIota> = object : IotaType<BiomeIota>() {
+
+            // I couldn't think of a lower effort way, since they all have their own renderer thingies...
+            // I suppose I should re-do the renderers if I ever redo this, so that my equality check doesn't look like this..
+            // (for making them all actually a single type of Iota)
+            override fun equals(other: Any?): Boolean {
+                return when (other) {
+                    BiomeIota.TYPE -> true
+                    DimensionIota.TYPE -> true
+                    MediumIota.TYPE -> true
+                    MoonPhaseIota.TYPE -> true
+                    StructureIota.TYPE -> true
+                    WeatherIota.TYPE -> true
+                    else -> super.equals(other)
+                }
+            }
 
             val CODEC: MapCodec<BiomeIota> =
                 Codec.STRING

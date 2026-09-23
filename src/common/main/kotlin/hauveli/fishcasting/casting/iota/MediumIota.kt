@@ -114,6 +114,21 @@ class MediumIota : Iota {
 
         var TYPE: IotaType<MediumIota> = object : IotaType<MediumIota>() {
 
+            // I couldn't think of a lower effort way, since they all have their own renderer thingies...
+            // I suppose I should re-do the renderers if I ever redo this, so that my equality check doesn't look like this..
+            // (for making them all actually a single type of Iota)
+            override fun equals(other: Any?): Boolean {
+                return when (other) {
+                    BiomeIota.TYPE -> true
+                    DimensionIota.TYPE -> true
+                    MediumIota.TYPE -> true
+                    MoonPhaseIota.TYPE -> true
+                    StructureIota.TYPE -> true
+                    WeatherIota.TYPE -> true
+                    else -> super.equals(other)
+                }
+            }
+
             val CODEC: MapCodec<MediumIota> =
                 RecordCodecBuilder.mapCodec { inst ->
                     inst.group(

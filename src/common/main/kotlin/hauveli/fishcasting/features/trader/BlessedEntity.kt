@@ -419,7 +419,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         this.setCanPickUpLoot(true)
 
         // to make it despawn at some point I gave it a mood meter
-        this.mood = Mood.HAPPY
+        this.mood = Mood.NEUTRAL // this should let it hang around for long enough
 
         // animation stuff
         if (this.level().isClientSide) {

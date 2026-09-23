@@ -6,6 +6,7 @@ import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import hauveli.fishcasting.Fishcasting.id
 import hauveli.fishcasting.casting.iota.BiomeIota
 import hauveli.fishcasting.casting.iota.DimensionIota
+import hauveli.fishcasting.casting.iota.EnvironmentIota
 import hauveli.fishcasting.casting.iota.FishIota
 import hauveli.fishcasting.casting.iota.MoonPhaseIota
 import hauveli.fishcasting.casting.iota.MediumIota
@@ -18,6 +19,7 @@ object FishcastingIotaTypes : FishcastingRegistrar<IotaType<*>>(
     { HexIotaTypes.REGISTRY }
 ) {
 
+    val ENVIRONMENT = make("environment") { EnvironmentIota.TYPE }
     val FISH = make("fish") { FishIota.TYPE }
     val MOON_PHASE = make("moon") { MoonPhaseIota.TYPE }
     val WEATHER = make("weather") { WeatherIota.TYPE }

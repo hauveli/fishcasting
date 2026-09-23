@@ -2,8 +2,10 @@ package hauveli.fishcasting.casting.iota
 
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
+import at.petrak.hexcasting.api.casting.iota.NullIota
 import at.petrak.hexcasting.api.utils.asTranslatedComponent
 import at.petrak.hexcasting.api.utils.styledWith
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import com.li64.tide.data.fishing.conditions.types.WeatherType
 import com.li64.tide.data.fishing.mediums.FishingMedium
 import com.mojang.serialization.Codec
@@ -40,28 +42,30 @@ import java.util.function.Supplier
 
 // https://github.com/SuperKnux/HexMod/blob/indev/1.21.1/Common/src/main/java/at/petrak/hexcasting/api/casting/iota/EntityIota.java
 // https://github.com/Lightning-64/Tide-2/blob/main/src/main/java/com/li64/tide/util/MoonPhases.java
-class EnvironmentIota : Iota {
-    val value: ResourceKey<Biome>
-
-    constructor(biome: ResourceKey<Biome>) : super(Supplier { FishcastingIotaTypes.BIOME.value }) {
-        // sure, you could put a number outside of 0,7 in here, but that's not going to happen unless somebody does something silly
-        this.value = biome
-    }
-
-    override fun toleratesOther(that: Iota?): Boolean {
-        return typesMatch(this, that)
-                && that is EnvironmentIota
-                && this.value == that.value
-    }
-
+abstract class EnvironmentIota(
+    val supplier: Supplier<IotaType<out Iota>>
+) : Iota(supplier) {
+/*
+    Considerations for me to think about:
+    I want to be able to store basically anything in the iota...
+    How the fuck do I do this?
+    does Any<*> work?
+    should I have one optional field per possible value?
+    how the fuck should the codec look?
+    can I just create an "EnvironmentIota" and then do BiomeIota : EnvironmentIota? - This seems really tempting.........
+    if typechecking works with the above, I would basically be done afterwards...
+    wait a minute, IotaType?
+    can I just lie and say they are the same IotaType? please
+ */
     override fun isTruthy(): Boolean {
         return true
     }
 
-    final val SHORTNAME = "biome"
-    fun getName(): String {
-        return "${Fishcasting.MODID}.environment.${SHORTNAME}.${value.location().toLanguageKey()}"
+    override fun toleratesOther(otherIota: Iota?): Boolean {
+        return otherIota is EnvironmentIota
     }
+
+    //val value: Iota
 
     // I wonder if the compiler is smart enuogh to see the usages of these are such that it could just squish them together instead of using jmp...
     fun String.capitalizeFirstLetterOfEachWord(): String {
@@ -74,61 +78,17 @@ class EnvironmentIota : Iota {
             }
     }
 
-    fun getNameWithFallback(): MutableComponent {
-        val titleCase = value.location().path.replace("_", " ").capitalizeFirstLetterOfEachWord()
-        val comp = getName().asTranslatedComponent.translation(titleCase)
-        // what even sets this... does translation set it forever? why?
-        return comp.withStyle(comp.style.withItalic(false))
-    }
-
-    fun getNameWithColon(): MutableComponent {
-        return getNameWithFallback().append(": ")
-    }
-
     override fun display(): Component {
-        val inlineValue = (InlineBiomeData(value.toString())).asText(true)
-        val baseText = getNameWithColon().styledWith(Style.EMPTY.withColor(0xBACADA))
-        return baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
+        return Component.nullToEmpty("REPORT THIS TO DEVELOPER")
     }
 
     override fun hashCode(): Int {
-        return value.hashCode() // what am I supposed to put here.....
+        return 0
     }
 
     companion object {
 
         var TYPE: IotaType<EnvironmentIota> = object : IotaType<EnvironmentIota>() {
-
-            val CODEC: MapCodec<EnvironmentIota> =
-                Codec.STRING
-                    .fieldOf("biome")
-                    .xmap(
-                        { string ->
-                            EnvironmentIota(
-                                ResourceKey.create(
-                                    Registries.BIOME,
-                                    ResourceLocation.parse(string)
-                                )
-                            )
-                        },
-                        { iota ->
-                            iota.value.location().toString()
-                        }
-                    )
-
-            val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, EnvironmentIota> =
-                StreamCodec.composite(
-                    ByteBufCodecs.STRING_UTF8,
-                    { it.value.location().toString() },
-                    { string ->
-                        EnvironmentIota(
-                            ResourceKey.create(
-                                Registries.BIOME,
-                                ResourceLocation.parse(string)
-                            )
-                        )
-                    }
-                )
 
             override fun validate(
                 iota: EnvironmentIota?,
@@ -138,11 +98,13 @@ class EnvironmentIota : Iota {
             }
 
             override fun codec(): MapCodec<EnvironmentIota> {
-                return CODEC
+                Fishcasting.LOGGER.info("codec: {}", this)
+                return TODO()
             }
 
             override fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, EnvironmentIota> {
-                return STREAM_CODEC
+                Fishcasting.LOGGER.info("stream_codec: {}", this)
+                return TODO()
             }
 
             override fun color(): Int {
@@ -160,6 +122,6 @@ class EnvironmentIota : Iota {
 
         iotaToCompare as EnvironmentIota
 
-        return value == iotaToCompare.value
+        return true // value == iotaToCompare.value
     }
 }
