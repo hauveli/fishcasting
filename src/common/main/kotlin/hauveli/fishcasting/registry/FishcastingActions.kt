@@ -67,7 +67,7 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     val FISH_CLIMATE = make("fish/climate", HexDir.NORTH_WEST, "wqaqwqwewdwew", OpFishFoundFromClimate)
 
     // dimension, weather, moon can be their own base shape
-    val MOVE_MOON = make("environment/moon/increment", HexDir.SOUTH_WEST, "awa", OpMoonPhaseChange)
+    val MOVE_MOON = make("environment/moon/increment", HexDir.NORTH_WEST, "qwqwqwwqwqwqaedaqddqe", OpMoonPhaseChange)
     val PHASE_FROM_MOON = make("environment/moon/get", HexDir.NORTH_EAST, "wqaqwedqdqdwwdqd", OpGetMoonPhase)
 
     val DIMENSION_FROM_LEVEL = make("environment/dimension", HexDir.NORTH_EAST, "wqaqwqaeawwaeaea", OpGetDimension)

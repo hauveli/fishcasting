@@ -19,8 +19,8 @@
     },
     {
       type: 'hexcasting:pattern',
-      op_id: 'fishcasting:fish/min',
-      anchor: 'fishcasting:fish/min',
+      op_id: 'fishcasting:fish/max',
+      anchor: 'fishcasting:fish/max',
       input: '',
       output: 'number',
       text: 'fishcasting.book.fishing_patterns.fish/max',

@@ -11,24 +11,30 @@ Spells:
 
 Patterns:
     Envirnomental:
-    Get DayTime (Distinct from GameTime which Hexal adds, as DayTime takes sleeping in bed into account)
-    Get Biome (From blockPos)
-    Get Weather (TODO)
-    Get Medium (from bobber)
-    Get Dimension (0 args)
-    Get Moon Phase (0 args)
-    Get Structures (From blockPos)
-    Get Climate (from blockPos) (This is the chunk climate thing Tide uses for temperature)
+        Get DayTime (Distinct from GameTime which Hexal adds, as DayTime takes sleeping in bed into account)
+        Get Biome (From blockPos)
+        Get Weather (TODO)
+        Get Medium (from bobber)
+        Get Dimension (0 args)
+        Get Moon Phase (0 args)
+        Get Structures (From blockPos)
+        Get Climate (from blockPos) (This is the chunk climate thing Tide uses for temperature)
 
     Fish:
-    Patterns to check for all the conditinos a fish may have
+        Patterns to check for all the conditinos a fish may have (Most of the ones I could think of at least)
 
 Items:
+    Yet another bobber cosmetic
     Crystal Shrimp Fried Rice (costs two crystal shrimp) (how did they do it?), applies clarity and luck for 13 and 6.5 minutes respectively
     Chair that doesn't just vanish into the void if I can figure it out (Todo)
 
 Mechanics:
     Music Disc made less miserable to get
+    Added 1 new fish
+
+Notable Bugfixes:
+    I'm putting this here so I don't forget to bring it up: fixed client-side tide rendering/minigame bugs with kilt+sable (the minigame should work)
+    Made the fish I had added work better (I hope). (No longer axolotl-based)
 
 If I added or changed anything else I forgot because it was a bugfix or insignificant, I think I fixed some bad spell circle oversights at least, when I looked over it again...
 Tried to fix the create mod hat position for my creature, too.
