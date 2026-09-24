@@ -74,7 +74,7 @@ fishcasting:
 
     environmental_patterns:
       '1': Some aspects of this world are difficult to describe using just numbers, for this purpose several patterns have been devised to store this information in an environmental iota. These will all evaluate to being of the same type, even if the information stored is from a different environment.
-      title: Environmental Patterns
+      title: Environments
       environment/daytime: This pattern pushes a number relating to the time of day onto the stack. Dividing the output by 24000 and taking the remainder gives an easily readable number. As a remainder reminder, 06:00 corresponds to 0 and 12:00 to 6000. Costs a negligible amount of _media. $(br)
       environment/moon/get: Pushes the phase of the moon to the stack. Costs a negligible amount of _media.
       environment/dimension: Pushes the dimension of the caster to the stack. Costs a negligible amount of _media.
@@ -98,17 +98,18 @@ fishcasting:
       bobber/detach: Removes one entity from the top of the stack. Detaches the bobber from any entity hooked to it. Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
     fishing_spells:
       '1': On the rare occasion that I have come face to face with a finned foe, a simple spell to disable its movements is all I ever needed to deal with the issue.$(br)These spells are useless on most other more advanced beings, but for the simple creatures that fish are, they will suffice.
-      title: Fishing Spells
+      title: Fish Spells
       fish/from_item: Removes an entity from the stack and if it was a fish, enlivens it to move once more. Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
       fish/to_item: Removes an entity from the stack and if it was a fish, coerces it to remain still. Costs about one $(l:items/amethyst)$(item)Amethyst Shard/$.
       fish/kill: Removes an entity from the stack and if it was a fish, humanely excises whatever life it may have had left. Costs a negligible amount of _media.
     fishing_patterns:
-      title: Fishing Patterns
-      '1': A collection of patterns for evaluating fish, courtesy of a fisher.
+      title: Fish Patterns
+      fish/condition: $(br)Evaluates if a fish could be found in the given conditions. Costs a negligible amount of _media.
+      '1': Removes an entity and an environment from the stack, then pushes true if the entity was a fish which can be found in that environment, false if it can not, or $(thing)Null/$ if the given environment has no effect on the fish.
       fish/min: Removes an entity from the stack and if it was a fish, pushes the smallest specimen caught by the caster as a number. Costs a negligible amount of _media.
       fish/max: Removes an entity from the stack and if it was a fish, pushes the largest specimen caught by the caster as a number. Costs a negligible amount of _media.
-      fish/condition: Removes an entity and an environment from the stack and then pushes true if the entity was a fish which can be found in that environment, false if it can not, or $(thing)Null/$ if the given environment has no effect on the fish. Costs a negligible amount of _media.
       fish/length: Measure the length of the fish entity. Returns 0 if the entity could not be measured or was not a fish.
+      fish/rarity: Measure the quality of the fish entity. A common fish will have a lower quality, and a rare fish will have a higher quality.
       fish/length_all_entities: |-
         Compute the largest dimension of the entity. For a fish, this returns its $(t:Tide 2 provides fish as items and
         as entities with a length property
@@ -321,14 +322,14 @@ hexcasting:
     fishcasting:fish/daytime: Fishy Daytime Distillation
     fishcasting:fish/weather: Fishy Weather Distillation
     fishcasting:fish/length: Glub's Purification
-    fishcasting:fish/rarity: PLACEHOLDER's Purification
+    fishcasting:fish/rarity: Seelo's Purification
+    _comment_rarity: seelo as in Coelacanth
 
     fishcasting:fish/from_item: Fish Motion
     fishcasting:fish/to_item: Fish Stillness
     fishcasting:fish/kill: Pith Fish
 
     fishcasting:environment/daytime: Daytime Reflection
-    fishcasting:environment/depth: Depth Reflection
     fishcasting:environment/moon/increment: Increment Moon Phase
     fishcasting:environment/moon/get: Moon Phase Reflection
     fishcasting:environment/dimension: Dimension Reflection
@@ -336,6 +337,7 @@ hexcasting:
     fishcasting:environment/structure: Structure Purification
     fishcasting:environment/weather: Weather Purification
     fishcasting:environment/climate: Climate Purification
+    fishcasting:environment/depth: Depth Purification
     fishcasting:bobber/medium: Medium Purification
   mishap:
     bad_item:

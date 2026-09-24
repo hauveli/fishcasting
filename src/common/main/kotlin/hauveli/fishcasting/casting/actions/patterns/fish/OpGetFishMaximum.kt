@@ -44,9 +44,9 @@ object OpGetFishMaximum : ConstMediaAction {
 
         val target = args.getEntity(env.world, 0, argc)
         env.assertEntityInRange(target)
-        val maybeFishData = FishData.get(target)
-        if (target is ItemEntity && FishData.get(target.item.item).isEmpty) {
-            throw MishapBadEntity.of(target, "fishcasting.not_a_fish")
+        var maybeFishData = FishData.get(target)
+        if (target is ItemEntity) {
+            maybeFishData = FishData.get(target.item.item)
         }
         if (maybeFishData.isEmpty) {
             throw MishapBadEntity.of(target, "fishcasting.not_a_fish")

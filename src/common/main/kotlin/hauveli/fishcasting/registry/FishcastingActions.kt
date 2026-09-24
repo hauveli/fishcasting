@@ -25,6 +25,7 @@ import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFr
 import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromMedium
 import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishMaximum
 import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishMinimum
+import hauveli.fishcasting.casting.actions.patterns.fish.OpGetFishRarity
 import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromClimate
 import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromDepth
 import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromMoonPhase
@@ -56,9 +57,11 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
     val ITEMIFY_FISH = make("fish/to_item", HexDir.SOUTH_EAST, "dewqeaeqqqeqadqwede", OpItemifyFish)
     val KILL_FISH = make("fish/kill", HexDir.SOUTH_EAST, "dewqeaeqqqeqadqwedewwww", OpClobberFishToDeath)
 
+    val FISH_CONDITION = make("fish/condition", HexDir.NORTH_EAST, "wqaqwawedew", OpFishFoundFromCondition) // hehe min max medium
     val FISH_MIN = make("fish/min", HexDir.NORTH_WEST, "wqaqwwewq", OpGetFishMinimum)
     val FISH_MAX = make("fish/max", HexDir.NORTH_WEST, "wqaqwwqwe", OpGetFishMaximum)
-    val FISH_CONDITION = make("fish/condition", HexDir.NORTH_WEST, "wqaqwqdadad", OpFishFoundFromCondition) // hehe min max medium
+    // decided against rarity, it's possible to create a map using itemIota, or if I decide to add it, FishIota...
+    // val FISH_RARITY = make("fish/rarity", - HexDir.NORTH_EAST, "wqaqwadqdqdqdqdqd", OpGetFishRarity)
 
     // dimension, weather, moon can be their own base shape
     val MOVE_MOON = make("environment/moon/increment", HexDir.NORTH_WEST, "qwqwqwwqwqwqaedaqddqe", OpMoonPhaseChange)
@@ -73,11 +76,11 @@ object FishcastingActions : FishcastingRegistrar<ActionRegistryEntry>(
 
     // medium, biome, structure can be their own base shape
     val BIOME_FROM_BLOCKPOS = make("environment/biome", HexDir.NORTH_EAST, "wqaqwdaaeaeawwaea", OpGetBiome)
-    val PRECIPITATION_FROM_BLOCKPOS = make("environment/weather", HexDir.NORTH_EAST, "wqaqwqaeawwaeawdd", OpGetWeather)
     val STRUCTURES_FROM_BLOCKPOS = make("environment/structure", HexDir.NORTH_EAST, "wqaqwdwdqdwwdqdqd", OpGetStructure)
     val CLIMATE_FROM_BLOCKPOS = make("environment/climate", HexDir.NORTH_EAST, "wqaqweddwaeawwaea", OpGetClimate)
-    val DEPTH_FROM_BLOCKPOS = make("environment/depth", HexDir.NORTH_EAST, "awa", OpGetDepth)
-
+    val DEPTH_FROM_BLOCKPOS = make("environment/depth", HexDir.NORTH_EAST, "wqaqwedqdqdwwdqdw", OpGetDepth)
+    val PRECIPITATION_FROM_BLOCKPOS = make("environment/weather", HexDir.NORTH_EAST, "wqaqwqaeawwaeawdd", OpGetWeather)
+    // unused: wqaqwqaeawwaeaeaa
 
     // I didnt check the regex but I'm hoping this stops it
     //val CONGRATULATE = make("congratulate" - , HexDir.WEST, - "eed", OpCongratulate)

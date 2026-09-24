@@ -16,6 +16,7 @@ import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.player.FishStats
 import com.li64.tide.data.player.TidePlayerData
 import com.li64.tide.data.player.TidePlayerData.FishPlayerData
+import hauveli.fishcasting.Fishcasting
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.item.ItemEntity
 
@@ -26,7 +27,7 @@ to consider:
 bucketing fish spell by right "writing" a stored fish iota (attached to focus bobber) to your bucket
 unbucketing fish spell by reading a stored fish bucket (with a focus bobber out)
 */
-object OpGetFishMinimum : ConstMediaAction {
+object OpGetFishRarity : ConstMediaAction {
     override val argc: Int = 1
     override val mediaCost: Long = 0 // MediaConstants.DUST_UNIT // free is ok I think
 
@@ -52,29 +53,11 @@ object OpGetFishMinimum : ConstMediaAction {
             throw MishapBadEntity.of(target, "fishcasting.not_a_fish")
         }
 
-        val fishPlayerData = TidePlayerData.getOrCreate(caster)
-        if (!fishPlayerData.gotJournal) {
-            throw MishapBadEntity.of(caster, "fishcasting.not_a_fish.no_journal") // "No record found" or something...
-        }
-
         val definitelyFish = maybeFishData.get()
         if (!definitelyFish.hasJournalEntry()) {
             throw MishapBadEntity.of(target, "fishcasting.not_a_fish.no_journal") // "No record found" or something...
         }
 
-        if (Tide.SERVER_CONFIG.items.fishItemSizes == TideServerConfig.Items.SizeMode.NEVER) {
-            throw MishapBadEntity.of(target, "fishcasting.not_a_fish.no_record")
-        }
-
-        // Ok NOW we can check
-
-        val fishJournalDataForPlayer = fishPlayerData.fishPlayerData[definitelyFish.fish()]
-        val stats = fishJournalDataForPlayer?.stats
-        val fishStats = if (fishPlayerData == null) FishStats() else stats?.orElse(FishStats())
-        if (fishStats == null || fishStats.amountCaught == 0) {
-            throw MishapBadEntity.of(target, "fishcasting.not_a_fish.no_record")
-        }
-
-        return listOf(DoubleIota(fishStats.smallestCatch))
+        return listOf(DoubleIota(definitelyFish.profile().rarity().numStars.toDouble()))
     }
 }
