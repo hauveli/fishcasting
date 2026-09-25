@@ -5,6 +5,7 @@ import at.petrak.hexcasting.common.lib.HexRegistries
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import hauveli.fishcasting.Fishcasting.id
 import hauveli.fishcasting.casting.iota.BiomeIota
+import hauveli.fishcasting.casting.iota.ClimateIota
 import hauveli.fishcasting.casting.iota.DepthIota
 import hauveli.fishcasting.casting.iota.DimensionIota
 import hauveli.fishcasting.casting.iota.EnvironmentIota
@@ -31,6 +32,7 @@ object FishcastingIotaTypes : FishcastingRegistrar<IotaType<*>>(
     val STRUCTURE = make("structure") { StructureIota.TYPE }
     val BIOME = make("biome") { BiomeIota.TYPE }
     val DEPTH = make("depth") { DepthIota.TYPE }
+    val CLIMATE = make("climate") { ClimateIota.TYPE }
 
     private fun <T : IotaType<*>> make(name: String, builder: () -> T):
             FishcastingRegistrar<IotaType<*>>.Entry<T> {

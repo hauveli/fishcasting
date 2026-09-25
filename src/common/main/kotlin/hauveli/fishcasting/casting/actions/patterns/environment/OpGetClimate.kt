@@ -8,6 +8,7 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.misc.MediaConstants
 import com.li64.tide.data.fishing.conditions.types.WeatherType
 import com.li64.tide.util.TideUtils
+import hauveli.fishcasting.casting.iota.ClimateIota
 import hauveli.fishcasting.casting.iota.MoonPhaseIota
 import hauveli.fishcasting.casting.iota.WeatherIota
 import net.minecraft.core.BlockPos
@@ -21,7 +22,6 @@ object OpGetClimate : ConstMediaAction {
         val blockPos = args.getBlockPos(0, argc)
         env.assertPosInRange(blockPos)
 
-
-        return listOf(DoubleIota(TideUtils.getTemperatureAt(blockPos, env.world).toDouble()))
+        return listOf(ClimateIota(TideUtils.getTemperatureAt(blockPos, env.world)))
     }
 }

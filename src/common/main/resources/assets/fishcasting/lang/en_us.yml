@@ -1,6 +1,8 @@
 fishcasting:
   environment:
     depth: Depth
+    climate: Climate
+    daytime: Daytime
     structure:
       minecraft:
         trial_chambers: Trial Chambers
