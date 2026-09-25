@@ -59,7 +59,7 @@ class InlineDepthRenderer : InlineRenderer<InlineDepthData> {
             DEPTH_BAR,
             0, -1,
             DISPLAY_SIZE, DISPLAY_SIZE,
-            u, v,
+            MOON_PHASE_ATLAS_WIDTH * u, v,
             MOON_DIAMETER, MOON_DIAMETER, // 12
             MOON_PHASE_ATLAS_WIDTH, MOON_PHASE_ATLAS_HEIGHT // 128, 64
         )
