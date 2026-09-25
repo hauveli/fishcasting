@@ -2,6 +2,7 @@ package hauveli.fishcasting.interop.inline
 
 import com.samsthenerd.inline.api.client.InlineClientAPI
 import hauveli.fishcasting.interop.inline.biome.InlineBiomeRenderer
+import hauveli.fishcasting.interop.inline.depth.InlineDepthRenderer
 import hauveli.fishcasting.interop.inline.dimension.InlineDimensionRenderer
 import hauveli.fishcasting.interop.inline.medium.InlineMediumRenderer
 import hauveli.fishcasting.interop.inline.moon.InlineMoonRenderer
@@ -16,5 +17,6 @@ object InlineFishcastingClient {
         InlineClientAPI.INSTANCE.addRenderer(InlineDimensionRenderer.INSTANCE)
         InlineClientAPI.INSTANCE.addRenderer(InlineBiomeRenderer.INSTANCE)
         InlineClientAPI.INSTANCE.addRenderer(InlineStructureRenderer.INSTANCE)
+        InlineClientAPI.INSTANCE.addRenderer(InlineDepthRenderer.INSTANCE)
     }
 }

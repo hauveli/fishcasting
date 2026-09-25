@@ -1,5 +1,6 @@
 fishcasting:
   environment:
+    depth: Depth
     structure:
       minecraft:
         trial_chambers: Trial Chambers

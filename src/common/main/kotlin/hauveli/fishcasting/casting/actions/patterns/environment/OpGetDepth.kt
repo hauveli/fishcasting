@@ -10,6 +10,7 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.misc.MediaConstants
 import com.li64.tide.client.gui.screens.journal.components.DepthComponent
 import com.li64.tide.data.fishing.conditions.types.WeatherType
+import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.casting.iota.DepthIota
 import hauveli.fishcasting.casting.iota.DimensionIota
 import hauveli.fishcasting.casting.iota.MoonPhaseIota
@@ -25,7 +26,7 @@ object OpGetDepth : ConstMediaAction {
         val maybePos = args.getVec3(0, argc)
 
         val seaLevel = DepthComponent.MAX_Y
-        val positionY = maybePos.y.coerceIn(DepthComponent.MIN_Y.toDouble(), DepthComponent.MAX_Y.toDouble())
+        val positionY = maybePos.y.coerceIn(DepthComponent.MIN_Y.toDouble(), seaLevel.toDouble())
 
         // this is perhaps mean, but I'm leaving this without a safety check because if there is an error, I want to know.
         val relativeDepth = seaLevel - positionY
