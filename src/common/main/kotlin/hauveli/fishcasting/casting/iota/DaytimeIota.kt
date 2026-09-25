@@ -13,6 +13,7 @@ import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.interop.inline.climate.InlineClimateData
+import hauveli.fishcasting.interop.inline.daytime.InlineDaytimeData
 import hauveli.fishcasting.interop.inline.depth.InlineDepthData
 import hauveli.fishcasting.interop.inline.dimension.InlineDimensionData
 import hauveli.fishcasting.interop.inline.medium.InlineMediumData
@@ -39,16 +40,16 @@ import java.util.function.Supplier
 
 // https://github.com/SuperKnux/HexMod/blob/indev/1.21.1/Common/src/main/java/at/petrak/hexcasting/api/casting/iota/EntityIota.java
 // https://github.com/Lightning-64/Tide-2/blob/main/src/main/java/com/li64/tide/util/MoonPhases.java
-class ClimateIota : EnvironmentIota {
-    val value: Float
+class DaytimeIota : EnvironmentIota {
+    val value: Long
 
-    constructor(temp: Float) : super(Supplier { FishcastingIotaTypes.CLIMATE.value }) {
-        this.value = temp
+    constructor(daytime: Long) : super(Supplier { FishcastingIotaTypes.DAYTIME.value }) {
+        this.value = daytime
     }
 
     override fun toleratesOther(that: Iota?): Boolean {
         return typesMatch(this, that)
-                && that is ClimateIota
+                && that is DaytimeIota
                 && this.value == that.value
     }
 
@@ -57,12 +58,12 @@ class ClimateIota : EnvironmentIota {
     }
 
     override fun display(): Component {
-        return (InlineClimateData(value)).asText(true) // baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
+        return (InlineDaytimeData(value)).asText(true) // baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
     }
 
     companion object {
 
-        var TYPE: IotaType<ClimateIota> = object : IotaType<ClimateIota>() {
+        var TYPE: IotaType<DaytimeIota> = object : IotaType<DaytimeIota>() {
 
             // I couldn't think of a lower effort way, since they all have their own renderer thingies...
             // I suppose I should re-do the renderers if I ever redo this, so that my equality check doesn't look like this..
@@ -76,36 +77,36 @@ class ClimateIota : EnvironmentIota {
                         || WeatherIota.TYPE === other
             }
 
-            val CODEC: MapCodec<ClimateIota> =
+            val CODEC: MapCodec<DaytimeIota> =
                 RecordCodecBuilder.mapCodec { inst ->
                     inst.group(
-                        Codec.FLOAT.fieldOf("climate")
+                        Codec.LONG.fieldOf("daytime")
                             .forGetter { it.value }
                     ).apply(
                         inst,
-                        ::ClimateIota
+                        ::DaytimeIota
                     )
                 }
 
-            val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, ClimateIota> =
+            val STREAM_CODEC: StreamCodec<RegistryFriendlyByteBuf, DaytimeIota> =
                 StreamCodec.composite(
-                    ByteBufCodecs.FLOAT,
+                    ByteBufCodecs.VAR_LONG,
                     { it.value },
-                    ::ClimateIota
+                    ::DaytimeIota
                 )
 
             override fun validate(
-                iota: ClimateIota?,
+                iota: DaytimeIota?,
                 level: ServerLevel
             ): Boolean {
                 return iota != null && true // iota.isValid()
             }
 
-            override fun codec(): MapCodec<ClimateIota> {
+            override fun codec(): MapCodec<DaytimeIota> {
                 return CODEC
             }
 
-            override fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, ClimateIota> {
+            override fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, DaytimeIota> {
                 return STREAM_CODEC
             }
 
@@ -120,7 +121,7 @@ class ClimateIota : EnvironmentIota {
         if (javaClass != iotaToCompare?.javaClass) return false
         if (!super.equals(iotaToCompare)) return false
 
-        iotaToCompare as ClimateIota
+        iotaToCompare as DaytimeIota
 
         return value == iotaToCompare.value
     }

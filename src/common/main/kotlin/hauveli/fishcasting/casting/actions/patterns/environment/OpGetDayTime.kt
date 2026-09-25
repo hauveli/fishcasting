@@ -5,6 +5,7 @@ import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.iota.DoubleIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.misc.MediaConstants
+import hauveli.fishcasting.casting.iota.DaytimeIota
 
 object OpGetDayTime : ConstMediaAction {
     override val argc: Int = 0
@@ -16,6 +17,6 @@ object OpGetDayTime : ConstMediaAction {
         // this is perhaps mean, but I'm leaving this without a safety check because if there is an error, I want to know.
         val dayTime = envWorld.dayTime
 
-        return listOf(DoubleIota(dayTime.toDouble()))
+        return listOf(DaytimeIota(dayTime))
     }
 }

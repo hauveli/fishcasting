@@ -3,6 +3,7 @@ package hauveli.fishcasting.interop.inline
 import com.samsthenerd.inline.api.client.InlineClientAPI
 import hauveli.fishcasting.interop.inline.biome.InlineBiomeRenderer
 import hauveli.fishcasting.interop.inline.climate.InlineClimateRenderer
+import hauveli.fishcasting.interop.inline.daytime.InlineDaytimeRenderer
 import hauveli.fishcasting.interop.inline.depth.InlineDepthRenderer
 import hauveli.fishcasting.interop.inline.dimension.InlineDimensionRenderer
 import hauveli.fishcasting.interop.inline.medium.InlineMediumRenderer
@@ -20,5 +21,6 @@ object InlineFishcastingClient {
         InlineClientAPI.INSTANCE.addRenderer(InlineStructureRenderer.INSTANCE)
         InlineClientAPI.INSTANCE.addRenderer(InlineDepthRenderer.INSTANCE)
         InlineClientAPI.INSTANCE.addRenderer(InlineClimateRenderer.INSTANCE)
+        InlineClientAPI.INSTANCE.addRenderer(InlineDaytimeRenderer.INSTANCE)
     }
 }
