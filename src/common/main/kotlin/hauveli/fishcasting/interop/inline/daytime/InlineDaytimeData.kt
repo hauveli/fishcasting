@@ -39,7 +39,7 @@ class InlineDaytimeData(val daytime: Long) : InlineData<InlineDaytimeData> {
 
     override fun asText(withExtra: Boolean): Component {
         val name = getName()
-            .append(": ${ticksToRealTime(daytime, Tide.CLIENT_CONFIG.journal.useAmPm)} ")
+            .append(": ${ticksToRealTime(daytime % 24000, Tide.CLIENT_CONFIG.journal.useAmPm)} ")
             .withColor(EnvironmentIota.TYPE.color())
 
             // I don't quite understand how the asText thing is supposed to work... renderer puts it at start of line unless i offset it like this
