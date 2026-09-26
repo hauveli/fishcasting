@@ -57,7 +57,7 @@ class ClimateIota : EnvironmentIota {
     }
 
     override fun display(): Component {
-        return (InlineClimateData(value)).asText(true) // baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
+        return (InlineClimateData(value)).displayWithTextAndInline() // baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
     }
 
     companion object {

@@ -10,6 +10,7 @@ import com.li64.tide.util.MoonPhases.*
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import hauveli.fishcasting.interop.inline.medium.InlineMediumData
 import hauveli.fishcasting.interop.inline.moon.InlineMoonData
 import hauveli.fishcasting.interop.inline.weather.InlineWeatherData
 import hauveli.fishcasting.registry.FishcastingIotaTypes
@@ -55,9 +56,7 @@ class WeatherIota : Iota {
     }
 
     override fun display(): Component {
-        val inlineWeather = (InlineWeatherData(weather)).asText(true)
-        val baseText = getNameWithColon(weather).styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
-        return baseText.append(inlineWeather).append("   ") // inline was being evil and this is simple
+        return InlineWeatherData(weather).displayWithTextAndInline()
     }
 
     override fun hashCode(): Int {
@@ -65,20 +64,6 @@ class WeatherIota : Iota {
     }
 
     companion object {
-
-        fun getNameWithColon(weather: Int): MutableComponent {
-            return getName(weather).asTranslatedComponent.append(": ")
-        }
-
-        fun getName(weather: Int): String {
-            return when (weather) {
-                WeatherType.CLEAR.ordinal -> "fishcasting.iota.weather.clear"
-                WeatherType.RAIN.ordinal -> "fishcasting.iota.weather.rain"
-                WeatherType.STORM.ordinal -> "fishcasting.iota.weather.storm"
-                else -> "fishcasting.iota.weather.unknown"
-            }
-        }
-
         var TYPE: IotaType<WeatherIota> = object : IotaType<WeatherIota>() {
 
             // I couldn't think of a lower effort way, since they all have their own renderer thingies...

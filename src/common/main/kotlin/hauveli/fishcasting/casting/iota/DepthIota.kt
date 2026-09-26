@@ -56,7 +56,7 @@ class DepthIota : EnvironmentIota {
     }
 
     override fun display(): Component {
-        return (InlineDepthData(value)).asText(true) // baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
+        return (InlineDepthData(value)).displayWithTextAndInline() // baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
     }
 
     companion object {

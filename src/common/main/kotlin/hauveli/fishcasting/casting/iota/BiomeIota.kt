@@ -11,6 +11,7 @@ import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.interop.inline.biome.InlineBiomeData
+import hauveli.fishcasting.interop.inline.climate.InlineClimateData
 import hauveli.fishcasting.interop.inline.dimension.InlineDimensionData
 import hauveli.fishcasting.interop.inline.medium.InlineMediumData
 import hauveli.fishcasting.interop.inline.weather.InlineWeatherData
@@ -58,26 +59,8 @@ class BiomeIota : EnvironmentIota {
         return true
     }
 
-    final val SHORTNAME = "biome"
-    fun getName(): String {
-        return "${Fishcasting.MODID}.environment.${SHORTNAME}.${value.location().toLanguageKey()}"
-    }
-
-    fun getNameWithFallback(): MutableComponent {
-        val titleCase = value.location().path.replace("_", " ").capitalizeFirstLetterOfEachWord()
-        val comp = getName().asTranslatedComponent.translation(titleCase)
-        // what even sets this... does translation set it forever? why?
-        return comp.withStyle(comp.style.withItalic(false))
-    }
-
-    fun getNameWithColon(): MutableComponent {
-        return getNameWithFallback().append(": ")
-    }
-
     override fun display(): Component {
-        val inlineValue = (InlineBiomeData(value.location().toLanguageKey())).asText(true)
-        val baseText = getNameWithColon().styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
-        return baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
+        return (InlineBiomeData(value.location().toString())).displayWithTextAndInline() // baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
     }
 
     override fun hashCode(): Int {

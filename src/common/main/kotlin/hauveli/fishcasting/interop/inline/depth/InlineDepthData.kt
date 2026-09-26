@@ -26,23 +26,21 @@ class InlineDepthData(val depth: Int) : InlineData<InlineDepthData> {
         return "${rendererId.toShortLanguageKey()}"
     }
 
-    val SHORTNAME = "depth"
     fun getName(): MutableComponent {
-        return "${Fishcasting.MODID}.environment.$SHORTNAME".asTranslatedComponent
-    }
-
-    fun asTextStupid(withExtra: Boolean): Component {
-        return rendererId.toLanguageKey().asTranslatedComponent
-            .withStyle(asStyle(withExtra).withItalic(false))
+        return "${Fishcasting.MODID}.environment.depth".asTranslatedComponent
     }
 
     override fun asText(withExtra: Boolean): Component {
+        return getName().withStyle(asStyle(withExtra))
+    }
+
+    fun displayWithTextAndInline(): Component {
         val name = getName()
             .append(": ${depth}m ")
             .withColor(EnvironmentIota.TYPE.color())
 
             // I don't quite understand how the asText thing is supposed to work... renderer puts it at start of line unless i offset it like this
-        return name.append(asTextStupid(withExtra))
+        return name.append(asText(true))
     }
 
     class InlineDepthDataType : InlineData.InlineDataType<InlineDepthData> {

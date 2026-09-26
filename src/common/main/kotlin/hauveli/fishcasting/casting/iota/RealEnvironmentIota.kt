@@ -371,7 +371,7 @@ class RealEnvironmentIota(
                 level: ServerLevel
             ): Boolean {
                 return iota != null && true // iota.isValid()
-            }.
+            }
 
             val CODEC: MapCodec<EnvironmentValue> = Codec.STRING
                 .dispatchMap(

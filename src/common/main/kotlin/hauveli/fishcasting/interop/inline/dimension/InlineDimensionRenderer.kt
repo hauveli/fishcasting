@@ -25,9 +25,9 @@ class InlineDimensionRenderer : InlineRenderer<InlineDimensionData> {
     enum class KnownDimensions(
         val dimension: String
     ) {
-        OVERWORLD(Level.OVERWORLD.location().toLanguageKey()),
-        NETHER(Level.NETHER.location().toLanguageKey()),
-        END(Level.END.location().toLanguageKey());
+        OVERWORLD(Level.OVERWORLD.location().toString()),
+        NETHER(Level.NETHER.location().toString()),
+        END(Level.END.location().toString());
 
         companion object {
             fun of(dimension: String): KnownDimensions? =

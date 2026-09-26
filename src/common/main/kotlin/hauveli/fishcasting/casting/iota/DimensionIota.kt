@@ -52,26 +52,8 @@ class DimensionIota : EnvironmentIota {
         return true
     }
 
-    final val SHORTNAME = "dimension"
-    fun getName(): String {
-        return "${Fishcasting.MODID}.environment.${SHORTNAME}.${value.location().toLanguageKey()}"
-    }
-
-    fun getNameWithFallback(): MutableComponent {
-        val titleCase = value.location().path.replace("_", " ").capitalizeFirstLetterOfEachWord()
-        val comp = getName().asTranslatedComponent.translation(titleCase)
-        // what even sets this... does translation set it forever? why?
-        return comp.withStyle(comp.style.withItalic(false))
-    }
-
-    fun getNameWithColon(): MutableComponent {
-        return getNameWithFallback().append(": ")
-    }
-
     override fun display(): Component {
-        val inlineValue = (InlineDimensionData(value.location().toLanguageKey())).asText(true)
-        val baseText = getNameWithColon().styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
-        return baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
+        return (InlineDimensionData(value.location().toString())).displayWithTextAndInline()
     }
 
     override fun hashCode(): Int {

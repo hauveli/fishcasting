@@ -1,6 +1,7 @@
 package hauveli.fishcasting.interop.inline.climate
 
 import at.petrak.hexcasting.api.utils.asTranslatedComponent
+import at.petrak.hexcasting.api.utils.styledWith
 import com.li64.tide.Tide
 import com.li64.tide.config.TideClientConfig
 import com.li64.tide.config.TideConfig
@@ -8,7 +9,9 @@ import com.li64.tide.util.TideUtils.mcTempToRealTemp
 import com.mojang.serialization.Codec
 import com.samsthenerd.inline.api.InlineData
 import hauveli.fishcasting.Fishcasting
+import hauveli.fishcasting.Fishcasting.capitalizeFirstLetterOfEachWord
 import hauveli.fishcasting.casting.iota.EnvironmentIota
+import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.network.chat.*
 import net.minecraft.resources.ResourceLocation
 
@@ -39,12 +42,20 @@ class InlineClimateData(val temperature: Float) : InlineData<InlineClimateData> 
     }
 
     override fun asText(withExtra: Boolean): Component {
-        val name = getName()
-            .append(": ${"%.2f".format(mcTempToRealTemp(temperature))}°${if (Tide.CLIENT_CONFIG.journal.useFahrenheit) "F" else "C"} ")
-            .withColor(EnvironmentIota.TYPE.color())
+        return getName().withStyle(asStyle(withExtra))
+    }
 
-            // I don't quite understand how the asText thing is supposed to work... renderer puts it at start of line unless i offset it like this
-        return name.append(asTextStupid(withExtra))
+
+    fun displayWithTextAndInline(): Component {
+        val translatableName = "${Fishcasting.MODID}.environment.climate"
+        val temperature = ": ${"%.2f".format(mcTempToRealTemp(temperature))}°${if (Tide.CLIENT_CONFIG.journal.useFahrenheit) "F" else "C"} "
+        val comp = translatableName.asTranslatedComponent.append(temperature)
+        val nameWithColon = comp.withStyle(comp.style.withItalic(false))
+
+        val baseText = nameWithColon.styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
+
+        val inlineValue = asText(true)
+        return baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
     }
 
     class InlineClimateDataType : InlineData.InlineDataType<InlineClimateData> {

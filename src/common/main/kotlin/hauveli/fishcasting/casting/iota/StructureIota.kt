@@ -14,6 +14,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.interop.inline.dimension.InlineDimensionData
 import hauveli.fishcasting.interop.inline.medium.InlineMediumData
+import hauveli.fishcasting.interop.inline.moon.InlineMoonData
 import hauveli.fishcasting.interop.inline.structure.InlineStructureData
 import hauveli.fishcasting.interop.inline.weather.InlineWeatherData
 import hauveli.fishcasting.registry.FishcastingIotaTypes
@@ -60,37 +61,8 @@ class StructureIota : Iota {
         return true
     }
 
-    final val SHORTNAME = "structure"
-    fun getName(): String {
-        return "${Fishcasting.MODID}.environment.${SHORTNAME}.${value.location().toLanguageKey()}"
-    }
-
-    // I wonder if the compiler is smart enuogh to see the usages of these are such that it could just squish them together instead of using jmp...
-    fun String.capitalizeFirstLetterOfEachWord(): String {
-        return this
-            .split(" ")
-            .joinToString(" ") {
-                it.replaceFirstChar { char ->
-                    char.titlecase(Locale.getDefault())
-                }
-            }
-    }
-
-    fun getNameWithFallback(): MutableComponent {
-        val titleCase = value.location().path.replace("_", " ").capitalizeFirstLetterOfEachWord()
-        val comp = getName().asTranslatedComponent.translation(titleCase)
-        // what even sets this... does translation set it forever? why?
-        return comp.withStyle(comp.style.withItalic(false))
-    }
-
-    fun getNameWithColon(): MutableComponent {
-        return getNameWithFallback().append(": ")
-    }
-
     override fun display(): Component {
-        val inlineValue = (InlineStructureData(value.location().toLanguageKey())).asText(true)
-        val baseText = getNameWithColon().styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
-        return baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
+        return InlineStructureData(value.location().toString()).displayWithTextAndInline()
     }
 
     override fun hashCode(): Int {

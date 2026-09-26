@@ -9,6 +9,7 @@ import com.li64.tide.util.MoonPhases.*
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
+import hauveli.fishcasting.interop.inline.medium.InlineMediumData
 import hauveli.fishcasting.interop.inline.moon.InlineMoonData
 import hauveli.fishcasting.registry.FishcastingIotaTypes
 import net.minecraft.ChatFormatting
@@ -48,9 +49,7 @@ class MoonPhaseIota : Iota {
     }
 
     override fun display(): Component {
-        val inlineMoonPhase = (InlineMoonData(moonPhase)).asText(true)
-        val baseText = getNameWithColon(moonPhase).styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
-        return baseText.append(inlineMoonPhase).append("   ") // inline was being evil and this is simple
+        return InlineMoonData(moonPhase).displayWithTextAndInline()
     }
 
     override fun hashCode(): Int {
@@ -58,24 +57,6 @@ class MoonPhaseIota : Iota {
     }
 
     companion object {
-
-        fun getNameWithColon(phase: Int): MutableComponent {
-            return getName(phase).asTranslatedComponent.append(": ")
-        }
-
-        fun getName(phase: Int): String {
-            return when (phase) {
-                FULL_MOON -> "journal.info.moon_phase.0"
-                WANING_GIBBOUS -> "journal.info.moon_phase.1"
-                THIRD_QUARTER -> "journal.info.moon_phase.2"
-                WANING_CRESCENT -> "journal.info.moon_phase.3"
-                NEW_MOON -> "journal.info.moon_phase.4"
-                WAXING_CRESCENT -> "journal.info.moon_phase.5"
-                FIRST_QUARTER -> "journal.info.moon_phase.6"
-                WAXING_GIBBOUS -> "journal.info.moon_phase.7"
-                else -> "Unknown journal.info.moon_phase.tile"
-            }
-        }
 
         var TYPE: IotaType<MoonPhaseIota> = object : IotaType<MoonPhaseIota>() {
 

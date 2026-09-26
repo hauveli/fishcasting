@@ -27,23 +27,23 @@ class InlineDaytimeData(val daytime: Long) : InlineData<InlineDaytimeData> {
         return "${rendererId.toShortLanguageKey()}"
     }
 
-    val SHORTNAME = "daytime"
     fun getName(): MutableComponent {
-        return "${Fishcasting.MODID}.environment.$SHORTNAME".asTranslatedComponent
-    }
-
-    fun asTextStupid(withExtra: Boolean): Component {
-        return rendererId.toLanguageKey().asTranslatedComponent
-            .withStyle(asStyle(withExtra).withItalic(false))
+        return "${Fishcasting.MODID}.environment.daytime".asTranslatedComponent
     }
 
     override fun asText(withExtra: Boolean): Component {
+        return getName().withStyle(asStyle(withExtra))
+    }
+
+    fun displayWithTextAndInline(): Component {
         val name = getName()
             .append(": ${ticksToRealTime(daytime % 24000, Tide.CLIENT_CONFIG.journal.useAmPm)} ")
             .withColor(EnvironmentIota.TYPE.color())
 
-            // I don't quite understand how the asText thing is supposed to work... renderer puts it at start of line unless i offset it like this
-        return name.append(asTextStupid(withExtra))
+        val moreStuff = asText(true)
+
+        // I don't quite understand how the asText thing is supposed to work... renderer puts it at start of line unless i offset it like this
+        return name.append(moreStuff)
     }
 
     class InlineDaytimeDataType : InlineData.InlineDataType<InlineDaytimeData> {

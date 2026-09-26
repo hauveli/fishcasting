@@ -58,7 +58,7 @@ class DaytimeIota : EnvironmentIota {
     }
 
     override fun display(): Component {
-        return (InlineDaytimeData(value)).asText(true) // baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
+        return (InlineDaytimeData(value)).displayWithTextAndInline() // baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
     }
 
     companion object {

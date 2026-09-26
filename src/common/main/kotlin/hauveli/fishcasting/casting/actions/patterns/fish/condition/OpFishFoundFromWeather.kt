@@ -12,6 +12,8 @@ import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.fishing.conditions.types.WeatherCondition
 import com.li64.tide.data.fishing.conditions.types.WeatherType
 import hauveli.fishcasting.casting.iota.WeatherIota
+import hauveli.fishcasting.interop.inline.weather.InlineWeatherData
+import hauveli.fishcasting.interop.inline.weather.InlineWeatherRenderer
 import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.world.entity.item.ItemEntity
 
@@ -55,9 +57,9 @@ object OpFishFoundFromWeather : ConstMediaAction {
         if (relevantConditions.isEmpty())
             return listOf(NullIota()) // if it has no moonphase, it can be found... should it maybe return null if it doesn't care?
 
-        val weather = WeatherType.valueOf(WeatherIota.getName(someIota.weather))
+        val weather = WeatherType.valueOf(InlineWeatherData.getName(someIota.weather))
 
-        val foundInMoonPhase = relevantConditions.all { condition ->
+        val foundInWather = relevantConditions.all { condition ->
             when (condition) {
                 is WeatherCondition -> {
                     condition.weatherTypes.contains(weather)
@@ -67,6 +69,6 @@ object OpFishFoundFromWeather : ConstMediaAction {
             }
         }
 
-        return listOf(BooleanIota(foundInMoonPhase))
+        return listOf(BooleanIota(foundInWather))
     }
 }

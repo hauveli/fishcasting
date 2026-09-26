@@ -73,37 +73,9 @@ class MediumIota : Iota {
         return this.medium.ordinal in Medium.Water.ordinal..Medium.Void.ordinal
     }
 
-    final val SHORTNAME = "medium"
-    fun getName(): String {
-        return "${Fishcasting.MODID}.environment.${SHORTNAME}.${medium.name}"
-    }
-
-    // I wonder if the compiler is smart enuogh to see the usages of these are such that it could just squish them together instead of using jmp...
-    fun String.capitalizeFirstLetterOfEachWord(): String {
-        return this
-            .split(" ")
-            .joinToString(" ") {
-                it.replaceFirstChar { char ->
-                    char.titlecase(Locale.getDefault())
-                }
-            }
-    }
-
-    fun getNameWithFallback(): MutableComponent {
-        val titleCase = medium.name.replace("_", " ").capitalizeFirstLetterOfEachWord()
-        val comp = getName().asTranslatedComponent.translation(titleCase)
-        // what even sets this... does translation set it forever? why?
-        return comp.withStyle(comp.style.withItalic(false))
-    }
-
-    fun getNameWithColon(): MutableComponent {
-        return getNameWithFallback().append(": ")
-    }
 
     override fun display(): Component {
-        val inlineValue = (InlineMediumData(medium.ordinal)).asText(true)
-        val baseText = getNameWithColon().styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
-        return baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
+        return InlineMediumData(medium.ordinal).displayWithTextAndInline()
     }
 
     override fun hashCode(): Int {

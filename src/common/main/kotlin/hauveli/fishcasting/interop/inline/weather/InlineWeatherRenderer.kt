@@ -64,7 +64,7 @@ class InlineWeatherRenderer : InlineRenderer<InlineWeatherData> {
     ): Int {
         graphics.pose().pushPose()
 
-        val phase = (data.phase) % STATES
+        val phase = (data.weather) % STATES
         val u = (phase % COLUMNS) * MOON_SECTION + MOON_OFFSET
         val v = (phase / COLUMNS) * MOON_SECTION + MOON_OFFSET // int flooring so I dont forget
 
