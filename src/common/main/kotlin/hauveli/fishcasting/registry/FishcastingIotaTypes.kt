@@ -13,6 +13,7 @@ import hauveli.fishcasting.casting.iota.EnvironmentIota
 import hauveli.fishcasting.casting.iota.FishIota
 import hauveli.fishcasting.casting.iota.MoonPhaseIota
 import hauveli.fishcasting.casting.iota.MediumIota
+import hauveli.fishcasting.casting.iota.RealEnvironmentIota
 import hauveli.fishcasting.casting.iota.StructureIota
 import hauveli.fishcasting.casting.iota.WeatherIota
 
@@ -24,7 +25,7 @@ object FishcastingIotaTypes : FishcastingRegistrar<IotaType<*>>(
 
     // this mega sucks I feel like, I would prefer to have them all just be in my EnvironmentIota, but making them all behave nicely is a bit hard then...
     // Maybe I just need to cut all the additional dummy Iota types, then implement arithmetic for the EnvironmentIota? hmm....
-    val ENVIRONMENT = make("environment") { EnvironmentIota.TYPE }
+    val ENVIRONMENT = make("environment") { RealEnvironmentIota.TYPE }
     val FISH = make("fish") { FishIota.TYPE }
     val MOON_PHASE = make("moon") { MoonPhaseIota.TYPE }
     val WEATHER = make("weather") { WeatherIota.TYPE }

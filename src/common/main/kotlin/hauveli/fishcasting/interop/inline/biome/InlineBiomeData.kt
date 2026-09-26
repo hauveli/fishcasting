@@ -1,8 +1,15 @@
 package hauveli.fishcasting.interop.inline.biome
 
+import at.petrak.hexcasting.api.utils.asTranslatedComponent
+import at.petrak.hexcasting.api.utils.styledWith
+import com.li64.tide.Tide
+import com.li64.tide.util.TideUtils.mcTempToRealTemp
 import com.mojang.serialization.Codec
 import com.samsthenerd.inline.api.InlineData
 import hauveli.fishcasting.Fishcasting
+import hauveli.fishcasting.Fishcasting.capitalizeFirstLetterOfEachWord
+import hauveli.fishcasting.casting.iota.EnvironmentIota
+import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.network.chat.*
 import net.minecraft.resources.ResourceLocation
 
@@ -28,6 +35,19 @@ class InlineBiomeData(val biome: String) : InlineData<InlineBiomeData> {
 
     override fun asText(withExtra: Boolean): Component {
         return getName().withStyle(asStyle(withExtra))
+    }
+
+    fun displayWithTextAndInline(): Component {
+        val translatableName = "${Fishcasting.MODID}.environment.biome.${biome.replace(":", ".")}"
+        val everythingAfterTHeNamespace = biome.substringAfter(":")
+        val titleCase = everythingAfterTHeNamespace.replace("_", " ").capitalizeFirstLetterOfEachWord()
+        val comp = translatableName.asTranslatedComponent.translation(titleCase)
+        val nameWithColon = comp.withStyle(comp.style.withItalic(false)).append(": ")
+
+        val baseText = nameWithColon.styledWith(Style.EMPTY.withColor(EnvironmentIota.TYPE.color()))
+
+        val inlineValue = asText(true)
+        return baseText.append(inlineValue).append("   ") // inline was being evil and this is simple
     }
 
     class InlineBiomeDataType : InlineData.InlineDataType<InlineBiomeData> {

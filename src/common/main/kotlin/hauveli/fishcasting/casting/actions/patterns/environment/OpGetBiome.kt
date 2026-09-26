@@ -6,6 +6,8 @@ import at.petrak.hexcasting.api.casting.getBlockPos
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.misc.MediaConstants
 import hauveli.fishcasting.casting.iota.BiomeIota
+import hauveli.fishcasting.casting.iota.EnvironmentValue
+import hauveli.fishcasting.casting.iota.RealEnvironmentIota
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.level.biome.Biome
@@ -27,6 +29,6 @@ object OpGetBiome : ConstMediaAction {
 
         val biomeKey: ResourceKey<Biome> = biomeRegistry.getResourceKey(envWorld.getBiome(blockPos).value()).orElseThrow()
 
-        return listOf(BiomeIota(biomeKey))
+        return listOf(RealEnvironmentIota(EnvironmentValue.Biome(biomeKey)))
     }
 }

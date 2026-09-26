@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
+import java.util.Locale
 import java.util.Random
 
 object Fishcasting {
@@ -31,6 +32,17 @@ object Fishcasting {
     val LOGGER: Logger = LogManager.getLogger(MODID)
 
     const val FISHBERT_TAG = "$MODID:recently_caught"
+
+
+    fun String.capitalizeFirstLetterOfEachWord(): String {
+        return this
+            .split(" ")
+            .joinToString(" ") {
+                it.replaceFirstChar { char ->
+                    char.titlecase(Locale.getDefault())
+                }
+            }
+    }
 
     // I dont know if I should avoid using this or not, I noticed some classes have access to Entity.random...
     @JvmField

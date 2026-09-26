@@ -98,12 +98,10 @@ abstract class EnvironmentIota(
             }
 
             override fun codec(): MapCodec<EnvironmentIota> {
-                Fishcasting.LOGGER.info("codec: {}", this)
                 return TODO()
             }
 
             override fun streamCodec(): StreamCodec<RegistryFriendlyByteBuf, EnvironmentIota> {
-                Fishcasting.LOGGER.info("stream_codec: {}", this)
                 return TODO()
             }
 
