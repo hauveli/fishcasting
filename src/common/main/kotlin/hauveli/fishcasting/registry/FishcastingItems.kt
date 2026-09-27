@@ -185,14 +185,14 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         musicDiscItem(FishcastingSounds.RETURNING_TO_THE_SURFACE.jukeboxSong)
     }
     @JvmField
-    val EDIFIED_FISH = make("edified_fish", {Item(fireResistantRare())})
+    val EDIFIED_FISH = make("edified_fish", {newItem()})
     @JvmField
     val EDIFIED_FISH_BUCKET = make(
         "edified_fish_bucket", {MobBucketItem(
             FishcastingEntities.CURSED.value,
             WATER,
             BUCKET_EMPTY_FISH,
-            unstackableFireResistantRare()
+            unstackable()
         )}
     )
     val EDIFIED_FISH_SPAWN_EGG = make(

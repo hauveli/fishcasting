@@ -260,6 +260,8 @@ item:
     fishy_fragment: Soggy Lore Fragment
     glass_shard: Glass Shard
     edified_fish: Edified Guppy
+    edified_fish_bucket: Edified Guppy Bucket
+    edified_fish_spawn_egg: Edified Guppy Spawn Egg
     cursed: Cursed Thing
     cursed_bucket: Cursed Thing Bucket
     cursed_spawn_egg: Cursed Thing Spawn Egg
@@ -293,7 +295,7 @@ entity:
   fishcasting:
     tacklebox_chair: Tacklebox Chair
     tacklebox_chair_floaty: Levitite Tacklebox Chair
-    tacklebox_chair_secret: PLACEHOLDER
+    tacklebox_chair_secret: 'NUCLEAR-HEX-MACHINE "[WEST, wweewaqdeeweewawe]KOOL[NORTH_EAST, wawdwedaqedwwwe]U" MK[SOUTH_EAST, aqaaqawqaaq] TURBOMAX!!!!!'
     edified_fish: Edified Guppy
     cursed: Cursed Thing
     blessed: Blessed Trader

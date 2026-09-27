@@ -29,6 +29,7 @@ object OpGetBiome : ConstMediaAction {
 
         val biomeKey: ResourceKey<Biome> = biomeRegistry.getResourceKey(envWorld.getBiome(blockPos).value()).orElseThrow()
 
-        return listOf(RealEnvironmentIota(EnvironmentValue.Biome(biomeKey)))
+        //return listOf(RealEnvironmentIota(EnvironmentValue.Biome(biomeKey)))
+        return listOf(BiomeIota(biomeKey))
     }
 }

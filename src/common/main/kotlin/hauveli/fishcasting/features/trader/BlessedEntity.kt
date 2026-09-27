@@ -3,7 +3,9 @@ package hauveli.fishcasting.features.trader
 import at.petrak.hexcasting.api.HexAPI
 import at.petrak.hexcasting.api.HexAPI.modLoc
 import at.petrak.hexcasting.api.casting.ParticleSpray
+import at.petrak.hexcasting.api.item.PigmentItem
 import at.petrak.hexcasting.api.pigment.FrozenPigment
+import at.petrak.hexcasting.common.casting.actions.spells.OpColorize
 import at.petrak.hexcasting.common.lib.HexItems
 import at.petrak.hexcasting.common.lib.HexSounds
 import com.google.common.collect.ImmutableList
@@ -34,6 +36,7 @@ import net.minecraft.Util
 import net.minecraft.advancements.AdvancementHolder
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
+import net.minecraft.core.UUIDUtil
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.network.syncher.EntityDataAccessor
@@ -61,6 +64,7 @@ import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.npc.VillagerTrades
 import net.minecraft.world.entity.npc.WanderingTrader
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.DyeColor
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.trading.MerchantOffer
@@ -80,6 +84,7 @@ import kotlin.math.sqrt
 
 class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) : WanderingTrader(entityType, level) {
     private val wanderTarget: BlockPos? = null
+    private var pigment: FrozenPigment = FrozenPigment.ANCIENT.get()
     private var ticksSincePain = 0
     private var isFishing = false
     private var isHappy = false
@@ -323,8 +328,6 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     fun doTheatrics(position: Vec3 = this.eyePosition) {
         if (this.isFrozen())
             return
-        if (this.completedTheatrics)
-            return
         doTheatricsAtVec(position, 30, 0.4f)
         this.level().playSound(this, this.blockPosition(), HexSounds.CAST_SPELL.value(), SoundSource.NEUTRAL, 0.1f, 1.0f)
         // AHHH ITS SO LOUD
@@ -337,11 +340,12 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     }
 
     fun doTheatricsAtVec(pos: Vec3, count: Int, fuzziness: Float, spread: Double) {
-        completedTheatrics = true
-        val level = this.level()
+        if (this.isFrozen())
+            return
+        val serverLevel = this.server?.getLevel(this.level().dimension()) ?: return
         // for some reason this happens at its feet...
         ParticleSpray(pos, Vec3(0.0, 1.5, 0.0), fuzziness.toDouble(), spread, count)
-            .sprayParticles(level.server!!.getLevel(level.dimension())!!, FrozenPigment.ANCIENT.get())
+            .sprayParticles(serverLevel, this.pigment)
     }
 
     override fun brainProvider(): Brain.Provider<BlessedEntity?> {
@@ -760,6 +764,27 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             this.entityData.set(VARIANT, variant!!.id and 255)
         }
 
+    fun getFallbackPigment(): FrozenPigment {
+        return FrozenPigment.ANCIENT.get()
+    }
+
+    fun frozenPigmentFromWhatever(dyeColor: DyeColor?): FrozenPigment {
+        val dyeItem = HexItems.DYE_PIGMENTS[dyeColor] ?: return getFallbackPigment()
+        val dyeStack = dyeItem.get().defaultInstance
+        return FrozenPigment(dyeStack, Util.NIL_UUID)
+    }
+
+    fun getVariantPigment(): FrozenPigment {
+        val color = when (this.variant) {
+            BlessedVariant.BLUE -> DyeColor.RED
+            BlessedVariant.RED -> DyeColor.YELLOW
+            BlessedVariant.GREEN -> DyeColor.GREEN
+            BlessedVariant.PURPLE -> DyeColor.PURPLE
+            else -> null
+        }
+        return frozenPigmentFromWhatever(color)
+    }
+
     override fun addAdditionalSaveData(compoundTag: CompoundTag) {
         super.addAdditionalSaveData(compoundTag)
         compoundTag.putInt("Variant", this.typeVariant)
@@ -776,6 +801,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     ): SpawnGroupData {
         val variant = Util.getRandom(BlessedVariant.entries.toTypedArray(), this.random)
         this.variant = variant
+        this.pigment = getVariantPigment() // oops!!! note to self: anything which relies on variant MUST be in finalizeSpawn, init happens before it... oops............
         return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData)!!
     }
 
