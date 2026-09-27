@@ -45,7 +45,7 @@ class FishcastingCommonConfig : Config(Fishcasting.id("common_config")) {
     // TRADER GROUP
     var traderGroup = ConfigGroup("trader_group", collapsedByDefault = true)
     // Some players may not want to deal with more mobs. I'm also not entirely satisfied with how it spawns at this time.
-    var spawnFishyTraderChance: ValidatedFloat = ValidatedFloat(0.10f, 1f, 0f)
+    var spawnFishyTraderChance: ValidatedFloat = ValidatedFloat(0.20f, 1f, 0f)
     var fishyTraderPerPlayerIntervalMinutes: ValidatedFloat = ValidatedFloat(120f, 1200f, 0f)
     @ConfigGroup.Pop
     var traderPhialWeights = TraderWeightOption()

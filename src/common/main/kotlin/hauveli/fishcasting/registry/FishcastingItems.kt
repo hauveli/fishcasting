@@ -185,6 +185,23 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         musicDiscItem(FishcastingSounds.RETURNING_TO_THE_SURFACE.jukeboxSong)
     }
     @JvmField
+    val EDIFIED_FISH = make("edified_fish", {Item(fireResistantRare())})
+    @JvmField
+    val EDIFIED_FISH_BUCKET = make(
+        "edified_fish_bucket", {MobBucketItem(
+            FishcastingEntities.CURSED.value,
+            WATER,
+            BUCKET_EMPTY_FISH,
+            unstackableFireResistantRare()
+        )}
+    )
+    val EDIFIED_FISH_SPAWN_EGG = make(
+        "edified_fish_spawn_egg", {SpawnEggItem(
+            FishcastingEntities.CURSED.value, 16499171, 10890612, props()
+        )}
+    ) // from axolotl thingy
+
+    @JvmField
     val CURSED = make("cursed", {Item(fireResistantRare())})
     @JvmField
     val CURSED_BUCKET = make(
@@ -200,6 +217,8 @@ object FishcastingItems : FishcastingRegistrar<Item>(
             FishcastingEntities.CURSED.value, 16499171, 10890612, props()
         )}
     ) // from axolotl thingy
+
+
     val BLESSED_SPAWN_EGG = make(
         "blessed_spawn_egg", {SpawnEggItem(
             FishcastingEntities.BLESSED.value, 9433559, 7969893, props()

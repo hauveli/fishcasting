@@ -14,6 +14,7 @@
   "mixins": [
     "CursedMostlyIndestructibleItemEntityMixin",
     "HooklessFishingHookTideFishingHookMixin",
+    "NearbyBlockForFishProfile",
     "SetHookedEntityTideFishingHookAccessor",
     "TagRecentlyCaughtByTideFishingHookMixin",
     "UnluckyBaitTideFishingHookMixin",

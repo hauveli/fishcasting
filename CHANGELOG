@@ -29,6 +29,11 @@ Items:
         applies clarity I and luck I for 13 and 6.5 minutes respectively
     Chair that doesn't just vanish into the void if I can figure it out (Todo)
 
+Balance Changes:
+    Modified some of trader's fishing trades
+    Modified trader spawn chance
+    Trade now spawns at most once every 2 hours per player (I forget if this was 0.2.15 or if I did it just after)
+
 Mechanics:
     Music Disc was made less miserable to get
     Added 1 new fish

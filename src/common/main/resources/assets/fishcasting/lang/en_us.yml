@@ -259,6 +259,7 @@ item:
     tacklebox_chair_secret: 'NUCLEAR-HEX-MACHINE "[WEST, wweewaqdeeweewawe]KOOL[NORTH_EAST, wawdwedaqedwwwe]U" MK[SOUTH_EAST, aqaaqawqaaq] TURBOMAX!!!!!'
     fishy_fragment: Soggy Lore Fragment
     glass_shard: Glass Shard
+    edified_fish: Edified Guppy
     cursed: Cursed Thing
     cursed_bucket: Cursed Thing Bucket
     cursed_spawn_egg: Cursed Thing Spawn Egg
@@ -291,12 +292,19 @@ jukebox_song:
 entity:
   fishcasting:
     tacklebox_chair: Tacklebox Chair
-    tacklebox_chair_aeronautics: Levitite Tacklebox Chair
+    tacklebox_chair_floaty: Levitite Tacklebox Chair
+    tacklebox_chair_secret: PLACEHOLDER
+    edified_fish: Edified Guppy
     cursed: Cursed Thing
     blessed: Blessed Trader
 journal:
+  info:
+    nearby_block:
+      title: Nearby Blocks
+      within: within
   description:
     fishcasting:
+      edified_fish: Drawn to the unique color of edified trees, these little fish are just as pretty.
       cursed: They seem to be possessed of some intelligence, but remain unable to do much with it due to their form. Perhaps if I could free them...
 _comment_pattern: PATTERN STUFF
 hexcasting:
