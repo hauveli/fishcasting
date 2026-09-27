@@ -1,21 +1,21 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_dust": {
+    "has_crystal_shrimp": {
       "conditions": {
         "items": [
           {
-            "items": [ "hexcasting:amethyst_dust" ]
+            "items": "tide:crystal_shrimp"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_string": {
+    "has_midas_fish": {
       "conditions": {
         "items": [
           {
-            "items": [ "tide:fishing_line" ]
+            "items": "tide:midas_fish"
           }
         ]
       },
@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fishcasting:loud_fishing_line_manual_only"
+        "recipe": "fishcasting:crystal_shrimp_fried_rice"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -31,14 +31,13 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_dust",
-      "has_string"
+      "has_crystal_shrimp",
+      "has_midas_fish"
     ]
   ],
   "rewards": {
     "recipes": [
-      "fishcasting:loud_fishing_line_manual_only",
-      "fishcasting:loud_fishing_line_from_thought_knot"
+      "fishcasting:crystal_shrimp_fried_rice"
     ]
   }
 }
