@@ -1,22 +1,14 @@
-package hauveli.fishcasting.features.fish
+package hauveli.fishcasting.features.fish.cursed
 
 import com.li64.tide.Tide
 import com.li64.tide.data.FishLengthHolder
 import com.li64.tide.data.fishing.FishData
-import com.li64.tide.data.fishing.mediums.FishingMedium
 import com.li64.tide.data.item.TideItemData
-import com.li64.tide.registries.entities.fish.AbstractTideFish
 import com.li64.tide.registries.entities.fish.TideVoidFish
-import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.registry.FishcastingAdvancements.tryGrantingAdvancement
 import hauveli.fishcasting.registry.FishcastingAdvancements
 import hauveli.fishcasting.registry.FishcastingItems
-import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.syncher.EntityDataAccessor
-import net.minecraft.network.syncher.EntityDataSerializers
-import net.minecraft.network.syncher.SynchedEntityData
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
@@ -27,19 +19,13 @@ import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.ai.attributes.Attributes
-import net.minecraft.world.entity.ai.goal.PanicGoal
 import net.minecraft.world.entity.animal.Bucketable
-import net.minecraft.world.entity.animal.axolotl.Axolotl
 import net.minecraft.world.entity.item.ItemEntity
-import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.component.CustomData
 import net.minecraft.world.level.Level
 import net.minecraft.world.phys.Vec3
-import java.util.function.Consumer
 import java.util.function.Function
 
 

@@ -3,9 +3,7 @@ package hauveli.fishcasting.features.trader
 import at.petrak.hexcasting.api.HexAPI
 import at.petrak.hexcasting.api.HexAPI.modLoc
 import at.petrak.hexcasting.api.casting.ParticleSpray
-import at.petrak.hexcasting.api.item.PigmentItem
 import at.petrak.hexcasting.api.pigment.FrozenPigment
-import at.petrak.hexcasting.common.casting.actions.spells.OpColorize
 import at.petrak.hexcasting.common.lib.HexItems
 import at.petrak.hexcasting.common.lib.HexSounds
 import com.google.common.collect.ImmutableList
@@ -17,7 +15,6 @@ import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.fishing.FishingContext
 import com.li64.tide.data.fishing.mediums.FishingMedium
 import com.li64.tide.data.fishing.selector.FishingEntry
-import com.li64.tide.mixin.MobMixin
 import com.li64.tide.registries.TideEntityTypes
 import com.li64.tide.registries.TideItems
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
@@ -25,7 +22,7 @@ import com.li64.tide.util.MoonPhases
 import com.li64.tide.util.TideUtils
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.config.FishcastingConfigs
-import hauveli.fishcasting.features.fish.CursedEntity
+import hauveli.fishcasting.features.fish.cursed.CursedEntity
 import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_COMMON
 import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_LEGENDARY
 import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_RARE
@@ -37,7 +34,6 @@ import net.minecraft.Util
 import net.minecraft.advancements.AdvancementHolder
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
-import net.minecraft.core.UUIDUtil
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.network.syncher.EntityDataAccessor
@@ -68,7 +64,6 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.DyeColor
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import net.minecraft.world.item.trading.MerchantOffer
 import net.minecraft.world.item.trading.MerchantOffers
 import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.GameRules

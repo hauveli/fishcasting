@@ -1,18 +1,14 @@
-package hauveli.fishcasting.features.fish
+package hauveli.fishcasting.features.fish.cursed
 
 import com.li64.tide.registries.entities.models.FishModel
 import hauveli.fishcasting.Fishcasting.id
-import net.minecraft.client.model.AxolotlModel
-import net.minecraft.client.model.Model
 import net.minecraft.client.model.geom.ModelLayerLocation
-import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
 import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.client.renderer.entity.EntityRendererProvider
-import net.minecraft.world.entity.LerpingModel
 
 class CursedModel(context: EntityRendererProvider.Context) : FishModel( context, LAYER_LOCATION ) {
     companion object {

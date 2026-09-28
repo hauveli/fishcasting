@@ -1,6 +1,6 @@
 package hauveli.fishcasting.mixin;
 
-import hauveli.fishcasting.features.fish.CursedEntity;
+import hauveli.fishcasting.features.fish.cursed.CursedEntity;
 import hauveli.fishcasting.registry.FishcastingEntities;
 import hauveli.fishcasting.registry.FishcastingTags;
 import net.minecraft.core.component.DataComponents;

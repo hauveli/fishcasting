@@ -1,9 +1,10 @@
 package hauveli.fishcasting.registry
 
-import com.li64.tide.registries.TideEntityAttributes
+import com.li64.tide.registries.entities.fish.SmoothSwimmingFish
+import com.li64.tide.registries.entities.fish.TideFishEntity
 import hauveli.fishcasting.Fishcasting.id
 import hauveli.fishcasting.features.chair.TackleBoxChairEntity
-import hauveli.fishcasting.features.fish.CursedEntity
+import hauveli.fishcasting.features.fish.cursed.CursedEntity
 import hauveli.fishcasting.features.trader.BlessedEntity
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
@@ -11,13 +12,7 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.MobCategory
-import net.minecraft.world.entity.animal.axolotl.Axolotl
-import net.minecraft.world.item.crafting.RecipeSerializer
-import net.minecraft.world.item.crafting.RecipeType
-import org.apache.http.client.entity.EntityBuilder
-import java.util.function.BiConsumer
 
 
 object FishcastingEntities : FishcastingRegistrar<EntityType<*>>(
@@ -37,6 +32,13 @@ object FishcastingEntities : FishcastingRegistrar<EntityType<*>>(
             return@make built
         }
     }
+
+    val EDIFIED_FISH = registerEntity(
+        "edified_fish", {
+            EntityType.Builder.of(::SmoothSwimmingFish, MobCategory.WATER_AMBIENT)
+                .clientTrackingRange(8)
+        }
+    )
 
     // : EntityType<CursedEntity>
     // @JvmField

@@ -3,12 +3,12 @@ package hauveli.fishcasting.client
 import com.li64.tide.client.TideItemModelProperties
 import com.li64.tide.registries.entities.renderers.FishRenderer
 import hauveli.fishcasting.Fishcasting
-import hauveli.fishcasting.client.FishcastingClient
 import hauveli.fishcasting.config.FishcastingConfigs
 import hauveli.fishcasting.features.chair.TackleBoxChairModel
 import hauveli.fishcasting.features.chair.TackleBoxChairRenderer
-import hauveli.fishcasting.features.fish.CursedModel
-import hauveli.fishcasting.features.fish.CursedRenderer
+import hauveli.fishcasting.features.fish.cursed.CursedModel
+import hauveli.fishcasting.features.fish.cursed.CursedRenderer
+import hauveli.fishcasting.features.fish.edified.EdifiedFishModel
 // import hauveli.fishcasting.features.fish.CursedRenderer
 import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
@@ -44,8 +44,8 @@ object FabricFishcastingClient : ClientModInitializer {
 
     fun registerLayerDefinitions() {
         EntityModelLayerRegistry.registerModelLayer(
-            TackleBoxChairModel.LAYER_LOCATION,
-            { TackleBoxChairModel.createBodyLayer() }
+            EdifiedFishModel.LAYER_LOCATION,
+            { EdifiedFishModel.createBodyLayer() }
         )
         EntityModelLayerRegistry.registerModelLayer(
             CursedModel.LAYER_LOCATION,
@@ -55,14 +55,28 @@ object FabricFishcastingClient : ClientModInitializer {
             BlessedModel.LAYER_LOCATION,
             { BlessedModel.createBodyLayer() }
         )
+        EntityModelLayerRegistry.registerModelLayer(
+            TackleBoxChairModel.LAYER_LOCATION,
+            { TackleBoxChairModel.createBodyLayer() }
+        )
     }
 
     fun registerEntityRenderers() {
-        EntityRendererRegistry.register(
-            FishcastingEntities.TACKLEBOX_CHAIR.value,
-            ::TackleBoxChairRenderer
-        )
 
+        // what the actual fuck
+        EntityRendererRegistry.register(
+            FishcastingEntities.EDIFIED_FISH.value,
+            {
+                context ->
+                return@register FishRenderer<EdifiedFishModel>(
+                    FishcastingEntities.EDIFIED_FISH.key.location().path,
+                    EdifiedFishModel(
+                        context,
+                        EdifiedFishModel.LAYER_LOCATION
+                    ),
+                    context)
+            }
+        )
 
         EntityRendererRegistry.register(
             FishcastingEntities.CURSED.value,
@@ -72,6 +86,11 @@ object FabricFishcastingClient : ClientModInitializer {
         EntityRendererRegistry.register(
             FishcastingEntities.BLESSED.value,
             ::BlessedRenderer
+        )
+
+        EntityRendererRegistry.register(
+            FishcastingEntities.TACKLEBOX_CHAIR.value,
+            ::TackleBoxChairRenderer
         )
     }
 

@@ -7,6 +7,7 @@ import at.petrak.hexcasting.fabric.cc.adimpl.CCItemIotaHolder
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import com.li64.tide.data.fishing.conditions.types.WeatherType
 import com.li64.tide.registries.TideFish
+import com.li64.tide.registries.entities.fish.SmoothSwimmingFish
 import com.li64.tide.util.MoonPhases
 import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
 import hauveli.fishcasting.casting.iota.BiomeIota
@@ -69,6 +70,11 @@ object FabricFishcasting : ModInitializer {
     }
 
     fun registerEntityAttributes() {
+        FabricDefaultAttributeRegistry.register(
+            FishcastingEntities.EDIFIED_FISH.value,
+            SmoothSwimmingFish.createMobAttributes()
+        )
+
         FabricDefaultAttributeRegistry.register(
             FishcastingEntities.CURSED.value,
             Axolotl.createAttributes().build()

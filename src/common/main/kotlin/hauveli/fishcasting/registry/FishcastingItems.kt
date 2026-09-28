@@ -189,7 +189,7 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     @JvmField
     val EDIFIED_FISH_BUCKET = make(
         "edified_fish_bucket", {MobBucketItem(
-            FishcastingEntities.CURSED.value,
+            FishcastingEntities.EDIFIED_FISH.value,
             WATER,
             BUCKET_EMPTY_FISH,
             unstackable()
@@ -197,7 +197,7 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     )
     val EDIFIED_FISH_SPAWN_EGG = make(
         "edified_fish_spawn_egg", {SpawnEggItem(
-            FishcastingEntities.CURSED.value, 16499171, 10890612, props()
+            FishcastingEntities.EDIFIED_FISH.value, 16499171, 10890612, props()
         )}
     ) // from axolotl thingy
 
