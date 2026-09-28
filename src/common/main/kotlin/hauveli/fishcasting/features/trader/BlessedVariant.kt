@@ -4,7 +4,8 @@ enum class BlessedVariant(val id: Int) {
     RED(0),
     GREEN(1),
     BLUE(2),
-    PURPLE(3);
+    PURPLE(3),
+    SECRET(0x45);
 
     companion object {
         private val BY_ID = entries

@@ -21,6 +21,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.trading.ItemCost
 import net.minecraft.world.item.trading.MerchantOffer
+import net.minecraft.world.level.ItemLike
 import java.util.*
 import kotlin.math.ln
 
@@ -33,6 +34,7 @@ object BlessedTrades {
     private const val BOTTLE_SUPPLY = 4
     private const val FISCHASTING_SUPPLY = 6
     private const val HEXCASTING_SUPPLY = 2
+    private const val SECRET_SUPPLY = 1
     val BLESSED_TRADER_TRADES: Int2ObjectMap<Array<VillagerTrades.ItemListing>>
 
     private fun toIntMap(map: ImmutableMap<Int, Array<VillagerTrades.ItemListing>>): Int2ObjectMap<Array<VillagerTrades.ItemListing>> {
@@ -73,6 +75,26 @@ object BlessedTrades {
         maxUses: Int = DIM_ITEMS_SUPPLY
     ): VillagerTrades.ItemListing =
         fishTrade(fish, item, count, wantTool, maxUses)
+
+    private fun secretTrade(
+        fish: Item,
+        fish2: Item,
+        item: Item,
+        count: Int = 1,
+        wantTool: Boolean = false,
+        maxUses: Int = SECRET_SUPPLY
+    ): VillagerTrades.ItemListing =
+        ItemsForItems(
+            fish.defaultInstance,
+            1,
+            wantTool,
+            item.defaultInstance,
+            count,
+            maxUses,
+            5,
+            1f,
+            fish2.defaultInstance
+        )
 
     private val COMMON_FISH_TRADES = arrayOf(
         fishTrade(Items.TADPOLE_BUCKET, Items.EMERALD, 18, false),
@@ -307,6 +329,12 @@ object BlessedTrades {
             }
             .toTypedArray()
 
+
+    private val ALL_SECRET_TRADES = arrayOf<VillagerTrades.ItemListing>(
+        // need non-void access to chorus fruit and dragfons breath
+        secretTrade(TideFish.BLUE_NEONFISH, TideFish.YELLOW_PERCH, FishcastingItems.TACKLEBOX_CHAIR_SECRET.value),
+    )
+
     init {
         BLESSED_TRADER_TRADES = toIntMap(
             ImmutableMap.of<Int, Array<VillagerTrades.ItemListing>>(
@@ -318,6 +346,7 @@ object BlessedTrades {
                 6, ALL_BOTTLE_TRADES,
                 7, ENDGAME_TRADES_FISH,
                 8, ALL_BATTERY_TRADES,
+                9, ALL_SECRET_TRADES,
             )
         )
     }
@@ -330,13 +359,15 @@ object BlessedTrades {
         haveCount: Int,
         maxUses: Int,
         villagerXp: Int,
-        priceMultiplier: Float
+        priceMultiplier: Float,
+        additionalWant: ItemStack? = null
     ) : VillagerTrades.ItemListing {
         private val itemStackHave: ItemStack
         private val wantTool: Boolean
         private val maxUses: Int
         private val villagerXp: Int
         private val priceMultiplier: Float
+        private val additionalWant: ItemStack?
 
         // without tool
         @JvmOverloads
@@ -409,6 +440,18 @@ object BlessedTrades {
             priceMultiplier: Float = 1.0f
         ) : this(want, 1, wantTool, have, 1, maxUses, villagerXp, priceMultiplier)
 
+
+        @JvmOverloads
+        constructor(
+            want: ItemStack,
+            want2: ItemStack,
+            have: ItemStack,
+            maxUses: Int,
+            villagerXp: Int,
+            priceMultiplier: Float = 1.0f
+        ) : this(want, 1, false,have, 1, maxUses, villagerXp, priceMultiplier, want2)
+
+
         init {
             this.itemStackWant.count = wantCount
             this.wantTool = wantTool
@@ -417,27 +460,31 @@ object BlessedTrades {
             this.maxUses = maxUses
             this.villagerXp = villagerXp
             this.priceMultiplier = priceMultiplier
+            if (this.wantTool) {
+                this.additionalWant = Items.FLINT.defaultInstance
+            } else {
+                this.additionalWant = additionalWant
+            }
         }
 
+        // ugh I should have cleaned this up to begin with so that it would be easier to modify if I wanted to add something other than flint...
         override fun getOffer(trader: Entity, random: RandomSource): MerchantOffer {
             val itemstack = this.itemStackHave.copy()
             val blessed = trader as BlessedEntity
             val priceMultActual: Float = (1 + ln(1 + BlessedEntity.Mood.VERY_HAPPY.value - blessed.mood.value.toDouble())).toFloat()
-            if (this.wantTool) {
-                return MerchantOffer(
-                    ItemCost(itemStackWant.item, itemStackWant.count), Optional.of(
-                        ItemCost(Items.FLINT)
-                    ), itemstack, this.maxUses, this.villagerXp, this.priceMultiplier * priceMultActual
-                )
-            } else {
+
+            if (additionalWant == null)
                 return MerchantOffer(
                     ItemCost(itemStackWant.item, itemStackWant.count),
                     itemstack,
-                    this.maxUses,
-                    this.villagerXp,
-                    this.priceMultiplier * priceMultActual
+                    this.maxUses, this.villagerXp, this.priceMultiplier * priceMultActual
                 )
-            }
+            return MerchantOffer(
+                ItemCost(itemStackWant.item, itemStackWant.count),
+                Optional.of(ItemCost(additionalWant.item)),
+                itemstack,
+                this.maxUses, this.villagerXp, this.priceMultiplier * priceMultActual
+            )
         }
     }
 }

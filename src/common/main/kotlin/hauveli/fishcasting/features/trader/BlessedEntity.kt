@@ -21,6 +21,7 @@ import com.li64.tide.mixin.MobMixin
 import com.li64.tide.registries.TideEntityTypes
 import com.li64.tide.registries.TideItems
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
+import com.li64.tide.util.MoonPhases
 import com.li64.tide.util.TideUtils
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.config.FishcastingConfigs
@@ -281,6 +282,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         val fishcastingItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(7) as Array<VillagerTrades.ItemListing>
         // I'm not using this anymore because of how I decided to deal with the randomization... is that going to be an issue?
         val hexcastingItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(8) as Array<VillagerTrades.ItemListing>
+        val superSecretItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(9) as Array<VillagerTrades.ItemListing>
 
         val merchantoffers = this.getOffers()
         this.addOffersFromItemListings(merchantoffers, commonListing, 3)
@@ -293,6 +295,10 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             addRandomListing(merchantoffers, fishcastingItemsListing)
         if (this.wasFishedByEnlightenedPlayer)
             addWeightedListing(merchantoffers, hexcastingItemsListing)
+        if (this.variant == BlessedVariant.SECRET
+            && this.wasFishedByFishyPlayer
+            && this.wasFishedByEnlightenedPlayer)
+            addRandomListing(merchantoffers, superSecretItemsListing)
     }
 
 
@@ -774,6 +780,12 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         return FrozenPigment(dyeStack, Util.NIL_UUID)
     }
 
+    val uuidOptions = listOf<String>(
+        "90466089-5cc5-eb89-eea7-81e503537a6e", // BY #3333F9 #B0B000
+        "b1207a04-bf22-56e4-81c0-895accf61b2b", // YB #FAFC33 #0100AF
+        "f02d8e03-8917-2314-2ff6-e1dabb9c39b1", // YB #FEFD35 #0202AE
+    )
+
     fun getVariantPigment(): FrozenPigment {
         val color = when (this.variant) {
             BlessedVariant.BLUE -> DyeColor.RED
@@ -781,6 +793,12 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             BlessedVariant.GREEN -> DyeColor.GREEN
             BlessedVariant.PURPLE -> DyeColor.LIME
             else -> null
+        }
+        if (color == null) {
+            // todo: brute force or calculate the optimal yellow-blue/blue-yellow pigment, I got close but there's some room left, I think...
+            return FrozenPigment(
+                HexItems.UUID_PIGMENT.get().defaultInstance,
+                UUID.fromString(uuidOptions[0]))
         }
         return frozenPigmentFromWhatever(color)
     }
@@ -799,8 +817,14 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         serverLevelAccessor: ServerLevelAccessor, difficultyInstance: DifficultyInstance,
         mobSpawnType: MobSpawnType, spawnGroupData: SpawnGroupData?
     ): SpawnGroupData {
-        val variant = Util.getRandom(BlessedVariant.entries.toTypedArray(), this.random)
-        this.variant = variant
+        val variant = Util.getRandom(
+            BlessedVariant.entries.subList(0, BlessedVariant.SECRET.ordinal).toTypedArray(),
+            this.random)
+        val secretCondition = serverLevelAccessor.level.isThundering && serverLevelAccessor.level.moonPhase == MoonPhases.NEW_MOON
+        if (secretCondition)
+            this.variant = BlessedVariant.SECRET // rare enough, may as well garuantee it in this scenario so it's not an RNG nightmare
+        else
+            this.variant = variant
         this.pigment = getVariantPigment() // oops!!! note to self: anything which relies on variant MUST be in finalizeSpawn, init happens before it... oops............
         return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData)!!
     }

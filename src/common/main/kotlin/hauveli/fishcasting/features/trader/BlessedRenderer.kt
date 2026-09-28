@@ -47,7 +47,8 @@ class BlessedRenderer(context: EntityRendererProvider.Context) :
                 BlessedVariant.RED to id("textures/entity/blessed/blessed_red.png"),
                 BlessedVariant.GREEN to id("textures/entity/blessed/blessed_green.png"),
                 BlessedVariant.BLUE to id("textures/entity/blessed/blessed_blue.png"),
-                BlessedVariant.PURPLE to id("textures/entity/blessed/blessed_purple.png")
+                BlessedVariant.PURPLE to id("textures/entity/blessed/blessed_purple.png"),
+                BlessedVariant.SECRET to id("textures/entity/blessed/blessed_secret.png")
             )
     }
 }
