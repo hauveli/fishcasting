@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "fishcasting:loud_fishing_line"
+    "fishcasting:loud_fishing_line",
+    "fishcasting:chain_linked_fishing_line"
   ]
 }

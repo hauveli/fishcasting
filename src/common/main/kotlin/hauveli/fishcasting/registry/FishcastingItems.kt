@@ -13,6 +13,7 @@ import hauveli.fishcasting.features.chair.TackleBoxChairItem
 import hauveli.fishcasting.features.chair.TackleBoxChairSecretItem
 import hauveli.fishcasting.features.food.CrystalShrimpFriedRiceItem
 import hauveli.fishcasting.features.gacha.GachaBottleItem
+import hauveli.fishcasting.features.paraphernalia.ChainedFishingLineItem
 import hauveli.fishcasting.features.paraphernalia.HexyRodItem
 import hauveli.fishcasting.features.paraphernalia.LoudFishingLineItem
 import hauveli.fishcasting.features.paraphernalia.TideyFocusItem
@@ -157,6 +158,10 @@ object FishcastingItems : FishcastingRegistrar<Item>(
 
     val LOUD_FISHING_LINE = make(
         "loud_fishing_line", {LoudFishingLineItem(props())}
+    )
+    @JvmField
+    val CHAIN_LINKED_FISHING_LINE = make(
+        "chain_linked_fishing_line", {ChainedFishingLineItem(props())}
     )
     val HOOKLESS_FISHING_HOOK = make(
         "hookless_fishing_hook",

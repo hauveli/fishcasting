@@ -236,6 +236,9 @@ item:
     loud_fishing_line:
       .: Loud Fishing Line
       desc: Pacifies creepers and phantoms
+    chain_linked_fishing_line:
+      .: Chain-linked Fishing Line
+      desc: Keeps the bobber nearby
     hookless_fishing_hook:
       .: Hookless Fishing Hook
       desc: Prevents entities from getting hooked

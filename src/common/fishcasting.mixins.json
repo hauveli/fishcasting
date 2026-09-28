@@ -12,6 +12,7 @@
     "hexxy5.Hexxy5TideFishingHookRendererMixin"
   ],
   "mixins": [
+    "ChainedLineTideFishingHookMixin",
     "CursedMostlyIndestructibleItemEntityMixin",
     "HooklessFishingHookTideFishingHookMixin",
     "NearbyBlockForFishProfile",
