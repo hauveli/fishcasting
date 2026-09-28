@@ -3,14 +3,55 @@ package hauveli.fishcasting.features.fish.cursed
 import com.li64.tide.registries.entities.models.FishModel
 import hauveli.fishcasting.Fishcasting.id
 import net.minecraft.client.model.geom.ModelLayerLocation
+import net.minecraft.client.model.geom.ModelPart
 import net.minecraft.client.model.geom.PartPose
 import net.minecraft.client.model.geom.builders.CubeDeformation
 import net.minecraft.client.model.geom.builders.CubeListBuilder
 import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.client.renderer.entity.EntityRendererProvider
+import net.minecraft.util.Mth
+import net.minecraft.world.entity.Mob
+
 
 class CursedModel(context: EntityRendererProvider.Context) : FishModel( context, LAYER_LOCATION ) {
+
+    override fun flipInAir(): Boolean {
+        return false
+    }
+
+    override fun setupAnim(
+        fish: Mob,
+        limbSwing: Float,
+        limbSwingAmount: Float,
+        ageInTicks: Float,
+        netHeadYaw: Float,
+        headPitch: Float
+    ) {
+        super.setupAnim(fish, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch)
+        val value = Mth.cos(1.4f * fish.walkAnimation.position()) * 0.32f
+        legFL.yRot = value
+        legFR.yRot = -value
+        legBL.yRot = -value
+        legBR.yRot = value
+    }
+
+    private val legFL: ModelPart
+    private val legFR: ModelPart
+    private val legBL: ModelPart
+    private val legBR: ModelPart
+
+    init {
+        val front = root().getChild("body")
+        this.legFL = front.getChild("left_front_leg")
+        this.legFR = front.getChild("right_front_leg")
+        this.legBL = front.getChild("left_hind_leg")
+        this.legBR = front.getChild("right_hind_leg")
+        //this.addSwimAnimation("front/head", 0.4f, -0.05f)
+        //this.addSwimAnimation("rear", 0.4f, 0.15f)
+        //this.addSwimAnimation("rear/tail", 0.4f, 0.22f)
+    }
+
     companion object {
         // So that I can re-remember that this is what the first argument in "model layer location" is meant to be
         private val TEXTURE = id("textures/entity/cursed.png")

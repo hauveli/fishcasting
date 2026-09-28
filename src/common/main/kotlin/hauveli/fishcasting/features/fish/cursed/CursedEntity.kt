@@ -4,6 +4,7 @@ import com.li64.tide.Tide
 import com.li64.tide.data.FishLengthHolder
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.item.TideItemData
+import com.li64.tide.registries.entities.fish.AmphibiousFish
 import com.li64.tide.registries.entities.fish.TideVoidFish
 import hauveli.fishcasting.registry.FishcastingAdvancements.tryGrantingAdvancement
 import hauveli.fishcasting.registry.FishcastingAdvancements
@@ -14,6 +15,7 @@ import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.damagesource.DamageSources
 import net.minecraft.world.damagesource.DamageTypes
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
@@ -31,11 +33,30 @@ import java.util.function.Function
 
 // melted axolotl fish
 class CursedEntity(
-    entityType: EntityType<out TideVoidFish>,
+    entityType: EntityType<out AmphibiousFish>,
     level: Level
-) : TideVoidFish(entityType, level), Bucketable, FishLengthHolder {
+) : AmphibiousFish(entityType, level), Bucketable, FishLengthHolder {
     private val bucketItem: Item
     private var length: Double
+
+    /*
+    override fun getAirSupply(): Int {
+        return 0 //super.getAirSupply()
+    }
+     */
+
+    override fun aiStep() {
+        // this.setOnGround(false) // no flopping please, does this mess with friction?
+        super.aiStep()
+    }
+
+    override fun getBlockJumpFactor(): Float {
+        return 0f //super.getBlockJumpFactor()
+    }
+
+    override fun getSpeed(): Float {
+        return 0.1f * super.getSpeed()
+    }
 
     override fun getHeadRotSpeed(): Int {
         return 1
@@ -59,7 +80,7 @@ class CursedEntity(
     }
 
     override fun isInWater(): Boolean {
-        return super.isInWater() // false
+        return false // super.isInWater() // false
     }
 
     override fun isInWaterOrRain(): Boolean {
