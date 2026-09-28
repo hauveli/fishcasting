@@ -9,6 +9,7 @@ import hauveli.fishcasting.features.chair.TackleBoxChairRenderer
 import hauveli.fishcasting.features.fish.cursed.CursedModel
 import hauveli.fishcasting.features.fish.cursed.CursedRenderer
 import hauveli.fishcasting.features.fish.edified.EdifiedFishModel
+import hauveli.fishcasting.features.fish.edified.EdifiedFishRenderer
 // import hauveli.fishcasting.features.fish.CursedRenderer
 import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
@@ -18,6 +19,7 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.client.renderer.entity.CodRenderer
 import net.minecraft.client.renderer.item.ItemProperties
 
 object FabricFishcastingClient : ClientModInitializer {
@@ -63,27 +65,10 @@ object FabricFishcastingClient : ClientModInitializer {
 
     fun registerEntityRenderers() {
 
-        // what the actual fuck
         EntityRendererRegistry.register(
             FishcastingEntities.EDIFIED_FISH.value,
-            {
-                context ->
-                return@register FishRenderer<EdifiedFishModel>(
-                    FishcastingEntities.EDIFIED_FISH.key.location().path,
-                    EdifiedFishModel(
-                        context,
-                        EdifiedFishModel.LAYER_LOCATION
-                    ),
-                    context)
-            }
+            ::EdifiedFishRenderer
         )
-
-        /*
-        EntityRendererRegistry.register(
-            FishcastingEntities.EDIFIED_FISH.value,
-            ::FishRenderer
-        )
-        */
 
         EntityRendererRegistry.register(
             FishcastingEntities.CURSED.value,
