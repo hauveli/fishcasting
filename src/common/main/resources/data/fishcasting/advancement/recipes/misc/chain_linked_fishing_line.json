@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_dust": {
+    "has_chain": {
       "conditions": {
         "items": [
           {
-            "items": [ "hexcasting:amethyst_dust" ]
+            "items": [ "minecraft:chain" ]
           }
         ]
       },
@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fishcasting:loud_fishing_line"
+        "recipe": "fishcasting:chain_linked_fishing_line"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -31,13 +31,13 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_dust",
+      "has_chain",
       "has_line"
     ]
   ],
   "rewards": {
     "recipes": [
-      "fishcasting:loud_fishing_line"
+      "fishcasting:chain_linked_fishing_line",
     ]
   }
 }
