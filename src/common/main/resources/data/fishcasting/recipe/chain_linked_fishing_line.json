@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "#": {
-      "item": "minecraft::chain"
+      "item": "minecraft:chain"
     },
     "L": {
       "item": "tide:fishing_line"
