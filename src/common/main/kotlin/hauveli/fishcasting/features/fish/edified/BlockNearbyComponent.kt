@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.Block
 class BlockNearbyComponent(block: TagKey<Block>, radius: Int) : ProfileComponent() {
     private val text: Component
 
+    // todo: maybe open a PR to tide with something like this but rendering the blocks within the TagKey?
     init {
         this.text = "journal.info.nearby_block.title".asTranslatedComponent
             .append(": ")

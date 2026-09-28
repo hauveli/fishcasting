@@ -78,6 +78,13 @@ object FabricFishcastingClient : ClientModInitializer {
             }
         )
 
+        /*
+        EntityRendererRegistry.register(
+            FishcastingEntities.EDIFIED_FISH.value,
+            ::FishRenderer
+        )
+        */
+
         EntityRendererRegistry.register(
             FishcastingEntities.CURSED.value,
             ::CursedRenderer

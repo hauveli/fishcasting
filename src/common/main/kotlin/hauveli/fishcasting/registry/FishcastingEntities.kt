@@ -36,6 +36,7 @@ object FishcastingEntities : FishcastingRegistrar<EntityType<*>>(
     val EDIFIED_FISH = registerEntity(
         "edified_fish", {
             EntityType.Builder.of(::SmoothSwimmingFish, MobCategory.WATER_AMBIENT)
+                .sized(8f / 16f, 3f / 16f)
                 .clientTrackingRange(8)
         }
     )
