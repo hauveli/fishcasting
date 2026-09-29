@@ -70,57 +70,54 @@ public class TackleBoxSlurpEntityMixin {
             at = @At("HEAD"),
             cancellable = true)
     private void fishcasting$onTake(Player player, CallbackInfo ci) {
+        if (!(player.getVehicle() instanceof TackleBoxChairEntity tackleBoxChairEntity))
+            return;
         ItemEntity itemEntity = (ItemEntity)(Object)this;
-        if (player.getVehicle() instanceof TackleBoxChairEntity tackleBoxChairEntity) {
-            int minimumTickCountForNonFished = 20 * 2;
-            if (!itemEntity.getTags().contains(Fishcasting.FISHBERT_TAG)
-                    && itemEntity.tickCount < minimumTickCountForNonFished) {
+        if (!itemEntity.getTags().contains(Fishcasting.FISHBERT_TAG)
+                && itemEntity.hasPickUpDelay()) {
+            return;
+        }
+        ItemStack stack = itemEntity.getItem();
+        // only consider recently caught fish, implicitly these are always alive(?), but this prevents
+        // some behaviours I'm not sure I'd like but I may change the maximumFishAgeForAutomaticBoxing variable
+        //if (CATCH_TIMESTAMP.get(stack) != null) {
+        //if (Minecraft.getInstance().level.getDayTime() < CATCH_TIMESTAMP.get(stack) + maximumFishAgeForAutomaticBoxing) {
+        int targetBucketSlot = -1; // remains -1 if no valid slot is found or config disallows
+        // Yippee?
+        if (Tide.CONFIG.server().items.bucketableFishItems != TideServerConfig.Items.BucketableMode.NEVER) {
+            // https://github.com/Lightning-64/Tide-2/blob/f9fc2d04ae4d544ad134025cebd83c7438f67098/src/main/java/com/li64/tide/mixin/ItemMixin.java#L38
+            Optional<FishData> dataOp = FishData.get(stack);
+            if (dataOp.isEmpty())
+                return; // skedaddle, I don't know when this could happen but might as well
+            FishData fishData = dataOp.get();
+            // bucket only if config allows it
+            if (fishData.bucket().get().value() instanceof BucketItem fishBucketItem) {
+                Fluid fluid = fishcasting$getFluid(fishBucketItem);
+                targetBucketSlot = fishcasting$validBucketAtPositiveIndex(fluid, tackleBoxChairEntity);
+                if (targetBucketSlot != -1) {
+                    stack = fishcasting$bucketedFishFromFish(fishData, stack);
+                }
+            }
+        }
+        if (targetBucketSlot == -1) {
+            // emergency exit if we don't have enough inventory space
+            if (fishcasting$hasNoFreeSlots(tackleBoxChairEntity)) {
                 return;
             }
-            ItemStack stack = itemEntity.getItem();
-            // only consider recently caught fish, implicitly these are always alive(?), but this prevents
-            // some behaviours I'm not sure I'd like but I may change the maximumFishAgeForAutomaticBoxing variable
-            //if (CATCH_TIMESTAMP.get(stack) != null) {
-            //if (Minecraft.getInstance().level.getDayTime() < CATCH_TIMESTAMP.get(stack) + maximumFishAgeForAutomaticBoxing) {
-            int targetBucketSlot = -1; // remains -1 if no valid slot is found or config disallows
-            // Yippee?
-            if (Tide.CONFIG.server().items.bucketableFishItems != TideServerConfig.Items.BucketableMode.NEVER) {
-                // https://github.com/Lightning-64/Tide-2/blob/f9fc2d04ae4d544ad134025cebd83c7438f67098/src/main/java/com/li64/tide/mixin/ItemMixin.java#L38
-                Optional<FishData> dataOp = FishData.get(stack);
-                if (dataOp.isEmpty())
-                    return; // skedaddle, I don't know when this could happen but might as well
-                FishData fishData = dataOp.get();
-                // bucket only if config allows it
-                if (fishData.bucket().get().value() instanceof BucketItem fishBucketItem) {
-                    Fluid fluid = fishcasting$getFluid(fishBucketItem);
-                    targetBucketSlot = fishcasting$validBucketAtPositiveIndex(fluid, tackleBoxChairEntity);
-                    if (targetBucketSlot != -1) {
-                        stack = fishcasting$bucketedFishFromFish(fishData, stack);
-                    }
+            // this tidies up the inventory to prepare it for the incoming item, if stack is
+            stack = fishcasting$mergeIfNeeded(stack, tackleBoxChairEntity);
+            for (int slotIndex = 0; slotIndex < tackleBoxChairEntity.getContainerSize(); slotIndex++) {
+                ItemStack slotStack = tackleBoxChairEntity.getItem(slotIndex);
+                if (!slotStack.isEmpty()) {
+                    continue;
                 }
-            }
-            if (targetBucketSlot == -1) {
-                // emergency exit if we don't have enough inventory space
-                if (fishcasting$hasNoFreeSlots(tackleBoxChairEntity)) {
-                    return;
-                }
-                // this tidies up the inventory to prepare it for the incoming item, if stack is
-                stack = fishcasting$mergeIfNeeded(stack, tackleBoxChairEntity);
-                for (int slotIndex = 0; slotIndex < tackleBoxChairEntity.getContainerSize(); slotIndex++) {
-                    ItemStack slotStack = tackleBoxChairEntity.getItem(slotIndex);
-                    if (!slotStack.isEmpty()) {
-                        continue;
-                    }
-                    fishcasting$finalizeSlurp(tackleBoxChairEntity, slotIndex, stack,
-                            player, itemEntity, ci);
-                    break;
-                }
-            } else {
-                fishcasting$finalizeSlurp(tackleBoxChairEntity, targetBucketSlot, stack,
+                fishcasting$finalizeSlurp(tackleBoxChairEntity, slotIndex, stack,
                         player, itemEntity, ci);
+                break;
             }
-            //}
-            //}
+        } else {
+            fishcasting$finalizeSlurp(tackleBoxChairEntity, targetBucketSlot, stack,
+                    player, itemEntity, ci);
         }
     }
 

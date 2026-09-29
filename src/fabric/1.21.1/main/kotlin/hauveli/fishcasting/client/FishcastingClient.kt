@@ -1,11 +1,11 @@
 package hauveli.fishcasting.client
 
 import com.li64.tide.client.TideItemModelProperties
-import com.li64.tide.registries.entities.renderers.FishRenderer
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.config.FishcastingConfigs
 import hauveli.fishcasting.features.chair.TackleBoxChairModel
 import hauveli.fishcasting.features.chair.TackleBoxChairRenderer
+import hauveli.fishcasting.features.chair.secret.TackleBoxChairSecretModel
 import hauveli.fishcasting.features.fish.cursed.CursedModel
 import hauveli.fishcasting.features.fish.cursed.CursedRenderer
 import hauveli.fishcasting.features.fish.edified.EdifiedFishModel
@@ -19,7 +19,6 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.client.renderer.entity.CodRenderer
 import net.minecraft.client.renderer.item.ItemProperties
 
 object FabricFishcastingClient : ClientModInitializer {
@@ -60,6 +59,10 @@ object FabricFishcastingClient : ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(
             TackleBoxChairModel.LAYER_LOCATION,
             { TackleBoxChairModel.createBodyLayer() }
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            TackleBoxChairSecretModel.LAYER_LOCATION,
+            { TackleBoxChairSecretModel.createBodyLayer() }
         )
     }
 

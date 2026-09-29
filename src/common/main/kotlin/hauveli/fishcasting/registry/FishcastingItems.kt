@@ -10,7 +10,7 @@ import hauveli.fishcasting.Fishcasting.id
 import hauveli.fishcasting.features.FishcastingLoreFragment
 import hauveli.fishcasting.features.chair.TackleBoxChairFloatyItem
 import hauveli.fishcasting.features.chair.TackleBoxChairItem
-import hauveli.fishcasting.features.chair.TackleBoxChairSecretItem
+import hauveli.fishcasting.features.chair.secret.TackleBoxChairSecretItem
 import hauveli.fishcasting.features.food.CrystalShrimpFriedRiceItem
 import hauveli.fishcasting.features.gacha.GachaBottleItem
 import hauveli.fishcasting.features.paraphernalia.ChainedFishingLineItem
