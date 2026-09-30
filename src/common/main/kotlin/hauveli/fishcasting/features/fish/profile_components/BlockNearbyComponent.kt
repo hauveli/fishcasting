@@ -1,4 +1,4 @@
-package hauveli.fishcasting.features.fish.edified
+package hauveli.fishcasting.features.fish.profile_components
 
 import at.petrak.hexcasting.api.utils.asTranslatedComponent
 import com.li64.tide.client.gui.screens.journal.ProfileComponent
@@ -12,6 +12,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.Block
+
 
 class BlockNearbyComponent(blockTagKey: TagKey<Block>, radius: Int) : ProfileComponent() {
     private val title: Component
@@ -65,12 +66,12 @@ class BlockNearbyComponent(blockTagKey: TagKey<Block>, radius: Int) : ProfileCom
         val translatedString = subtitle.string
         val halfTextureSize = TEXTURE_SIZE / 2
         val fontOffsetSubtitle = (font.width(translatedString)) / 2
-        val offsetY = y + requiredHeight / 2
+        val subtitleX = center - fontOffsetSubtitle - halfTextureSize
+        val subtitleY = y + requiredHeight / 2
         graphics.drawString(
             font,
             subtitle,
-            center - fontOffsetSubtitle - halfTextureSize,
-            offsetY,
+            subtitleX, subtitleY,
             TEXT_COLOR,
             false
         )
@@ -82,9 +83,20 @@ class BlockNearbyComponent(blockTagKey: TagKey<Block>, radius: Int) : ProfileCom
         indexToDraw = ((levelMaybe.gameTime / 80L) % blocks.size).toInt()
         // holy fuck I either forgot or didn't know this existed note to future self (I keep saying this so it's searchable via note/future):
         // graphics.renderItem()
-        graphics.renderItem(blocks[indexToDraw],
-            center + fontOffsetSubtitle - halfTextureSize + 1,
-            offsetY - font.lineHeight / 2)
+        val textureOffsetFromSubtitle = fontOffsetSubtitle - halfTextureSize + 1
+        val itemPosX = center + textureOffsetFromSubtitle
+        val itemPosY = subtitleY - font.lineHeight / 2
+        val itemToDraw = blocks[indexToDraw]
+        graphics.renderItem(itemToDraw, itemPosX, itemPosY)
+
+        // render item name
+        if (mouseX >= itemPosX && mouseX <= itemPosX + TEXTURE_SIZE
+            && mouseY >= itemPosY && mouseY <= itemPosY + TEXTURE_SIZE) {
+            graphics.renderTooltip(
+                font, itemToDraw.hoverName,
+                mouseX, mouseY
+            )
+        }
     }
 
     override fun getRequiredHeight(): Int {

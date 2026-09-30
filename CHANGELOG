@@ -28,6 +28,8 @@ Items:
     Crystal Shrimp Fried Rice (costs two crystal shrimp) (how did they do it?)
         applies clarity I and luck I for 13 and 6.5 minutes respectively
     Chair that doesn't just vanish into the void if I can figure it out (Todo)
+    Added 2 new fish (wow!!!)
+    Added 1 new fishing line (wow!!!)
 
 Balance Changes:
     Modified some of trader's fishing trades
@@ -36,8 +38,6 @@ Balance Changes:
 
 Mechanics:
     Music Disc was made less miserable to get
-    Added 1 new fish (wow!!!)
-    Added 1 new fishing line (wow!!!!)
 
 Notable Bugfixes:
     I'm putting this here so I don't forget to bring it up: fixed client-side tide rendering/minigame bugs with kilt+sable (the minigame should work)

@@ -1,19 +1,10 @@
-package hauveli.fishcasting.features.fish.perhosgata
+package hauveli.fishcasting.features.fish.profile_components
 
 import at.petrak.hexcasting.api.utils.asTranslatedComponent
 import com.li64.tide.client.gui.screens.journal.ProfileComponent
-import hauveli.fishcasting.Fishcasting
-import hauveli.fishcasting.Fishcasting.capitalizeFirstLetterOfEachWord
-import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphics
-import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceKey
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.enchantment.Enchantment
-import kotlin.jvm.optionals.getOrNull
 
 
 class AboveComponent(yLevel: Int) : ProfileComponent() {
