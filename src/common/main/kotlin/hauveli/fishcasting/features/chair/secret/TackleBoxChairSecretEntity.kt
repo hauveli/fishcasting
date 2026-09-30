@@ -5,6 +5,7 @@ import com.li64.tide.config.TideServerConfig
 import com.li64.tide.data.player.TidePlayerData
 import com.li64.tide.network.messages.OpenJournalMsg
 import com.li64.tide.registries.TideItems
+import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.features.chair.TackleBoxChairVariant
 import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingItems
@@ -45,7 +46,7 @@ class TackleBoxChairSecretEntity : ChestBoat {
         val f = this.singlePassengerXOffset
         return (Vec3(
             0.0,  // Left/Right ?
-            (dimensions.height() * 1.1f).toDouble(),  // up/down
+            (dimensions.height() * 1.6f).toDouble(),  // up/down
             f.toDouble()
         )).yRot(-this.yRot * (Math.PI.toFloat() / 180f)) // Forward/Backward + rotation?
     }
@@ -55,7 +56,7 @@ class TackleBoxChairSecretEntity : ChestBoat {
     }
 
     override fun getDropItem(): Item {
-        return FishcastingItems.TACKLEBOX_CHAIR_SECRET.value
+        return FishcastingItems.TACKLEBOX_CHAIR.value // FishcastingItems.TACKLEBOX_CHAIR_SECRET.value
     }
 
     override fun getType(): EntityType<*> {
@@ -81,39 +82,24 @@ class TackleBoxChairSecretEntity : ChestBoat {
      */
 
     override fun hurt(p0: DamageSource, p1: Float): Boolean {
-        this.sendSystemMessage(Component.nullToEmpty("Wtf" + p0.type().toString()))
-        if (p0.equals(DamageTypes.GENERIC)) {
+        if (p0.equals(DamageTypes.GENERIC)) { // I was trying to fix the weird boat -> planks+sticks bug with this...
             return false
         }
         return super.hurt(p0, p1)
     }
 
     override fun causeFallDamage(p0: Float, p1: Float, p2: DamageSource): Boolean {
-        this.sendSystemMessage(Component.nullToEmpty("fall damage what" + p2.type().toString()))
+        Fishcasting.LOGGER.info("Report to developer please; Somehow took fall damage: ${p2.msgId} ${p2.type()}")
         //return super.causeFallDamage(p0, p1, p2)
         return false
     }
 
     override fun checkFallDamage(p0: Double, p1: Boolean, p2: BlockState, p3: BlockPos) {
-        this.sendSystemMessage(Component.nullToEmpty("nuh uh"))
         // super.checkFallDamage(p0, p1, p2, p3)
     }
 
     fun hover(player: Player?) {
-        if (this.variant!!.id == 0)
-            return
-        if (player != null) {
-            // tiny weight
-            // how can I check if the player is standing on it?
-            if (player.y < this.y + 0.3) // whatever the height is for the boat I forget, TODO: fix this to scale
-                return
-            if (player.position().subtract(this.position().add(0.0, 0.3, 0.0)).lengthSqr() > 1) // unsure what this should be so I'm guessing for now...
-                return
-            this.addDeltaMovement(Vec3(0.0, -0.001, 0.0))
-            player.addDeltaMovement(this.deltaMovement.scale(PLAYER_REPULSION))
-        }
         if (this.onGround() || this.isInLiquid) {
-            this.addDeltaMovement(Vec3(0.0, 0.1, 0.0))
             return
         }
         val level = this.level()
@@ -141,21 +127,6 @@ class TackleBoxChairSecretEntity : ChestBoat {
                 return
             }
         }
-
-        val blockPos = blockPosition()
-        var groundY: Double? = null
-
-        for (y in 1..(HOVER_OFFSET+1)) {
-            if (!level.getBlockState(blockPos.below(y)).isAir) {
-                groundY = hoverOffsetY - y
-                break
-            }
-        }
-
-        if (groundY != null) {
-            val diff = HOVER_OFFSET / (hoverOffsetY - groundY)
-            this.addDeltaMovement(Vec3(0.0, 0.01 * (diff * diff), 0.0))
-        }
     }
 
     override fun baseTick() {
@@ -181,58 +152,21 @@ class TackleBoxChairSecretEntity : ChestBoat {
     override fun makeBoundingBox(): AABB {
         // dims are 11.0f / 16.0f, 8.0f / 16.0f
         // 22 / 16 and 9/16
-        return super.makeBoundingBox().deflate(11.0 / 32.0, 1.0 / 32.0, 11.0 / 32.0)
+        return super.makeBoundingBox().deflate(32.0 / 32.0, 1.0 / 32.0, 11.0 / 32.0)
         //return AABB.ofSize(Vec3.ZERO, 0.4, 0.4, 0.4)
     }
 
     override fun getGroundFriction(): Float {
-        return super.getGroundFriction() * 0.1f // super slow
+        return super.getGroundFriction() * 2.1f // super slow
     }
 
     override fun getBlockSpeedFactor(): Float {
-        return super.getBlockSpeedFactor() * 0.1f
-    }
-
-
-    // thank you kaupenjoe
-    /* VARIANT */
-    override fun defineSynchedData(builder: SynchedEntityData.Builder) {
-        super.defineSynchedData(builder)
-        builder.define(VARIANT, 0)
-    }
-
-    private val typeVariant: Int
-        get() = this.entityData.get(VARIANT)
-
-    var variant: TackleBoxChairVariant?
-        get() = TackleBoxChairVariant.Companion.byId(this.typeVariant and 255) // why does mojang check if we have more than 255 variants? kaupenjoe does too, I assume it's something obscure or a silly choice and in either case it matters little
-        private set(variant) {
-            this.entityData.set(VARIANT, variant!!.id and 255)
-        }
-
-    override fun addAdditionalSaveData(compoundTag: CompoundTag) {
-        super.addAdditionalSaveData(compoundTag)
-        compoundTag.putInt("Variant", this.typeVariant)
-    }
-
-    override fun readAdditionalSaveData(compoundTag: CompoundTag) {
-        super.readAdditionalSaveData(compoundTag)
-        this.entityData.set<Int>(VARIANT, compoundTag.getInt("Variant"))
+        return super.getBlockSpeedFactor() * 2.1f
     }
 
     companion object {
 
         private const val PLAYER_REPULSION = 0.5
         private const val HOVER_OFFSET = 2
-        // thank you kaupenjoe
-        private val VARIANT: EntityDataAccessor<Int> =
-            SynchedEntityData.defineId(TackleBoxChairSecretEntity::class.java, EntityDataSerializers.INT)
-
-
-        fun setVariant(chair: TackleBoxChairSecretEntity, variant: TackleBoxChairVariant, level: Level) {
-            if (!level.isClientSide) {
-                chair.variant = variant
-            }
-        }
     }
 }

@@ -31,7 +31,7 @@
     },
     {
       "type": "tide:block_nearby",
-      "blocks": "hexcasting:edified_logs",
+      "blocks": "fishcasting:edified_trees",
       "radius": 3
     }
   ],

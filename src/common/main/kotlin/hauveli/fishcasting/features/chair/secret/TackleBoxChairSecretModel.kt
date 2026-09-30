@@ -2,6 +2,7 @@ package hauveli.fishcasting.features.chair.secret
 
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.blaze3d.vertex.VertexConsumer
+import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.Fishcasting.id
 import net.minecraft.client.model.EntityModel
 import net.minecraft.client.model.geom.ModelLayerLocation
@@ -13,12 +14,18 @@ import net.minecraft.client.model.geom.builders.LayerDefinition
 import net.minecraft.client.model.geom.builders.MeshDefinition
 import net.minecraft.world.entity.Entity
 import javax.annotation.Nonnull
+import kotlin.math.sqrt
 
 
 class TackleBoxChairSecretModel<T : Entity>(root: ModelPart) : EntityModel<T>() {
 
-
     override fun setupAnim(t: T, v: Float, v1: Float, v2: Float, v3: Float, v4: Float) {
+        // todo: 60 degree increments
+
+        /*
+        wheel.zRot += horizontalVelocity.toFloat()
+        wheel2.zRot += v2
+         */
     }
 
     override fun renderToBuffer(

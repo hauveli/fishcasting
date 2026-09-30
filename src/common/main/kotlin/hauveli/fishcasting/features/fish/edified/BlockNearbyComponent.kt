@@ -2,23 +2,50 @@ package hauveli.fishcasting.features.fish.edified
 
 import at.petrak.hexcasting.api.utils.asTranslatedComponent
 import com.li64.tide.client.gui.screens.journal.ProfileComponent
+import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.Fishcasting.capitalizeFirstLetterOfEachWord
+import me.fzzyhmstrs.fzzy_config.util.FcText.translation
+import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.Component
 import net.minecraft.tags.TagKey
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.Block
 
-class BlockNearbyComponent(block: TagKey<Block>, radius: Int) : ProfileComponent() {
-    private val text: Component
+class BlockNearbyComponent(blockTagKey: TagKey<Block>, radius: Int) : ProfileComponent() {
+    private val title: Component
+    private val subtitle: Component
+    private val blocks: List<ItemStack>?
+    private val TEXTURE_SIZE = 16
+    private var indexToDraw = 0
+    private var someKindOfCounter = 0f
 
-    // todo: maybe open a PR to tide with something like this but rendering the blocks within the TagKey?
     init {
-        this.text = "journal.info.nearby_block.title".asTranslatedComponent
-            .append(": ")
-            .append(block.location().path.replace("_"," ").capitalizeFirstLetterOfEachWord())
-            //.append("journal.info.nearby_block.within".asTranslatedComponent)
+        this.title = "journal.info.nearby_block.title".asTranslatedComponent
+        this.subtitle = Component.translatable(blockTagKey.location().toLanguageKey())
+            .translation(
+                blockTagKey.location().path.replace("_"," ")
+                    .capitalizeFirstLetterOfEachWord()
+            )
+        //.append("journal.info.nearby_block.within".asTranslatedComponent)
             //.append(": ${radius}m")
+        // how do I add all the blocks from the tag to this?
+        val possiblyTag = BuiltInRegistries.BLOCK.getTagOrEmpty(blockTagKey)
+
+        // I'd prefer to not crash disastrously because some tags weren't loaded after the game launches fine
+        // but I should probably print a debug message...
+        if (possiblyTag.count() > 0) {
+            blocks = possiblyTag
+                .map { it.value() }
+                .map { BuiltInRegistries.BLOCK.getKey(it) }
+                .map { Fishcasting.LOGGER.info(BuiltInRegistries.ITEM.get(it).defaultInstance)
+                    BuiltInRegistries.ITEM.get(it).defaultInstance }
+        } else {
+            Fishcasting.LOGGER.warn("Problem encountered rendering NearbyBlockComponent: TagKey<Block> '${blockTagKey.location()}' was empty.")
+            blocks = null
+        }
     }
 
     override fun render(
@@ -26,17 +53,39 @@ class BlockNearbyComponent(block: TagKey<Block>, radius: Int) : ProfileComponent
         mouseX: Int, mouseY: Int, partialTick: Float
     ) {
         val center = x + AREA_WIDTH / 2
+        val fontOffset = font.width(title) / 2
         graphics.drawString(
             font,
-            text,
-            center - font.width(text) / 2,
+            title,
+            center - fontOffset,
             y,
             TEXT_COLOR,
             false
         )
+
+        val fontOffsetSubtitle = (font.width(title) + TEXTURE_SIZE) / 2
+        graphics.drawString(
+            font,
+            subtitle,
+            center - fontOffsetSubtitle - TEXTURE_SIZE,
+            y + TEXTURE_SIZE,
+            TEXT_COLOR,
+            false
+        )
+
+        if (blocks == null)
+            return
+        // I'm too lazy to figure out how to have this depend on the system time
+        val levelMaybe = Minecraft.getInstance().level ?: return
+        indexToDraw = ((levelMaybe.gameTime / 80L) % blocks.size).toInt()
+        // holy fuck I either forgot or didn't know this existed note to future self (I keep saying this so it's searchable via note/future):
+        // graphics.renderItem()
+        graphics.renderItem(blocks[indexToDraw],
+            center + fontOffsetSubtitle + 1,
+            y + TEXTURE_SIZE - font.lineHeight / 2)
     }
 
     override fun getRequiredHeight(): Int {
-        return 9
+        return 24
     }
 }

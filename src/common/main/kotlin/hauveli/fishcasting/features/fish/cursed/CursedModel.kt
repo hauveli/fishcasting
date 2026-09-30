@@ -28,6 +28,8 @@ class CursedModel(context: EntityRendererProvider.Context) : FishModel( context,
         netHeadYaw: Float,
         headPitch: Float
     ) {
+        // basedo n cave crawler
+        // todo: make it look at players?
         super.setupAnim(fish, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch)
         val value = Mth.cos(1.4f * fish.walkAnimation.position()) * 0.32f
         legFL.yRot = value

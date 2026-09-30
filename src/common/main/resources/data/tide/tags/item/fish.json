@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "fishcasting:cursed"
+    "fishcasting:cursed",
+    "fishcasting:edified_fish"
   ]
 }

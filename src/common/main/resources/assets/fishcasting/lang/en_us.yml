@@ -224,6 +224,22 @@ fishcasting:
     fishlore:
       .: Fishcasting
       desc: Further, some texts vaguely related to some sort of figure in the "Fishcasting" society have surfaced... Literally.
+tag:
+  item:
+    fishcasting:
+      edified_trees: Edified Trees
+      blessed_bobbers: Blessed Bobbers
+      slimy_bobbers: Slimy Bobbers
+      all_fishing_rods_advancement_rod: All Fishing Rods Advancement Rod
+      no_durability_enchantments: No Durability Enchantments
+      loud_lines: Loud Fishing Lines
+      hookless_hooks: Hookless Fishing Hooks
+      lore_fragments: Lore Fragments (to be removed)
+      unlucky_mulch: Unlucky Mulch
+      fishy_music_discs: Fishy Music Discs
+      cursed_mostly_indestructible_item: Cursed Mostly Indestructible Item
+
+
 item:
   tide:
     crystal_fishing_rod: Crystal Casting Rod
@@ -305,7 +321,7 @@ entity:
 journal:
   info:
     nearby_block:
-      title: Nearby Blocks
+      title: Nearby Block
       within: within
   description:
     fishcasting:

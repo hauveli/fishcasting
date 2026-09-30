@@ -6,6 +6,7 @@ import hauveli.fishcasting.config.FishcastingConfigs
 import hauveli.fishcasting.features.chair.TackleBoxChairModel
 import hauveli.fishcasting.features.chair.TackleBoxChairRenderer
 import hauveli.fishcasting.features.chair.secret.TackleBoxChairSecretModel
+import hauveli.fishcasting.features.chair.secret.TackleBoxChairSecretRenderer
 import hauveli.fishcasting.features.fish.cursed.CursedModel
 import hauveli.fishcasting.features.fish.cursed.CursedRenderer
 import hauveli.fishcasting.features.fish.edified.EdifiedFishModel
@@ -87,6 +88,14 @@ object FabricFishcastingClient : ClientModInitializer {
             FishcastingEntities.TACKLEBOX_CHAIR.value,
             ::TackleBoxChairRenderer
         )
+
+        /*
+        EntityRendererRegistry.register(
+            FishcastingEntities.TACKLEBOX_CHAIR_SECRET.value,
+            ::TackleBoxChairSecretRenderer
+        )
+
+         */
     }
 
 }

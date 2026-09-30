@@ -44,15 +44,22 @@ class TackleBoxChairEntity : ChestBoat {
 
     override fun getPassengerAttachmentPoint(entity: Entity, dimensions: EntityDimensions, partialTick: Float): Vec3 {
         val f = this.singlePassengerXOffset
+        val yOffset = if (this.variant == TackleBoxChairVariant.SECRET) 1.4f else 1.1f
         return (Vec3(
             0.0,  // Left/Right ?
-            (dimensions.height() * 1.1f).toDouble(),  // up/down
+            (dimensions.height() * yOffset).toDouble(),  // up/down
             f.toDouble()
         )).yRot(-this.yRot * (Math.PI.toFloat() / 180f)) // Forward/Backward + rotation?
     }
 
     override fun getSinglePassengerXOffset(): Float {
         return -3.0f / 16.0f
+    }
+
+    override fun maxUpStep(): Float {
+        if (this.variant == TackleBoxChairVariant.SECRET)
+            return super.maxUpStep() + 1f
+        return super.maxUpStep()
     }
 
     override fun interact(player: Player, hand: InteractionHand): InteractionResult {
@@ -97,10 +104,11 @@ class TackleBoxChairEntity : ChestBoat {
     }
 
     override fun getDropItem(): Item {
-        if (variant?.id == 1)
-            return FishcastingItems.TACKLEBOX_CHAIR_FLOATY.value
-        else
-            return FishcastingItems.TACKLEBOX_CHAIR.value
+        return when (this.variant) {
+            TackleBoxChairVariant.FLOATY -> FishcastingItems.TACKLEBOX_CHAIR_FLOATY.value
+            // TackleBoxChairVariant.SECRET -> FishcastingItems.TACKLEBOX_CHAIR_SECRET.value
+            else -> FishcastingItems.TACKLEBOX_CHAIR.value
+        }
     }
 
     override fun getType(): EntityType<*> {
@@ -126,7 +134,6 @@ class TackleBoxChairEntity : ChestBoat {
      */
 
     override fun hurt(p0: DamageSource, p1: Float): Boolean {
-        this.sendSystemMessage(Component.nullToEmpty("Wtf" + p0.type().toString()))
         if (p0.equals(DamageTypes.GENERIC)) {
             return false
         }
@@ -134,19 +141,18 @@ class TackleBoxChairEntity : ChestBoat {
     }
 
     override fun causeFallDamage(p0: Float, p1: Float, p2: DamageSource): Boolean {
-        this.sendSystemMessage(Component.nullToEmpty("fall damage what" + p2.type().toString()))
         //return super.causeFallDamage(p0, p1, p2)
         return false
     }
 
     override fun checkFallDamage(p0: Double, p1: Boolean, p2: BlockState, p3: BlockPos) {
-        this.sendSystemMessage(Component.nullToEmpty("nuh uh"))
         // super.checkFallDamage(p0, p1, p2, p3)
     }
 
     fun hover(player: Player?) {
-        if (this.variant!!.id == 0)
+        if (this.variant != TackleBoxChairVariant.FLOATY) {
             return
+        }
         if (player != null) {
             // tiny weight
             // how can I check if the player is standing on it?
@@ -224,6 +230,8 @@ class TackleBoxChairEntity : ChestBoat {
     }
 
     override fun makeBoundingBox(): AABB {
+        if (this.variant == TackleBoxChairVariant.SECRET)
+            return super.makeBoundingBox().expandTowards(0.0, 0.25, 0.0).move(0.0,0.1,0.0)
         // dims are 11.0f / 16.0f, 8.0f / 16.0f
         // 22 / 16 and 9/16
         return super.makeBoundingBox().deflate(11.0 / 32.0, 1.0 / 32.0, 11.0 / 32.0)
