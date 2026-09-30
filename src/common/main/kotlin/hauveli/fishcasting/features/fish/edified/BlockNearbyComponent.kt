@@ -24,11 +24,12 @@ class BlockNearbyComponent(blockTagKey: TagKey<Block>, radius: Int) : ProfileCom
 
     init {
         this.title = "journal.info.nearby_block.title".asTranslatedComponent
-        this.subtitle = Component.translatable(blockTagKey.location().toLanguageKey())
-            .translation(
-                blockTagKey.location().path.replace("_"," ")
-                    .capitalizeFirstLetterOfEachWord()
-            )
+        this.subtitle = Component.translatableWithFallback(
+            blockTagKey.location().toLanguageKey(),
+            blockTagKey.location().path.replace("_"," ")
+                .capitalizeFirstLetterOfEachWord()
+        )
+
         //.append("journal.info.nearby_block.within".asTranslatedComponent)
             //.append(": ${radius}m")
         // how do I add all the blocks from the tag to this?
@@ -40,8 +41,7 @@ class BlockNearbyComponent(blockTagKey: TagKey<Block>, radius: Int) : ProfileCom
             blocks = possiblyTag
                 .map { it.value() }
                 .map { BuiltInRegistries.BLOCK.getKey(it) }
-                .map { Fishcasting.LOGGER.info(BuiltInRegistries.ITEM.get(it).defaultInstance)
-                    BuiltInRegistries.ITEM.get(it).defaultInstance }
+                .map { BuiltInRegistries.ITEM.get(it).defaultInstance }
         } else {
             Fishcasting.LOGGER.warn("Problem encountered rendering NearbyBlockComponent: TagKey<Block> '${blockTagKey.location()}' was empty.")
             blocks = null
@@ -63,11 +63,13 @@ class BlockNearbyComponent(blockTagKey: TagKey<Block>, radius: Int) : ProfileCom
             false
         )
 
-        val fontOffsetSubtitle = (font.width(subtitle) + TEXTURE_SIZE) / 2
+        val translatedString = subtitle.string
+        val halfTextureSize = TEXTURE_SIZE / 2
+        val fontOffsetSubtitle = (font.width(translatedString)) / 2
         graphics.drawString(
             font,
             subtitle,
-            center - fontOffsetSubtitle - TEXTURE_SIZE,
+            center - fontOffsetSubtitle - halfTextureSize,
             y + TEXTURE_SIZE,
             TEXT_COLOR,
             false
@@ -81,7 +83,7 @@ class BlockNearbyComponent(blockTagKey: TagKey<Block>, radius: Int) : ProfileCom
         // holy fuck I either forgot or didn't know this existed note to future self (I keep saying this so it's searchable via note/future):
         // graphics.renderItem()
         graphics.renderItem(blocks[indexToDraw],
-            center + fontOffsetSubtitle + 1,
+            center + fontOffsetSubtitle - halfTextureSize + 1,
             y + TEXTURE_SIZE - font.lineHeight / 2)
     }
 
