@@ -223,6 +223,23 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         )}
     ) // from axolotl thingy
 
+    @JvmField
+    val PERHOSGATA = make("perhosgata", {Item(fireResistantRare())})
+    @JvmField
+    val PERHOSGATA_BUCKET = make(
+        "perhosgata_bucket", {MobBucketItem(
+            FishcastingEntities.PERHOSGATA.value,
+            WATER,
+            BUCKET_EMPTY_FISH,
+            unstackableFireResistantRare()
+        )}
+    )
+    val PERHOSGATA_SPAWN_EGG = make(
+        "perhosgata_spawn_egg", {SpawnEggItem(
+            FishcastingEntities.PERHOSGATA.value, 16499171, 10890612, props()
+        )}
+    ) // from axolotl thingy
+
 
     val BLESSED_SPAWN_EGG = make(
         "blessed_spawn_egg", {SpawnEggItem(

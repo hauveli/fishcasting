@@ -4,7 +4,9 @@ import com.li64.tide.client.gui.screens.journal.FishProfile;
 import com.li64.tide.client.gui.screens.journal.ProfileComponent;
 import com.li64.tide.data.fishing.FishData;
 import com.li64.tide.data.fishing.conditions.types.BlockNearbyCondition;
+import com.li64.tide.data.fishing.conditions.types.EnchantmentsCondition;
 import hauveli.fishcasting.features.fish.edified.BlockNearbyComponent;
+import hauveli.fishcasting.features.fish.perhosgata.HasEnchantmentsComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -31,5 +33,11 @@ public class NearbyBlockForFishProfile {
                 .findFirst().map(cond -> (BlockNearbyCondition) cond);
         blockNearbyCondition.ifPresent(condition -> components.add(
                 new BlockNearbyComponent(condition.getTag(), condition.getRadius())));
+
+        Optional<EnchantmentsCondition> enchantmentsCondition = data.conditions().stream()
+                .filter(cond -> cond instanceof EnchantmentsCondition)
+                .findFirst().map(cond -> (EnchantmentsCondition) cond);
+        enchantmentsCondition.ifPresent(condition -> components.add(
+                new HasEnchantmentsComponent(condition.getEnchantments())));
     }
 }

@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "fishcasting:blessed_focus_bobber",
-    "fishcasting:hexxy_focus_bobber"
+    "fishcasting:hexxy_focus_bobber",
+    "fishcasting:sampling_focus_bobber"
   ]
 }

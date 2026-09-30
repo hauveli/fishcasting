@@ -11,6 +11,7 @@ import hauveli.fishcasting.features.fish.cursed.CursedModel
 import hauveli.fishcasting.features.fish.cursed.CursedRenderer
 import hauveli.fishcasting.features.fish.edified.EdifiedFishModel
 import hauveli.fishcasting.features.fish.edified.EdifiedFishRenderer
+import hauveli.fishcasting.features.fish.perhosgata.PerhosgataRenderer
 // import hauveli.fishcasting.features.fish.CursedRenderer
 import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
@@ -77,6 +78,11 @@ object FabricFishcastingClient : ClientModInitializer {
         EntityRendererRegistry.register(
             FishcastingEntities.CURSED.value,
             ::CursedRenderer
+        )
+
+        EntityRendererRegistry.register(
+            FishcastingEntities.PERHOSGATA.value,
+            ::PerhosgataRenderer
         )
 
         EntityRendererRegistry.register(

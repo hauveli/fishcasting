@@ -323,6 +323,8 @@ journal:
     nearby_block:
       title: Nearby Block
       within: within
+    has_enchantments:
+      title: Has Enchantments
   description:
     fishcasting:
       edified_fish: Drawn to the unique color of edified trees, these little fish are just as pretty.

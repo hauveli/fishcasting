@@ -6,6 +6,7 @@ import hauveli.fishcasting.Fishcasting.id
 import hauveli.fishcasting.features.chair.TackleBoxChairEntity
 import hauveli.fishcasting.features.chair.secret.TackleBoxChairSecretEntity
 import hauveli.fishcasting.features.fish.cursed.CursedEntity
+import hauveli.fishcasting.features.fish.perhosgata.PerhosgataEntity
 import hauveli.fishcasting.features.trader.BlessedEntity
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
@@ -39,6 +40,14 @@ object FishcastingEntities : FishcastingRegistrar<EntityType<*>>(
             EntityType.Builder.of(::SmoothSwimmingFish, MobCategory.WATER_AMBIENT)
                 .sized(8f / 16f, 3f / 16f)
                 .clientTrackingRange(8)
+        }
+    )
+
+    val PERHOSGATA = registerEntity(
+        "perhosgata", {
+            EntityType.Builder.of(::PerhosgataEntity, MobCategory.AMBIENT)
+                .sized(0.5f / 16f, 0.5f / 16f)
+                .clientTrackingRange(10)
         }
     )
 

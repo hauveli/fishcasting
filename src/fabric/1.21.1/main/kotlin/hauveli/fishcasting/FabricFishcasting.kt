@@ -81,6 +81,11 @@ object FabricFishcasting : ModInitializer {
         )
 
         FabricDefaultAttributeRegistry.register(
+            FishcastingEntities.PERHOSGATA.value,
+            SmoothSwimmingFish.createMobAttributes()
+        )
+
+        FabricDefaultAttributeRegistry.register(
             FishcastingEntities.BLESSED.value,
             Villager.createAttributes().build()
         )
