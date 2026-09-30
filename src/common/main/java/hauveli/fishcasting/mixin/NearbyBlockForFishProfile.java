@@ -3,9 +3,11 @@ package hauveli.fishcasting.mixin;
 import com.li64.tide.client.gui.screens.journal.FishProfile;
 import com.li64.tide.client.gui.screens.journal.ProfileComponent;
 import com.li64.tide.data.fishing.FishData;
+import com.li64.tide.data.fishing.conditions.types.AboveCondition;
 import com.li64.tide.data.fishing.conditions.types.BlockNearbyCondition;
 import com.li64.tide.data.fishing.conditions.types.EnchantmentsCondition;
 import hauveli.fishcasting.features.fish.edified.BlockNearbyComponent;
+import hauveli.fishcasting.features.fish.perhosgata.AboveComponent;
 import hauveli.fishcasting.features.fish.perhosgata.HasEnchantmentsComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,5 +41,14 @@ public class NearbyBlockForFishProfile {
                 .findFirst().map(cond -> (EnchantmentsCondition) cond);
         enchantmentsCondition.ifPresent(condition -> components.add(
                 new HasEnchantmentsComponent(condition.getEnchantments())));
+
+        Optional<AboveCondition> aboveCondition = data.conditions().stream()
+                .filter(cond -> cond instanceof AboveCondition)
+                .findFirst().map(cond -> (AboveCondition) cond);
+        aboveCondition.ifPresent(condition -> {
+            if (condition.getMinY() >= AboveComponent.SEA_LEVEL) {
+                components.add(new AboveComponent(condition.getMinY()));
+            }
+        });
     }
 }

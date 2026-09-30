@@ -20,14 +20,7 @@
   "conditions": [
     {
       "type": "tide:above",
-      "y": 40
-    },
-    {
-      "type": "tide:freshwater"
-    },
-    {
-      "type": "tide:fluid",
-      "fluid": "water"
+      "y": 300
     },
     {
       "type": "tide:moon_phase",
@@ -38,15 +31,13 @@
     {
       "type": "tide:has_enchantments",
       "enchantments": [
-        "minecraft:vanishing"
+        "minecraft:vanishing_curse"
       ]
-    }
-  ],
-  "modifiers": [
+    },
     {
-      "type": "tide:temperature",
-      "preferred_temperature": 1.0,
-      "temperature_tolerance": 0.6
+      "type": "tide:block_nearby",
+      "blocks": "fishcasting:special_lights",
+      "radius": 3
     }
   ],
   "behavior": "jitter",
@@ -58,5 +49,5 @@
     "typical_low_cm": 0.00001
   },
   "speed": 10.0,
-  "strength": 0.15
+  "strength": 0.30
 }

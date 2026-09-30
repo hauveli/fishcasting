@@ -16,22 +16,12 @@ import net.minecraft.world.item.enchantment.Enchantment
 import kotlin.jvm.optionals.getOrNull
 
 
-class HasEnchantmentsComponent(enchantmentResourceKey: List<ResourceKey<Enchantment>>) : ProfileComponent() {
+class AboveComponent(yLevel: Int) : ProfileComponent() {
     private val title: Component
-    private val enchantments: List<Component>
-    private val TEXTURE_SIZE = 16
-    private var indexToDraw = 0
-    private var someKindOfCounter = 0f
 
     init {
-        this.title = "journal.info.has_enchantments.title".asTranslatedComponent
-
-        this.enchantments = enchantmentResourceKey
-            .map { Component.translatableWithFallback(
-                it.location().toLanguageKey(),
-                it.location().path.replace("_"," ")
-                .capitalizeFirstLetterOfEachWord()
-            ) }
+        this.title = Component.literal("${yLevel-SEA_LEVEL}m ")
+            .append("journal.info.above.title".asTranslatedComponent)
     }
 
     override fun render(
@@ -48,26 +38,14 @@ class HasEnchantmentsComponent(enchantmentResourceKey: List<ResourceKey<Enchantm
             TEXT_COLOR,
             false
         )
-
-        if (enchantments == null)
-            return
-        // I'm too lazy to figure out how to have this depend on the system time
-        val levelMaybe = Minecraft.getInstance().level ?: return
-        indexToDraw = ((levelMaybe.gameTime / 80L) % enchantments.size).toInt()
-
-        val subtitle = enchantments[indexToDraw]
-        val fontOffsetSubtitle = font.width(subtitle) / 2
-        graphics.drawString(
-            font,
-            subtitle,
-            center - fontOffsetSubtitle,
-            y + requiredHeight / 2,
-            TEXT_COLOR,
-            false
-        )
     }
 
     override fun getRequiredHeight(): Int {
-        return 24
+        return 9
+    }
+
+    companion object {
+        @JvmField
+        val SEA_LEVEL: Int = 64
     }
 }

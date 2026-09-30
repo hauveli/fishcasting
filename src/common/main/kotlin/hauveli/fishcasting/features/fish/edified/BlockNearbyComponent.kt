@@ -4,7 +4,6 @@ import at.petrak.hexcasting.api.utils.asTranslatedComponent
 import com.li64.tide.client.gui.screens.journal.ProfileComponent
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.Fishcasting.capitalizeFirstLetterOfEachWord
-import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphics
@@ -66,11 +65,12 @@ class BlockNearbyComponent(blockTagKey: TagKey<Block>, radius: Int) : ProfileCom
         val translatedString = subtitle.string
         val halfTextureSize = TEXTURE_SIZE / 2
         val fontOffsetSubtitle = (font.width(translatedString)) / 2
+        val offsetY = y + requiredHeight / 2
         graphics.drawString(
             font,
             subtitle,
             center - fontOffsetSubtitle - halfTextureSize,
-            y + TEXTURE_SIZE,
+            offsetY,
             TEXT_COLOR,
             false
         )
@@ -84,10 +84,10 @@ class BlockNearbyComponent(blockTagKey: TagKey<Block>, radius: Int) : ProfileCom
         // graphics.renderItem()
         graphics.renderItem(blocks[indexToDraw],
             center + fontOffsetSubtitle - halfTextureSize + 1,
-            y + TEXTURE_SIZE - font.lineHeight / 2)
+            offsetY - font.lineHeight / 2)
     }
 
     override fun getRequiredHeight(): Int {
-        return 24
+        return 28
     }
 }

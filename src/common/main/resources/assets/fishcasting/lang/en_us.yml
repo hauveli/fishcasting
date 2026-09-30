@@ -281,6 +281,9 @@ item:
     edified_fish: Edified Guppy
     edified_fish_bucket: Edified Guppy Bucket
     edified_fish_spawn_egg: Edified Guppy Spawn Egg
+    perhosgata: Perhosgata
+    perhosgata_bucket: Perhosgata Bucket
+    perhosgata_spawn_egg: Perhosgata Spawn Egg
     cursed: Cursed Thing
     cursed_bucket: Cursed Thing Bucket
     cursed_spawn_egg: Cursed Thing Spawn Egg
@@ -316,6 +319,7 @@ entity:
     tacklebox_chair_floaty: Levitite Tacklebox Chair
     tacklebox_chair_secret: 'NUCLEAR-HEX-MACHINE "[WEST, wweewaqdeeweewawe]KOOL[NORTH_EAST, wawdwedaqedwwwe]U" MK[SOUTH_EAST, aqaaqawqaaq] TURBOMAX!!!!!'
     edified_fish: Edified Guppy
+    perhosgata: Perhosgata
     cursed: Cursed Thing
     blessed: Blessed Trader
 journal:
@@ -325,10 +329,13 @@ journal:
       within: within
     has_enchantments:
       title: Has Enchantments
+    above:
+      title: or more above sea
   description:
     fishcasting:
       edified_fish: Drawn to the unique color of edified trees, these little fish are just as pretty.
       cursed: They seem to be possessed of some intelligence, but remain unable to do much with it due to their form. Perhaps if I could free them...
+      perhosgata: Microscopic in nature, this butterfly-like fish is not visible under normal conditions, requiring a special lens to observe directly.
 _comment_pattern: PATTERN STUFF
 hexcasting:
   action:
