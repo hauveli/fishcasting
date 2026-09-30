@@ -78,7 +78,7 @@ class HasEnchantmentsComponent(enchantmentResourceKey: List<ResourceKey<Enchantm
             false
         )
 
-        if (enchantments == null)
+        if (enchantments.isEmpty())
             return
         // I'm too lazy to figure out how to have this depend on the system time
         val levelMaybe = Minecraft.getInstance().level ?: return
