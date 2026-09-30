@@ -13,9 +13,9 @@
     "entity": "fishcasting:cursed",
     "nbt": { "Variant": 0 },
     "shape": "1x1",
-    "pitch": 5,
-    "x": -0.05,
-    "y": -0.15
+    "pitch": 0,
+    "x": 0.0625,
+    "y": 0.0
   },
   "conditions": [
     {

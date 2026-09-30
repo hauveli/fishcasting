@@ -42,7 +42,7 @@ class EdifiedFishModel @JvmOverloads constructor(
 
         fun createBodyLayer(): LayerDefinition {
             val meshdefinition = MeshDefinition()
-            val partdefinition = meshdefinition.getRoot()
+            val partdefinition = meshdefinition.root
 
             val front =
                 partdefinition.addOrReplaceChild("front", CubeListBuilder.create(), PartPose.offset(0.0f, 24.0f, 0.0f))

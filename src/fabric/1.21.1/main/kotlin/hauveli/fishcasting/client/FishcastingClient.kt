@@ -11,6 +11,7 @@ import hauveli.fishcasting.features.fish.cursed.CursedModel
 import hauveli.fishcasting.features.fish.cursed.CursedRenderer
 import hauveli.fishcasting.features.fish.edified.EdifiedFishModel
 import hauveli.fishcasting.features.fish.edified.EdifiedFishRenderer
+import hauveli.fishcasting.features.fish.perhosgata.PerhosgataModel
 import hauveli.fishcasting.features.fish.perhosgata.PerhosgataRenderer
 // import hauveli.fishcasting.features.fish.CursedRenderer
 import hauveli.fishcasting.features.trader.BlessedModel
@@ -49,6 +50,10 @@ object FabricFishcastingClient : ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(
             EdifiedFishModel.LAYER_LOCATION,
             { EdifiedFishModel.createBodyLayer() }
+        )
+        EntityModelLayerRegistry.registerModelLayer(
+            PerhosgataModel.LAYER_LOCATION,
+            { PerhosgataModel.createBodyLayer() }
         )
         EntityModelLayerRegistry.registerModelLayer(
             CursedModel.LAYER_LOCATION,

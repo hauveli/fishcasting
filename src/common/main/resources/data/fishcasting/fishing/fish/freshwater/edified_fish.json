@@ -13,9 +13,12 @@
     "entity": "fishcasting:edified_fish",
     "nbt": { "Variant": 0 },
     "shape": "1x1",
-    "pitch": 5,
-    "x": -0.05,
-    "y": -0.15
+    "pitch": 0,
+    "yaw": 0,
+    "roll": 270,
+    "x": 0.03125,
+    "y": -0.125,
+    "z": 0.125
   },
   "conditions": [
     {

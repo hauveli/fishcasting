@@ -13,9 +13,10 @@
     "entity": "fishcasting:perhosgata",
     "nbt": { "Variant": 0 },
     "shape": "1x1",
-    "pitch": 5,
-    "x": -0.05,
-    "y": -0.15
+    "pitch": 0,
+    "x": 0,
+    "y": 0,
+    "z": 0.1
   },
   "conditions": [
     {

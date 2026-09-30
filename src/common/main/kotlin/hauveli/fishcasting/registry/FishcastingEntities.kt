@@ -1,10 +1,8 @@
 package hauveli.fishcasting.registry
 
 import com.li64.tide.registries.entities.fish.SmoothSwimmingFish
-import com.li64.tide.registries.entities.fish.TideFishEntity
 import hauveli.fishcasting.Fishcasting.id
 import hauveli.fishcasting.features.chair.TackleBoxChairEntity
-import hauveli.fishcasting.features.chair.secret.TackleBoxChairSecretEntity
 import hauveli.fishcasting.features.fish.cursed.CursedEntity
 import hauveli.fishcasting.features.fish.perhosgata.PerhosgataEntity
 import hauveli.fishcasting.features.trader.BlessedEntity
@@ -47,7 +45,7 @@ object FishcastingEntities : FishcastingRegistrar<EntityType<*>>(
         "perhosgata", {
             EntityType.Builder.of(::PerhosgataEntity, MobCategory.AMBIENT)
                 .sized(0.5f / 16f, 0.5f / 16f)
-                .clientTrackingRange(10)
+                .clientTrackingRange(3)
         }
     )
 

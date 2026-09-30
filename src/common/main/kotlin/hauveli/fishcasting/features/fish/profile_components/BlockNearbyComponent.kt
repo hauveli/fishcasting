@@ -57,8 +57,7 @@ class BlockNearbyComponent(blockTagKey: TagKey<Block>, radius: Int) : ProfileCom
         graphics.drawString(
             font,
             title,
-            center - fontOffset,
-            y,
+            center - fontOffset, y,
             TEXT_COLOR,
             false
         )
