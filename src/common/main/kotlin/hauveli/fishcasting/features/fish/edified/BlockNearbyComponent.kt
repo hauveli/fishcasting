@@ -63,7 +63,7 @@ class BlockNearbyComponent(blockTagKey: TagKey<Block>, radius: Int) : ProfileCom
             false
         )
 
-        val fontOffsetSubtitle = (font.width(title) + TEXTURE_SIZE) / 2
+        val fontOffsetSubtitle = (font.width(subtitle) + TEXTURE_SIZE) / 2
         graphics.drawString(
             font,
             subtitle,
