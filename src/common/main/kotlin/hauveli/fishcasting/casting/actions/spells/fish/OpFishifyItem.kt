@@ -82,7 +82,7 @@ object OpFishifyItem : SpellAction {
             val entityToSpawn = entityHolder.value().create(target.level())
             // I don't think this can be reached? but I am not going to take the risk of having something annoying to debug.
             if (entityToSpawn == null) {
-                Fishcasting.LOGGER.log(Fishcasting.LOGGER.level, "Fishcasting: AHHH HOW DID WE GET HERE??? report this to the developer please")
+                Fishcasting.LOGGER.warn("Fishcasting: AHHH HOW DID WE GET HERE??? report this to the developer please")
                 return
             }
             if (entityToSpawn is FishLengthHolder && length > 0.0) {

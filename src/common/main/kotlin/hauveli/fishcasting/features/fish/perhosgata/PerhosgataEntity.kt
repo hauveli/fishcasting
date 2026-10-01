@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.util.Mth
 import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.MoverType
 import net.minecraft.world.entity.ai.goal.Goal
@@ -22,24 +23,6 @@ class PerhosgataEntity(
     level: Level?
 ) : AbstractTideFish(entityType, level) {
     var renderingOnThisTickIsDone: Long = 0L
-
-    fun particlesForScrying(pos: Vec3) {
-        if (!this.level().isClientSide)
-            return
-        val mc = Minecraft.getInstance()
-
-        if (mc.level != null) {
-            mc.level!!.addParticle(
-                HexParticles.CONJURE_PARTICLE.get() as ParticleOptions,
-                pos.x,
-                pos.y,
-                pos.z,
-                0.0,
-                0.0,
-                0.0
-            )
-        }
-    }
 
     // mechanics things as I find them
     override fun getAirSupply(): Int {
@@ -70,9 +53,30 @@ class PerhosgataEntity(
         return true // super.isUnderWater()
     }
 
+    override fun die(p0: DamageSource) {
+        if (this.tickCount == 0 // this might seem weird but,
+            && this.position().equals(Vec3.ZERO)) { // FishDisplays have the entity's tick count set to 0 and pos to Vec3.ZERO
+            return
+        }
+        this.level().explode(this, this.x, this.y, this.z, 1.0f, Level.ExplosionInteraction.MOB)
+        super.die(p0) // unsure if I wanna do this still...
+    }
+
+    override fun canBeCollidedWith(): Boolean {
+        return false // super.canBeCollidedWith()
+    }
+
+    override fun isPushable(): Boolean {
+        return false // super.isPushable()
+    }
+
+    override fun doPush(p0: Entity) {
+        // super.doPush(p0)
+    }
+
     // visual/sound stuff as I find them
     override fun getDeathSound(): SoundEvent? {
-        return SoundEvents.EMPTY // super.getDeathSound()
+        return SoundEvents.GENERIC_EXPLODE.value() // SoundEvents.EMPTY // super.getDeathSound()
     }
 
     override fun getHurtSound(p0: DamageSource): SoundEvent? {
@@ -123,29 +127,29 @@ class PerhosgataEntity(
         } else super.travel(movement)
     }
 
+    // todo: add goal to attract it to specific blocks (light sources)
     override fun registerGoals() {
-        this.goalSelector.addGoal(0, perhosgataRandomMovementGoal(this))
+        this.goalSelector.addGoal(0, PerhosgataRandomMovementGoal(this))
     }
 
-    internal class perhosgataRandomMovementGoal(private val perhosgataEntity: PerhosgataEntity) : Goal() {
+    // this goal is from Tide's jelly fish
+    internal class PerhosgataRandomMovementGoal(private val perhosgataEntity: PerhosgataEntity) : Goal() {
         override fun canUse(): Boolean {
             return true
         }
 
         override fun tick() {
-            val i = this.perhosgataEntity.getNoActionTime()
-            if (i > 100) {
+            val rand = this.perhosgataEntity.getRandom()
+            val timeSinceLastAction = this.perhosgataEntity.getNoActionTime()
+            if (timeSinceLastAction > 100) {
                 this.perhosgataEntity.deltaMovement = Vec3.ZERO
-            } else if ((this.perhosgataEntity.getRandom()
-                    .nextInt(reducedTickDelay(25)) == 0)
-            ) {
-                val f = this.perhosgataEntity.getRandom().nextFloat() * (Math.PI.toFloat() * 2f)
+            } else if (rand.nextInt(reducedTickDelay(25)) == 0) {
+                val floatBetweenZeroAndTwoPi = rand.nextFloat() * (Math.PI.toFloat() * 2f)
                 this.perhosgataEntity.deltaMovement = Vec3(
-                    (Mth.cos(f) * 0.16f).toDouble(),
-                    (this.perhosgataEntity.getRandom().nextFloat() * 0.32f).toDouble(),
-                    (Mth.sin(f) * 0.16f).toDouble()
+                    (Mth.cos(floatBetweenZeroAndTwoPi) * 0.16f).toDouble(),
+                    (rand.nextFloat() * 0.32f).toDouble(),
+                    (Mth.sin(floatBetweenZeroAndTwoPi) * 0.16f).toDouble()
                 )
-                this.perhosgataEntity.particlesForScrying(this.perhosgataEntity.position())
             }
         }
     }
