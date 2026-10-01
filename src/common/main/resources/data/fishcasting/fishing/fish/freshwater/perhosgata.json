@@ -2,7 +2,7 @@
   "fish": "fishcasting:perhosgata",
   "bucket": "fishcasting:perhosgata_bucket",
   "journal_profile": {
-    "alt_sprite": "fishcasting:textures/item/perhosgata.png",
+    "alt_sprite": "fishcasting:textures/item/perhosgata_full.png",
     "alt_sprite_size": 48,
     "description": "journal.description.fishcasting.perhosgata",
     "group": "freshwater",
