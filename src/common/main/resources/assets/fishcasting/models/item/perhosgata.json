@@ -2,5 +2,13 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "fishcasting:item/perhosgata"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "fishcasting:no_scry_sight": 1.0
+      },
+      "model": "fishcasting:item/perhosgata_unseen"
+    }
+  ]
 }

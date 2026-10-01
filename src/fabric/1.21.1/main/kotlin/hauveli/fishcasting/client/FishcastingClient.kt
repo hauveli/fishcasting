@@ -1,28 +1,36 @@
 package hauveli.fishcasting.client
 
+// import hauveli.fishcasting.features.fish.CursedRenderer
+import at.petrak.hexcasting.common.lib.HexAttributes
 import com.li64.tide.client.TideItemModelProperties
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.config.FishcastingConfigs
 import hauveli.fishcasting.features.chair.TackleBoxChairModel
 import hauveli.fishcasting.features.chair.TackleBoxChairRenderer
 import hauveli.fishcasting.features.chair.secret.TackleBoxChairSecretModel
-import hauveli.fishcasting.features.chair.secret.TackleBoxChairSecretRenderer
 import hauveli.fishcasting.features.fish.cursed.CursedModel
 import hauveli.fishcasting.features.fish.cursed.CursedRenderer
 import hauveli.fishcasting.features.fish.edified.EdifiedFishModel
 import hauveli.fishcasting.features.fish.edified.EdifiedFishRenderer
 import hauveli.fishcasting.features.fish.perhosgata.PerhosgataModel
 import hauveli.fishcasting.features.fish.perhosgata.PerhosgataRenderer
-// import hauveli.fishcasting.features.fish.CursedRenderer
 import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
 import hauveli.fishcasting.registry.FishcastingEntities
+import hauveli.fishcasting.registry.FishcastingItems
 import hauveli.fishcasting.registry.FishcastingItems.SHEPHERDS_CASTING_ROD
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.client.multiplayer.ClientLevel
+import net.minecraft.client.renderer.item.ClampedItemPropertyFunction
 import net.minecraft.client.renderer.item.ItemProperties
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+
 
 object FabricFishcastingClient : ClientModInitializer {
     override fun onInitializeClient() {
@@ -32,6 +40,9 @@ object FabricFishcastingClient : ClientModInitializer {
             TideItemModelProperties.CAST_PROPERTY,
             TideItemModelProperties.CAST_FUNCTION
         )
+        registerItemPropertyForScryingVision(FishcastingItems.PERHOSGATA.value)
+        registerItemPropertyForScryingVision(FishcastingItems.PERHOSGATA_BUCKET.value)
+
         registerLayerDefinitions()
         registerEntityRenderers()
 
@@ -45,6 +56,24 @@ object FabricFishcastingClient : ClientModInitializer {
     }
 
 
+    fun registerItemPropertyForScryingVision(item: Item) {
+        ItemProperties.register(
+            item,
+            Fishcasting.id("no_scry_sight"), // todo: put this somewhere...
+            {
+                stack: ItemStack?, level: ClientLevel?, entity: LivingEntity?, seed: Int ->
+                if (entity == null) {
+                    1f
+                } else {
+                    if (entity.getAttributeValue(HexAttributes.SCRY_SIGHT) > 0.0
+                        && entity.getAttributeValue(HexAttributes.FEEBLE_MIND) <= 0.0)
+                        0f
+                    else
+                        1f
+                }
+            }
+        )
+    }
 
     fun registerLayerDefinitions() {
         EntityModelLayerRegistry.registerModelLayer(
