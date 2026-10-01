@@ -43,12 +43,12 @@ object OpAttachBobber : SpellAction {
 
         // Not a hook
         if (maybeBobberEntity !is TideFishingHook) {
-            throw MishapBadEntity.Companion.of(maybeBobberEntity, "fishcasting.fishing_hook")
+            throw MishapBadEntity.of(maybeBobberEntity, "fishcasting.fishing_hook")
         }
 
         // how do I check if a target is hookable?
-        if (maybeTargetEntity != null) {
-            throw MishapBadEntity.Companion.of(maybeTargetEntity, "fishcasting.fishing_hookable")
+        if (!maybeTargetEntity.canBeHitByProjectile()) {
+            throw MishapBadEntity.of(maybeTargetEntity, "fishcasting.fishing_hookable")
         }
 
         // Too far, only check if not owned by self
@@ -63,14 +63,14 @@ object OpAttachBobber : SpellAction {
             // throw MishapAlreadyHooked() // "expected a place to attach an entity, found [other entity]"? "The bobber rejected the []"? "The hook
         }
 
-        if (!maybeBobberEntity.boundingBox.intersects(maybeTargetEntity)) {
+        if (!maybeBobberEntity.boundingBox.intersects(maybeTargetEntity.boundingBox)) {
             throw MishapEntityTooFarAway(maybeTargetEntity)
         }
 
         return SpellAction.Result(
             Spell(maybeBobberEntity, maybeTargetEntity),
             MediaConstants.SHARD_UNIT,
-            listOf(ParticleSpray.Companion.cloud(maybeTargetEntity.position().add(0.0, maybeTargetEntity.eyeHeight / 2.0, 0.0), 1.0))
+            listOf(ParticleSpray.cloud(maybeTargetEntity.position().add(0.0, maybeTargetEntity.eyeHeight / 2.0, 0.0), 1.0))
         )
     }
 

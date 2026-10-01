@@ -2,6 +2,7 @@ package hauveli.fishcasting.casting.actions.patterns.bobber
 
 import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
+import at.petrak.hexcasting.api.casting.getEntity
 import at.petrak.hexcasting.api.casting.iota.EntityIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.NullIota
@@ -19,13 +20,7 @@ object OpGetBobbersOwner : ConstMediaAction {
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val caster = env.castingEntity
         val serverLevel = env.world
-        val unknownIota: Iota = args[0]
-
-        // Not an entity
-        if (unknownIota !is EntityIota) {
-            throw MishapInvalidIota.ofType(unknownIota, argc, "entity")
-        }
-        val unknownEntity = unknownIota.getEntity(serverLevel)
+        val unknownEntity = args.getEntity(serverLevel, 0, OpGetBobbersCatch.argc)
 
         // Not a player
         if (unknownEntity !is TideFishingHook) {
