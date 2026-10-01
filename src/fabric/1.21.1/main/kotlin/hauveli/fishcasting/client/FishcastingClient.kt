@@ -23,10 +23,9 @@ import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
 import net.fabricmc.loader.api.FabricLoader
+import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
-import net.minecraft.client.renderer.item.ClampedItemPropertyFunction
 import net.minecraft.client.renderer.item.ItemProperties
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
@@ -35,11 +34,8 @@ import net.minecraft.world.item.ItemStack
 object FabricFishcastingClient : ClientModInitializer {
     override fun onInitializeClient() {
         FishcastingClient.init()
-        ItemProperties.register(
-            SHEPHERDS_CASTING_ROD.value,
-            TideItemModelProperties.CAST_PROPERTY,
-            TideItemModelProperties.CAST_FUNCTION
-        )
+
+        registerRodWithCastProperty(SHEPHERDS_CASTING_ROD.value)
         registerItemPropertyForScryingVision(FishcastingItems.PERHOSGATA.value)
         registerItemPropertyForScryingVision(FishcastingItems.PERHOSGATA_BUCKET.value)
 
@@ -55,6 +51,13 @@ object FabricFishcastingClient : ClientModInitializer {
         }
     }
 
+    fun registerRodWithCastProperty(item: Item) {
+        ItemProperties.register(
+            item,
+            TideItemModelProperties.CAST_PROPERTY,
+            TideItemModelProperties.CAST_FUNCTION
+        )
+    }
 
     fun registerItemPropertyForScryingVision(item: Item) {
         ItemProperties.register(
@@ -62,11 +65,12 @@ object FabricFishcastingClient : ClientModInitializer {
             Fishcasting.id("no_scry_sight"), // todo: put this somewhere...
             {
                 stack: ItemStack?, level: ClientLevel?, entity: LivingEntity?, seed: Int ->
-                if (entity == null) {
+                val player = Minecraft.getInstance().player // thank god this is on the client side of things
+                if (player == null) {
                     1f
                 } else {
-                    if (entity.getAttributeValue(HexAttributes.SCRY_SIGHT) > 0.0
-                        && entity.getAttributeValue(HexAttributes.FEEBLE_MIND) <= 0.0)
+                    if (player.getAttributeValue(HexAttributes.SCRY_SIGHT) > 0.0
+                        && player.getAttributeValue(HexAttributes.FEEBLE_MIND) <= 0.0)
                         0f
                     else
                         1f
