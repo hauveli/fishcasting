@@ -23,6 +23,8 @@ import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceKey
 import net.minecraft.sounds.SoundEvents.BUCKET_EMPTY_FISH
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.Mob
 import net.minecraft.world.item.*
 import net.minecraft.world.level.material.Fluids.WATER
 import java.util.function.Consumer
@@ -49,8 +51,6 @@ object FishcastingItems : FishcastingRegistrar<Item>(
             item()!!.register(r)
         }
     }
-
-
 
     private val ITEMS: MutableList<Entry<*>> = mutableListOf()
 
@@ -128,6 +128,10 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         return Item(props)
     }
 
+    fun newEggItem(entityType: EntityType<out Mob>, props: Item.Properties = props()): SpawnEggItem {
+        return SpawnEggItem(entityType, 0xffffff, 0x000000, props)
+    }
+
     private fun musicDiscItem(resourceKey: ResourceKey<JukeboxSong>): Item {
         return Item(unstackableRare().jukeboxPlayable(resourceKey))
     }
@@ -201,9 +205,9 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         )}
     )
     val EDIFIED_FISH_SPAWN_EGG = make(
-        "edified_fish_spawn_egg", {SpawnEggItem(
-            FishcastingEntities.EDIFIED_FISH.value, 16499171, 10890612, props()
-        )}
+        "edified_fish_spawn_egg", {
+            newEggItem(FishcastingEntities.EDIFIED_FISH.value)
+        }
     ) // from axolotl thingy
 
     @JvmField
@@ -218,9 +222,9 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         )}
     )
     val CURSED_SPAWN_EGG = make(
-        "cursed_spawn_egg", {SpawnEggItem(
-            FishcastingEntities.CURSED.value, 16499171, 10890612, props()
-        )}
+        "cursed_spawn_egg", {
+            newEggItem(FishcastingEntities.CURSED.value)
+        }
     ) // from axolotl thingy
 
     @JvmField
@@ -235,16 +239,16 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         )}
     )
     val PERHOSGATA_SPAWN_EGG = make(
-        "perhosgata_spawn_egg", {SpawnEggItem(
-            FishcastingEntities.PERHOSGATA.value, 16499171, 10890612, props()
-        )}
+        "perhosgata_spawn_egg", {
+            newEggItem(FishcastingEntities.PERHOSGATA.value)
+        }
     ) // from axolotl thingy
 
 
     val BLESSED_SPAWN_EGG = make(
-        "blessed_spawn_egg", {SpawnEggItem(
-            FishcastingEntities.BLESSED.value, 9433559, 7969893, props()
-        )}
+        "blessed_spawn_egg", {
+            newEggItem(FishcastingEntities.BLESSED.value)
+        }
     ) // from drowned thingy
 
     private abstract class TabEntry {
