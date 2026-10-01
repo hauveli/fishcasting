@@ -235,7 +235,7 @@ tag:
       loud_lines: Loud Fishing Lines
       hookless_hooks: Hookless Fishing Hooks
       lore_fragments: Lore Fragments (to be removed)
-      unlucky_mulch: Unlucky Mulch
+      odious_mulch: Odious Mulch
       fishy_music_discs: Fishy Music Discs
       cursed_mostly_indestructible_item: Cursed Mostly Indestructible Item
 
@@ -258,9 +258,12 @@ item:
     hookless_fishing_hook:
       .: Hookless Fishing Hook
       desc: Prevents entities from getting hooked
+    odious_bait:
+      .: Odious Bait
+      desc: Prevents anything from nibbling or biting
     unlucky_bait:
       .: Unlucky Bait
-      desc: Prevents anything from nibbling or biting
+      desc:
     benign_bait:
       .: Benign Bait
       desc: Prevents anything but fish from nibbling or biting
@@ -416,7 +419,8 @@ yapping_tooltips:
       sampling_focus_bobber: Good for sampling in the upper atmosphere.
       loud_fishing_line.desc: A nice sound rings out from time to time.
       hookless_fishing_hook.desc: At least your friends can't stop you from fishing anymore.
-      unlucky_bait.desc: This bait kind of stinks...
+      unlucky_bait.desc: An unlucky number for many!
+      odious_bait.desc: This bait kind of stinks...
       benign_bait.desc: Smells good and is shiny.
       slick_bait.desc: Very colorful and glowy...
       tiny_bait.desc: Compact and very shiny!

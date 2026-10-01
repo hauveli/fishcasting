@@ -10,7 +10,6 @@ import hauveli.fishcasting.Fishcasting.id
 import hauveli.fishcasting.features.FishcastingLoreFragment
 import hauveli.fishcasting.features.chair.TackleBoxChairFloatyItem
 import hauveli.fishcasting.features.chair.TackleBoxChairItem
-import hauveli.fishcasting.features.chair.secret.TackleBoxChairSecretItem
 import hauveli.fishcasting.features.food.CrystalShrimpFriedRiceItem
 import hauveli.fishcasting.features.gacha.GachaBottleItem
 import hauveli.fishcasting.features.paraphernalia.ChainedFishingLineItem
@@ -172,9 +171,10 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         {FishingHookItem(props(), "item.fishcasting.hookless_fishing_hook.desc")}
     ) // tide does this
     @JvmField
-    val UNLUCKY_BAIT = make("unlucky_bait", {newItem()})
+    val ODIOUS_BAIT = make("odious_bait", {newItem()})
     @JvmField
     val BENIGN_BAIT = make("benign_bait", {newItem()})
+    val UNLUCKY_BAIT = make("unlucky_bait", {newItem()})
     val SLICK_BAIT = make("slick_bait", {Item(uncommon())})
     val TINY_BAIT = make("tiny_bait", {
         Item(stacksTo(props = uncommon(), stackSizeLimit = 99)) // I'll consider increasing this later

@@ -6,11 +6,11 @@
       "item": "tide:bait"
     },
     {
-      "item": "hexcasting:amethyst_dust"
+      "tag": "fishcasting:odious_mulch"
     }
   ],
   "result": {
     "count": 1,
-    "id": "fishcasting:unlucky_bait"
+    "id": "fishcasting:odious_bait"
   }
 }

@@ -16,7 +16,7 @@
   "type": "create:milling",
   "ingredients": [
     {
-      "item": "fishcasting:unlucky_bait"
+      "item": "fishcasting:odious_bait"
     }
   ],
   "processing_time": 350,

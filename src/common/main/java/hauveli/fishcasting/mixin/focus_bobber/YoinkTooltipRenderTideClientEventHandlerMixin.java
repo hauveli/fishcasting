@@ -50,8 +50,8 @@ public class YoinkTooltipRenderTideClientEventHandlerMixin {
         //if (stack.is(TideTags.Items.BAIT_ITEMS)) {
         if (stack.getItem() == FishcastingItems.BENIGN_BAIT.getValue()) {
             lines.add(Component.translatable("item.fishcasting.benign_bait.desc").withStyle(ChatFormatting.GOLD));
-        } else if (stack.getItem() == FishcastingItems.UNLUCKY_BAIT.getValue()) {
-            lines.add(Component.translatable("item.fishcasting.unlucky_bait.desc").withStyle(ChatFormatting.GOLD));
+        } else if (stack.getItem() == FishcastingItems.ODIOUS_BAIT.getValue()) {
+            lines.add(Component.translatable("item.fishcasting.odious_bait.desc").withStyle(ChatFormatting.GOLD));
         }
     }
 }
