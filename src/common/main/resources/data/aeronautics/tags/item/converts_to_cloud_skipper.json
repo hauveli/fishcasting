@@ -3,6 +3,6 @@
   "values": [
   ],
   "remove": [
-    "fishcasting:music_disc_returning_to_the_surface"
+    "fishcasting:music_disc/returning_to_the_surface"
   ]
 }
