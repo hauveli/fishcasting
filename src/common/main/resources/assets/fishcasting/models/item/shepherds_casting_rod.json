@@ -1,56 +1,60 @@
 {
-	"model": {
-		"type": "minecraft:condition",
-		"property": "minecraft:fishing_rod/cast",
-		"on_true": {
-			"type": "minecraft:select",
-			"property": "minecraft:display_context",
-			"cases": [
-				{
-					"when": [
-						"gui",
-						"ground"
-					],
-					"model": {
-						"type": "minecraft:model",
-						"model": "fishcasting:item/shepherds_casting_rod_cast"
-					}
-				}
-			],
-			"fallback": {
-				"type": "minecraft:model",
-				"model": "fishcasting:item/shepherds_casting_rod_0"
+	"overrides": [
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_0",
+			"predicate": {
+				"hexcasting:variant": 0.0,
+				"tide:cast": 0
 			}
 		},
-		"on_false": {
-			"type": "minecraft:select",
-			"property": "minecraft:display_context",
-			"cases": [
-				{
-					"when": [
-						"gui",
-						"ground"
-					],
-					"model": {
-						"type": "minecraft:model",
-						"model": "fishcasting:item/shepherds_casting_rod_0"
-					}
-				},
-				{
-					"when": [
-						"fixed",
-						"head"
-					],
-					"model": {
-						"type": "minecraft:model",
-						"model": "fishcasting:item/shepherds_casting_rod_cast"
-					}
-				}
-			],
-			"fallback": {
-				"type": "minecraft:model",
-				"model": "fishcasting:item/shepherds_casting_rod_0"
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_cast_0",
+			"predicate": {
+				"hexcasting:variant": 0.0,
+				"tide:cast": 1
+			}
+		},
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_1",
+			"predicate": {
+				"hexcasting:variant": 1.0,
+				"tide:cast": 0
+			}
+		},
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_cast_1",
+			"predicate": {
+				"hexcasting:variant": 1.0,
+				"tide:cast": 1
+			}
+		},
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_2",
+			"predicate": {
+				"hexcasting:variant": 2.0,
+				"tide:cast": 0
+			}
+		},
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_cast_2",
+			"predicate": {
+				"hexcasting:variant": 2.0,
+				"tide:cast": 1
+			}
+		},
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_3",
+			"predicate": {
+				"hexcasting:variant": 3.0,
+				"tide:cast": 0
+			}
+		},
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_cast_3",
+			"predicate": {
+				"hexcasting:variant": 3.0,
+				"tide:cast": 1
 			}
 		}
-	}
+	]
 }
