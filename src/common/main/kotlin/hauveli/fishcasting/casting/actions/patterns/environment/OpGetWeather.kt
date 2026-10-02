@@ -3,6 +3,7 @@ package hauveli.fishcasting.casting.actions.patterns.environment
 import at.petrak.hexcasting.api.casting.castables.ConstMediaAction
 import at.petrak.hexcasting.api.casting.eval.CastingEnvironment
 import at.petrak.hexcasting.api.casting.getBlockPos
+import at.petrak.hexcasting.api.casting.iota.DoubleIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.misc.MediaConstants
 import com.li64.tide.data.fishing.conditions.types.WeatherType
@@ -20,7 +21,12 @@ object OpGetWeather : ConstMediaAction {
         env.assertPosInRange(blockPos)
 
 
-        return listOf(WeatherIota(getWeather(env.world, blockPos).ordinal))
+        val weatherOrdinal = getWeather(env.world, blockPos).ordinal
+        // todo: some mods add custom weather, a WeatherIota would be more appropriate for that.
+        // something to consider for the future... would require making it take a ResourceKey instead, I think...
+        // return listOf(WeatherIota(weatherOrdinal))
+
+        return listOf(DoubleIota(weatherOrdinal.toDouble()))
     }
 
     fun getWeather(level: ServerLevel, blockPos: BlockPos): WeatherType {

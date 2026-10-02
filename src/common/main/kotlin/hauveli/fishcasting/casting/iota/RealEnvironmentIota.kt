@@ -1,7 +1,10 @@
 package hauveli.fishcasting.casting.iota
 
+import at.petrak.hexcasting.api.casting.iota.DoubleIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
+import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
+import com.li64.tide.util.TideUtils
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -30,6 +33,7 @@ import net.minecraft.network.codec.StreamCodec
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.util.Mth
 import net.minecraft.world.level.Level
 import java.util.Locale
 import java.util.function.Supplier
@@ -66,6 +70,7 @@ sealed interface EnvironmentValue {
     }
 
     fun display(): Component
+    fun getDouble(thisIota: RealEnvironmentIota? = null): Double
 
     val type: String
 
@@ -76,6 +81,10 @@ sealed interface EnvironmentValue {
         override val type: String = "biome"
         override fun display(): Component {
             return (InlineBiomeData(value.location().toString())).displayWithTextAndInline()
+        }
+
+        override fun getDouble(thisIota: RealEnvironmentIota?): Double {
+            throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
         }
 
         companion object {
@@ -119,7 +128,11 @@ sealed interface EnvironmentValue {
 
         override val type: String = "climate"
         override fun display(): Component {
-            return (InlineClimateData(value)).asText(true)
+            return (InlineClimateData(value)).displayWithTextAndInline()
+        }
+
+        override fun getDouble(thisIota: RealEnvironmentIota?): Double {
+            return value.toDouble()
         }
 
         companion object {
@@ -142,7 +155,11 @@ sealed interface EnvironmentValue {
 
         override val type: String = "daytime"
         override fun display(): Component {
-            return (InlineDaytimeData(value)).asText(true)
+            return (InlineDaytimeData(value)).displayWithTextAndInline()
+        }
+
+        override fun getDouble(thisIota: RealEnvironmentIota?): Double {
+            return value.toDouble()
         }
 
         companion object {
@@ -165,7 +182,11 @@ sealed interface EnvironmentValue {
 
         override val type: String = "depth"
         override fun display(): Component {
-            return (InlineDepthData(value)).asText(true)
+            return (InlineDepthData(value)).displayWithTextAndInline()
+        }
+
+        override fun getDouble(thisIota: RealEnvironmentIota?): Double {
+            return value.toDouble()
         }
 
         companion object {
@@ -188,7 +209,11 @@ sealed interface EnvironmentValue {
 
         override val type: String = "dimension"
         override fun display(): Component {
-            return (InlineDimensionData(value.location().toString())).asText(true)
+            return (InlineDimensionData(value.location().toString())).displayWithTextAndInline()
+        }
+
+        override fun getDouble(thisIota: RealEnvironmentIota?): Double {
+            throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
         }
 
         companion object {
@@ -232,7 +257,11 @@ sealed interface EnvironmentValue {
 
         override val type: String = "medium"
         override fun display(): Component {
-            return (InlineMediumData(value)).asText(true)
+            return (InlineMediumData(value)).displayWithTextAndInline()
+        }
+
+        override fun getDouble(thisIota: RealEnvironmentIota?): Double {
+            throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
         }
 
         companion object {
@@ -255,7 +284,11 @@ sealed interface EnvironmentValue {
 
         override val type: String = "moon"
         override fun display(): Component {
-            return (InlineMoonData(value)).asText(true)
+            return (InlineMoonData(value)).displayWithTextAndInline()
+        }
+
+        override fun getDouble(thisIota: RealEnvironmentIota?): Double {
+            return value / 4.0 * Mth.PI
         }
 
         companion object {
@@ -278,7 +311,11 @@ sealed interface EnvironmentValue {
 
         override val type: String = "structure"
         override fun display(): Component {
-            return (InlineStructureData(value.location().toString())).asText(true)
+            return (InlineStructureData(value.location().toString())).displayWithTextAndInline()
+        }
+
+        override fun getDouble(thisIota: RealEnvironmentIota?): Double {
+            throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
         }
 
         companion object {
@@ -322,7 +359,12 @@ sealed interface EnvironmentValue {
 
         override val type: String = "weather"
         override fun display(): Component {
-            return (InlineWeatherData(value)).asText(true)
+            return (InlineWeatherData(value)).displayWithTextAndInline()
+        }
+
+        // todo: maybe get length remaining here?
+        override fun getDouble(thisIota: RealEnvironmentIota?): Double {
+            throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
         }
 
         companion object {
@@ -417,5 +459,9 @@ class RealEnvironmentIota(
         iotaToCompare as RealEnvironmentIota
 
         return true // value == iotaToCompare.value
+    }
+
+    fun getDouble(): Double {
+        return this.value.getDouble(this)
     }
 }

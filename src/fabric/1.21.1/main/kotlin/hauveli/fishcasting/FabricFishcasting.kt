@@ -9,6 +9,7 @@ import com.li64.tide.data.fishing.conditions.types.WeatherType
 import com.li64.tide.registries.TideFish
 import com.li64.tide.registries.entities.fish.SmoothSwimmingFish
 import com.li64.tide.util.MoonPhases
+import hauveli.fishcasting.casting.arithmetic.FishcastingEnvironmentArithmetic
 import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
 import hauveli.fishcasting.casting.iota.BiomeIota
 import hauveli.fishcasting.casting.iota.DimensionIota
@@ -53,6 +54,7 @@ object FabricFishcasting : ModInitializer {
 
         FishcastingBrainsweepeeIngredients.registerBrainsweepeeIngredients(bind(IXplatAbstractions.INSTANCE.brainsweepeeIngredientRegistry))
         Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns"), FishcastingFishArithmetic())
+        Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns_fuck"), FishcastingEnvironmentArithmetic())
 
         registerCreativeModeTabItems()
         registerMoonPhaseFishies()

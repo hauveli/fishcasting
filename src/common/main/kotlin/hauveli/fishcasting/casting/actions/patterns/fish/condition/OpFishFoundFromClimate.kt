@@ -8,15 +8,14 @@ import at.petrak.hexcasting.api.casting.iota.BooleanIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.NullIota
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
-import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import com.li64.tide.data.fishing.FishData
-import com.li64.tide.data.fishing.conditions.types.WeatherCondition
-import com.li64.tide.data.fishing.conditions.types.WeatherType
 import com.li64.tide.data.fishing.modifiers.types.TemperatureModifier
-import hauveli.fishcasting.casting.iota.WeatherIota
-import me.fzzyhmstrs.fzzy_config.util.FcText.translation
+import com.li64.tide.util.TideUtils
 import net.minecraft.world.entity.item.ItemEntity
 import kotlin.math.abs
+import kotlin.math.cbrt
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 
 /*
@@ -29,6 +28,19 @@ object OpFishFoundFromClimate : ConstMediaAction {
     override val argc: Int = 2
     override val mediaCost: Long = 0 // MediaConstants.DUST_UNIT // free is ok I think
 
+    // todo: I kind of would prefer to use the ClimateIota because it abstracts away this nonsense a little...
+    fun inverseMcTemp(celsius: Double): Double {
+        // x = mcTemp-0.23 <=>
+        // c=11(x^3)+30x+21.9
+        //
+        val a = (celsius - 21.9) / 22.0
+        val b = (10.0 / 11.0).pow(3.0)
+
+        val mcTemp = 0.23 +
+                cbrt(a + sqrt(a * a + b)) +
+                cbrt(a - sqrt(a * a + b))
+        return mcTemp
+    }
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val target = args.getEntity(env.world, 0, argc)
@@ -44,8 +56,6 @@ object OpFishFoundFromClimate : ConstMediaAction {
         }
         val definitelyFish = maybeFishData.get()
 
-
-
         val relevantModifiers = definitelyFish.modifiers()
             .filter {
                 it is TemperatureModifier
@@ -56,7 +66,7 @@ object OpFishFoundFromClimate : ConstMediaAction {
         val foundInClimates = relevantModifiers.all { modifier ->
             when (modifier) {
                 is TemperatureModifier -> {
-                    abs(modifier.preferred - someDouble) < modifier.tolerance
+                    abs(modifier.preferred - inverseMcTemp(someDouble)) < modifier.tolerance
                 }
 
                 else -> true // ugh

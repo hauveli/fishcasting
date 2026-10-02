@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 
+@Deprecated
 @Mixin(targets = "at.petrak.hexcasting.common.casting.actions.spells.great.OpLightning$Spell")
 public class OpLightningSpellMixin {
     @Inject(
@@ -30,14 +31,6 @@ public class OpLightningSpellMixin {
             CastingEnvironment env, CallbackInfo ci,
             @Local LightningBolt lightning
     ) {
-        // TODO:? I really don't want to potentially screw over another mods detection methods for some obscure mechanic
-        // But also, this is so simple.... And it would only affect lightning bolts summoned via hex....
-        // please open a PR if you find any mod that this may conflict with so that I can get an idea of what I need to do
-        // to make things work, my best current idea is some cursed kind of "make a temporary array for a player, store the lightning there,
-        // when cursed is hit check if the source is the lightning bolt/if the lightning bnolt is close enough to it to trigger transformation...
-        // and then removing the lightning bolt upon its discard/kill, somehow.
-        // other suggestions welcomed.
-        // TODO: 2: a pr was made to fix this and another issue at once!
         // this mixin is now deprecated, but I am leaving it in until it is merged into the dev version.
         // shouldn't matter even if they both run, because of setCuase not calling a bunch of bullshit (I think)
         if (env.getCastingEntity() instanceof ServerPlayer serverPlayer) {
