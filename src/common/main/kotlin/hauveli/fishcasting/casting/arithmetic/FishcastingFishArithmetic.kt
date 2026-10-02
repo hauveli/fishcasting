@@ -11,12 +11,14 @@ import at.petrak.hexcasting.api.casting.iota.DoubleIota
 import at.petrak.hexcasting.api.casting.iota.EntityIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.math.HexPattern
+import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import com.li64.tide.data.FishLengthHolder
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.fishing.SizeData
 import com.li64.tide.data.item.TideDataComponents
 import hauveli.fishcasting.Fishcasting
+import hauveli.fishcasting.config.FishcastingConfigs
 import hauveli.fishcasting.registry.FishcastingIotaTypes
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.Entity
@@ -29,7 +31,7 @@ import kotlin.math.max
 
 class FishcastingFishArithmetic : Arithmetic {
     override fun arithName(): String {
-        return "fishcasting_arithmetic_fish"
+        return "${Fishcasting.MODID}_arithmetic_fish"
     }
 
     override fun opTypes(): Iterable<HexPattern> {
@@ -55,6 +57,10 @@ class FishcastingFishArithmetic : Arithmetic {
             // this does not work...
             // return TideItemData.FISH_LENGTH.getOrDefault(stack, 0.0d); // FishLengthHolder.tide$LENGTH_KEY
         }
+        // erm... Unsure if this is wise...
+        if (FishcastingConfigs.COMMON_CONFIG.isLengthPurificationOnlyFish.get()) {
+            throw MishapBadEntity.of(entity, "not_a_fish")
+        }
         val box = entity.boundingBox
 
         val largestDimension = max(
@@ -65,7 +71,6 @@ class FishcastingFishArithmetic : Arithmetic {
     }
 
     fun getFishSizeData(entity: Entity): SizeData {
-        Fishcasting.LOGGER.info(FishData.get(entity))
         return FishData.get(entity).get().size().get()
     }
 

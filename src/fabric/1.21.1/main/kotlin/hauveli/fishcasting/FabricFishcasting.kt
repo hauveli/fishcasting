@@ -54,7 +54,7 @@ object FabricFishcasting : ModInitializer {
 
         FishcastingBrainsweepeeIngredients.registerBrainsweepeeIngredients(bind(IXplatAbstractions.INSTANCE.brainsweepeeIngredientRegistry))
         Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns"), FishcastingFishArithmetic())
-        Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns_fuck"), FishcastingEnvironmentArithmetic())
+        Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns"), FishcastingEnvironmentArithmetic())
 
         registerCreativeModeTabItems()
         registerMoonPhaseFishies()

@@ -14,8 +14,18 @@ import com.li64.tide.data.fishing.conditions.types.BiomeWhitelistCondition
 import com.li64.tide.data.fishing.conditions.types.FreshwaterCondition
 import com.li64.tide.data.fishing.conditions.types.SaltwaterCondition
 import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromBiome
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromClimate
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromDepth
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromDimension
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromMedium
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromMoonPhase
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromStructure
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromTimeOfDay
+import hauveli.fishcasting.casting.actions.patterns.fish.condition.OpFishFoundFromWeather
 import hauveli.fishcasting.casting.iota.BiomeIota
 import hauveli.fishcasting.casting.iota.EnvironmentIota
+import hauveli.fishcasting.casting.iota.EnvironmentValue
+import hauveli.fishcasting.casting.iota.RealEnvironmentIota
 import hauveli.fishcasting.mixin.environment_spells.BiomeWhitelistConditionAccessor
 import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.core.registries.Registries
@@ -34,20 +44,27 @@ object OpFishFoundFromCondition : ConstMediaAction {
 
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
-        val target = args.getEntity(env.world, 0, argc)
         val someIota = args[1]
-        if (someIota !is EnvironmentIota) {
-            throw MishapInvalidIota(
+        if (someIota !is RealEnvironmentIota) {
+            throw MishapInvalidIota.ofType(
                 someIota,
                 1,
-                EnvironmentIota.translation("testing this")
+                "wrong_thingy"
             )
         }
+        val target = args.getEntity(env.world, 0, argc) // just so I mishap on the entity being out of ambit before going deeper
 
-        if (someIota is BiomeIota) {
-            return OpFishFoundFromBiome.execute(args, env)
+        return when (someIota.value) {
+            is EnvironmentValue.Biome -> OpFishFoundFromBiome.execute(args, env)
+            is EnvironmentValue.Climate -> OpFishFoundFromClimate.execute(args, env)
+            is EnvironmentValue.Daytime -> OpFishFoundFromTimeOfDay.execute(args, env)
+            is EnvironmentValue.Depth -> OpFishFoundFromDepth.execute(args, env)
+            is EnvironmentValue.Dimension -> OpFishFoundFromDimension.execute(args, env)
+            is EnvironmentValue.Medium -> OpFishFoundFromMedium.execute(args, env)
+            is EnvironmentValue.MoonPhase -> OpFishFoundFromMoonPhase.execute(args, env)
+            is EnvironmentValue.Structure -> OpFishFoundFromStructure.execute(args, env)
+            is EnvironmentValue.Weather -> OpFishFoundFromWeather.execute(args, env)
+            else -> listOf(NullIota())
         }
-
-        return listOf(NullIota())
     }
 }

@@ -12,7 +12,6 @@ fishcasting:
     dimension:
       minecraft:
         overworld: Overworld
-  iota:
     weather:
       clear: Clear Skies
       rain: Rainy Clouds
@@ -341,6 +340,9 @@ journal:
       perhosgata: Microscopic in nature, this butterfly-like fish is not visible under normal conditions, requiring a special lens to observe directly.
 _comment_pattern: PATTERN STUFF
 hexcasting:
+  iota:
+    fishcasting:environment:
+      desc: Environment
   action:
     fishcasting:bobber/from_owner: Bobbert's Purification
     fishcasting:owner/from_bobber: Trebbob's Purification
@@ -384,6 +386,9 @@ hexcasting:
     fishcasting:environment/depth: Depth Purification
     fishcasting:bobber/medium: Medium Purification
   mishap:
+    invalid_value:
+      class:
+        environment: Number-like
     bad_item:
       fishcasting:
         fishing_hook: Fishing Hook

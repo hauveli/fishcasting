@@ -29,8 +29,7 @@ import net.minecraft.util.Mth
 import net.minecraft.world.level.Level
 import java.util.function.Supplier
 
-// hmm I could do (theEnvironmentValue.value::javaClass)() but that feels scary....
-// I could use an enum but then I would lose .value ...
+// todo: consider using this to re-implement all of these as their own Iota if I feel like it...
 sealed interface EnvironmentValue {
     companion object {
 
@@ -76,7 +75,7 @@ sealed interface EnvironmentValue {
         }
 
         override fun getDouble(thisIota: RealEnvironmentIota?): Double {
-            throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
+            throw MishapInvalidIota.ofType(thisIota!!, 0, "environment")
         }
 
         override fun of(newValue: Any): Biome {
@@ -225,7 +224,7 @@ sealed interface EnvironmentValue {
         }
 
         override fun getDouble(thisIota: RealEnvironmentIota?): Double {
-            throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
+            throw MishapInvalidIota.ofType(thisIota!!, 0, "environment")
         }
 
         override fun of(newValue: Any): Dimension {
@@ -278,7 +277,7 @@ sealed interface EnvironmentValue {
         }
 
         override fun getDouble(thisIota: RealEnvironmentIota?): Double {
-            throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
+            throw MishapInvalidIota.ofType(thisIota!!, 0, "environment")
         }
 
         override fun of(newValue: Any): Medium {
@@ -342,7 +341,7 @@ sealed interface EnvironmentValue {
         }
 
         override fun getDouble(thisIota: RealEnvironmentIota?): Double {
-            throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
+            throw MishapInvalidIota.ofType(thisIota!!, 0, "environment")
         }
 
         override fun of(newValue: Any): Structure {
@@ -396,7 +395,7 @@ sealed interface EnvironmentValue {
 
         // todo: maybe get length remaining here?
         override fun getDouble(thisIota: RealEnvironmentIota?): Double {
-            throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
+            throw MishapInvalidIota.ofType(thisIota!!, 0, "environment")
         }
 
         override fun of(newValue: Any): Weather {
