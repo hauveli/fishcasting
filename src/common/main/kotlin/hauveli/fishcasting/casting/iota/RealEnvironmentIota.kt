@@ -1,19 +1,12 @@
 package hauveli.fishcasting.casting.iota
 
-import at.petrak.hexcasting.api.casting.iota.DoubleIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
-import com.li64.tide.util.TideUtils
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
-import com.mojang.serialization.codecs.RecordCodecBuilder
-import hauveli.fishcasting.Fishcasting
-import hauveli.fishcasting.casting.iota.EnvironmentValue.Climate
 import hauveli.fishcasting.casting.iota.EnvironmentValue.Companion.ENVIRONMENT_CODEC
 import hauveli.fishcasting.casting.iota.EnvironmentValue.Companion.ENVIRONMENT_STREAM_CODEC
-import hauveli.fishcasting.casting.iota.EnvironmentValue.Daytime
-import hauveli.fishcasting.casting.iota.EnvironmentValue.Depth
 import hauveli.fishcasting.interop.inline.biome.InlineBiomeData
 import hauveli.fishcasting.interop.inline.climate.InlineClimateData
 import hauveli.fishcasting.interop.inline.daytime.InlineDaytimeData
@@ -24,7 +17,6 @@ import hauveli.fishcasting.interop.inline.moon.InlineMoonData
 import hauveli.fishcasting.interop.inline.structure.InlineStructureData
 import hauveli.fishcasting.interop.inline.weather.InlineWeatherData
 import hauveli.fishcasting.registry.FishcastingIotaTypes
-import io.netty.buffer.ByteBuf
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.RegistryFriendlyByteBuf
 import net.minecraft.network.chat.Component
@@ -35,13 +27,13 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.Mth
 import net.minecraft.world.level.Level
-import java.util.Locale
 import java.util.function.Supplier
 
-
+// hmm I could do (theEnvironmentValue.value::javaClass)() but that feels scary....
 // I could use an enum but then I would lose .value ...
 sealed interface EnvironmentValue {
     companion object {
+
         val ENVIRONMENT_CODEC =
             mapOf(
                 "biome" to Biome.CODEC,
@@ -69,10 +61,10 @@ sealed interface EnvironmentValue {
             )
     }
 
+    val type: String
     fun display(): Component
     fun getDouble(thisIota: RealEnvironmentIota? = null): Double
-
-    val type: String
+    fun of(newValue: Any): EnvironmentValue
 
     data class Biome(
         val value: ResourceKey<net.minecraft.world.level.biome.Biome>
@@ -85,6 +77,11 @@ sealed interface EnvironmentValue {
 
         override fun getDouble(thisIota: RealEnvironmentIota?): Double {
             throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
+        }
+
+        override fun of(newValue: Any): Biome {
+            @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
+            return Biome(newValue as ResourceKey<net.minecraft.world.level.biome.Biome>)
         }
 
         companion object {
@@ -135,6 +132,11 @@ sealed interface EnvironmentValue {
             return value.toDouble()
         }
 
+        override fun of(newValue: Any): Climate {
+            @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
+            return Climate((newValue as Double).toFloat())
+        }
+
         companion object {
             val CODEC: Codec<Climate> =
                 Codec.FLOAT.xmap(
@@ -160,6 +162,11 @@ sealed interface EnvironmentValue {
 
         override fun getDouble(thisIota: RealEnvironmentIota?): Double {
             return value.toDouble()
+        }
+
+        override fun of(newValue: Any): Daytime {
+            @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
+            return Daytime((newValue as Double).toLong())
         }
 
         companion object {
@@ -189,6 +196,11 @@ sealed interface EnvironmentValue {
             return value.toDouble()
         }
 
+        override fun of(newValue: Any): Depth {
+            @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
+            return Depth((newValue as Double).toInt())
+        }
+
         companion object {
             val CODEC: Codec<Depth> =
                 Codec.INT.xmap(
@@ -214,6 +226,11 @@ sealed interface EnvironmentValue {
 
         override fun getDouble(thisIota: RealEnvironmentIota?): Double {
             throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
+        }
+
+        override fun of(newValue: Any): Dimension {
+            @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
+            return Dimension(newValue as ResourceKey<Level>)
         }
 
         companion object {
@@ -264,6 +281,11 @@ sealed interface EnvironmentValue {
             throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
         }
 
+        override fun of(newValue: Any): Medium {
+            @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
+            return Medium((newValue as Double).toInt())
+        }
+
         companion object {
             val CODEC: Codec<Medium> =
                 Codec.INT.xmap(
@@ -291,6 +313,11 @@ sealed interface EnvironmentValue {
             return value / 4.0 * Mth.PI
         }
 
+        override fun of(newValue: Any): MoonPhase {
+            @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
+            return MoonPhase((newValue as Double).toInt())
+        }
+
         companion object {
             val CODEC: Codec<MoonPhase> =
                 Codec.INT.xmap(
@@ -316,6 +343,11 @@ sealed interface EnvironmentValue {
 
         override fun getDouble(thisIota: RealEnvironmentIota?): Double {
             throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
+        }
+
+        override fun of(newValue: Any): Structure {
+            @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
+            return Structure(newValue as ResourceKey<net.minecraft.world.level.levelgen.structure.Structure>)
         }
 
         companion object {
@@ -365,6 +397,11 @@ sealed interface EnvironmentValue {
         // todo: maybe get length remaining here?
         override fun getDouble(thisIota: RealEnvironmentIota?): Double {
             throw MishapInvalidIota.ofType(thisIota!!, 0, "something")
+        }
+
+        override fun of(newValue: Any): Weather {
+            @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
+            return Weather((newValue as Double).toInt())
         }
 
         companion object {

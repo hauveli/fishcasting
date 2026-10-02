@@ -29,6 +29,7 @@ import net.minecraft.world.item.ItemStack
 import org.apache.commons.lang3.function.TriFunction
 import java.math.BigInteger
 import java.util.function.BiFunction
+import kotlin.jvm.javaClass
 import kotlin.math.max
 
 
@@ -44,7 +45,7 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
     override fun getOperator(pattern: HexPattern): Operator {
         when (pattern) {
             Arithmetic.ADD -> {
-                return make2In1OutDouble(
+                return make2In1OutEnv(
                     {
                             double: Double, double2: Double, env: CastingEnvironment ->
                         double + double2
@@ -52,7 +53,7 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
                 )
             }
             Arithmetic.SUB -> {
-                return make2In1OutDouble(
+                return make2In1OutEnv(
                     {
                             double: Double, double2: Double, env: CastingEnvironment ->
                         double - double2
@@ -60,7 +61,7 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
                 )
             }
             Arithmetic.MUL -> {
-                return make2In1OutDouble(
+                return make2In1OutEnv(
                     {
                             double: Double, double2: Double, env: CastingEnvironment ->
                         double * double2
@@ -68,7 +69,7 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
                 )
             }
             Arithmetic.DIV -> {
-                return make2In1OutDouble(
+                return make2In1OutEnv(
                     {
                             double: Double, double2: Double, env: CastingEnvironment ->
                         double / double2
@@ -108,7 +109,7 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
                 )
             }
             Arithmetic.AND -> {
-                return make2In1OutDouble(
+                return make2In1OutEnv(
                     {
                             double: Double, double2: Double, env: CastingEnvironment ->
                         (BigInteger.valueOf(double.toLong())
@@ -117,7 +118,7 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
                 )
             }
             Arithmetic.OR -> {
-                return make2In1OutDouble(
+                return make2In1OutEnv(
                     {
                             double: Double, double2: Double, env: CastingEnvironment ->
                         (BigInteger.valueOf(double.toLong())
@@ -126,7 +127,7 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
                 )
             }
             Arithmetic.XOR -> {
-                return make2In1OutDouble(
+                return make2In1OutEnv(
                     {
                             double: Double, double2: Double, env: CastingEnvironment ->
                         (BigInteger.valueOf(double.toLong())
@@ -140,6 +141,13 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
                             double: Double, env: CastingEnvironment ->
                         (BigInteger.valueOf(double.toLong()).negate()).toDouble()
                     }
+                )
+            }
+
+
+            Arithmetic.ABS -> {
+                return make1In1OutDouble(
+                    { double: Double, env: CastingEnvironment -> double }
                 )
             }
 
@@ -163,6 +171,8 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
             Arithmetic.OR,
             Arithmetic.XOR,
             Arithmetic.NOT,
+
+            Arithmetic.ABS, // convert to double
         )
 
 
@@ -172,6 +182,16 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
                 is RealEnvironmentIota -> iota.getDouble()
                 else -> 0.0
             }
+        }
+
+
+        private fun getEnvIotaFromIota(
+            iota: Iota,
+            iotaTwo: Iota
+        ): RealEnvironmentIota {
+            if (iota is RealEnvironmentIota)
+                return iota
+            return iotaTwo as RealEnvironmentIota
         }
 
         fun make1In1OutDouble(
@@ -197,7 +217,7 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
             }
         }
 
-        fun make2In1OutDouble(
+        fun make2In1OutEnv(
             op: TriFunction<Double, Double, CastingEnvironment, Double>
         ): OperatorBasic {
 
@@ -210,13 +230,15 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
                 override fun apply(iotas: Iterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
                     val it = iotas.iterator()
                     val iota = it.next()
-                    val double = getDoubleFromIota(iota)
                     val iotaTwo = it.next()
+                    val double = getDoubleFromIota(iota)
                     val doubleTwo = getDoubleFromIota(iotaTwo)
 
                     val result = op.apply(double, doubleTwo, env)
+                    val theEnvironmentValue = getEnvIotaFromIota(iota, iotaTwo).value
 
-                    return listOf<Iota>(DoubleIota(result))
+                    val newEnvIota = theEnvironmentValue.of(result)
+                    return listOf<Iota>(RealEnvironmentIota(newEnvIota))
                 }
             }
         }

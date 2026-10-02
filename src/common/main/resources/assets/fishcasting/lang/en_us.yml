@@ -2,7 +2,7 @@ fishcasting:
   environment:
     depth: Depth
     climate: Climate
-    daytime: Daytime
+    daytime: Day
     structure:
       minecraft:
         trial_chambers: Trial Chambers

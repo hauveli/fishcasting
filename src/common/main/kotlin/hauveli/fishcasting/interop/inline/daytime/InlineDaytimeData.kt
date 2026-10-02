@@ -10,6 +10,7 @@ import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.casting.iota.EnvironmentIota
 import net.minecraft.network.chat.*
 import net.minecraft.resources.ResourceLocation
+import kotlin.math.floor
 
 // https://github.com/FallingColors/HexMod/blob/1.21/Common/src/main/java/at/petrak/hexcasting/interop/inline/InlinePatternData.java
 
@@ -37,7 +38,8 @@ class InlineDaytimeData(val daytime: Long) : InlineData<InlineDaytimeData> {
 
     fun displayWithTextAndInline(): Component {
         val name = getName()
-            .append(": ${ticksToRealTime(daytime % 24000, Tide.CLIENT_CONFIG.journal.useAmPm)} ")
+            .append(" ${(daytime / 24000).toInt()}:")
+            .append(" ${ticksToRealTime(daytime % 24000, Tide.CLIENT_CONFIG.journal.useAmPm)} ")
             .withColor(EnvironmentIota.TYPE.color())
 
         val moreStuff = asText(true)
