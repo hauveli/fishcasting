@@ -43,6 +43,11 @@ class PerhosgataRenderer(
 
         return frustum.isVisible(entity.boundingBoxForCulling)
     }
+
+    override fun getShadowRadius(p0: Mob): Float {
+        return 0f // super.getShadowRadius(p0)
+    }
+
     override fun shouldShowName(p0: Mob): Boolean {
         return super.shouldShowName(p0)
     }

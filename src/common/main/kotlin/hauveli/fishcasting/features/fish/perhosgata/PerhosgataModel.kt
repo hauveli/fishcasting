@@ -18,7 +18,7 @@ class PerhosgataModel @JvmOverloads constructor(
 ) : FishModel(context, modelLocation) {
 
     override fun shadowRadius(): Float {
-        return 0.15f
+        return 0.0f
     }
 
     companion object {

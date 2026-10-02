@@ -21,6 +21,10 @@ class BlessedRenderer(context: EntityRendererProvider.Context) :
         return LOCATION_BY_VARIANT[blessedEntity.variant]!!
     }
 
+    override fun getShadowRadius(p0: BlessedEntity): Float {
+        return super.getShadowRadius(p0) * 0.8f // erm... a little too big
+    }
+
     override fun getRenderType(
         livingEntity: BlessedEntity,
         bodyVisible: Boolean,

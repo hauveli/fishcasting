@@ -52,7 +52,6 @@ class BlessedModel<T : BlessedEntity?>(root: ModelPart) : HierarchicalModel<T?>(
         return this.rooot
     }
 
-
     init {
         this.rooot = root.getChild("rooot")
         this.body = this.rooot.getChild("body")
