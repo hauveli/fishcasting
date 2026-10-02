@@ -309,7 +309,7 @@ text:
         '1': Unbreakable
         '2': Can catch end fish in any void
       unluck_bonus:
-        .: -2 Luck in the dark
+        '1': -2 Luck in the dark
     bobber_tooltip:
       focus_bonus: Can be written to as a Focus when held or cast
       sound_bonus: Plays sound when a fish bites

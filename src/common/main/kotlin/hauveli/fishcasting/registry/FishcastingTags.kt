@@ -19,6 +19,12 @@ object FishcastingTags {
     @JvmField
     val SLIMY_BOBBERS: TagKey<Item?> = make("slimy_bobbers")
 
+
+    @JvmField
+    val END_FISHING_RODS: TagKey<Item?> = make("end_fishing_rods")
+    @JvmField
+    val LUCK_REDUCING_RODS: TagKey<Item?> = make("luck_reducing_rods")
+
     val EDIFIED_TREES: TagKey<Block?> = makeB("edified_trees")
     val MUSIC_DISCS_FROM_FISHING: TagKey<Item?> = make("fishy_music_discs")
     val NO_DURABILITY_ENCHANTMENTS: TagKey<Item?> = make("no_durability_enchantments")
