@@ -1,25 +1,25 @@
 {
 	"overrides": [
 		{
-			"model": "fishcasting:item/blessed_focus_bobber_0",
+			"model": "fishcasting:item/shepherds_casting_rod_0",
 			"predicate": {
 				"hexcasting:variant": 0.0
 			}
 		},
 		{
-			"model": "fishcasting:item/blessed_focus_bobber_1",
+			"model": "fishcasting:item/shepherds_casting_rod_1",
 			"predicate": {
 				"hexcasting:variant": 1.0
 			}
 		},
 		{
-			"model": "fishcasting:item/blessed_focus_bobber_2",
+			"model": "fishcasting:item/shepherds_casting_rod_2",
 			"predicate": {
 				"hexcasting:variant": 2.0
 			}
 		},
 		{
-			"model": "fishcasting:item/blessed_focus_bobber_3",
+			"model": "fishcasting:item/shepherds_casting_rod_3",
 			"predicate": {
 				"hexcasting:variant": 3.0
 			}

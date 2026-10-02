@@ -175,6 +175,8 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
             Arithmetic.ABS, // convert to double
         )
 
+        // downcast(j, DOUBLE).double.roundToLong()
+        // todo: should I downcast? (for the https://github.com/FallingColors/HexMod/blob/4db93abc91a60cc4ca340dd2ebdda70aee7c867a/Common/src/main/java/at/petrak/hexcasting/common/casting/arithmetic/BitwiseSetArithmetic.kt#L22
 
         fun getDoubleFromIota(iota: Iota): Double {
             return when (iota) {
