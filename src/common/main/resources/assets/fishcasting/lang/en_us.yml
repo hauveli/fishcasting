@@ -245,6 +245,7 @@ item:
     amethyst_bobber: Amethyst Focus Bobber
   fishcasting:
     shepherds_casting_rod: Shepherd's Casting Rod
+    rocky_casting_rod: Rocky Casting Rod
     blessed_focus_bobber: Blessed Focus Bobber
     hexxy_focus_bobber: Hexxy Focus Bobber
     sampling_focus_bobber: Sampling Focus Bobber
@@ -307,6 +308,8 @@ text:
       shepherds_bonus:
         '1': Unbreakable
         '2': Can catch end fish in any void
+      unluck_bonus:
+        .: -2 Luck in the dark
     bobber_tooltip:
       focus_bonus: Can be written to as a Focus when held or cast
       sound_bonus: Plays sound when a fish bites
@@ -419,6 +422,7 @@ yapping_tooltips:
       crystal_fishing_rod.desc: Fishcasters want me. Fish fear me.
     fishcasting:
       shepherds_casting_rod.desc: Carved from some tree you don't recognize.
+      rocky_casting_rod.desc: Somehow solid.
       blessed_focus_bobber.desc: Its scent reminds you of times past.
       hexxy_focus_bobber.desc: Yep.
       sampling_focus_bobber: Good for sampling in the upper atmosphere.

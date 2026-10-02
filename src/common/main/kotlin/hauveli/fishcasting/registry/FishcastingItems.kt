@@ -140,6 +140,10 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         make("shepherds_casting_rod", {HexyRodItem(3, 0.0, unstackableUncommon())})
 
     @JvmField
+    val ROCKY_CASTING_ROD =
+        make("rocky_casting_rod", {HexyRodItem(3, 384.0, fireResistantUnstackable())})
+
+    @JvmField
     val BLESSED_FOCUS_BOBBER = make(
         "blessed_focus_bobber", {TideyFocusItem(unstackableUncommon())}
     )

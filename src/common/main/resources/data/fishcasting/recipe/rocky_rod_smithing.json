@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:ancient_debris"
+  },
+  "base": [
+    {
+      "item": "tide:crystal_fishing_rod"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "fishcasting:rocky_casting_rod"
+  },
+  "template": {
+    "item": "fishcasting:perhosgata"
+  }
+}
