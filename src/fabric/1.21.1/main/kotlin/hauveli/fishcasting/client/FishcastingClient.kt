@@ -18,7 +18,6 @@ import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
 import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingItems
-import hauveli.fishcasting.registry.FishcastingItems.SHEPHERDS_CASTING_ROD
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry
@@ -35,7 +34,8 @@ object FabricFishcastingClient : ClientModInitializer {
     override fun onInitializeClient() {
         FishcastingClient.init()
 
-        registerRodWithCastProperty(SHEPHERDS_CASTING_ROD.value)
+        registerRodWithCastProperty(FishcastingItems.SHEPHERDS_CASTING_ROD.value)
+        registerRodWithCastProperty(FishcastingItems.ROCKY_CASTING_ROD.value)
         registerItemPropertyForScryingVision(FishcastingItems.PERHOSGATA.value)
         registerItemPropertyForScryingVision(FishcastingItems.PERHOSGATA_BUCKET.value)
 
