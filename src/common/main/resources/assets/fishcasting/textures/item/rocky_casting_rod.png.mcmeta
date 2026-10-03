@@ -1,14 +1,14 @@
 {
 	"animation": {
-		"interpolate": false,
+		"interpolate": true,
 		"frames": [
 			{
 				"index": 0,
-				"time": 7
+				"time": 769
 			},
 			{
 				"index": 1,
-				"time": 13
+				"time": 967
 			}
 		]
 	}
