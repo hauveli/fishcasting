@@ -13,6 +13,9 @@ object FishcastingTags {
     @JvmField
     val NO_ENTITY_COLLISION_HOOK: TagKey<Item> = make("hookless_hooks")
     @JvmField
+    val NO_NIBBLE_TIMEOUT_HOOKS: TagKey<Item> = make("clingy_hooks")
+
+    @JvmField
     val MOB_PACIFYING_LINES: TagKey<Item> = make("loud_lines")
     @JvmField
     val LUCK_TWEAKING_BOBBERS: TagKey<Item> = make("blessed_bobbers")

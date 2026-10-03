@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(TideFishingHook.class)
-public abstract class UnluckyBaitTideFishingHookMixin {
+public abstract class OdiousBaitTideFishingHookMixin {
     @Shadow
     private int timeUntilLured;
     @Shadow
