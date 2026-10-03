@@ -27,11 +27,15 @@ Items:
     Added a chair variant
     Added 1 Rare Fish
     Added 1 Legendary Fish
-    Added Chain fishing Line
     Added Sampling Focus Bobber (cosmetic) (1.21.1 prevents me from making the item model look how I want...)
     Added Rocky Rod
         reduces luck and increases speed
+    Added Chain fishing Line
+        Limits distance to player, when terrain allows for it
+    Added Clingy Hook
+        prevents nibbles from timing out
     Unlucky bait renamed to odious bait
+        effect unchanged
     Added unlucky bait
         reduces luck
     Crystal Shrimp Fried Rice (costs two crystal shrimp) (how did they do it?)
