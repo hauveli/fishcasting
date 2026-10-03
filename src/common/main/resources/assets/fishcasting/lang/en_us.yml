@@ -107,10 +107,10 @@ fishcasting:
     fishing_patterns:
       title: Fish Patterns
       fish/condition: $(br)Evaluates if a fish could be found in the given conditions. Costs a negligible amount of _media.
-      '1': Removes an entity and an environment from the stack, then pushes true if the entity was a fish which can be found in that environment, false if it can not, or $(thing)Null/$ if the given environment has no effect on the fish.
-      fish/min: Removes an entity from the stack and if it was a fish, pushes the smallest specimen caught by the caster as a number. Costs a negligible amount of _media.
-      fish/max: Removes an entity from the stack and if it was a fish, pushes the largest specimen caught by the caster as a number. Costs a negligible amount of _media.
-      fish/length: Measure the length of the fish entity. Returns 0 if the entity could not be measured or was not a fish.
+      '1': Transforms a fish on the stack into a boolean representing if it can be found in that environment, or $(thing)Null/$ if the given environment has no effect on the fish.
+      fish/min: Transforms a fish on the stack into the smallest specimen caught by the caster as a number. Costs a negligible amount of _media.
+      fish/max: Transforms a fish on the stack into the largest specimen caught by the caster as a number. Costs a negligible amount of _media.
+      fish/length: Transforms a fish on the stack into its length as measured by a fisher, or 0 if it was not alive.
       fish/rarity: Measure the quality of the fish entity. A common fish will have a lower quality, and a rare fish will have a higher quality.
       fish/length_all_entities: |-
         Compute the largest dimension of the entity. For a fish, this returns its $(t:Tide 2 provides fish as items and
@@ -233,6 +233,7 @@ tag:
       no_durability_enchantments: No Durability Enchantments
       loud_lines: Loud Fishing Lines
       hookless_hooks: Hookless Fishing Hooks
+      clingy_hooks: Clingy Fishing Hooks
       lore_fragments: Lore Fragments (to be removed)
       odious_mulch: Odious Mulch
       fishy_music_discs: Fishy Music Discs
@@ -258,6 +259,9 @@ item:
     hookless_fishing_hook:
       .: Hookless Fishing Hook
       desc: Prevents entities from getting hooked
+    clingy_fishing_hook:
+      .: Clingy Fishing Hook
+      desc: Keeps catch from escaping until reeled
     odious_bait:
       .: Odious Bait
       desc: Prevents anything from nibbling or biting
@@ -309,7 +313,7 @@ text:
         '1': Unbreakable
         '2': Can catch end fish in any void
       unluck_bonus:
-        '1': -2 Luck in the dark
+        '1': -2 luck and +2 speed while in the dark
     bobber_tooltip:
       focus_bonus: Can be written to as a Focus when held or cast
       sound_bonus: Plays sound when a fish bites

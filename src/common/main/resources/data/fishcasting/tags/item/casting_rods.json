@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "tide:crystal_fishing_rod",
+    "fishcasting:shepherds_casting_rod",
+    "fishcasting:rocky_casting_rod"
+  ]
+}

@@ -34,6 +34,8 @@ public abstract class RegisterAsCastingRodTideItemsMixin {
             index = 1
     )
     private static Function<Item.Properties, Item> replaceCrystalRod(Function<Item.Properties, Item> original) {
+        // can I somehow register them by relying on CASTING_RODS?
+        // I think tags load too late for it to be possible easily, but I'm not sure...
         return props -> new HexyRodItem(2, 216, props);
     }
 }

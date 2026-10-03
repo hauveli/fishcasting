@@ -174,6 +174,10 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         "hookless_fishing_hook",
         {FishingHookItem(props(), "item.fishcasting.hookless_fishing_hook.desc")}
     ) // tide does this
+    val CLINGY_FISHING_HOOK = make(
+        "clingy_fishing_hook",
+        {FishingHookItem(props(), "item.fishcasting.clingy_fishing_hook.desc")}
+    ) // tide does this
     @JvmField
     val ODIOUS_BAIT = make("odious_bait", {newItem()})
     @JvmField
@@ -183,7 +187,7 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     val TINY_BAIT = make("tiny_bait", {
         Item(stacksTo(props = uncommon(), stackSizeLimit = 99)) // I'll consider increasing this later
     })
-    val SHRIMPY_RICE = make("crystal_shrimp_fried_rice") { CrystalShrimpFriedRiceItem(props()) }
+    val SHRIMPY_RICE = make("crystal_shrimp_fried_rice") { CrystalShrimpFriedRiceItem(unstackable()) }
     val TACKLEBOX_CHAIR = make("tacklebox_chair", {TackleBoxChairItem(unstackable())})
     val TACKLEBOX_CHAIR_FLOATY = make("tacklebox_chair_floaty", { TackleBoxChairFloatyItem(unstackableUncommon())})
     //val TACKLEBOX_CHAIR_SECRET = makeNoCreativeMenu("tacklebox_chair_secret", { TackleBoxChairSecretItem(unstackableEpic()) })

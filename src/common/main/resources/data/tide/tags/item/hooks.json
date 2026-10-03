@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "fishcasting:hookless_fishing_hook"
+    "fishcasting:hookless_fishing_hook",
+    "fishcasting:clingy_fishing_hook"
   ]
 }

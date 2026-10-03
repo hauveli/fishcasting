@@ -24,12 +24,20 @@ Patterns:
         Patterns to check for all the conditinos a fish may have (Most of the ones I could think of at least)
 
 Items:
-    Yet another bobber (cosmetic)
+    Added a chair variant
+    Added 1 Rare Fish
+    Added 1 Legendary Fish
+    Added Chain fishing Line
+    Added Sampling Focus Bobber (cosmetic) (1.21.1 prevents me from making the item model look how I want...)
+    Added Rocky Rod
+        reduces luck and increases speed
+    Unlucky bait renamed to odious bait
+    Added unlucky bait
+        reduces luck
     Crystal Shrimp Fried Rice (costs two crystal shrimp) (how did they do it?)
         applies clarity I and luck I for 13 and 6.5 minutes respectively
-    Chair that doesn't just vanish into the void if I can figure it out (Todo)
-    Added 2 new fish (wow!!!)
-    Added 1 new fishing line (wow!!!)
+    Removed unneeded recipes
+
 
 Balance Changes:
     Modified some of trader's fishing trades

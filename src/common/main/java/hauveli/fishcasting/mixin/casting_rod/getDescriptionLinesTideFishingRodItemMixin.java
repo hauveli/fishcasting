@@ -39,7 +39,7 @@ public class getDescriptionLinesTideFishingRodItemMixin {
         List<Component> components = new ArrayList<>(cir.getReturnValue());
 
         if ((stack.getItem() instanceof TideFishingRodItem)
-                && !stack.isDamageableItem()) {
+                && stack.getMaxDamage() == 0) {
             components.add(Component.translatable("text.fishcasting.rod_tooltip.shepherds_bonus.1").withStyle(ChatFormatting.GOLD));
         }
         if (stack.is(FishcastingTags.END_FISHING_RODS)) {
@@ -68,7 +68,7 @@ public class getDescriptionLinesTideFishingRodItemMixin {
             at = @At("STORE"),
             ordinal = 1
     )
-    private int fishcasting$addRodBonuses(
+    private int fishcasting$addRodLuckBonuses(
             int luck,
             ItemStack rod,
             Player player,
@@ -82,6 +82,27 @@ public class getDescriptionLinesTideFishingRodItemMixin {
         }
 
         return luck;
+    }
+
+    @ModifyVariable(
+            method = "castHook",
+            at = @At("STORE"),
+            ordinal = 0
+    )
+    private int fishcasting$addRodSpeedBonuses(
+            int speed,
+            ItemStack rod,
+            Player player,
+            Level level,
+            float charge
+    ) {
+        if (rod.is(FishcastingTags.LUCK_REDUCING_RODS)) {
+            // pretty sure level can't become null between when the method is invoked and here so this is fine
+            if (player.level().getMaxLocalRawBrightness(player.blockPosition()) < 1)
+                speed += 2;
+        }
+
+        return speed;
     }
 
 }
