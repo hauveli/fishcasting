@@ -1,8 +1,24 @@
 package hauveli.fishcasting.casting.iota
 
+import at.petrak.hexcasting.api.casting.getEntity
+import at.petrak.hexcasting.api.casting.iota.EntityIota
 import at.petrak.hexcasting.api.casting.iota.Iota
+import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs
+import com.li64.tide.data.fishing.FishData
+import net.minecraft.server.level.ServerLevel
+
+
+fun List<Iota>.getFishEntity(level: ServerLevel, idx: Int, argc: Int = 0): FishData {
+    val entity = this.getEntity(level, idx, argc)
+    val possiblyFish = FishData.get(entity)
+    if (possiblyFish.isPresent) {
+        return possiblyFish.get()
+    } else {
+        throw MishapBadEntity.of(entity, "fish")
+    }
+}
 
 
 fun List<Iota>.getEnvironment(idx: Int, argc: Int = 0): EnvironmentValue {

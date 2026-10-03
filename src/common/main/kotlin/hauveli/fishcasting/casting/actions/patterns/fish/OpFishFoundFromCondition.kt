@@ -26,6 +26,7 @@ import hauveli.fishcasting.casting.iota.BiomeIota
 import hauveli.fishcasting.casting.iota.EnvironmentIota
 import hauveli.fishcasting.casting.iota.EnvironmentValue
 import hauveli.fishcasting.casting.iota.RealEnvironmentIota
+import hauveli.fishcasting.casting.iota.getEnvironment
 import hauveli.fishcasting.mixin.environment_spells.BiomeWhitelistConditionAccessor
 import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.core.registries.Registries
@@ -44,18 +45,10 @@ object OpFishFoundFromCondition : ConstMediaAction {
 
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
-        val someIota = args[1]
-        if (someIota !is RealEnvironmentIota) {
-            throw MishapInvalidIota.ofType(
-                someIota,
-                1,
-                "wrong_thingy"
-            )
-        }
-
         val target = args.getEntity(env.world, 0, argc) // just so I mishap on the entity being out of ambit before going deeper
+        val someEnv = args.getEnvironment(1, argc)
 
-        return when (someIota.value) {
+        return when (someEnv) {
             is EnvironmentValue.Biome -> OpFishFoundFromBiome.execute(args, env)
             is EnvironmentValue.Climate -> OpFishFoundFromClimate.execute(args, env)
             is EnvironmentValue.Daytime -> OpFishFoundFromTimeOfDay.execute(args, env)
@@ -65,7 +58,6 @@ object OpFishFoundFromCondition : ConstMediaAction {
             is EnvironmentValue.MoonPhase -> OpFishFoundFromMoonPhase.execute(args, env)
             is EnvironmentValue.Structure -> OpFishFoundFromStructure.execute(args, env)
             is EnvironmentValue.Weather -> OpFishFoundFromWeather.execute(args, env)
-            else -> listOf(NullIota())
         }
     }
 }

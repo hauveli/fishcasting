@@ -21,11 +21,9 @@ public abstract class ClingyFishingHookTideFishingHookMixin {
 
     @Inject(method = "catchingFish", at = @At("TAIL"))
     private void fishcasting$clingy(CallbackInfo ci) {
-        Fishcasting.LOGGER.info("erm...: {}", nibble);
         if (this.nibble == 1 // checking nibble first is probably smarter...
                 && this.getHook().is(FishcastingTags.NO_NIBBLE_TIMEOUT_HOOKS)) {
             this.nibble = 2;
-            Fishcasting.LOGGER.info("erm setting nibble to 1...: {}", nibble);
         }
     }
 
