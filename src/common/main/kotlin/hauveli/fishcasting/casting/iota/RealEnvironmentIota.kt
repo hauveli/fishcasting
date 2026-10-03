@@ -3,6 +3,8 @@ package hauveli.fishcasting.casting.iota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
+import com.li64.tide.data.fishing.conditions.types.WeatherType
+import com.li64.tide.data.fishing.mediums.FishingMedium
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import hauveli.fishcasting.casting.iota.EnvironmentValue.Companion.ENVIRONMENT_CODEC
@@ -28,6 +30,9 @@ import net.minecraft.server.level.ServerLevel
 import net.minecraft.util.Mth
 import net.minecraft.world.level.Level
 import java.util.function.Supplier
+import kotlin.math.cbrt
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 // todo: consider using this to re-implement all of these as their own Iota if I feel like it...
 sealed interface EnvironmentValue {
@@ -64,9 +69,17 @@ sealed interface EnvironmentValue {
     fun display(): Component
     fun getDouble(thisIota: RealEnvironmentIota? = null): Double
     fun of(newValue: Any): EnvironmentValue
+    val UPPER_BOUND: Double?
+    val LOWER_BOUND: Double?
+
+    fun clampedInRange(inputValue: Double): Double {
+        return inputValue.coerceIn(LOWER_BOUND, UPPER_BOUND)
+    }
 
     data class Biome(
-        val value: ResourceKey<net.minecraft.world.level.biome.Biome>
+        val value: ResourceKey<net.minecraft.world.level.biome.Biome>,
+        override val UPPER_BOUND: Double? = null,
+        override val LOWER_BOUND: Double? = null
     ) : EnvironmentValue {
 
         override val type: String = "biome"
@@ -118,8 +131,12 @@ sealed interface EnvironmentValue {
         }
     }
 
+    // practically, this only really needs -2 to +2 for minecrafts temperature thing...
+    // what's Tide's temp range though?
     data class Climate(
-        val value: Float
+        val value: Float,
+        override val UPPER_BOUND: Double? = Float.MAX_VALUE.toDouble(),
+        override val LOWER_BOUND: Double? = Float.MIN_VALUE.toDouble()
     ) : EnvironmentValue {
 
         override val type: String = "climate"
@@ -133,10 +150,25 @@ sealed interface EnvironmentValue {
 
         override fun of(newValue: Any): Climate {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
-            return Climate((newValue as Double).toFloat())
+            val castValue = newValue as Double
+            val clampedValue = clampedInRange(realTempToMcTemp((castValue)))
+            return Climate(clampedValue.toFloat())
         }
 
         companion object {
+            fun realTempToMcTemp(celsius: Double): Double {
+                // x = mcTemp-0.23 <=>
+                // c=11(x^3)+30x+21.9
+                //
+                val a = (celsius - 21.9) / 22.0
+                val b = (10.0 / 11.0).pow(3.0)
+
+                val mcTemp = 0.23 +
+                        cbrt(a + sqrt(a * a + b)) +
+                        cbrt(a - sqrt(a * a + b))
+                return mcTemp
+            }
+
             val CODEC: Codec<Climate> =
                 Codec.FLOAT.xmap(
                     ::Climate,
@@ -151,7 +183,9 @@ sealed interface EnvironmentValue {
     }
 
     data class Daytime(
-        val value: Long
+        val value: Long,
+        override val UPPER_BOUND: Double? = Long.MAX_VALUE.toDouble(),
+        override val LOWER_BOUND: Double? = Long.MIN_VALUE.toDouble()
     ) : EnvironmentValue {
 
         override val type: String = "daytime"
@@ -165,7 +199,9 @@ sealed interface EnvironmentValue {
 
         override fun of(newValue: Any): Daytime {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
-            return Daytime((newValue as Double).toLong())
+            val castValue = newValue as Double
+            val clampedValue = clampedInRange((castValue))
+            return Daytime(clampedValue.toLong())
         }
 
         companion object {
@@ -182,8 +218,12 @@ sealed interface EnvironmentValue {
         }
     }
 
+    // is this a problem if the world has a world border closer than 4 billion? I think it might be...
+    // a problem for future me
     data class Depth(
-        val value: Int
+        val value: Int,
+        override val UPPER_BOUND: Double? = Int.MAX_VALUE.toDouble(),
+        override val LOWER_BOUND: Double? = Int.MIN_VALUE.toDouble()
     ) : EnvironmentValue {
 
         override val type: String = "depth"
@@ -197,7 +237,9 @@ sealed interface EnvironmentValue {
 
         override fun of(newValue: Any): Depth {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
-            return Depth((newValue as Double).toInt())
+            val castValue = newValue as Double
+            val clampedValue = clampedInRange((castValue))
+            return Depth(clampedValue.toInt())
         }
 
         companion object {
@@ -215,7 +257,9 @@ sealed interface EnvironmentValue {
     }
 
     data class Dimension(
-        val value: ResourceKey<Level>
+        val value: ResourceKey<Level>,
+        override val UPPER_BOUND: Double? = null,
+        override val LOWER_BOUND: Double? = null
     ) : EnvironmentValue {
 
         override val type: String = "dimension"
@@ -268,7 +312,9 @@ sealed interface EnvironmentValue {
     }
 
     data class Medium(
-        val value: Int
+        val value: Int,
+        override val UPPER_BOUND: Double? = 0.0,
+        override val LOWER_BOUND: Double? = 2.0
     ) : EnvironmentValue {
 
         override val type: String = "medium"
@@ -282,10 +328,17 @@ sealed interface EnvironmentValue {
 
         override fun of(newValue: Any): Medium {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
-            return Medium((newValue as Double).toInt())
+            val castValue = newValue as Double
+            val clampedValue = clampedInRange((castValue))
+            return Medium(clampedValue.toInt())
+        }
+
+        fun mediumIdFromOrdinal(): FishingMedium {
+            return FishingMedium.MEDIUMS[value]
         }
 
         companion object {
+
             val CODEC: Codec<Medium> =
                 Codec.INT.xmap(
                     ::Medium,
@@ -300,7 +353,9 @@ sealed interface EnvironmentValue {
     }
 
     data class MoonPhase(
-        val value: Int
+        val value: Int,
+        override val UPPER_BOUND: Double? = 0.0,
+        override val LOWER_BOUND: Double? = 7.0
     ) : EnvironmentValue {
 
         override val type: String = "moon"
@@ -314,7 +369,9 @@ sealed interface EnvironmentValue {
 
         override fun of(newValue: Any): MoonPhase {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
-            return MoonPhase((newValue as Double).toInt())
+            val castValue = newValue as Double
+            val clampedValue = clampedInRange((castValue))
+            return MoonPhase(clampedValue.toInt())
         }
 
         companion object {
@@ -332,7 +389,9 @@ sealed interface EnvironmentValue {
     }
 
     data class Structure(
-        val value: ResourceKey<net.minecraft.world.level.levelgen.structure.Structure>
+        val value: ResourceKey<net.minecraft.world.level.levelgen.structure.Structure>,
+        override val UPPER_BOUND: Double? = null,
+        override val LOWER_BOUND: Double? = null
     ) : EnvironmentValue {
 
         override val type: String = "structure"
@@ -385,7 +444,9 @@ sealed interface EnvironmentValue {
     }
 
     data class Weather(
-        val value: Int
+        val value: Int,
+        override val UPPER_BOUND: Double? = 0.0,
+        override val LOWER_BOUND: Double? = 2.0
     ) : EnvironmentValue {
 
         override val type: String = "weather"
@@ -400,7 +461,13 @@ sealed interface EnvironmentValue {
 
         override fun of(newValue: Any): Weather {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
-            return Weather((newValue as Double).toInt())
+            val castValue = newValue as Double
+            val clampedValue = clampedInRange((castValue))
+            return Weather(clampedValue.toInt())
+        }
+
+        fun weatherTypeFromOrdinal(): WeatherType {
+            return WeatherType.entries[value]
         }
 
         companion object {
@@ -418,6 +485,7 @@ sealed interface EnvironmentValue {
     }
 }
 
+// todo: I think I'm repeating myself but maybe splitting it up into iota based on this one is reasonable
 // https://github.com/SuperKnux/HexMod/blob/indev/1.21.1/Common/src/main/java/at/petrak/hexcasting/api/casting/iota/EntityIota.java
 class RealEnvironmentIota(
     val value: EnvironmentValue

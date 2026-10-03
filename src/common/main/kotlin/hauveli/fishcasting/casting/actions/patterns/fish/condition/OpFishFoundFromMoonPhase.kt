@@ -11,6 +11,7 @@ import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.fishing.conditions.types.MoonPhaseCondition
 import hauveli.fishcasting.casting.iota.MoonPhaseIota
+import hauveli.fishcasting.casting.iota.getMoonPhase
 import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.world.entity.item.ItemEntity
 
@@ -28,14 +29,7 @@ object OpFishFoundFromMoonPhase : ConstMediaAction {
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val target = args.getEntity(env.world, 0, argc)
-        val someIota = args[1]
-        if (someIota !is MoonPhaseIota) {
-            throw MishapInvalidIota(
-                someIota,
-                1,
-                MoonPhaseIota.translation("testing this")
-            )
-        }
+        val someMoonPhase = args.getMoonPhase(1, argc)
 
         env.assertEntityInRange(target)
         val maybeFishData = FishData.get(target)
@@ -54,7 +48,7 @@ object OpFishFoundFromMoonPhase : ConstMediaAction {
         if (relevantConditions.isEmpty())
             return listOf(NullIota()) // if it has no moonphase, it can be found... should it maybe return null if it doesn't care?
 
-        val phase = someIota.moonPhase
+        val phase = someMoonPhase.value
 
         val foundInMoonPhase = relevantConditions.all { condition ->
             when (condition) {

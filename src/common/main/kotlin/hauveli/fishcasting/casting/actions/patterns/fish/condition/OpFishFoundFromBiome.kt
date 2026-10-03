@@ -14,6 +14,7 @@ import com.li64.tide.data.fishing.conditions.types.BiomeWhitelistCondition
 import com.li64.tide.data.fishing.conditions.types.FreshwaterCondition
 import com.li64.tide.data.fishing.conditions.types.SaltwaterCondition
 import hauveli.fishcasting.casting.iota.BiomeIota
+import hauveli.fishcasting.casting.iota.getBiome
 import hauveli.fishcasting.mixin.environment_spells.BiomeWhitelistConditionAccessor
 import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.core.registries.Registries
@@ -33,14 +34,7 @@ object OpFishFoundFromBiome : ConstMediaAction {
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val target = args.getEntity(env.world, 0, argc)
-        val someIota = args[1]
-        if (someIota !is BiomeIota) {
-            throw MishapInvalidIota(
-                someIota,
-                1,
-                BiomeIota.translation("testing this")
-            )
-        }
+        val someBiome = args.getBiome(1, argc)
 
         env.assertEntityInRange(target)
         val maybeFishData = FishData.get(target)
@@ -61,7 +55,7 @@ object OpFishFoundFromBiome : ConstMediaAction {
         if (relevantConditions.isEmpty())
             return listOf(NullIota())
 
-        val biomeKey = someIota.value
+        val biomeKey = someBiome.value
 
         val biomeHolder = env.world.registryAccess()
             .lookupOrThrow(Registries.BIOME)
@@ -74,7 +68,7 @@ object OpFishFoundFromBiome : ConstMediaAction {
 
                     // I couldn't think of a better way to do this but I need to check the tags as well as the resourceLocations to be sure...
                     // todo: is there a better way? some of these tags may be nested...
-                    accessor.`tide$getBiomes`().contains(someIota.value.location()) ||
+                    accessor.`tide$getBiomes`().contains(someBiome.value.location()) ||
                             accessor.`tide$getTags`().any { tag ->
                                 biomeHolder.`is`(tag)
                             }

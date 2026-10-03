@@ -11,6 +11,7 @@ import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.fishing.conditions.types.DimensionsCondition
 import hauveli.fishcasting.casting.iota.DimensionIota
+import hauveli.fishcasting.casting.iota.getDimension
 import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.world.entity.item.ItemEntity
 
@@ -28,14 +29,7 @@ object OpFishFoundFromDimension : ConstMediaAction {
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val target = args.getEntity(env.world, 0, argc)
-        val someIota = args[1]
-        if (someIota !is DimensionIota) {
-            throw MishapInvalidIota(
-                someIota,
-                1,
-                DimensionIota.translation("testing this")
-            )
-        }
+        val someDimension = args.getDimension(1, argc)
 
         env.assertEntityInRange(target)
         val maybeFishData = FishData.get(target)
@@ -54,7 +48,7 @@ object OpFishFoundFromDimension : ConstMediaAction {
         if (relevantConditions.isEmpty())
             return listOf(NullIota()) // if it has no conditions for the dimension, it should be true?
 
-        val dimension = someIota.value  // I'm not so sure this is the best option going forwards........ what about other mediums from other mods?
+        val dimension = someDimension.value  // I'm not so sure this is the best option going forwards........ what about other mediums from other mods?
 
         val foundInDimension = relevantConditions.all { condition ->
             when (condition) {

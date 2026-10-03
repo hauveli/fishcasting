@@ -7,14 +7,9 @@ import at.petrak.hexcasting.api.casting.iota.BooleanIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.NullIota
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
-import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.fishing.conditions.types.WeatherCondition
-import com.li64.tide.data.fishing.conditions.types.WeatherType
-import hauveli.fishcasting.casting.iota.WeatherIota
-import hauveli.fishcasting.interop.inline.weather.InlineWeatherData
-import hauveli.fishcasting.interop.inline.weather.InlineWeatherRenderer
-import me.fzzyhmstrs.fzzy_config.util.FcText.translation
+import hauveli.fishcasting.casting.iota.getWeather
 import net.minecraft.world.entity.item.ItemEntity
 
 
@@ -31,14 +26,7 @@ object OpFishFoundFromWeather : ConstMediaAction {
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val target = args.getEntity(env.world, 0, argc)
-        val someIota = args[1]
-        if (someIota !is WeatherIota) {
-            throw MishapInvalidIota(
-                someIota,
-                1,
-                WeatherIota.translation("testing this")
-            )
-        }
+        val someWeather = args.getWeather(1, argc)
 
         env.assertEntityInRange(target)
         val maybeFishData = FishData.get(target)
@@ -57,7 +45,7 @@ object OpFishFoundFromWeather : ConstMediaAction {
         if (relevantConditions.isEmpty())
             return listOf(NullIota()) // if it has no moonphase, it can be found... should it maybe return null if it doesn't care?
 
-        val weather = WeatherType.valueOf(InlineWeatherData.getName(someIota.weather))
+        val weather = someWeather.weatherTypeFromOrdinal()
 
         val foundInWather = relevantConditions.all { condition ->
             when (condition) {

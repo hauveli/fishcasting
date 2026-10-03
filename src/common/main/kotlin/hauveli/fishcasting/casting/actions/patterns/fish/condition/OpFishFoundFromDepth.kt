@@ -13,6 +13,7 @@ import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.fishing.conditions.types.DepthRangeCondition
 import com.li64.tide.data.fishing.conditions.types.DimensionsCondition
 import hauveli.fishcasting.casting.iota.DimensionIota
+import hauveli.fishcasting.casting.iota.getDepth
 import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.world.entity.item.ItemEntity
 
@@ -30,7 +31,7 @@ object OpFishFoundFromDepth : ConstMediaAction {
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val target = args.getEntity(env.world, 0, argc)
-        val someIota = args.getDouble(1, argc)
+        val someDepth = args.getDepth(1, argc)
 
         env.assertEntityInRange(target)
         val maybeFishData = FishData.get(target)
@@ -49,7 +50,8 @@ object OpFishFoundFromDepth : ConstMediaAction {
         if (relevantConditions.isEmpty())
             return listOf(NullIota()) // if it has no conditions for the dimension, it should be true?
 
-        val depth = someIota.toInt()  // I'm not so sure this is the best option going forwards........ what about other mediums from other mods?
+
+        val depth = someDepth.value // todo: check if this is correct, I forget which way around I wrote it
 
         val foundInDimension = relevantConditions.all { condition ->
             when (condition) {

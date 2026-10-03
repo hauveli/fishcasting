@@ -52,6 +52,7 @@ object OpFishFoundFromCondition : ConstMediaAction {
                 "wrong_thingy"
             )
         }
+
         val target = args.getEntity(env.world, 0, argc) // just so I mishap on the entity being out of ambit before going deeper
 
         return when (someIota.value) {

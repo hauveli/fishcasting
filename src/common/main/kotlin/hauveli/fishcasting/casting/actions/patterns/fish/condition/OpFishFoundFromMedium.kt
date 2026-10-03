@@ -10,7 +10,10 @@ import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.fishing.conditions.types.FishingMediumCondition
+import com.li64.tide.data.fishing.mediums.FishingMedium
+import hauveli.fishcasting.casting.iota.EnvironmentValue
 import hauveli.fishcasting.casting.iota.MediumIota
+import hauveli.fishcasting.casting.iota.getMedium
 import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.world.entity.item.ItemEntity
 
@@ -28,14 +31,7 @@ object OpFishFoundFromMedium : ConstMediaAction {
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val target = args.getEntity(env.world, 0, argc)
-        val someIota = args[1]
-        if (someIota !is MediumIota) {
-            throw MishapInvalidIota(
-                someIota,
-                1,
-                MediumIota.translation("testing this")
-            )
-        }
+        val someMedium = args.getMedium(1, argc)
 
         env.assertEntityInRange(target)
         val maybeFishData = FishData.get(target)
@@ -54,12 +50,12 @@ object OpFishFoundFromMedium : ConstMediaAction {
         if (relevantConditions.isEmpty())
             return listOf(NullIota())
 
-        val medium = someIota.medium.fishingMedium.id().path // I'm not so sure this is the best option going forwards........ what about other mediums from other mods?
+        val medium = someMedium.mediumIdFromOrdinal()
 
         val foundInMedium = relevantConditions.all { condition ->
             when (condition) {
                 is FishingMediumCondition -> {
-                    condition.mediumId == medium
+                    condition == medium
                 }
 
                 else -> true // ugh

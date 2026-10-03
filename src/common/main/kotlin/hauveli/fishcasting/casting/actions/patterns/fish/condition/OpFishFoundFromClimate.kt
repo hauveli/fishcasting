@@ -11,6 +11,9 @@ import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.fishing.modifiers.types.TemperatureModifier
 import com.li64.tide.util.TideUtils
+import hauveli.fishcasting.casting.iota.EnvironmentValue
+import hauveli.fishcasting.casting.iota.getClimate
+import hauveli.fishcasting.casting.iota.getEnvironment
 import net.minecraft.world.entity.item.ItemEntity
 import kotlin.math.abs
 import kotlin.math.cbrt
@@ -29,22 +32,11 @@ object OpFishFoundFromClimate : ConstMediaAction {
     override val mediaCost: Long = 0 // MediaConstants.DUST_UNIT // free is ok I think
 
     // todo: I kind of would prefer to use the ClimateIota because it abstracts away this nonsense a little...
-    fun inverseMcTemp(celsius: Double): Double {
-        // x = mcTemp-0.23 <=>
-        // c=11(x^3)+30x+21.9
-        //
-        val a = (celsius - 21.9) / 22.0
-        val b = (10.0 / 11.0).pow(3.0)
 
-        val mcTemp = 0.23 +
-                cbrt(a + sqrt(a * a + b)) +
-                cbrt(a - sqrt(a * a + b))
-        return mcTemp
-    }
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val target = args.getEntity(env.world, 0, argc)
-        val someDouble = args.getDouble(1, argc)
+        val someEnvironmentValue = args.getClimate(1, argc)
 
         env.assertEntityInRange(target)
         val maybeFishData = FishData.get(target)
@@ -66,7 +58,7 @@ object OpFishFoundFromClimate : ConstMediaAction {
         val foundInClimates = relevantModifiers.all { modifier ->
             when (modifier) {
                 is TemperatureModifier -> {
-                    abs(modifier.preferred - inverseMcTemp(someDouble)) < modifier.tolerance
+                    abs(modifier.preferred - someEnvironmentValue.value) < modifier.tolerance
                 }
 
                 else -> true // ugh

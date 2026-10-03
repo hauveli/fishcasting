@@ -15,6 +15,7 @@ import com.li64.tide.data.fishing.conditions.types.DimensionsCondition
 import com.li64.tide.data.fishing.conditions.types.TimeOfDayCondition
 import com.li64.tide.data.fishing.conditions.types.TimeRange
 import hauveli.fishcasting.casting.iota.DimensionIota
+import hauveli.fishcasting.casting.iota.getDaytime
 import me.fzzyhmstrs.fzzy_config.util.FcText.translation
 import net.minecraft.world.entity.item.ItemEntity
 
@@ -32,7 +33,7 @@ object OpFishFoundFromTimeOfDay : ConstMediaAction {
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         val target = args.getEntity(env.world, 0, argc)
-        val someIota = args.getDouble(1, argc)
+        val someDaytime = args.getDaytime(1, argc)
 
         env.assertEntityInRange(target)
         val maybeFishData = FishData.get(target)
@@ -51,7 +52,7 @@ object OpFishFoundFromTimeOfDay : ConstMediaAction {
         if (relevantConditions.isEmpty())
             return listOf(NullIota()) // if it has no conditions for the dimension, it should be true?
 
-        val timeOfDay = someIota.toLong()  // I'm not so sure this is the best option going forwards........ what about other mediums from other mods?
+        val timeOfDay = someDaytime.value  // I'm not so sure this is the best option going forwards........ what about other mediums from other mods?
 
         val foundInTime = relevantConditions.all { condition ->
             when (condition) {
