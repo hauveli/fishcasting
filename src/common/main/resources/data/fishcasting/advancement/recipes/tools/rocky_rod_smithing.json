@@ -31,7 +31,8 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_quenched"
+      "has_debris",
+      "has_fish"
     ]
   ],
   "rewards": {

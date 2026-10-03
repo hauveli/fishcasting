@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "minecrafT:honey_bottle"
+            "items": "minecraft:honey_bottle"
           }
         ]
       },
