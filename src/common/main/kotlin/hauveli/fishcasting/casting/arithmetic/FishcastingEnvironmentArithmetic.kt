@@ -206,7 +206,12 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
                 IotaPredicate.ofType(FishcastingIotaTypes.ENVIRONMENT.value)
             )
 
-            return object : OperatorBasic(1, ACCEPTS) {
+
+            val ACCEPTS_SINGLE = IotaMultiPredicate.all(
+                IotaPredicate.ofType(FishcastingIotaTypes.ENVIRONMENT.value)
+            )
+
+            return object : OperatorBasic(1, ACCEPTS_SINGLE) {
                 override fun apply(iotas: Iterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
                     Fishcasting.LOGGER.info("in here..")
                     val it = iotas.iterator()
