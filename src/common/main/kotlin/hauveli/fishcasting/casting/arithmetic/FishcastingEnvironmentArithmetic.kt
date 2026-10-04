@@ -12,6 +12,7 @@ import at.petrak.hexcasting.api.casting.iota.DoubleIota
 import at.petrak.hexcasting.api.casting.iota.EntityIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.math.HexPattern
+import at.petrak.hexcasting.common.lib.hex.HexArithmetics
 import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import com.li64.tide.data.FishLengthHolder
 import com.li64.tide.data.fishing.FishData
@@ -21,6 +22,7 @@ import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.casting.iota.EnvironmentValue
 import hauveli.fishcasting.casting.iota.RealEnvironmentIota
 import hauveli.fishcasting.registry.FishcastingIotaTypes
+import net.minecraft.core.Registry
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.item.ItemEntity

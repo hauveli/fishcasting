@@ -1,40 +1,19 @@
 package hauveli.fishcasting
 
-import at.petrak.hexcasting.api.casting.iota.ListIota
+import at.petrak.hexcasting.api.casting.arithmetic.Arithmetic
 import at.petrak.hexcasting.common.lib.hex.HexArithmetics
-import at.petrak.hexcasting.fabric.cc.HexCardinalComponents
-import at.petrak.hexcasting.fabric.cc.adimpl.CCItemIotaHolder
 import at.petrak.hexcasting.xplat.IXplatAbstractions
-import com.li64.tide.data.fishing.conditions.types.WeatherType
-import com.li64.tide.registries.TideFish
 import com.li64.tide.registries.entities.fish.SmoothSwimmingFish
-import com.li64.tide.util.MoonPhases
 import hauveli.fishcasting.casting.arithmetic.FishcastingEnvironmentArithmetic
 import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
-import hauveli.fishcasting.casting.iota.BiomeIota
-import hauveli.fishcasting.casting.iota.DimensionIota
-import hauveli.fishcasting.casting.iota.MoonPhaseIota
-import hauveli.fishcasting.casting.iota.MediumIota
-import hauveli.fishcasting.casting.iota.StructureIota
-import hauveli.fishcasting.casting.iota.WeatherIota
 import hauveli.fishcasting.registry.*
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.fabricmc.fabric.api.`object`.builder.v1.entity.FabricDefaultAttributeRegistry
 import net.minecraft.core.Registry
-import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.core.registries.Registries
-import net.minecraft.data.worldgen.Structures
-import net.minecraft.data.worldgen.TrialChambersStructurePools
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.animal.axolotl.Axolotl
 import net.minecraft.world.entity.npc.Villager
-import net.minecraft.world.level.Level.END
-import net.minecraft.world.level.Level.NETHER
-import net.minecraft.world.level.Level.OVERWORLD
-import net.minecraft.world.level.biome.Biomes
-import net.minecraft.world.level.dimension.DimensionType
-import net.minecraft.world.level.levelgen.structure.BuiltinStructures
 import java.util.function.BiConsumer
 
 
@@ -53,13 +32,24 @@ object FabricFishcasting : ModInitializer {
             }
 
         FishcastingBrainsweepeeIngredients.registerBrainsweepeeIngredients(bind(IXplatAbstractions.INSTANCE.brainsweepeeIngredientRegistry))
-        Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns"), FishcastingFishArithmetic())
-        Registry.register(HexArithmetics.REGISTRY, Fishcasting.id("patterns"), FishcastingEnvironmentArithmetic())
+
+        registerArithmetic { FishcastingFishArithmetic() }
+        registerArithmetic { FishcastingEnvironmentArithmetic() }
 
         registerCreativeModeTabItems()
         registerMoonPhaseFishies()
         // why is this ok in fabric but not neoforge? what...
         //registerItemModelProperties()
+    }
+
+    fun registerArithmetic(arithmetic: () -> Arithmetic) {
+        val arithmeticInstance = arithmetic()
+
+        Registry.register(
+            HexArithmetics.REGISTRY,
+            Fishcasting.id(arithmeticInstance.arithName()),
+            arithmeticInstance
+        )
     }
 
     fun registerCreativeModeTabItems() {
