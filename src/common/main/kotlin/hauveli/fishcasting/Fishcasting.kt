@@ -40,6 +40,7 @@ object Fishcasting {
     fun init() {
         initRegistries(
             FishcastingActions,
+            FishcastingArithmetic,
             FishcastingAttributes,
             FishcastingCreativeTabs,
             FishcastingEntities,

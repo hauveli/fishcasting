@@ -1,8 +1,17 @@
 package hauveli.fishcasting
 
 import at.petrak.hexcasting.api.casting.arithmetic.Arithmetic
+import at.petrak.hexcasting.api.casting.iota.ListIota
+import at.petrak.hexcasting.api.casting.iota.PatternIota
+import at.petrak.hexcasting.api.casting.math.HexDir
+import at.petrak.hexcasting.api.casting.math.HexPattern
+import at.petrak.hexcasting.api.utils.TreeList
+import at.petrak.hexcasting.common.lib.hex.HexActions
 import at.petrak.hexcasting.common.lib.hex.HexArithmetics
+import at.petrak.hexcasting.fabric.cc.HexCardinalComponents
+import at.petrak.hexcasting.fabric.cc.adimpl.CCItemIotaHolder
 import at.petrak.hexcasting.xplat.IXplatAbstractions
+import com.li64.tide.registries.TideFish
 import com.li64.tide.registries.entities.fish.SmoothSwimmingFish
 import hauveli.fishcasting.casting.arithmetic.FishcastingEnvironmentArithmetic
 import hauveli.fishcasting.casting.arithmetic.FishcastingFishArithmetic
@@ -33,25 +42,14 @@ object FabricFishcasting : ModInitializer {
 
         FishcastingBrainsweepeeIngredients.registerBrainsweepeeIngredients(bind(IXplatAbstractions.INSTANCE.brainsweepeeIngredientRegistry))
 
-        registerArithmetic { FishcastingFishArithmetic() }
-        registerArithmetic { FishcastingEnvironmentArithmetic() }
-
         registerCreativeModeTabItems()
         registerMoonPhaseFishies()
         // why is this ok in fabric but not neoforge? what...
         //registerItemModelProperties()
     }
 
-    fun registerArithmetic(arithmetic: () -> Arithmetic) {
-        val arithmeticInstance = arithmetic()
-
-        Registry.register(
-            HexArithmetics.REGISTRY,
-            Fishcasting.id(arithmeticInstance.arithName()),
-            arithmeticInstance
-        )
-    }
-
+    // I genuinely have no fucking idea how to register these in common without an interface and doing xplat implementations like hexmod does...
+    // I should maybe do that just so I don't end up forgetting to do something thanks to the IDE nagging if I do forget, but I probably won't :clueless:
     fun registerCreativeModeTabItems() {
         ItemGroupEvents.modifyEntriesEvent(FishcastingCreativeTabs.FISHCASTING.key).register { entries ->
             FishcastingItems.registerItemCreativeTab(
@@ -84,6 +82,30 @@ object FabricFishcasting : ModInitializer {
     }
 
     fun registerMoonPhaseFishies() {
+
+        // hee hee hee...
+        // todo:
+        // I'll have to fix this in dev 53 and/or dev 54
+        val mindsReflection = HexPattern.fromAngles("qaq", HexDir.NORTH_EAST)
+        val compassPurification = HexPattern.fromAngles("aa", HexDir.EAST)
+        val alidadesPurification = HexPattern.fromAngles("wa", HexDir.NORTH_EAST)
+        val archersDistillation = HexPattern.fromAngles("wqaawdd", HexDir.EAST)
+
+        HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
+                stack, _ -> CCItemIotaHolder.Static(stack) {
+            return@Static ListIota(
+                TreeList.from(
+                    listOf<PatternIota>(
+                        PatternIota(mindsReflection),
+                        PatternIota(compassPurification),
+                        PatternIota(mindsReflection),
+                        PatternIota(alidadesPurification),
+                        PatternIota(archersDistillation),
+                    )
+                )
+            )
+        }
+        }, TideFish.MANTA_RAY)
 
         /*
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
