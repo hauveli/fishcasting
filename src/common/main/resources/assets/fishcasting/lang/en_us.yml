@@ -431,7 +431,9 @@ yapping_tooltips:
       hexxy_focus_bobber.desc: Yep.
       sampling_focus_bobber: Good for sampling high up.
       loud_fishing_line.desc: A nice sound rings out from time to time.
+      chain_linked_fishing_line.desc: As if made by an artisan.
       hookless_fishing_hook.desc: At least your friends can't stop you from fishing anymore.
+      clingy_fishing_hook.desc: Ouch! Don't get this stuck on your person before casting your rod...
       unlucky_bait.desc: An unlucky number for many!
       odious_bait.desc: This bait kind of stinks...
       benign_bait.desc: Smells good and is shiny.
@@ -445,9 +447,15 @@ yapping_tooltips:
       glass_shard.desc: Ouch! Careful when walking near these!
       fishy_fragment.desc: At least this soggy thing is still legible.
       music_disc/returning_to_the_surface.desc: Can be inserted into a jukebox to play cult-like tunes
+      edified_fish.desc: Majestic and colorful.
+      edified_fish_bucket.desc: Even in captivity, pretty.
+      edified_fish_spawn_egg.desc: So I thought it would be funny to ruin your immersion by acknowledging that I don't really feel like writing anything witty for this one, sorry about that.
       cursed.desc: Writhes.
       cursed_bucket.desc: Writhes and splashes lightly.
       cursed_spawn_egg.desc: Don't be too mean to them!
+      perhosgata.desc: Can you see anything in there? I can't.
+      perhosgata_bucket.desc: Even the container is in there...
+      perhosgata_spawn_egg.desc: Frozen in time?
       blessed_spawn_egg.desc: Don't be too mean to them!
 commands:
   fishing:

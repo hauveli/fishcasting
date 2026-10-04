@@ -208,11 +208,13 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
 
             return object : OperatorBasic(1, ACCEPTS) {
                 override fun apply(iotas: Iterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
+                    Fishcasting.LOGGER.info("in here..")
                     val it = iotas.iterator()
                     val iota = it.next()
                     val double = getDoubleFromIota(iota)
 
                     val result = op.apply(double, env)
+                    Fishcasting.LOGGER.info("in here..2")
 
                     return listOf<Iota>(DoubleIota(result))
                 }

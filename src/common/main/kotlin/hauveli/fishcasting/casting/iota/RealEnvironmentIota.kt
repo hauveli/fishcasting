@@ -5,6 +5,7 @@ import at.petrak.hexcasting.api.casting.iota.IotaType
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import com.li64.tide.data.fishing.conditions.types.WeatherType
 import com.li64.tide.data.fishing.mediums.FishingMedium
+import com.li64.tide.util.TideUtils
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
 import hauveli.fishcasting.Fishcasting
@@ -128,8 +129,9 @@ sealed interface EnvironmentValue {
             return (InlineClimateData(value)).displayWithTextAndInline()
         }
 
+        // this should give what the player sees on the iota Display
         override fun getDouble(thisIota: RealEnvironmentIota?): Double {
-            return value.toDouble()
+            return TideUtils.mcTempToRealTemp(value).toDouble()
         }
 
         override fun of(newValue: Any): Climate {
