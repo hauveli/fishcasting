@@ -8,6 +8,7 @@ import at.petrak.hexcasting.api.misc.MediaConstants
 import com.li64.tide.util.MoonPhases
 import hauveli.fishcasting.casting.iota.EnvironmentValue
 import hauveli.fishcasting.casting.iota.MoonPhaseIota
+import hauveli.fishcasting.casting.iota.RealEnvironmentIota
 import net.minecraft.util.Mth
 
 object OpGetMoonPhase : ConstMediaAction {
@@ -21,7 +22,8 @@ object OpGetMoonPhase : ConstMediaAction {
         val moonPhase = envWorld.moonPhase
 
         // return listOf(MoonPhaseIota(moonPhase))
-        val moonPhaseInRadians = moonPhase / 4f * Mth.PI
-        return listOf(DoubleIota(moonPhaseInRadians.toDouble()))
+        // val moonPhaseInRadians = moonPhase / 4f * Mth.PI
+        //return listOf(DoubleIota(moonPhaseInRadians.toDouble()))
+        return listOf(RealEnvironmentIota(EnvironmentValue.MoonPhase(moonPhase)))
     }
 }

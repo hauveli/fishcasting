@@ -167,6 +167,15 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             .forEach { wrappedGoal: WrappedGoal? -> if (wrappedGoal != null) this.goalSelector.removeGoal(wrappedGoal.goal) }
     }
 
+    // I don't get it. This doesn't work? is this for the entity itself calling .equip()?
+    // that feels insane but might be it if I ever decide to coem back to it, future self...
+    override fun canUseSlot(equipmentSlot: EquipmentSlot): Boolean {
+        return when (equipmentSlot) {
+            EquipmentSlot.BODY -> true
+            EquipmentSlot.CHEST -> true
+            else -> super.canUseSlot(equipmentSlot)
+        }
+    }
 
     private fun atMaximumHealth(): Boolean {
         return this.maxHealth == this.health

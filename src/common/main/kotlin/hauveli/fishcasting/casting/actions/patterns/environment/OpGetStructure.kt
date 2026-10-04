@@ -8,7 +8,9 @@ import at.petrak.hexcasting.api.casting.iota.ListIota
 import at.petrak.hexcasting.api.misc.MediaConstants
 import com.li64.tide.data.fishing.conditions.types.WeatherType
 import com.li64.tide.util.TideUtils
+import hauveli.fishcasting.casting.iota.EnvironmentValue
 import hauveli.fishcasting.casting.iota.MoonPhaseIota
+import hauveli.fishcasting.casting.iota.RealEnvironmentIota
 import hauveli.fishcasting.casting.iota.StructureIota
 import hauveli.fishcasting.casting.iota.WeatherIota
 import net.minecraft.core.BlockPos
@@ -28,7 +30,16 @@ object OpGetStructure : ConstMediaAction {
 
         val structuresAtBlockPos = getStructuresAt(env.world, blockPos)
 
-        return listOf(ListIota(structuresAtBlockPos.map(::StructureIota)))
+        // return listOf(ListIota(structuresAtBlockPos.map(::StructureIota)))
+
+        return listOf(
+            ListIota(
+                structuresAtBlockPos.map {
+                    structure ->
+                    RealEnvironmentIota(EnvironmentValue.Structure(structure))
+                }
+            )
+        )
     }
 
     // oh my fucking god there has to be a better way to do this, this mega sucks I feel like

@@ -13,7 +13,9 @@ import com.li64.tide.data.fishing.conditions.types.WeatherType
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.casting.iota.DepthIota
 import hauveli.fishcasting.casting.iota.DimensionIota
+import hauveli.fishcasting.casting.iota.EnvironmentValue
 import hauveli.fishcasting.casting.iota.MoonPhaseIota
+import hauveli.fishcasting.casting.iota.RealEnvironmentIota
 import hauveli.fishcasting.casting.iota.WeatherIota
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
@@ -29,8 +31,10 @@ object OpGetDepth : ConstMediaAction {
         val positionY = maybePos.y.coerceIn(DepthComponent.MIN_Y.toDouble(), seaLevel.toDouble())
 
         // this is perhaps mean, but I'm leaving this without a safety check because if there is an error, I want to know.
-        val relativeDepth = seaLevel - positionY
+        val relativeDepth = (seaLevel - positionY).toInt()
 
-        return listOf(DepthIota(relativeDepth.toInt()))
+        // return listOf(DepthIota(relativeDepth.toInt()))
+
+        return listOf(RealEnvironmentIota(EnvironmentValue.Depth(relativeDepth)))
     }
 }

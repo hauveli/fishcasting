@@ -1,24 +1,112 @@
 package hauveli.fishcasting.casting.iota
 
 import at.petrak.hexcasting.api.casting.getEntity
+import at.petrak.hexcasting.api.casting.getItemEntity
 import at.petrak.hexcasting.api.casting.iota.EntityIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
 import at.petrak.hexcasting.api.casting.mishaps.MishapNotEnoughArgs
+import com.li64.tide.Tide
+import com.li64.tide.config.TideServerConfig
 import com.li64.tide.data.fishing.FishData
+import com.li64.tide.data.item.TideItemData
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.item.ItemEntity
 
 
-fun List<Iota>.getFishEntity(level: ServerLevel, idx: Int, argc: Int = 0): FishData {
+fun List<Iota>.getFishEntity(level: ServerLevel, idx: Int, argc: Int = 0): LivingEntity {
     val entity = this.getEntity(level, idx, argc)
+    val possiblyFish = FishData.get(entity)
+    if (possiblyFish.isPresent && entity is LivingEntity) {
+        return entity
+    } else {
+        throw MishapBadEntity.of(entity, "fish_as_living_entity")
+    }
+}
+
+fun List<Iota>.getFishItemEntity(level: ServerLevel, idx: Int, argc: Int = 0): ItemEntity {
+    val entity = this.getItemEntity(level, idx, argc)
+    val possiblyFish = FishData.get(entity)
+    if (possiblyFish.isPresent) {
+        return entity
+    } else {
+        throw MishapBadEntity.of(entity, "fish_as_item_entity")
+    }
+}
+
+
+fun List<Iota>.getFishDataFromItemEntity(level: ServerLevel, idx: Int, argc: Int = 0): FishData {
+    val entity = this.getFishItemEntity(level, idx, argc)
     val possiblyFish = FishData.get(entity)
     if (possiblyFish.isPresent) {
         return possiblyFish.get()
     } else {
-        throw MishapBadEntity.of(entity, "fish")
+        throw MishapBadEntity.of(entity, "not_a_fish")
     }
 }
+
+fun List<Iota>.getFishDataFromLivingEntity(level: ServerLevel, idx: Int, argc: Int = 0): FishData {
+    val entity = this.getFishEntity(level, idx, argc)
+    val possiblyFish = FishData.get(entity)
+    if (possiblyFish.isPresent) {
+        return possiblyFish.get()
+    } else {
+        throw MishapBadEntity.of(entity, "not_a_fish")
+    }
+}
+
+fun fishIsAlive(itemEntity: ItemEntity): Boolean {
+    val isAlive = TideItemData.IS_BUCKETABLE.getOptional(itemEntity.item)
+    val length = TideItemData.FISH_LENGTH.getOptional(itemEntity.item)
+    if (isAlive.isPresent && isAlive.get()
+        && (length.isPresent && length.get() > 0.0
+                || Tide.SERVER_CONFIG.items.fishItemSizes != TideServerConfig.Items.SizeMode.ALWAYS)) {
+        return when(Tide.SERVER_CONFIG.items.bucketableFishItems) {
+            TideServerConfig.Items.BucketableMode.NEVER -> false
+            TideServerConfig.Items.BucketableMode.ALWAYS -> true
+            TideServerConfig.Items.BucketableMode.WHEN_LIVING -> true
+        }
+    }
+    return false
+}
+
+// assumes item Entity...
+fun List<Iota>.getAliveFish(level: ServerLevel, idx: Int, argc: Int = 0): FishData {
+    val entity = this.getFishItemEntity(level, idx, argc)
+    val possiblyFish = FishData.get(entity)
+    val isAlive = fishIsAlive(entity)
+    if (possiblyFish.isPresent && isAlive) {
+        return possiblyFish.get()
+    } else {
+        throw MishapBadEntity.of(entity, "not_a_fish")
+    }
+}
+/*
+        if (target !is ItemEntity) {
+            throw MishapBadEntity.of(target, "fishcasting.not_a_fish.item")
+        }
+        val maybeTideFish = FishData.get(target.item.item)
+        if (maybeTideFish.isEmpty) {
+            throw MishapBadEntity.of(target, "fishcasting.not_a_fish")
+        }
+        if (maybeTideFish.get().bucket().isEmpty) {
+            throw MishapBadEntity.of(target, "fishcasting.not_a_fish.bucketable")
+        }
+
+        val isAlive = TideItemData.IS_BUCKETABLE.getOptional(target.item)
+        val length = TideItemData.FISH_LENGTH.getOptional(target.item)
+        if (isAlive.isPresent && isAlive.get()
+            && (length.isPresent && length.get() > 0.0
+                    || Tide.SERVER_CONFIG.items.fishItemSizes != TideServerConfig.Items.SizeMode.ALWAYS)) {
+            // a little unsure if this is what a user might expect, but it's what I would expect
+            // if ALWAYS -> always works
+            // if NEVER -> the check doesn't matter -> always works
+            if (Tide.SERVER_CONFIG.items.bucketableFishItems.equals(TideServerConfig.Items.BucketableMode.WHEN_LIVING))
+                throw MishapBadEntity.of(target, "fishcasting.not_a_fish.bucketable")
+        }
+ */
 
 
 fun List<Iota>.getEnvironment(idx: Int, argc: Int = 0): EnvironmentValue {

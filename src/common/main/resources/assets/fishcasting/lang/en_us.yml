@@ -261,7 +261,7 @@ item:
       desc: Prevents entities from getting hooked
     clingy_fishing_hook:
       .: Clingy Fishing Hook
-      desc: Keeps catch from escaping until reeled
+      desc: Keeps catch from escaping until reeled, but takes longer to nibble
     odious_bait:
       .: Odious Bait
       desc: Prevents anything from nibbling or biting
@@ -429,7 +429,7 @@ yapping_tooltips:
       rocky_casting_rod.desc: Somehow solid.
       blessed_focus_bobber.desc: Its scent reminds you of times past.
       hexxy_focus_bobber.desc: Yep.
-      sampling_focus_bobber: Good for sampling in the upper atmosphere.
+      sampling_focus_bobber: Good for sampling high up.
       loud_fishing_line.desc: A nice sound rings out from time to time.
       hookless_fishing_hook.desc: At least your friends can't stop you from fishing anymore.
       unlucky_bait.desc: An unlucky number for many!

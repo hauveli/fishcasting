@@ -7,11 +7,14 @@ import at.petrak.hexcasting.api.casting.iota.DoubleIota
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.misc.MediaConstants
 import com.li64.tide.data.fishing.conditions.types.WeatherType
+import hauveli.fishcasting.casting.iota.EnvironmentValue
 import hauveli.fishcasting.casting.iota.MoonPhaseIota
+import hauveli.fishcasting.casting.iota.RealEnvironmentIota
 import hauveli.fishcasting.casting.iota.WeatherIota
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
 
+// TODO: get SNOW as well, currently this can be done via temperature + precipitation, but that's not ideal...
 object OpGetWeather : ConstMediaAction {
     override val argc: Int = 1
     override val mediaCost: Long = MediaConstants.DUST_UNIT / 100 // should also cost something, unsure how much...
@@ -26,18 +29,19 @@ object OpGetWeather : ConstMediaAction {
         // something to consider for the future... would require making it take a ResourceKey instead, I think...
         // return listOf(WeatherIota(weatherOrdinal))
 
-        return listOf(DoubleIota(weatherOrdinal.toDouble()))
+        //return listOf(DoubleIota(weatherOrdinal.toDouble()))
+        return listOf(RealEnvironmentIota(EnvironmentValue.Weather(weatherOrdinal)))
     }
 
     fun getWeather(level: ServerLevel, blockPos: BlockPos): WeatherType {
         if (!level.isRaining && !level.isThundering)
             return WeatherType.CLEAR
 
-        // this is perhaps mean, but I'm leaving this without a safety check because if there is an error, I want to know.
         val isRainingAtPos = level.isRainingAt(blockPos)
         // hmmm I was considering something with blockPos but that would have to be precipitation, and if I implement
         // Biome check, then by using Biome+Weather it is possible to determine precipitation... So no BlockPos is needed...
         // val precipitation = level.getBiome(blockPos).value().getPrecipitationAt(blockPos)
+        // precipitation.ordinal // todo: figure this out
         // can determine biome temperature too, probably, using the temperature spell...
         if (isRainingAtPos) {
             if (level.isRaining && !level.isThundering)

@@ -7,6 +7,7 @@ import com.li64.tide.data.fishing.conditions.types.WeatherType
 import com.li64.tide.data.fishing.mediums.FishingMedium
 import com.mojang.serialization.Codec
 import com.mojang.serialization.MapCodec
+import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.casting.iota.EnvironmentValue.Companion.ENVIRONMENT_CODEC
 import hauveli.fishcasting.casting.iota.EnvironmentValue.Companion.ENVIRONMENT_STREAM_CODEC
 import hauveli.fishcasting.interop.inline.biome.InlineBiomeData
@@ -36,34 +37,6 @@ import kotlin.math.sqrt
 
 // todo: consider using this to re-implement all of these as their own Iota if I feel like it...
 sealed interface EnvironmentValue {
-    companion object {
-
-        val ENVIRONMENT_CODEC =
-            mapOf(
-                "biome" to Biome.CODEC,
-                "climate" to Climate.CODEC,
-                "daytime" to Daytime.CODEC,
-                "depth" to Depth.CODEC,
-                "dimension" to Dimension.CODEC,
-                "medium" to Medium.CODEC,
-                "moon" to MoonPhase.CODEC,
-                "structure" to Structure.CODEC,
-                "weather" to Weather.CODEC,
-            )
-        // yes really, this is simple and low effort
-        val ENVIRONMENT_STREAM_CODEC =
-            mapOf(
-                "biome" to Biome.STREAM_CODEC,
-                "climate" to Climate.STREAM_CODEC,
-                "daytime" to Daytime.STREAM_CODEC,
-                "depth" to Depth.STREAM_CODEC,
-                "dimension" to Dimension.STREAM_CODEC,
-                "medium" to Medium.STREAM_CODEC,
-                "moon" to MoonPhase.STREAM_CODEC,
-                "structure" to Structure.STREAM_CODEC,
-                "weather" to Weather.STREAM_CODEC,
-            )
-    }
 
     val type: String
     fun display(): Component
@@ -75,6 +48,9 @@ sealed interface EnvironmentValue {
     fun clampedInRange(inputValue: Double): Double {
         return inputValue.coerceIn(LOWER_BOUND, UPPER_BOUND)
     }
+
+    fun getCodec(): Codec<out EnvironmentValue>
+    fun getStreamCodec(): StreamCodec<RegistryFriendlyByteBuf, out EnvironmentValue>
 
     data class Biome(
         val value: ResourceKey<net.minecraft.world.level.biome.Biome>,
@@ -94,6 +70,14 @@ sealed interface EnvironmentValue {
         override fun of(newValue: Any): Biome {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
             return Biome(newValue as ResourceKey<net.minecraft.world.level.biome.Biome>)
+        }
+
+        override fun getCodec(): Codec<out EnvironmentValue> {
+            return CODEC
+        }
+
+        override fun getStreamCodec(): StreamCodec<RegistryFriendlyByteBuf, out EnvironmentValue> {
+            return STREAM_CODEC
         }
 
         companion object {
@@ -155,6 +139,14 @@ sealed interface EnvironmentValue {
             return Climate(clampedValue.toFloat())
         }
 
+        override fun getCodec(): Codec<out EnvironmentValue> {
+            return CODEC
+        }
+
+        override fun getStreamCodec(): StreamCodec<RegistryFriendlyByteBuf, out EnvironmentValue> {
+            return STREAM_CODEC
+        }
+
         companion object {
             fun realTempToMcTemp(celsius: Double): Double {
                 // x = mcTemp-0.23 <=>
@@ -204,6 +196,14 @@ sealed interface EnvironmentValue {
             return Daytime(clampedValue.toLong())
         }
 
+        override fun getCodec(): Codec<out EnvironmentValue> {
+            return CODEC
+        }
+
+        override fun getStreamCodec(): StreamCodec<RegistryFriendlyByteBuf, out EnvironmentValue> {
+            return STREAM_CODEC
+        }
+
         companion object {
             val CODEC: Codec<Daytime> =
                 Codec.LONG.xmap(
@@ -242,6 +242,14 @@ sealed interface EnvironmentValue {
             return Depth(clampedValue.toInt())
         }
 
+        override fun getCodec(): Codec<out EnvironmentValue> {
+            return CODEC
+        }
+
+        override fun getStreamCodec(): StreamCodec<RegistryFriendlyByteBuf, out EnvironmentValue> {
+            return STREAM_CODEC
+        }
+
         companion object {
             val CODEC: Codec<Depth> =
                 Codec.INT.xmap(
@@ -274,6 +282,14 @@ sealed interface EnvironmentValue {
         override fun of(newValue: Any): Dimension {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
             return Dimension(newValue as ResourceKey<Level>)
+        }
+
+        override fun getCodec(): Codec<out EnvironmentValue> {
+            return CODEC
+        }
+
+        override fun getStreamCodec(): StreamCodec<RegistryFriendlyByteBuf, out EnvironmentValue> {
+            return STREAM_CODEC
         }
 
         companion object {
@@ -337,6 +353,14 @@ sealed interface EnvironmentValue {
             return FishingMedium.MEDIUMS[value]
         }
 
+        override fun getCodec(): Codec<out EnvironmentValue> {
+            return CODEC
+        }
+
+        override fun getStreamCodec(): StreamCodec<RegistryFriendlyByteBuf, out EnvironmentValue> {
+            return STREAM_CODEC
+        }
+
         companion object {
 
             val CODEC: Codec<Medium> =
@@ -374,6 +398,14 @@ sealed interface EnvironmentValue {
             return MoonPhase(clampedValue.toInt())
         }
 
+        override fun getCodec(): Codec<out EnvironmentValue> {
+            return CODEC
+        }
+
+        override fun getStreamCodec(): StreamCodec<RegistryFriendlyByteBuf, out EnvironmentValue> {
+            return STREAM_CODEC
+        }
+
         companion object {
             val CODEC: Codec<MoonPhase> =
                 Codec.INT.xmap(
@@ -406,6 +438,14 @@ sealed interface EnvironmentValue {
         override fun of(newValue: Any): Structure {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
             return Structure(newValue as ResourceKey<net.minecraft.world.level.levelgen.structure.Structure>)
+        }
+
+        override fun getCodec(): Codec<out EnvironmentValue> {
+            return CODEC
+        }
+
+        override fun getStreamCodec(): StreamCodec<RegistryFriendlyByteBuf, out EnvironmentValue> {
+            return STREAM_CODEC
         }
 
         companion object {
@@ -470,6 +510,14 @@ sealed interface EnvironmentValue {
             return WeatherType.entries[value]
         }
 
+        override fun getCodec(): Codec<out EnvironmentValue> {
+            return CODEC
+        }
+
+        override fun getStreamCodec(): StreamCodec<RegistryFriendlyByteBuf, out EnvironmentValue> {
+            return STREAM_CODEC
+        }
+
         companion object {
             val CODEC: Codec<Weather> =
                 Codec.INT.xmap(
@@ -481,6 +529,52 @@ sealed interface EnvironmentValue {
                 ByteBufCodecs.INT
                     .mapStream<RegistryFriendlyByteBuf> { it }
                     .map(::Weather, Weather::value)
+        }
+    }
+
+    companion object {
+
+        fun getCodec(type: String): Codec<out EnvironmentValue> {
+            return when (type) {
+                "biome" -> Biome.CODEC
+                "climate" -> Climate.CODEC
+                "daytime" -> Daytime.CODEC
+                "depth" -> Depth.CODEC
+                "dimension" -> Dimension.CODEC
+                "medium" -> Medium.CODEC
+                "moon" -> MoonPhase.CODEC
+                "structure" -> Structure.CODEC
+                "weather" -> Weather.CODEC
+                else -> {throw Error("${Fishcasting.MODID}: How did we get here?")}
+            }
+        }
+
+        val ENVIRONMENT_CODEC by lazy {
+            mapOf(
+                "biome" to Biome.CODEC,
+                "climate" to Climate.CODEC,
+                "daytime" to Daytime.CODEC,
+                "depth" to Depth.CODEC,
+                "dimension" to Dimension.CODEC,
+                "medium" to Medium.CODEC,
+                "moon" to MoonPhase.CODEC,
+                "structure" to Structure.CODEC,
+                "weather" to Weather.CODEC,
+            )
+        }
+        // yes really, this is simple and low effort
+        val ENVIRONMENT_STREAM_CODEC by lazy {
+            mapOf(
+                "biome" to Biome.STREAM_CODEC,
+                "climate" to Climate.STREAM_CODEC,
+                "daytime" to Daytime.STREAM_CODEC,
+                "depth" to Depth.STREAM_CODEC,
+                "dimension" to Dimension.STREAM_CODEC,
+                "medium" to Medium.STREAM_CODEC,
+                "moon" to MoonPhase.STREAM_CODEC,
+                "structure" to Structure.STREAM_CODEC,
+                "weather" to Weather.STREAM_CODEC,
+            )
         }
     }
 }
@@ -521,7 +615,7 @@ class RealEnvironmentIota(
 
             val CODEC: MapCodec<EnvironmentValue> = Codec.STRING
                 .dispatchMap(
-                    "environment_type",
+                    "environment",
                     EnvironmentValue::type
                 ) { type ->
                     ENVIRONMENT_CODEC[type]?.fieldOf(type)

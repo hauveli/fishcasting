@@ -19,8 +19,8 @@ import org.joml.Vector3f
 class BlessedModel<T : BlessedEntity?>(root: ModelPart) : HierarchicalModel<T?>() {
 
     private val rooot: ModelPart
-    private val body: ModelPart
-    private val head: ModelPart
+    val body: ModelPart
+    val head: ModelPart
     private val simplify_logic: ModelPart
     private val rightEar: ModelPart
     private val leftEar: ModelPart
