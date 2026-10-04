@@ -629,7 +629,7 @@ class RealEnvironmentIota(
 
             val CODEC: MapCodec<EnvironmentValue> = Codec.STRING
                 .dispatchMap(
-                    "environment",
+                    FishcastingIotaTypes.ENVIRONMENT.id.path,
                     EnvironmentValue::type
                 ) { type ->
                     ENVIRONMENT_CODEC[type]?.fieldOf(type)
