@@ -46,12 +46,6 @@ sealed interface EnvironmentValue {
     val UPPER_BOUND: Double?
     val LOWER_BOUND: Double?
 
-    fun clampedInRange(inputValue: Double): Double {
-        val clamped = inputValue.coerceIn(LOWER_BOUND, UPPER_BOUND)
-        Fishcasting.LOGGER.info( "befor: ${inputValue} after: ${clamped}")
-        return clamped
-    }
-
     fun getCodec(): Codec<out EnvironmentValue>
     fun getStreamCodec(): StreamCodec<RegistryFriendlyByteBuf, out EnvironmentValue>
 
@@ -139,7 +133,7 @@ sealed interface EnvironmentValue {
         override fun of(newValue: Any): Climate {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
             val castValue = newValue as Double
-            val clampedValue = clampedInRange(realTempToMcTemp((castValue)))
+            val clampedValue = realTempToMcTemp(castValue).coerceIn(LOWER_BOUND, UPPER_BOUND)
             return Climate(clampedValue.toFloat())
         }
 
@@ -152,6 +146,8 @@ sealed interface EnvironmentValue {
         }
 
         companion object {
+            fun init() {}
+
             fun realTempToMcTemp(celsius: Double): Double {
                 // x = mcTemp-0.23 <=>
                 // c=11(x^3)+30x+21.9
@@ -198,7 +194,7 @@ sealed interface EnvironmentValue {
         override fun of(newValue: Any): Daytime {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
             val castValue = newValue as Double
-            val clampedValue = clampedInRange((castValue))
+            val clampedValue = castValue.coerceIn(LOWER_BOUND, UPPER_BOUND)
             return Daytime(clampedValue.toLong())
         }
 
@@ -244,7 +240,7 @@ sealed interface EnvironmentValue {
         override fun of(newValue: Any): Depth {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
             val castValue = newValue as Double
-            val clampedValue = clampedInRange((castValue))
+            val clampedValue = castValue.coerceIn(LOWER_BOUND, UPPER_BOUND)
             return Depth(clampedValue.toInt())
         }
 
@@ -351,7 +347,7 @@ sealed interface EnvironmentValue {
         override fun of(newValue: Any): Medium {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
             val castValue = newValue as Double
-            val clampedValue = clampedInRange((castValue))
+            val clampedValue = castValue.coerceIn(LOWER_BOUND, UPPER_BOUND)
             return Medium(clampedValue.toInt())
         }
 
@@ -400,7 +396,7 @@ sealed interface EnvironmentValue {
         override fun of(newValue: Any): MoonPhase {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
             val castValue = newValue as Double
-            val clampedValue = clampedInRange((castValue))
+            val clampedValue = castValue.coerceIn(LOWER_BOUND, UPPER_BOUND)
             return MoonPhase(clampedValue.toInt())
         }
 
@@ -508,7 +504,7 @@ sealed interface EnvironmentValue {
         override fun of(newValue: Any): Weather {
             @Suppress("UNCHECKED_CAST") // todo: not fucking this, even if this is "fine"
             val castValue = newValue as Double
-            val clampedValue = clampedInRange((castValue))
+            val clampedValue = castValue.coerceIn(LOWER_BOUND, UPPER_BOUND)
             return Weather(clampedValue.toInt())
         }
 
@@ -539,7 +535,6 @@ sealed interface EnvironmentValue {
     }
 
     companion object {
-
         fun getCodec(type: String): Codec<out EnvironmentValue> {
             return when (type) {
                 "biome" -> Biome.CODEC
@@ -609,6 +604,10 @@ class RealEnvironmentIota(
     }
 
     companion object {
+
+        fun init() {
+            EnvironmentValue.Climate.init()
+        }
 
         var TYPE: IotaType<RealEnvironmentIota> = object : IotaType<RealEnvironmentIota>() {
 
