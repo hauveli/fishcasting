@@ -47,7 +47,9 @@ sealed interface EnvironmentValue {
     val LOWER_BOUND: Double?
 
     fun clampedInRange(inputValue: Double): Double {
-        return inputValue.coerceIn(LOWER_BOUND, UPPER_BOUND)
+        val clamped = inputValue.coerceIn(LOWER_BOUND, UPPER_BOUND)
+        Fishcasting.LOGGER.info( "befor: ${inputValue} after: ${clamped}")
+        return clamped
     }
 
     fun getCodec(): Codec<out EnvironmentValue>
@@ -153,13 +155,15 @@ sealed interface EnvironmentValue {
             fun realTempToMcTemp(celsius: Double): Double {
                 // x = mcTemp-0.23 <=>
                 // c=11(x^3)+30x+21.9
-                //
+                // ok I've triple checked I'm fairly sure this is correct but there are floating point errors....
+                // mcTempToRealTemp(0) = 14.87 which is what I am seeing... why is it always 0?
                 val a = (celsius - 21.9) / 22.0
                 val b = (10.0 / 11.0).pow(3.0)
+                val c = sqrt(a * a + b)
 
                 val mcTemp = 0.23 +
-                        cbrt(a + sqrt(a * a + b)) +
-                        cbrt(a - sqrt(a * a + b))
+                        cbrt(a + c) +
+                        cbrt(a - c)
                 return mcTemp
             }
 
@@ -612,7 +616,8 @@ class RealEnvironmentIota(
                 iota: RealEnvironmentIota?,
                 level: ServerLevel
             ): Boolean {
-                return iota != null && true // iota.isValid()
+                // return  iota != null && iota.isValid()
+                return super.validate(iota, level)
             }
 
             val CODEC: MapCodec<EnvironmentValue> = Codec.STRING

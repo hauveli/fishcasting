@@ -205,21 +205,19 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
                 IotaPredicate.ofType(FishcastingIotaTypes.ENVIRONMENT.value),
                 IotaPredicate.ofType(FishcastingIotaTypes.ENVIRONMENT.value)
             )
-
-
+            
+            // HELLO?=?? it's random if it works or not I can't fucking deal with this shit
             val ACCEPTS_SINGLE = IotaMultiPredicate.all(
                 IotaPredicate.ofType(FishcastingIotaTypes.ENVIRONMENT.value)
             )
 
             return object : OperatorBasic(1, ACCEPTS_SINGLE) {
                 override fun apply(iotas: Iterable<Iota>, env: CastingEnvironment): Iterable<Iota> {
-                    Fishcasting.LOGGER.info("in here..")
                     val it = iotas.iterator()
                     val iota = it.next()
                     val double = getDoubleFromIota(iota)
 
                     val result = op.apply(double, env)
-                    Fishcasting.LOGGER.info("in here..2")
 
                     return listOf<Iota>(DoubleIota(result))
                 }
@@ -247,6 +245,7 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
                     val theEnvironmentValue = getEnvIotaFromIota(iota, iotaTwo).value
 
                     val newEnvIota = theEnvironmentValue.of(result)
+                    Fishcasting.LOGGER.info("A: ${double}, B: ${doubleTwo}, C: ${result}, D: ${newEnvIota.getDouble()}")
                     return listOf<Iota>(RealEnvironmentIota(newEnvIota))
                 }
             }

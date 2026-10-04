@@ -795,7 +795,8 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             BlessedVariant.BLUE -> DyeColor.RED
             BlessedVariant.RED -> DyeColor.YELLOW
             BlessedVariant.GREEN -> DyeColor.GREEN
-            BlessedVariant.PURPLE -> DyeColor.LIME
+            BlessedVariant.PURPLE -> DyeColor.BROWN // surprisingly nice orange-ish hue
+            // BlessedVariant.BLACK -> DyeColor.CYAN // todo: rare EVIL variant (it's just mildly annoying)
             else -> null
         }
         if (color == null) {
