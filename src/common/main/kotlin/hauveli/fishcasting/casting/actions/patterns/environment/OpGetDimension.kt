@@ -13,6 +13,7 @@ import hauveli.fishcasting.casting.iota.RealEnvironmentIota
 import hauveli.fishcasting.casting.iota.WeatherIota
 import net.minecraft.core.BlockPos
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.level.Level
 
 object OpGetDimension : ConstMediaAction {
     override val argc: Int = 0
@@ -20,6 +21,12 @@ object OpGetDimension : ConstMediaAction {
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {
         // return listOf(DimensionIota(env.world.dimension()))
-        return listOf(RealEnvironmentIota(EnvironmentValue.Dimension(env.world.dimension())))
+        var envWorld: Level = env.world
+        val caster = env.castingEntity
+        if (caster != null) {
+            env.assertEntityInRange(caster)
+            envWorld = caster.level()
+        }
+        return listOf(RealEnvironmentIota(EnvironmentValue.Dimension(envWorld.dimension())))
     }
 }
