@@ -51,6 +51,7 @@ Balance Changes:
 
 Mechanics:
     Music Disc was made less miserable to get
+    Fixed a bug with bait being consumed twice for bonuses rods may apply (the Tide dev has said this is a bug that will be fixed eventually)
 
 Notable Bugfixes:
     I'm putting this here so I don't forget to bring it up: fixed client-side tide rendering/minigame bugs with kilt+sable (the minigame should work) (this was fixed in 0.2.15)
