@@ -1,6 +1,6 @@
 {
-   "parent": "tide:item/red_fishing_bobber",
+   "parent": "tide:item/red_bobber",
    "textures": {
-      "layer0": "tide:item/red_fishing_bobber"
+      "layer0": "tide:item/red_bobber"
    }
 }
