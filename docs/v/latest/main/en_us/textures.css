@@ -1313,7 +1313,7 @@
   .texture-tide-textures-item-shooting_starfish-png {
     animation: texture-tide-textures-item-shooting_starfish-png 0.6s steps(1, start) infinite;
     background-size: 100%;
-    background-image: url("https://raw.githubusercontent.com/hauveli/fishcasting/2fbeeff4789c7d3e29a3ae9736a5fe8a604b2171/doc/resources/assets/tide/textures/item/shooting_starfish.png");
+    background-image: url("https://raw.githubusercontent.com/hauveli/fishcasting/8022f06cefc11f83fc2a31ae5184bdaaca36b42c/doc/resources/assets/tide/textures/item/shooting_starfish.png");
   }
   @keyframes texture-tide-textures-item-shooting_starfish-png {
       0%, 33.32% { background-position-y: 0% }
