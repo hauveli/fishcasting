@@ -1310,3 +1310,13 @@
       95.12%, 97.55% { background-position-y: -1800% }
       97.56%, 100% { background-position-y: -1900% }
   }
+  .texture-tide-textures-item-shooting_starfish-png {
+    animation: texture-tide-textures-item-shooting_starfish-png 0.6s steps(1, start) infinite;
+    background-size: 100%;
+    background-image: url("https://raw.githubusercontent.com/hauveli/fishcasting/e22370917711ef6643d9bf50cb01b0fc857954f6/doc/resources/assets/tide/textures/item/shooting_starfish.png");
+  }
+  @keyframes texture-tide-textures-item-shooting_starfish-png {
+      0%, 33.32% { background-position-y: 0% }
+      33.33%, 66.66% { background-position-y: -100% }
+      66.67%, 100% { background-position-y: -200% }
+  }
