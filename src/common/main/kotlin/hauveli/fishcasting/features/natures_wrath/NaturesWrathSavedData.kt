@@ -99,12 +99,17 @@ class NaturesWrathSavedData : SavedData() {
         }
 
         private fun pastTimestamp(player: ServerPlayer, data: NaturesWrathSavedData): Boolean {
-            return ticksToMinutes(timeSinceTimestamp(player, data)) >= FishcastingConfigs.COMMON_CONFIG.timeSkipPerPlayerIntervalMinutes.get()
+            TODO()
+            //return ticksToMinutes(timeSinceTimestamp(player, data)) >= FishcastingConfigs.COMMON_CONFIG.timeSkipPerPlayerIntervalMinutes.get()
         }
 
         private fun configToTicks(): Long {
+            TODO()
+            /*
             val configValue = FishcastingConfigs.COMMON_CONFIG.timeSkipPerPlayerIntervalMinutes.get()
             return (configValue * 60 * 20).toLong()
+
+             */
         }
 
         fun ticksRemaining(player: ServerPlayer): Long {

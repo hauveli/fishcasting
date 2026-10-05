@@ -1,8 +1,15 @@
 package hauveli.fishcasting.mixin.hexxy5;
 
+import com.li64.tide.data.rods.BaitContents;
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import hauveli.fishcasting.config.FishcastingConfigs;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,4 +42,7 @@ public abstract class Hexxy5TideFishingHookMixin {
         ((Hexxy5TideFishingHookAccessor) hook).invokeUpdateOwnerInfo(null);
         //hook.updateOwnerInfo(null);
     }
+
+    // fucking EVIL anti-bait waste mixin to fix the doubled bait usage bug on the midas/villager rods
+
 }
