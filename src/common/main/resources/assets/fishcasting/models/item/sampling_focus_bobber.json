@@ -3,6 +3,7 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [32, 32],
 	"textures": {
+		"0": "fishcasting:item/sampling_focus_bobber",
 		"2": "fishcasting:item/sampling_focus_bobber",
 		"particle": "fishcasting:item/sampling_focus_bobber"
 	},

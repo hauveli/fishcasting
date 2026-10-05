@@ -130,14 +130,5 @@
 			"translation": [-0.5, 12.5, -0.1],
 			"scale": [2, 2, 2]
 		}
-	},
-	"groups": [
-		{
-			"name": "group",
-			"origin": [8, 8, 8],
-			"scope": 0,
-			"color": 0,
-			"children": [0, 1, 2, 3, 4, 5, 6]
-		}
-	]
+	}
 }
