@@ -1,0 +1,6 @@
+{
+   "parent": "tide:item/shooting_starfish",
+   "textures": {
+      "layer0": "tide:item/shooting_starfish"
+   }
+}
