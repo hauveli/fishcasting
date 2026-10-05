@@ -7,13 +7,13 @@ Great Spell:
 
 Spells:
     Kill Still Fish (makes stackable) (free)
-    Attach/Detach Hook
+    Attach/Detach Hook (hook must intersect the targets bounding box)
 
 Patterns:
     Envirnomental:
-        Get DayTime (Distinct from GameTime which Hexal adds, as DayTime takes sleeping in bed into account)
+        Get DayTime (0 args, Distinct from GameTime which Hexal adds, as DayTime takes sleeping in bed into account)
         Get Biome (From blockPos)
-        Get Weather (TODO)
+        Get Weather (From BlockPos) (Unsure if I want to split this into two patterns...)
         Get Medium (from bobber)
         Get Dimension (0 args)
         Get Moon Phase (0 args)
@@ -21,11 +21,11 @@ Patterns:
         Get Climate (from blockPos) (This is the chunk climate thing Tide uses for temperature)
 
     Fish:
-        Patterns to check for all the conditinos a fish may have (Most of the ones I could think of at least)
+        Patterns to check for all the conditions a fish may have (Most of the ones I could think of at least)
 
 Items:
     Added a chair variant
-    Added 1 Rare Fish
+    Added 1 Rare Fish (requires at least 1 player on the server to have edified at least 1 tree, very instructional:tm:)
     Added 1 Legendary Fish
     Added Sampling Focus Bobber (cosmetic) (1.21.1 prevents me from making the item model look how I want...)
     Added Rocky Rod
@@ -47,12 +47,13 @@ Balance Changes:
     Modified some of trader's fishing trades
     Modified trader spawn chance
     Trade now spawns at most once every 2 hours per player (I forget if this was 0.2.15 or if I did it just after)
+        These changes in practice make the trader more rare, but less tedious to encounter.
 
 Mechanics:
     Music Disc was made less miserable to get
 
 Notable Bugfixes:
-    I'm putting this here so I don't forget to bring it up: fixed client-side tide rendering/minigame bugs with kilt+sable (the minigame should work)
+    I'm putting this here so I don't forget to bring it up: fixed client-side tide rendering/minigame bugs with kilt+sable (the minigame should work) (this was fixed in 0.2.15)
     Made the fish I had added work better (I hope). (No longer axolotl-based)
 
 If I added or changed anything else I forgot because it was a bugfix or insignificant, I think I fixed some bad spell circle oversights at least, when I looked over it again...

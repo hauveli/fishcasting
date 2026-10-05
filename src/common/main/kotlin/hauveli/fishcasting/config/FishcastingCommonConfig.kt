@@ -52,7 +52,8 @@ class FishcastingCommonConfig : Config(Fishcasting.id("common_config")) {
     // TRADER GROUP
 
     // not grouped
-    var timeSkipPerPlayerIntervalMinutes: ValidatedFloat = ValidatedFloat(0f, 1200f, 0f)
+    // oops! I haven't implemented the time skip great spell in a way I'm happy with yet...
+    // var timeSkipPerPlayerIntervalMinutes: ValidatedFloat = ValidatedFloat(0f, 1200f, 0f)
 
     var isLengthPurificationOnlyFish: ValidatedBoolean = ValidatedBoolean(true).withListener {
         FishcastingPatchouliConfigStuff.configurePatchouliFlags(FishcastingConfigs)

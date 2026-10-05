@@ -86,10 +86,10 @@ object FabricFishcasting : ModInitializer {
         // hee hee hee...
         // todo:
         // I'll have to fix this in dev 53 and/or dev 54
-        val mindsReflection = HexPattern.fromAngles("qaq", HexDir.NORTH_EAST)
-        val compassPurification = HexPattern.fromAngles("aa", HexDir.EAST)
-        val alidadesPurification = HexPattern.fromAngles("wa", HexDir.NORTH_EAST)
-        val archersDistillation = HexPattern.fromAngles("wqaawdd", HexDir.EAST)
+        val mindsReflection = HexPattern.fromAngleString("qaq", HexDir.NORTH_EAST)
+        val compassPurification = HexPattern.fromAngleString("aa", HexDir.EAST)
+        val alidadesPurification = HexPattern.fromAngleString("wa", HexDir.NORTH_EAST)
+        val archersDistillation = HexPattern.fromAngleString("wqaawdd", HexDir.EAST)
 
         HexCardinalComponents.IOTA_HOLDER_LOOKUP.registerForItems({
                 stack, _ -> CCItemIotaHolder.Static(stack) {
