@@ -277,7 +277,7 @@ class GachaBottleEntity : ThrownPotion {
                 return Vec3.ZERO
             }
 
-            return Vec3.atCenterOf(treasurePos).subtract(origin)
+            return treasurePos.center.subtract(origin)
         }
     }
 }

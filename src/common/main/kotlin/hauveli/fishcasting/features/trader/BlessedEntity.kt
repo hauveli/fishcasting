@@ -22,6 +22,8 @@ import com.li64.tide.util.MoonPhases
 import com.li64.tide.util.TideUtils
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.config.FishcastingConfigs
+import hauveli.fishcasting.features.chair.TackleBoxChairEntity
+import hauveli.fishcasting.features.chair.TackleBoxChairVariant
 import hauveli.fishcasting.features.fish.cursed.CursedEntity
 import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_COMMON
 import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_LEGENDARY
@@ -30,10 +32,15 @@ import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_UNCOMMON
 import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_VERY_RARE
 import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingSounds
+import it.unimi.dsi.fastutil.ints.IntArrayList
 import net.minecraft.Util
 import net.minecraft.advancements.AdvancementHolder
+import net.minecraft.client.Minecraft
+import net.minecraft.client.multiplayer.ClientLevel
+import net.minecraft.commands.arguments.EntityAnchorArgument
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
+import net.minecraft.core.component.DataComponents
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.network.syncher.EntityDataAccessor
@@ -49,6 +56,8 @@ import net.minecraft.world.DifficultyInstance
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.*
 import net.minecraft.world.entity.ai.Brain
 import net.minecraft.world.entity.ai.goal.*
@@ -61,9 +70,12 @@ import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.npc.VillagerTrades
 import net.minecraft.world.entity.npc.WanderingTrader
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.entity.projectile.FireworkRocketEntity
 import net.minecraft.world.item.DyeColor
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import net.minecraft.world.item.component.FireworkExplosion
+import net.minecraft.world.item.component.Fireworks
 import net.minecraft.world.item.trading.MerchantOffers
 import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.GameRules
@@ -74,6 +86,7 @@ import net.minecraft.world.level.pathfinder.Path
 import net.minecraft.world.phys.Vec3
 import java.util.*
 import java.util.function.Predicate
+import kotlin.math.atan2
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
@@ -85,7 +98,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     private var isFishing = false
     private var isHappy = false
     private var completedTheatrics = false // lazy fix to avoid looping the visuals
-    var wasFishedByEnlightenedPlayer = true // default true for creative mode spawn egg reasons!!!
+    var wasFishedByEnlightenedPlayer = true // default true for spawn egg reasons!!!
     var wasFishedByFishyPlayer = true
     var fakeBobberPos: Vec3
 
@@ -299,10 +312,13 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             addRandomListing(merchantoffers, fishcastingItemsListing)
         if (this.wasFishedByEnlightenedPlayer)
             addWeightedListing(merchantoffers, hexcastingItemsListing)
+
+        // I decided this would suck, there should be no items hidden behind this.
         if (this.variant == BlessedVariant.SECRET
             && this.wasFishedByFishyPlayer
-            && this.wasFishedByEnlightenedPlayer)
-            addRandomListing(merchantoffers, superSecretItemsListing)
+            && this.wasFishedByEnlightenedPlayer) {
+            // addRandomListing(merchantoffers, superSecretItemsListing)
+        }
     }
 
 
@@ -689,6 +705,10 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         return true // makes it easier to set up the brainsweep, if the player does not want to time it with a fishing rod. also makes it meaner.
     }
 
+    override fun spawnAnim() {
+        super.spawnAnim()
+    }
+
     override fun tick() {
         super.tick()
         if (this.level().isClientSide) {
@@ -821,17 +841,31 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     override fun finalizeSpawn(
         serverLevelAccessor: ServerLevelAccessor, difficultyInstance: DifficultyInstance,
         mobSpawnType: MobSpawnType, spawnGroupData: SpawnGroupData?
-    ): SpawnGroupData {
+    ): SpawnGroupData {// oops!!! note to self: anything which relies on variant MUST be in finalizeSpawn, init happens before it... oops............
+        // this.doVariantStuff() // spawn eggs can just have the one variant I think
+        return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData)!!
+    }
+
+    fun doVariantStuff() {
         val variant = Util.getRandom(
             BlessedVariant.entries.subList(0, BlessedVariant.SECRET.ordinal).toTypedArray(),
             this.random)
-        val secretCondition = serverLevelAccessor.level.isThundering && serverLevelAccessor.level.moonPhase == MoonPhases.NEW_MOON
+        val possiblyLevel = this.level()
+
+        // disabled for now
+        val secretCondition = (false
+                && possiblyLevel != null
+                && possiblyLevel.isThundering
+                && possiblyLevel.moonPhase == MoonPhases.NEW_MOON
+                && this.wasFishedByEnlightenedPlayer
+                && this.wasFishedByFishyPlayer
+                && variant == BlessedVariant.PURPLE)
+
         if (secretCondition)
-            this.variant = BlessedVariant.SECRET // rare enough, may as well garuantee it in this scenario so it's not an RNG nightmare
+            this.variant = BlessedVariant.SECRET
         else
             this.variant = variant
-        this.pigment = getVariantPigment() // oops!!! note to self: anything which relies on variant MUST be in finalizeSpawn, init happens before it... oops............
-        return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData)!!
+        this.pigment = getVariantPigment()
     }
 
     // thank you kaupenjoe, again
@@ -893,22 +927,55 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         fun poofIntoExistence(spawnPosition: Vec3, player: Player, level: Level) {
             if (level.isClientSide
                 || player !is ServerPlayer
-                || BlessedSavedData.trueIfOnCooldown(player))
+                || BlessedSavedData.trueIfOnCooldown(player)) {
                 return
+            }
+            val serverLevel = player.serverLevel()
 
-
-
-            val blessedEntity = BlessedEntity(FishcastingEntities.BLESSED.value, level)
+            val blessedEntity = BlessedEntity(FishcastingEntities.BLESSED.value, serverLevel)
             // Media trade should only be availabl if the player can cast Craft Phial!!! (todo: hexagony gated spell compat)
             blessedEntity.wasFishedByEnlightenedPlayer = isPlayerEnlightened(player)
             blessedEntity.wasFishedByFishyPlayer = isPlayerFishy(player)
+            /*
             blessedEntity.variant = Util.getRandom<BlessedVariant?>(
                 BlessedVariant.entries.toTypedArray(),
                 blessedEntity.random
             )
+             */
+            blessedEntity.doVariantStuff()
+            blessedEntity.tryMakingItCool(serverLevel, player.position(), spawnPosition)
+
             blessedEntity.setPos(spawnPosition)
-            level.addFreshEntity(blessedEntity)
+            serverLevel.addFreshEntity(blessedEntity)
             blessedEntity.doTheatrics()
+        }
+
+        private val explosionBall = FireworkExplosion(
+            FireworkExplosion.Shape.LARGE_BALL,
+            IntArrayList(listOf(0x0000FF, 0xFFFF00)), // Colors
+            IntArrayList(listOf(0xFF0000, 0xFF7F00)), // Fade colors
+            true,  // Trail
+            true   // Twinkle
+        )
+        private val explosionCreepahh = FireworkExplosion(
+            FireworkExplosion.Shape.CREEPER,
+            IntArrayList(listOf(0x0000FF, 0xFFFF00)),
+            IntArrayList(listOf(0xFF0000, 0xFF7F00)),
+            false,
+            true
+        )
+
+        private val fireworks = listOf(
+            explosionCreepahh,
+            explosionBall
+        )
+
+        fun fireworksOnClient(position: Vec3) {
+            Minecraft.getInstance().level?.createFireworks(
+                position.x, position.y + 1.5, position.z,
+                0.0,0.0,0.0,
+                fireworks
+            )
         }
 
         private val OUTTA_HERE = Vec3(0.0, 1000000.0, 0.0)
@@ -975,5 +1042,82 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             summonCursedAtPosition(entity)
             vanish(entity)
         }
+    }
+
+    private fun tryMakingItCool(
+        level: ServerLevel,
+        position: Vec3,
+        spawnPosition: Vec3
+    ) {
+        if (this.variant != BlessedVariant.SECRET)
+            return
+
+        // cool bike
+        val awesomeRide = TackleBoxChairEntity(FishcastingEntities.TACKLEBOX_CHAIR.value, level)
+        TackleBoxChairEntity.setVariant(awesomeRide, TackleBoxChairVariant.SECRET, level)
+        awesomeRide.setPos(spawnPosition)
+
+        awesomeRide.lookAt(EntityAnchorArgument.Anchor.FEET, position)
+        val dx = position.x - spawnPosition.x
+        val dz = position.z - spawnPosition.z
+        val targetYaw = Math.toDegrees(atan2(-dx, dz)).toFloat()
+        awesomeRide.yRot = targetYaw
+
+        level.addFreshEntity(awesomeRide)
+        this.startRiding(awesomeRide)
+
+        // fling in dir of player
+        val normalVecInDirOfFisher = position.subtract(spawnPosition).normalize().multiply(5.0, 0.1, 5.0)
+        awesomeRide.deltaMovement = awesomeRide.deltaMovement.add(normalVecInDirOfFisher)
+
+        this.isInvulnerable = true
+        this.invulnerableTime = 20
+        val fireResistance = MobEffectInstance(
+            MobEffects.FIRE_RESISTANCE, 50, 50
+        )
+        this.addEffect(fireResistance)
+        awesomeRide.isInvulnerable = true
+        awesomeRide.invulnerableTime = 20
+
+        val stack = ItemStack(Items.FIREWORK_ROCKET).apply {
+            set(
+                DataComponents.FIREWORKS,
+                Fireworks(
+                    0, // flight duration — shortest normal lifetime
+                    listOf(explosionBall, explosionCreepahh)
+                )
+            )
+        }
+
+        val rocketWhat = FireworkRocketEntity(EntityType.FIREWORK_ROCKET, level)
+        val rocket = FireworkRocketEntity(level, rocketWhat,
+            0.0,0.0,0.0,
+            stack)
+
+        rocket.setPos(
+            spawnPosition.x + 0.5,
+            spawnPosition.y + 1.5,
+            spawnPosition.z + 0.5
+        )
+
+        // level.addFreshEntity(rocket)
+
+        level.explode(
+            this,
+            spawnPosition.x, spawnPosition.y, spawnPosition.z,
+            5f, Level.ExplosionInteraction.NONE
+        )
+        level.explode(
+            this,
+            spawnPosition.x + normalVecInDirOfFisher.x / 2,
+            spawnPosition.y  + normalVecInDirOfFisher.y / 2,
+            spawnPosition.z + normalVecInDirOfFisher.z / 2,
+            5f, Level.ExplosionInteraction.NONE
+        )
+
+        val bolt = LightningBolt(EntityType.LIGHTNING_BOLT, level)
+        bolt.kill() // lmao
+        bolt.setPos(spawnPosition)
+        level.addFreshEntity(bolt)
     }
 }

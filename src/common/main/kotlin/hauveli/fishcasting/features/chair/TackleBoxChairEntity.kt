@@ -209,6 +209,12 @@ class TackleBoxChairEntity : ChestBoat {
         }
     }
 
+    override fun getDefaultGravity(): Double {
+        if (this.variant == TackleBoxChairVariant.SECRET)
+            return super.defaultGravity * 2
+        return super.getDefaultGravity()
+    }
+
     override fun baseTick() {
         super.baseTick()
         //hover()
