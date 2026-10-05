@@ -416,7 +416,7 @@ _comment_config: CONFIGURATION STUFF
 compat:
   nomansland:
     tacklebox_chair: A throne/ fit for a king/ used only by commonfolk/.
-    tacklebox_chair_aeronautics: "A chair/ built for two purposes:/ fishing,/ and/ flying."
+    tacklebox_chair_floaty: "A chair/ built for two purposes:/ fishing,/ and/ flying."
 
 yapping_tooltips:
   item:
