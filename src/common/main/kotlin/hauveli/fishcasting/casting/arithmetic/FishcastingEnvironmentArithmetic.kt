@@ -247,7 +247,6 @@ class FishcastingEnvironmentArithmetic : Arithmetic {
                     val theEnvironmentValue = getEnvIotaFromIota(iota, iotaTwo).value
 
                     val newEnvIota = theEnvironmentValue.of(result)
-                    Fishcasting.LOGGER.info("A: ${double}, B: ${doubleTwo}, C: ${result}, D: ${newEnvIota.getDouble()}")
                     return listOf<Iota>(RealEnvironmentIota(newEnvIota))
                 }
             }

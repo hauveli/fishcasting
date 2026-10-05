@@ -27,7 +27,6 @@ object OpMoonPhaseChange : SpellAction {
 
         // if the sun is up, do this
         var angle = env.world.getSunAngle((dayTime % 20) / 20f ).toDouble()
-        // Fishcasting.LOGGER.info("Angle: {}", angle)
         // else: do it to the moon
         if (dayTime % 24000 > 12750) { // about 750 ish of 24000, so 23250, is when they are at the same level.
             angle -= Mth.PI

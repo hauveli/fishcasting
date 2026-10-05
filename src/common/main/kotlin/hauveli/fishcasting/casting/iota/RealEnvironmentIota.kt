@@ -47,10 +47,7 @@ sealed interface EnvironmentValue {
     val LOWER_BOUND: Double?
 
     fun clampedInRange(inputValue: Double): Double {
-        val clamped = inputValue.coerceIn(LOWER_BOUND, UPPER_BOUND)
-        // why is thje
-        Fishcasting.LOGGER.info( "befor: ${inputValue} after: ${clamped}")
-        return clamped
+        return inputValue.coerceIn(LOWER_BOUND, UPPER_BOUND)
     }
 
     fun getCodec(): Codec<out EnvironmentValue>
