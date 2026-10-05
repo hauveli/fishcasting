@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "tide:bait"
+    },
+    {
+      "item": "fishcasting:fishy_fragment"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "item": "fishcasting:odious_bait"
+  }
+}
