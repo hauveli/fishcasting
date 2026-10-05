@@ -10,6 +10,10 @@
       text: 'fishcasting.book.environmental_patterns.1',
     },
     {
+      type: 'patchouli:text',
+      text: 'fishcasting.book.environmental_patterns.2',
+    },
+    {
       type: 'hexcasting:pattern',
       op_id: 'fishcasting:environment/biome',
       anchor: 'fishcasting:environment/biome',
@@ -80,6 +84,15 @@
       input: 'vec',
       output: 'environment',
       text: 'fishcasting.book.environmental_patterns.environment/weather',
+    },
+    {
+      "type": "hexcasting:pattern",
+      "header": "hexcasting.action.hexcasting:abs",
+      "op_id": "hexcasting:abs",
+      "anchor": "hexcasting:abs",
+      "input": "environment",
+      "output": "num",
+      text: 'fishcasting.book.environmental_patterns.environment/arithmetic/length',
     }
   ],
 }

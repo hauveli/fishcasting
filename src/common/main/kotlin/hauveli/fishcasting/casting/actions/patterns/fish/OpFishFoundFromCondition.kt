@@ -8,6 +8,7 @@ import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.NullIota
 import at.petrak.hexcasting.api.casting.mishaps.MishapBadEntity
 import at.petrak.hexcasting.api.casting.mishaps.MishapInvalidIota
+import at.petrak.hexcasting.api.misc.MediaConstants
 import com.li64.tide.data.TideTags
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.fishing.conditions.types.BiomeWhitelistCondition
@@ -41,7 +42,7 @@ unbucketing fish spell by reading a stored fish bucket (with a focus bobber out)
 */
 object OpFishFoundFromCondition : ConstMediaAction {
     override val argc: Int = 2
-    override val mediaCost: Long = 0 // MediaConstants.DUST_UNIT // free is ok I think
+    override val mediaCost: Long = MediaConstants.DUST_UNIT // free is ok I think
 
 
     override fun execute(args: List<Iota>, env: CastingEnvironment): List<Iota> {

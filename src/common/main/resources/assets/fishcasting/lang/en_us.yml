@@ -76,8 +76,9 @@ fishcasting:
 
     environmental_patterns:
       '1': Some aspects of this world are difficult to describe using just numbers, for this purpose several patterns have been devised to store this information in an environmental iota. These will all evaluate to being of the same type, even if the information stored is from a different environment.
+      '2': For patterns with a numerical or ordinal representation, arithmetic patterns may be used to transform the environment into its corresponding numerical representation. For environments which do not have a numerical representation, attempting to transform it will mishap.
       title: Environments
-      environment/daytime: This pattern pushes a number relating to the time of day onto the stack. Dividing the output by 24000 and taking the remainder gives an easily readable number. As a remainder reminder, 06:00 corresponds to 0 and 12:00 to 6000. Costs a negligible amount of _media. $(br)
+      environment/daytime: Pushes the time of day onto the stack. Costs a negligible amount of _media.
       environment/moon/get: Pushes the phase of the moon to the stack. Costs a negligible amount of _media.
       environment/dimension: Pushes the dimension of the caster to the stack. Costs a negligible amount of _media.
       environment/biome: Transforms a vector on the stack into the biome at that position. Costs a negligible amount of _media.
@@ -85,6 +86,7 @@ fishcasting:
       environment/structure: Transforms a vector on the stack into a list of structures at that position. Costs a negligible amount of _media.
       environment/weather: Transforms a vector on the stack into the precipitation at that position. Costs a negligible amount of _media.
       environment/climate: Transforms a vector on the stack into the water climate at that position. Costs a negligible amount of _media.
+      environment/arithmetic/length: Transforms an environment on the stack into its numerical representation. Mishaps if it does not have one.
     bobber_patterns:
       '1': I came across a soggy book in my travels written by a sage fisher who went by the name $(italic)'Babs'/$. While most of the text consists of the ramblings of a sailor, found within the pages were some mundane patterns for fishing. Marine life may not be my focus, but for the sake of my work I must note these down. These would come in handy I ever decide to use a $(l:items/casting_rod#fishcasting:landing)$(thing)Casting Rod/$.
       title: Bobber Patterns
