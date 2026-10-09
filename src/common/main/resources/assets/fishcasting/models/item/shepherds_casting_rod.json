@@ -1,14 +1,60 @@
 {
-  "parent": "item/handheld_rod",
-  "textures": {
-    "layer0": "fishcasting:item/shepherds_casting_rod"
-  },
-  "overrides": [
-    {
-      "predicate": {
-        "tide:cast": 1
-      },
-      "model": "fishcasting:item/shepherds_casting_rod_cast"
-    }
-  ]
+	"overrides": [
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_0",
+			"predicate": {
+				"hexcasting:variant": 0.0,
+				"tide:cast": 0
+			}
+		},
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_cast_0",
+			"predicate": {
+				"hexcasting:variant": 0.0,
+				"tide:cast": 1
+			}
+		},
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_1",
+			"predicate": {
+				"hexcasting:variant": 1.0,
+				"tide:cast": 0
+			}
+		},
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_cast_1",
+			"predicate": {
+				"hexcasting:variant": 1.0,
+				"tide:cast": 1
+			}
+		},
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_2",
+			"predicate": {
+				"hexcasting:variant": 2.0,
+				"tide:cast": 0
+			}
+		},
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_cast_2",
+			"predicate": {
+				"hexcasting:variant": 2.0,
+				"tide:cast": 1
+			}
+		},
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_3",
+			"predicate": {
+				"hexcasting:variant": 3.0,
+				"tide:cast": 0
+			}
+		},
+		{
+			"model": "fishcasting:item/shepherds_casting_rod_cast_3",
+			"predicate": {
+				"hexcasting:variant": 3.0,
+				"tide:cast": 1
+			}
+		}
+	]
 }

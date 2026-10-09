@@ -1,25 +1,14 @@
 package hauveli.fishcasting
 
-import com.li64.tide.client.TideItemModelProperties
-import hauveli.fishcasting.config.FishcastingConfigs
-import hauveli.fishcasting.features.paraphernalia.TideyFocusItem
 //import hauveli.fishcasting.networking.FishcastingNetworking
-import hauveli.fishcasting.registry.FishcastingActions
-import hauveli.fishcasting.registry.FishcastingAdvancements
-import hauveli.fishcasting.registry.FishcastingAttributes
-import hauveli.fishcasting.registry.FishcastingCreativeTabs
-import hauveli.fishcasting.registry.FishcastingEntities
-import hauveli.fishcasting.registry.FishcastingItems
-import hauveli.fishcasting.registry.FishcastingRecipeSerializers
-import hauveli.fishcasting.registry.FishcastingRecipeTypes
-import hauveli.fishcasting.registry.FishcastingSounds
-import net.minecraft.advancements.AdvancementHolder
-import net.minecraft.client.renderer.item.ItemProperties
+import at.petrak.hexcasting.api.HexAPI
+import hauveli.fishcasting.config.FishcastingConfigs
+import hauveli.fishcasting.interop.inline.InlineFishcastingServer
+import hauveli.fishcasting.registry.*
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.server.level.ServerPlayer
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
-import java.util.Random
+import java.util.*
 
 object Fishcasting {
     const val MODID = "fishcasting"
@@ -29,6 +18,17 @@ object Fishcasting {
     val LOGGER: Logger = LogManager.getLogger(MODID)
 
     const val FISHBERT_TAG = "$MODID:recently_caught"
+
+
+    fun String.capitalizeFirstLetterOfEachWord(): String {
+        return this
+            .split(" ")
+            .joinToString(" ") {
+                it.replaceFirstChar { char ->
+                    char.titlecase(Locale.getDefault())
+                }
+            }
+    }
 
     // I dont know if I should avoid using this or not, I noticed some classes have access to Entity.random...
     @JvmField
@@ -40,14 +40,17 @@ object Fishcasting {
     fun init() {
         initRegistries(
             FishcastingActions,
+            FishcastingArithmetic,
             FishcastingAttributes,
             FishcastingCreativeTabs,
             FishcastingEntities,
+            FishcastingIotaTypes,
             FishcastingRecipeTypes,
             FishcastingRecipeSerializers,
             FishcastingSounds,
             FishcastingItems
         )
+        InlineFishcastingServer.init()
         // FishcastingNetworking.init()
         FishcastingConfigs.init()
     }

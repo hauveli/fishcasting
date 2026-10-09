@@ -1,5 +1,7 @@
 package hauveli.fishcasting.features.chair
 
+import net.minecraft.core.component.DataComponents
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.stats.Stats
 import net.minecraft.world.InteractionHand
@@ -10,13 +12,16 @@ import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.component.CustomData
+import net.minecraft.world.item.component.CustomModelData
 import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.gameevent.GameEvent
 import net.minecraft.world.phys.HitResult
 import java.util.function.Predicate
 
-class TackleBoxChairItem(properties: Properties) : Item(properties) {
+open class TackleBoxChairItem(properties: Properties) : Item(properties) {
+    open val variant = TackleBoxChairVariant.FACTORY
     override fun use(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         val itemStack = player.getItemInHand(hand)
         val hitResult: HitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.ANY)
@@ -49,6 +54,7 @@ class TackleBoxChairItem(properties: Properties) : Item(properties) {
                 } else {
                     if (!level.isClientSide) {
                         level.addFreshEntity(chair)
+                        TackleBoxChairEntity.setVariant(chair, variant, level)
                         level.gameEvent(player, GameEvent.ENTITY_PLACE, hitResult.getLocation())
                         itemStack.consume(1, player)
                     }

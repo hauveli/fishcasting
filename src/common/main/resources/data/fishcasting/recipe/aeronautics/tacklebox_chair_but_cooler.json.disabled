@@ -1,0 +1,47 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "aeronautics"
+      ]
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "aeronautics"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "J": {
+      "item": "tide:fishing_journal"
+    },
+    "B": {
+      "item": "minecraft:barrel"
+    },
+    "C": {
+      "tag": "minecraft:wool_carpets"
+    },
+    "U": {
+      "item": "aeronautics:levitite_blend_bucket"
+    },
+    "I": {
+      "item": "minecraft:breeze_rod"
+    },
+    "F": {
+      "item": "tide:fish_satchel"
+    }
+  },
+  "pattern": [
+    "ICI",
+    "JCF",
+    "UBU"
+  ],
+  "result": {
+    "count": 1,
+    "id": "fishcasting:tacklebox_chair"
+  }
+}

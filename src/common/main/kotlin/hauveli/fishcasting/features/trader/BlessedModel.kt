@@ -19,12 +19,12 @@ import org.joml.Vector3f
 class BlessedModel<T : BlessedEntity?>(root: ModelPart) : HierarchicalModel<T?>() {
 
     private val rooot: ModelPart
-    private val body: ModelPart
-    private val head: ModelPart
+    val body: ModelPart
+    val head: ModelPart
     private val simplify_logic: ModelPart
     private val rightEar: ModelPart
     private val leftEar: ModelPart
-    private val glasses: ModelPart
+    val glasses: ModelPart
     private val tail: ModelPart
     private val right_arm: ModelPart
     private val right_thumb: ModelPart
@@ -43,13 +43,14 @@ class BlessedModel<T : BlessedEntity?>(root: ModelPart) : HierarchicalModel<T?>(
     private val tail2: ModelPart
 
     override fun renderToBuffer(poseStack: PoseStack, vertexConsumer: VertexConsumer, i: Int, i1: Int, i2: Int) {
+        // glasses.visible = false
         rooot.render(poseStack, vertexConsumer, i, i1, i2)
+        // glasses.visible = true
     }
 
     override fun root(): ModelPart {
         return this.rooot
     }
-
 
     init {
         this.rooot = root.getChild("rooot")

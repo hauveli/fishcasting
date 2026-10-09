@@ -1,6 +1,7 @@
 package hauveli.fishcasting.features.trader
 
 import at.petrak.hexcasting.api.HexAPI
+import at.petrak.hexcasting.api.HexAPI.modLoc
 import at.petrak.hexcasting.api.casting.ParticleSpray
 import at.petrak.hexcasting.api.pigment.FrozenPigment
 import at.petrak.hexcasting.common.lib.HexItems
@@ -8,6 +9,7 @@ import at.petrak.hexcasting.common.lib.HexSounds
 import com.google.common.collect.ImmutableList
 import com.li64.tide.Tide
 import com.li64.tide.compat.seasons.SeasonsCompat
+import com.li64.tide.data.FreezableMob
 import com.li64.tide.data.commands.TestType
 import com.li64.tide.data.fishing.FishData
 import com.li64.tide.data.fishing.FishingContext
@@ -16,15 +18,29 @@ import com.li64.tide.data.fishing.selector.FishingEntry
 import com.li64.tide.registries.TideEntityTypes
 import com.li64.tide.registries.TideItems
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
+import com.li64.tide.util.MoonPhases
 import com.li64.tide.util.TideUtils
 import hauveli.fishcasting.Fishcasting
-import hauveli.fishcasting.features.fish.CursedEntity
-import hauveli.fishcasting.registry.FishcastingAdvancements
+import hauveli.fishcasting.config.FishcastingConfigs
+import hauveli.fishcasting.features.chair.TackleBoxChairEntity
+import hauveli.fishcasting.features.chair.TackleBoxChairVariant
+import hauveli.fishcasting.features.fish.cursed.CursedEntity
+import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_COMMON
+import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_LEGENDARY
+import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_RARE
+import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_UNCOMMON
+import hauveli.fishcasting.features.trader.BlessedTrades.PHIAL_TRADES_VERY_RARE
 import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingSounds
+import it.unimi.dsi.fastutil.ints.IntArrayList
 import net.minecraft.Util
+import net.minecraft.advancements.AdvancementHolder
+import net.minecraft.client.Minecraft
+import net.minecraft.client.multiplayer.ClientLevel
+import net.minecraft.commands.arguments.EntityAnchorArgument
 import net.minecraft.core.BlockPos
 import net.minecraft.core.GlobalPos
+import net.minecraft.core.component.DataComponents
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.network.syncher.EntityDataAccessor
@@ -40,6 +56,8 @@ import net.minecraft.world.DifficultyInstance
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.damagesource.DamageSource
+import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.*
 import net.minecraft.world.entity.ai.Brain
 import net.minecraft.world.entity.ai.goal.*
@@ -52,8 +70,12 @@ import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.entity.npc.VillagerTrades
 import net.minecraft.world.entity.npc.WanderingTrader
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.entity.projectile.FireworkRocketEntity
+import net.minecraft.world.item.DyeColor
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import net.minecraft.world.item.component.FireworkExplosion
+import net.minecraft.world.item.component.Fireworks
 import net.minecraft.world.item.trading.MerchantOffers
 import net.minecraft.world.level.ClipContext
 import net.minecraft.world.level.GameRules
@@ -64,15 +86,20 @@ import net.minecraft.world.level.pathfinder.Path
 import net.minecraft.world.phys.Vec3
 import java.util.*
 import java.util.function.Predicate
+import kotlin.math.atan2
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
 
 class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) : WanderingTrader(entityType, level) {
     private val wanderTarget: BlockPos? = null
+    private var pigment: FrozenPigment = FrozenPigment.ANCIENT.get()
     private var ticksSincePain = 0
     private var isFishing = false
     private var isHappy = false
+    private var completedTheatrics = false // lazy fix to avoid looping the visuals
+    var wasFishedByEnlightenedPlayer = true // default true for spawn egg reasons!!!
+    var wasFishedByFishyPlayer = true
     var fakeBobberPos: Vec3
 
     enum class Mood(val value: Int) {
@@ -139,8 +166,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         LEAVING
     }
 
-    // todo: java made this ok, in kotlin this hides brain
-    private var brain = CustomBrain.DEFAULT
+    private var customBrain = CustomBrain.DEFAULT
 
     override fun registerGoals() {
         super.registerGoals()
@@ -150,10 +176,19 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
 
         // remove milk and potion goals.
         this.goalSelector.availableGoals.stream()
-            .filter { wrappedGoal: WrappedGoal? -> wrappedGoal!!.goal is UseItemGoal<*> }
-            .forEach { wrappedGoal: WrappedGoal? -> this.goalSelector.removeGoal(wrappedGoal!!.goal) }
+            .filter { wrappedGoal: WrappedGoal? -> wrappedGoal?.goal is UseItemGoal<*> }
+            .forEach { wrappedGoal: WrappedGoal? -> if (wrappedGoal != null) this.goalSelector.removeGoal(wrappedGoal.goal) }
     }
 
+    // I don't get it. This doesn't work? is this for the entity itself calling .equip()?
+    // that feels insane but might be it if I ever decide to coem back to it, future self...
+    override fun canUseSlot(equipmentSlot: EquipmentSlot): Boolean {
+        return when (equipmentSlot) {
+            EquipmentSlot.BODY -> true
+            EquipmentSlot.CHEST -> true
+            else -> super.canUseSlot(equipmentSlot)
+        }
+    }
 
     private fun atMaximumHealth(): Boolean {
         return this.maxHealth == this.health
@@ -184,10 +219,10 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 this.mood = Mood.VERY_HAPPY // funny
                 return
             }
-            when (brain) {
+            when (customBrain) {
                 CustomBrain.DEFAULT -> {
                     if (!this.atMaximumHealth()) {
-                        brain = CustomBrain.INJURED
+                        customBrain = CustomBrain.INJURED
                     } else {
                         //this.setItemInHand(InteractionHand.MAIN_HAND, Items.AIR.getDefaultInstance());
                     }
@@ -196,12 +231,12 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 CustomBrain.INJURED -> {
                     if (this.isDeadOrDying) return
                     if (this.atMaximumHealth()) {
-                        brain = CustomBrain.DEFAULT
+                        customBrain = CustomBrain.DEFAULT
                         ticksSincePain = 0
                         this.setItemInHand(InteractionHand.MAIN_HAND, Items.AIR.defaultInstance)
                     } else {
                         if (ticksSincePain > 20) {
-                            brain = CustomBrain.LEAVING
+                            customBrain = CustomBrain.LEAVING
                             this.doTheatrics()
                         } else if (ticksSincePain >= 2) { // pulled out much later than I'd like but it works, I guess....
                             // note: this technically provides a way to obtain this from the trader, but the timing is so tight I think it's ok.
@@ -229,12 +264,42 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         }
     }
 
+    protected fun addWeightedListing(merchantoffers: MerchantOffers, itemListing: Array<VillagerTrades.ItemListing>) {
+        val weights = listOf(
+            PHIAL_TRADES_COMMON to FishcastingConfigs.COMMON_CONFIG.traderPhialWeights.common,
+            PHIAL_TRADES_UNCOMMON to FishcastingConfigs.COMMON_CONFIG.traderPhialWeights.uncommon,
+            PHIAL_TRADES_RARE to FishcastingConfigs.COMMON_CONFIG.traderPhialWeights.rare,
+            PHIAL_TRADES_VERY_RARE to FishcastingConfigs.COMMON_CONFIG.traderPhialWeights.veryRare,
+            PHIAL_TRADES_LEGENDARY to FishcastingConfigs.COMMON_CONFIG.traderPhialWeights.legendary
+        ).filter { (trades, weight) ->
+            trades.isNotEmpty() && weight > 0
+        }
+        val totalWeight = weights.sumOf { it.second }
+        var roll = random.nextInt(totalWeight) // [0, totalWeight[
+
+        for ((trades, weight) in weights) {
+            if (roll < weight) {
+                val listing = trades[random.nextInt(trades.size)]
+                val offer = listing.getOffer(this, random)
+                merchantoffers.add(offer)
+
+                break
+            }
+            roll -= weight
+        }
+    }
+
     override fun updateTrades() {
         val commonListing = BlessedTrades.BLESSED_TRADER_TRADES.get(1) as Array<VillagerTrades.ItemListing>
         val rareListing = BlessedTrades.BLESSED_TRADER_TRADES.get(2) as Array<VillagerTrades.ItemListing>
         val nonOverworldListing = BlessedTrades.BLESSED_TRADER_TRADES.get(3) as Array<VillagerTrades.ItemListing>
         val dyeListing = BlessedTrades.BLESSED_TRADER_TRADES.get(4) as Array<VillagerTrades.ItemListing>
         val bedrockEaterListing = BlessedTrades.BLESSED_TRADER_TRADES.get(5) as Array<VillagerTrades.ItemListing>
+        val bottleItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(6) as Array<VillagerTrades.ItemListing>
+        val fishcastingItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(7) as Array<VillagerTrades.ItemListing>
+        // I'm not using this anymore because of how I decided to deal with the randomization... is that going to be an issue?
+        val hexcastingItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(8) as Array<VillagerTrades.ItemListing>
+        val superSecretItemsListing = BlessedTrades.BLESSED_TRADER_TRADES.get(9) as Array<VillagerTrades.ItemListing>
 
         val merchantoffers = this.getOffers()
         this.addOffersFromItemListings(merchantoffers, commonListing, 3)
@@ -242,6 +307,18 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         addRandomListing(merchantoffers, nonOverworldListing)
         addRandomListing(merchantoffers, dyeListing)
         addRandomListing(merchantoffers, bedrockEaterListing)
+        addRandomListing(merchantoffers, bottleItemsListing)
+        if (this.wasFishedByFishyPlayer)
+            addRandomListing(merchantoffers, fishcastingItemsListing)
+        if (this.wasFishedByEnlightenedPlayer)
+            addWeightedListing(merchantoffers, hexcastingItemsListing)
+
+        // I decided this would suck, there should be no items hidden behind this.
+        if (this.variant == BlessedVariant.SECRET
+            && this.wasFishedByFishyPlayer
+            && this.wasFishedByEnlightenedPlayer) {
+            // addRandomListing(merchantoffers, superSecretItemsListing)
+        }
     }
 
 
@@ -267,11 +344,16 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         }
     }
 
+    fun isFrozen(): Boolean =
+        (this as FreezableMob).`tide$isFrozen`()
+
     // I couldn't figure out how to directly write the pigment color values
     // BlessedEntity.class.getPackage().getName().split("\\.")[0] // if I wanted to use my github username
     // public static final Supplier<FrozenPigment> BLESSED = () -> new FrozenPigment(new ItemStack(HexItems.UUID_PIGMENT), UUID.fromString(""));
     @JvmOverloads
     fun doTheatrics(position: Vec3 = this.eyePosition) {
+        if (this.isFrozen())
+            return
         doTheatricsAtVec(position, 30, 0.4f)
         this.level().playSound(this, this.blockPosition(), HexSounds.CAST_SPELL.value(), SoundSource.NEUTRAL, 0.1f, 1.0f)
         // AHHH ITS SO LOUD
@@ -284,10 +366,12 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     }
 
     fun doTheatricsAtVec(pos: Vec3, count: Int, fuzziness: Float, spread: Double) {
-        val level = this.level()
+        if (this.isFrozen())
+            return
+        val serverLevel = this.server?.getLevel(this.level().dimension()) ?: return
         // for some reason this happens at its feet...
         ParticleSpray(pos, Vec3(0.0, 1.5, 0.0), fuzziness.toDouble(), spread, count)
-            .sprayParticles(level.server!!.getLevel(level.dimension())!!, FrozenPigment.ANCIENT.get())
+            .sprayParticles(serverLevel, this.pigment)
     }
 
     override fun brainProvider(): Brain.Provider<BlessedEntity?> {
@@ -365,7 +449,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         this.setCanPickUpLoot(true)
 
         // to make it despawn at some point I gave it a mood meter
-        this.mood = Mood.NEUTRAL
+        this.mood = Mood.NEUTRAL // this should let it hang around for long enough
 
         // animation stuff
         if (this.level().isClientSide) {
@@ -612,13 +696,17 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     }
 
     private fun stopIfPlaying(animationState: AnimationState) {
-        if (animationState.isStarted()) {
+        if (animationState.isStarted) {
             animationState.stop()
         }
     }
 
     override fun canBeLeashed(): Boolean {
         return true // makes it easier to set up the brainsweep, if the player does not want to time it with a fishing rod. also makes it meaner.
+    }
+
+    override fun spawnAnim() {
+        super.spawnAnim()
     }
 
     override fun tick() {
@@ -641,7 +729,7 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
                 }
 
                 Mood.VERY_SAD -> {
-                    this.brain = CustomBrain.LEAVING
+                    this.customBrain = CustomBrain.LEAVING
                     doTheatrics()
                 }
 
@@ -706,6 +794,40 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             this.entityData.set(VARIANT, variant!!.id and 255)
         }
 
+    fun getFallbackPigment(): FrozenPigment {
+        return FrozenPigment.ANCIENT.get()
+    }
+
+    fun frozenPigmentFromWhatever(dyeColor: DyeColor?): FrozenPigment {
+        val dyeItem = HexItems.DYE_PIGMENTS[dyeColor] ?: return getFallbackPigment()
+        val dyeStack = dyeItem.get().defaultInstance
+        return FrozenPigment(dyeStack, Util.NIL_UUID)
+    }
+
+    val uuidOptions = listOf<String>(
+        "90466089-5cc5-eb89-eea7-81e503537a6e", // BY #3333F9 #B0B000
+        "b1207a04-bf22-56e4-81c0-895accf61b2b", // YB #FAFC33 #0100AF
+        "f02d8e03-8917-2314-2ff6-e1dabb9c39b1", // YB #FEFD35 #0202AE
+    )
+
+    fun getVariantPigment(): FrozenPigment {
+        val color = when (this.variant) {
+            BlessedVariant.BLUE -> DyeColor.RED
+            BlessedVariant.RED -> DyeColor.YELLOW
+            BlessedVariant.GREEN -> DyeColor.GREEN
+            BlessedVariant.PURPLE -> DyeColor.BROWN // surprisingly nice orange-ish hue
+            // BlessedVariant.BLACK -> DyeColor.CYAN // todo: rare EVIL variant (it's just mildly annoying)
+            else -> null
+        }
+        if (color == null) {
+            // todo: brute force or calculate the optimal yellow-blue/blue-yellow pigment, I got close but there's some room left, I think...
+            return FrozenPigment(
+                HexItems.UUID_PIGMENT.get().defaultInstance,
+                UUID.fromString(uuidOptions[0]))
+        }
+        return frozenPigmentFromWhatever(color)
+    }
+
     override fun addAdditionalSaveData(compoundTag: CompoundTag) {
         super.addAdditionalSaveData(compoundTag)
         compoundTag.putInt("Variant", this.typeVariant)
@@ -719,10 +841,31 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
     override fun finalizeSpawn(
         serverLevelAccessor: ServerLevelAccessor, difficultyInstance: DifficultyInstance,
         mobSpawnType: MobSpawnType, spawnGroupData: SpawnGroupData?
-    ): SpawnGroupData {
-        val variant = Util.getRandom(BlessedVariant.entries.toTypedArray(), this.random)
-        this.variant = variant
+    ): SpawnGroupData {// oops!!! note to self: anything which relies on variant MUST be in finalizeSpawn, init happens before it... oops............
+        // this.doVariantStuff() // spawn eggs can just have the one variant I think
         return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData)!!
+    }
+
+    fun doVariantStuff() {
+        val variant = Util.getRandom(
+            BlessedVariant.entries.subList(0, BlessedVariant.SECRET.ordinal).toTypedArray(),
+            this.random)
+        val possiblyLevel = this.level()
+
+        // disabled for now
+        val secretCondition = (false
+                && possiblyLevel != null
+                && possiblyLevel.isThundering
+                && possiblyLevel.moonPhase == MoonPhases.NEW_MOON
+                && this.wasFishedByEnlightenedPlayer
+                && this.wasFishedByFishyPlayer
+                && variant == BlessedVariant.PURPLE)
+
+        if (secretCondition)
+            this.variant = BlessedVariant.SECRET
+        else
+            this.variant = variant
+        this.pigment = getVariantPigment()
     }
 
     // thank you kaupenjoe, again
@@ -765,17 +908,74 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         private val VARIANT: EntityDataAccessor<Int> =
             SynchedEntityData.defineId(BlessedEntity::class.java, EntityDataSerializers.INT)
 
-        fun poofIntoExistence(spawnPosition: Vec3, level: Level) {
-            if (!level.isClientSide) {
-                val blessedEntity = BlessedEntity(FishcastingEntities.BLESSED.value, level)
-                blessedEntity.variant = Util.getRandom<BlessedVariant?>(
-                    BlessedVariant.entries.toTypedArray(),
-                    blessedEntity.random
-                )
-                blessedEntity.setPos(spawnPosition)
-                level.addFreshEntity(blessedEntity)
-                blessedEntity.doTheatrics()
+
+        // https://github.com/FallingColors/HexMod/blob/1.21/Common/src/main/java/at/petrak/hexcasting/api/casting/eval/CastingEnvironment.java#L225
+        private fun isPlayerEnlightened(serverPlayer: ServerPlayer): Boolean {
+            /* TODO: class org.jetbrains.kotlin.nj2k.types.JKJavaNullPrimitiveType */
+            val adv: AdvancementHolder = serverPlayer.server.advancements.get(modLoc("enlightenment")) ?: return false
+
+            return serverPlayer.advancements.getOrStartProgress(adv).isDone
+        }
+
+        private fun isPlayerFishy(serverPlayer: ServerPlayer): Boolean {
+            val adv: AdvancementHolder = serverPlayer.server.advancements.get(Tide.resource("all_fishing_rods")) ?: return false
+
+            return serverPlayer.advancements.getOrStartProgress(adv).isDone
+        }
+
+        private val lastFishyTraderTime = mutableMapOf<UUID, Long>()
+        fun poofIntoExistence(spawnPosition: Vec3, player: Player, level: Level) {
+            if (level.isClientSide
+                || player !is ServerPlayer
+                || BlessedSavedData.trueIfOnCooldown(player)) {
+                return
             }
+            val serverLevel = player.serverLevel()
+
+            val blessedEntity = BlessedEntity(FishcastingEntities.BLESSED.value, serverLevel)
+            // Media trade should only be availabl if the player can cast Craft Phial!!! (todo: hexagony gated spell compat)
+            blessedEntity.wasFishedByEnlightenedPlayer = isPlayerEnlightened(player)
+            blessedEntity.wasFishedByFishyPlayer = isPlayerFishy(player)
+            /*
+            blessedEntity.variant = Util.getRandom<BlessedVariant?>(
+                BlessedVariant.entries.toTypedArray(),
+                blessedEntity.random
+            )
+             */
+            blessedEntity.doVariantStuff()
+            blessedEntity.tryMakingItCool(serverLevel, player.position(), spawnPosition)
+
+            blessedEntity.setPos(spawnPosition)
+            serverLevel.addFreshEntity(blessedEntity)
+            blessedEntity.doTheatrics()
+        }
+
+        private val explosionBall = FireworkExplosion(
+            FireworkExplosion.Shape.LARGE_BALL,
+            IntArrayList(listOf(0x0000FF, 0xFFFF00)), // Colors
+            IntArrayList(listOf(0xFF0000, 0xFF7F00)), // Fade colors
+            true,  // Trail
+            true   // Twinkle
+        )
+        private val explosionCreepahh = FireworkExplosion(
+            FireworkExplosion.Shape.CREEPER,
+            IntArrayList(listOf(0x0000FF, 0xFFFF00)),
+            IntArrayList(listOf(0xFF0000, 0xFF7F00)),
+            false,
+            true
+        )
+
+        private val fireworks = listOf(
+            explosionCreepahh,
+            explosionBall
+        )
+
+        fun fireworksOnClient(position: Vec3) {
+            Minecraft.getInstance().level?.createFireworks(
+                position.x, position.y + 1.5, position.z,
+                0.0,0.0,0.0,
+                fireworks
+            )
         }
 
         private val OUTTA_HERE = Vec3(0.0, 1000000.0, 0.0)
@@ -799,6 +999,10 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         @JvmStatic
         fun summonCursedAtPosition(entity: Entity) {
             val cursed = CursedEntity(FishcastingEntities.CURSED.value, entity.level())
+
+            // It MUST have a length which enables the record to be obtained.
+            val size = FishData.get(cursed).get().size().get().sample(entity.random, 1.0)
+
             cursed.setPos(entity.position())
 
             cursed.moveTo(
@@ -818,7 +1022,8 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             }
 
             cursed.remainingFireTicks = entity.remainingFireTicks
-            cursed.setFromBucket(false)
+
+            cursed.`tide$setLength`(size)
             entity.level().addFreshEntity(cursed)
         }
 
@@ -837,5 +1042,82 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
             summonCursedAtPosition(entity)
             vanish(entity)
         }
+    }
+
+    private fun tryMakingItCool(
+        level: ServerLevel,
+        position: Vec3,
+        spawnPosition: Vec3
+    ) {
+        if (this.variant != BlessedVariant.SECRET)
+            return
+
+        // cool bike
+        val awesomeRide = TackleBoxChairEntity(FishcastingEntities.TACKLEBOX_CHAIR.value, level)
+        TackleBoxChairEntity.setVariant(awesomeRide, TackleBoxChairVariant.SECRET, level)
+        awesomeRide.setPos(spawnPosition)
+
+        awesomeRide.lookAt(EntityAnchorArgument.Anchor.FEET, position)
+        val dx = position.x - spawnPosition.x
+        val dz = position.z - spawnPosition.z
+        val targetYaw = Math.toDegrees(atan2(-dx, dz)).toFloat()
+        awesomeRide.yRot = targetYaw
+
+        level.addFreshEntity(awesomeRide)
+        this.startRiding(awesomeRide)
+
+        // fling in dir of player
+        val normalVecInDirOfFisher = position.subtract(spawnPosition).normalize().multiply(5.0, 0.1, 5.0)
+        awesomeRide.deltaMovement = awesomeRide.deltaMovement.add(normalVecInDirOfFisher)
+
+        this.isInvulnerable = true
+        this.invulnerableTime = 20
+        val fireResistance = MobEffectInstance(
+            MobEffects.FIRE_RESISTANCE, 50, 50
+        )
+        this.addEffect(fireResistance)
+        awesomeRide.isInvulnerable = true
+        awesomeRide.invulnerableTime = 20
+
+        val stack = ItemStack(Items.FIREWORK_ROCKET).apply {
+            set(
+                DataComponents.FIREWORKS,
+                Fireworks(
+                    0, // flight duration — shortest normal lifetime
+                    listOf(explosionBall, explosionCreepahh)
+                )
+            )
+        }
+
+        val rocketWhat = FireworkRocketEntity(EntityType.FIREWORK_ROCKET, level)
+        val rocket = FireworkRocketEntity(level, rocketWhat,
+            0.0,0.0,0.0,
+            stack)
+
+        rocket.setPos(
+            spawnPosition.x + 0.5,
+            spawnPosition.y + 1.5,
+            spawnPosition.z + 0.5
+        )
+
+        // level.addFreshEntity(rocket)
+
+        level.explode(
+            this,
+            spawnPosition.x, spawnPosition.y, spawnPosition.z,
+            5f, Level.ExplosionInteraction.NONE
+        )
+        level.explode(
+            this,
+            spawnPosition.x + normalVecInDirOfFisher.x / 2,
+            spawnPosition.y  + normalVecInDirOfFisher.y / 2,
+            spawnPosition.z + normalVecInDirOfFisher.z / 2,
+            5f, Level.ExplosionInteraction.NONE
+        )
+
+        val bolt = LightningBolt(EntityType.LIGHTNING_BOLT, level)
+        bolt.kill() // lmao
+        bolt.setPos(spawnPosition)
+        level.addFreshEntity(bolt)
     }
 }

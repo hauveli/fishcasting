@@ -11,11 +11,11 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_string": {
+    "has_line": {
       "conditions": {
         "items": [
           {
-            "items": [ "minecraft:string" ]
+            "items": [ "tide:fishing_line" ]
           }
         ]
       },
@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fishcasting:loud_fishing_line_manual_only"
+        "recipe": "fishcasting:loud_fishing_line"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -32,13 +32,12 @@
     [
       "has_the_recipe",
       "has_dust",
-      "has_string"
+      "has_line"
     ]
   ],
   "rewards": {
     "recipes": [
-      "fishcasting:loud_fishing_line_manual_only",
-      "fishcasting:loud_fishing_line_from_thought_knot"
+      "fishcasting:loud_fishing_line"
     ]
   }
 }

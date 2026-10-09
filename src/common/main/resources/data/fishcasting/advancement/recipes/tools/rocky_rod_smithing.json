@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_debris": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:ancient_debris"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_fish": {
+      "conditions": {
+        "items": [
+          {
+            "items": "fishcasting:perhosgata"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "fishcasting:rocky_rod_smithing"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_debris",
+      "has_fish"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "fishcasting:rocky_rod_smithing"
+    ]
+  }
+}

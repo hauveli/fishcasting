@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "item": "minecraft:chain"
+    },
+    "L": {
+      "item": "tide:fishing_line"
+    }
+  },
+  "pattern": [
+    "#",
+    "L",
+    "#"
+  ],
+  "result": {
+    "count": 1,
+    "id": "fishcasting:chain_linked_fishing_line"
+  }
+}

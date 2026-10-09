@@ -1,9 +1,10 @@
 package hauveli.fishcasting.registry
 
-import com.li64.tide.registries.TideEntityAttributes
+import com.li64.tide.registries.entities.fish.SmoothSwimmingFish
 import hauveli.fishcasting.Fishcasting.id
 import hauveli.fishcasting.features.chair.TackleBoxChairEntity
-import hauveli.fishcasting.features.fish.CursedEntity
+import hauveli.fishcasting.features.fish.cursed.CursedEntity
+import hauveli.fishcasting.features.fish.perhosgata.PerhosgataEntity
 import hauveli.fishcasting.features.trader.BlessedEntity
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
@@ -11,13 +12,7 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.MobCategory
-import net.minecraft.world.entity.animal.axolotl.Axolotl
-import net.minecraft.world.item.crafting.RecipeSerializer
-import net.minecraft.world.item.crafting.RecipeType
-import org.apache.http.client.entity.EntityBuilder
-import java.util.function.BiConsumer
 
 
 object FishcastingEntities : FishcastingRegistrar<EntityType<*>>(
@@ -37,6 +32,22 @@ object FishcastingEntities : FishcastingRegistrar<EntityType<*>>(
             return@make built
         }
     }
+
+    val EDIFIED_FISH = registerEntity(
+        "edified_fish", {
+            EntityType.Builder.of(::SmoothSwimmingFish, MobCategory.WATER_AMBIENT)
+                .sized(8f / 16f, 3f / 16f)
+                .clientTrackingRange(8)
+        }
+    )
+
+    val PERHOSGATA = registerEntity(
+        "perhosgata", {
+            EntityType.Builder.of(::PerhosgataEntity, MobCategory.AMBIENT)
+                .sized(0.5f / 16f, 0.5f / 16f)
+                .clientTrackingRange(3)
+        }
+    )
 
     // : EntityType<CursedEntity>
     // @JvmField
@@ -67,10 +78,23 @@ object FishcastingEntities : FishcastingRegistrar<EntityType<*>>(
     val TACKLEBOX_CHAIR = registerEntity(
         "tacklebox_chair", {
             EntityType.Builder.of(::TackleBoxChairEntity, MobCategory.MISC)
-                .sized(11.0f / 16.0f, 8.0f / 16.0f) // eyeballing it, todo: put exact values
+                .sized(22.0f / 16.0f, 9.0f / 16.0f) // vanilla boat... I think
+                //.sized(11.0f / 16.0f, 8.0f / 16.0f) // eyeballing it, todo: put exact values
                 .clientTrackingRange(10) // uhh enough to see it before players? idk
         }
     )
+
+
+    /*
+    val TACKLEBOX_CHAIR_SECRET = registerEntity(
+        "tacklebox_chair_secret", {
+            EntityType.Builder.of(::TackleBoxChairSecretEntity, MobCategory.MISC)
+                .sized(22.0f / 16.0f, 9.0f / 16.0f) // vanilla boat... I think
+                //.sized(11.0f / 16.0f, 8.0f / 16.0f) // eyeballing it, todo: put exact values
+                .clientTrackingRange(10) // uhh enough to see it before players? idk
+        }
+    )
+     */
 
     private fun <T : EntityType<*>> make(name: String, builder: () -> T): FishcastingRegistrar<EntityType<*>>.Entry<T> =
         register(id(name), builder)

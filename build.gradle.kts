@@ -251,7 +251,7 @@ tasks.withType<KotlinCompile>().configureEach {
         freeCompilerArgs.addAll(
             "-Xmulti-platform",
             "-Xno-check-actual",
-            "-Xexpect-actual-classes",
+            "-Xexpect-actual-classes"
         )
     }
 }

@@ -13,7 +13,7 @@
     },
     "icon": {
       "count": 1,
-      "id": "fishcasting:loud_fishing_line"
+      "id": "fishcasting:message_in_a_bottle"
     },
     "title": {
       "translate": "advancements.fishcasting.brainswept_trader_in_void.title",
@@ -21,7 +21,7 @@
     }
   },
   "rewards": {
-    "experience": 100,
+    "experience": 300,
     "function": "fishcasting:maybe_revoke_unneeded_hints"
   },
   "sends_telemetry_event": true

@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "E": {
+      "tag": "c:eggs"
+    },
+    "C": {
+      "tag": "c:crops/carrot"
+    },
+    "S": {
+      "item": "tide:crystal_shrimp"
+    },
+    "M": {
+      "item": "tide:midas_fish"
+    },
+    "T": {
+      "tag": "c:crops/beetroot"
+    },
+    "B": {
+      "tag": "c:crops/wheat"
+    },
+    "U": {
+      "item": "minecraft:bowl"
+    }
+  },
+  "pattern": [
+    "SES",
+    "CMT",
+    "BUB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "fishcasting:crystal_shrimp_fried_rice"
+  }
+}

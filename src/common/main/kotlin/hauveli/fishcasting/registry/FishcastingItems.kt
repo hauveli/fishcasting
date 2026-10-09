@@ -1,17 +1,18 @@
 package hauveli.fishcasting.registry
 
 import at.petrak.hexcasting.api.addldata.ItemDelegatingEntityIotaHolder
-import com.google.common.base.Suppliers
 import com.li64.tide.client.TideItemModelProperties
 import com.li64.tide.data.rods.CustomRodManager
 import com.li64.tide.registries.entities.misc.fishing.HookAccessor
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook
 import com.li64.tide.registries.items.FishingHookItem
-import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.Fishcasting.id
 import hauveli.fishcasting.features.FishcastingLoreFragment
+import hauveli.fishcasting.features.chair.TackleBoxChairFloatyItem
 import hauveli.fishcasting.features.chair.TackleBoxChairItem
+import hauveli.fishcasting.features.food.CrystalShrimpFriedRiceItem
 import hauveli.fishcasting.features.gacha.GachaBottleItem
+import hauveli.fishcasting.features.paraphernalia.ChainedFishingLineItem
 import hauveli.fishcasting.features.paraphernalia.HexyRodItem
 import hauveli.fishcasting.features.paraphernalia.LoudFishingLineItem
 import hauveli.fishcasting.features.paraphernalia.TideyFocusItem
@@ -20,11 +21,11 @@ import net.minecraft.client.renderer.item.ItemProperties
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvents.BUCKET_EMPTY_FISH
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.Mob
 import net.minecraft.world.item.*
 import net.minecraft.world.level.material.Fluids.WATER
-import java.util.function.BiConsumer
 import java.util.function.Consumer
 import java.util.function.Supplier
 
@@ -50,13 +51,17 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         }
     }
 
-
-
     private val ITEMS: MutableList<Entry<*>> = mutableListOf()
 
     private fun <T : Item> make(name: String, builder: () -> T): FishcastingRegistrar<Item>.Entry<T> {
         val registered = register(id(name), builder)
         ITEMS.add(registered)
+        return registered
+    }
+
+    private fun <T : Item> makeNoCreativeMenu(name: String, builder: () -> T): FishcastingRegistrar<Item>.Entry<T> {
+        val registered = register(id(name), builder)
+        // ITEMS.add(registered)
         return registered
     }
 
@@ -109,6 +114,8 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         return unstackable(uncommon(props))}
     private fun unstackableRare(props: Item.Properties = props()): Item.Properties {
         return unstackable(rare(props))}
+    private fun unstackableEpic(props: Item.Properties = props()): Item.Properties {
+        return unstackable(epic(props))}
 
 
     private fun unstackableFireResistantUncommon(props: Item.Properties = props()): Item.Properties {
@@ -116,8 +123,12 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     private fun unstackableFireResistantRare(props: Item.Properties = props()): Item.Properties {
         return unstackable(fireResistantRare(props))}
 
-    fun newItem(): Item {
-        return Item(props())
+    fun newItem(props: Item.Properties = props()): Item {
+        return Item(props)
+    }
+
+    fun newEggItem(entityType: EntityType<out Mob>, props: Item.Properties = props()): SpawnEggItem {
+        return SpawnEggItem(entityType, 0xffffff, 0x000000, props)
     }
 
     private fun musicDiscItem(resourceKey: ResourceKey<JukeboxSong>): Item {
@@ -129,8 +140,20 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         make("shepherds_casting_rod", {HexyRodItem(3, 0.0, unstackableUncommon())})
 
     @JvmField
+    val ROCKY_CASTING_ROD =
+        make("rocky_casting_rod", {HexyRodItem(3, 384.0, fireResistantUnstackable())})
+
+    @JvmField
     val BLESSED_FOCUS_BOBBER = make(
         "blessed_focus_bobber", {TideyFocusItem(unstackableUncommon())}
+    )
+
+    val HEXXY_FOCUS_BOBBER = make(
+        "hexxy_focus_bobber", {TideyFocusItem(unstackableEpic())}
+    )
+
+    val SAMPLING_FOCUS_BOBBER = make(
+        "sampling_focus_bobber", {TideyFocusItem(unstackableEpic())}
     )
 
     /*
@@ -143,17 +166,31 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     val LOUD_FISHING_LINE = make(
         "loud_fishing_line", {LoudFishingLineItem(props())}
     )
+    @JvmField
+    val CHAIN_LINKED_FISHING_LINE = make(
+        "chain_linked_fishing_line", {ChainedFishingLineItem(props())}
+    )
     val HOOKLESS_FISHING_HOOK = make(
         "hookless_fishing_hook",
         {FishingHookItem(props(), "item.fishcasting.hookless_fishing_hook.desc")}
     ) // tide does this
+    val CLINGY_FISHING_HOOK = make(
+        "clingy_fishing_hook",
+        {FishingHookItem(props(), "item.fishcasting.clingy_fishing_hook.desc")}
+    ) // tide does this
     @JvmField
+    val ODIOUS_BAIT = make("odious_bait", {newItem()})
+    @JvmField
+    val BENIGN_BAIT = make("benign_bait", {newItem()})
     val UNLUCKY_BAIT = make("unlucky_bait", {newItem()})
-    @JvmField
-    val BENIGN_BAIT = make(
-        "benign_bait", {newItem()}
-    )
+    val SLICK_BAIT = make("slick_bait", {Item(uncommon())})
+    val TINY_BAIT = make("tiny_bait", {
+        Item(stacksTo(props = uncommon(), stackSizeLimit = 99)) // I'll consider increasing this later
+    })
+    val SHRIMPY_RICE = make("crystal_shrimp_fried_rice") { CrystalShrimpFriedRiceItem(unstackable()) }
     val TACKLEBOX_CHAIR = make("tacklebox_chair", {TackleBoxChairItem(unstackable())})
+    val TACKLEBOX_CHAIR_FLOATY = make("tacklebox_chair_floaty", { TackleBoxChairFloatyItem(unstackableUncommon())})
+    //val TACKLEBOX_CHAIR_SECRET = makeNoCreativeMenu("tacklebox_chair_secret", { TackleBoxChairSecretItem(unstackableEpic()) })
     val MESSAGE_IN_A_BOTTLE =
         make("message_in_a_bottle", {GachaBottleItem(unstackableUncommon())})
     val GLASS_SHARD = make("glass_shard", {Item(stacksTo(stackSizeLimit = 16))})
@@ -164,6 +201,23 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     val DISC = make(FishcastingSounds.RETURNING_TO_THE_SURFACE.jukeboxSong.location().path) {
         musicDiscItem(FishcastingSounds.RETURNING_TO_THE_SURFACE.jukeboxSong)
     }
+    @JvmField
+    val EDIFIED_FISH = make("edified_fish", {newItem()})
+    @JvmField
+    val EDIFIED_FISH_BUCKET = make(
+        "edified_fish_bucket", {MobBucketItem(
+            FishcastingEntities.EDIFIED_FISH.value,
+            WATER,
+            BUCKET_EMPTY_FISH,
+            unstackable()
+        )}
+    )
+    val EDIFIED_FISH_SPAWN_EGG = make(
+        "edified_fish_spawn_egg", {
+            newEggItem(FishcastingEntities.EDIFIED_FISH.value)
+        }
+    ) // from axolotl thingy
+
     @JvmField
     val CURSED = make("cursed", {Item(fireResistantRare())})
     @JvmField
@@ -176,14 +230,33 @@ object FishcastingItems : FishcastingRegistrar<Item>(
         )}
     )
     val CURSED_SPAWN_EGG = make(
-        "cursed_spawn_egg", {SpawnEggItem(
-            FishcastingEntities.CURSED.value, 16499171, 10890612, props()
-        )}
+        "cursed_spawn_egg", {
+            newEggItem(FishcastingEntities.CURSED.value)
+        }
     ) // from axolotl thingy
-    val BLESSED_SPAWN_EGG = make(
-        "blessed_spawn_egg", {SpawnEggItem(
-            FishcastingEntities.BLESSED.value, 9433559, 7969893, props()
+
+    @JvmField
+    val PERHOSGATA = make("perhosgata", {Item(fireResistantRare())})
+    @JvmField
+    val PERHOSGATA_BUCKET = make(
+        "perhosgata_bucket", {MobBucketItem(
+            FishcastingEntities.PERHOSGATA.value,
+            WATER,
+            BUCKET_EMPTY_FISH,
+            unstackableFireResistantRare()
         )}
+    )
+    val PERHOSGATA_SPAWN_EGG = make(
+        "perhosgata_spawn_egg", {
+            newEggItem(FishcastingEntities.PERHOSGATA.value)
+        }
+    ) // from axolotl thingy
+
+
+    val BLESSED_SPAWN_EGG = make(
+        "blessed_spawn_egg", {
+            newEggItem(FishcastingEntities.BLESSED.value)
+        }
     ) // from drowned thingy
 
     private abstract class TabEntry {

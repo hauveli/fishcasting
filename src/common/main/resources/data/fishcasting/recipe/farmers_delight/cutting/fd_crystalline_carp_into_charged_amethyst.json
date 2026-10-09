@@ -1,7 +1,7 @@
 {
   "fabric:load_conditions": [
     {
-      "condition": "fabric:all_mods_loaded",
+      "condition": "fabric:all_mods_loaded" ,
       "values": [
         "farmersdelight"
       ]
@@ -13,6 +13,10 @@
       "modid": "farmersdelight"
     }
   ],
+  "forge:condition": {
+    "type": "forge:mod_loaded",
+    "modid": "farmersdelight"
+  },
   "type": "farmersdelight:cutting",
   "ingredients": [
     {
@@ -41,16 +45,7 @@
       }
     }
   ],
-  "sound": {
-    "sound_id": "minecraft:item.axe.strip"
-  },
-  "tool": [
-    {
-      "type": "farmersdelight:item_ability",
-      "action": "knife_dig"
-    },
-    {
-      "tag": "c:tools/knife"
-    }
-  ]
+  "tool": {
+    "tag": "c:tools/knives"
+  }
 }

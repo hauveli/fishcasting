@@ -1,34 +1,45 @@
 package hauveli.fishcasting.registry
 
-import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
-import at.petrak.hexcasting.xplat.IXplatAbstractions
+import at.petrak.hexcasting.common.lib.HexRegistries
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import hauveli.fishcasting.Fishcasting.id
+import hauveli.fishcasting.casting.iota.BiomeIota
+import hauveli.fishcasting.casting.iota.ClimateIota
+import hauveli.fishcasting.casting.iota.DaytimeIota
+import hauveli.fishcasting.casting.iota.DepthIota
+import hauveli.fishcasting.casting.iota.DimensionIota
+import hauveli.fishcasting.casting.iota.EnvironmentIota
 import hauveli.fishcasting.casting.iota.FishIota
-import net.minecraft.resources.ResourceLocation
-import java.rmi.registry.Registry
-import java.util.function.BiConsumer
+import hauveli.fishcasting.casting.iota.MoonPhaseIota
+import hauveli.fishcasting.casting.iota.MediumIota
+import hauveli.fishcasting.casting.iota.RealEnvironmentIota
+import hauveli.fishcasting.casting.iota.StructureIota
+import hauveli.fishcasting.casting.iota.WeatherIota
 
 // https://github.com/SuperKnux/HexMod/blob/indev/1.21.1/Common/src/main/java/at/petrak/hexcasting/common/lib/hex/HexIotaTypes.java
-object FishcastingIotaTypes {
-    val REGISTRY = IXplatAbstractions.INSTANCE.iotaTypeRegistry
-    const val MAX_SERIALIZATION_DEPTH: Int = 256
-    const val MAX_SERIALIZATION_TOTAL: Int = 1024
+object FishcastingIotaTypes : FishcastingRegistrar<IotaType<*>>(
+    HexRegistries.IOTA_TYPE,
+    { HexIotaTypes.REGISTRY }
+) {
 
+    // this mega sucks I feel like, I would prefer to have them all just be in my EnvironmentIota, but making them all behave nicely is a bit hard then...
+    // Maybe I just need to cut all the additional dummy Iota types, then implement arithmetic for the EnvironmentIota? hmm....
+    val ENVIRONMENT = make("environment") { RealEnvironmentIota.TYPE }
+    val FISH = make("fish") { FishIota.TYPE }
+    val MOON_PHASE = make("moon") { MoonPhaseIota.TYPE }
+    val WEATHER = make("weather") { WeatherIota.TYPE }
+    val MEDIUM = make("medium") { MediumIota.TYPE }
+    val DIMENSION = make("dimension") { DimensionIota.TYPE }
+    val STRUCTURE = make("structure") { StructureIota.TYPE }
+    val BIOME = make("biome") { BiomeIota.TYPE }
+    val DEPTH = make("depth") { DepthIota.TYPE }
+    val CLIMATE = make("climate") { ClimateIota.TYPE }
+    val DAYTIME = make("daytime") { DaytimeIota.TYPE }
 
-    private val TYPES: MutableMap<ResourceLocation, IotaType<*>> = LinkedHashMap()
-
-    val FISH: IotaType<FishIota> = type<FishIota, IotaType<FishIota>>("fish", FishIota.TYPE)
-
-    fun registerTypes(r: BiConsumer<IotaType<*>, ResourceLocation>) {
-        for (e in TYPES.entries) {
-            r.accept(e.value, e.key)
-        }
-    }
-
-    private fun <U : Iota, T : IotaType<U>> type(name: String, type: T): T {
-        val old = TYPES.put(id(name), type)
-        require(old == null) { "Typo? Duplicate id $name" }
-        return type
+    private fun <T : IotaType<*>> make(name: String, builder: () -> T):
+            FishcastingRegistrar<IotaType<*>>.Entry<T> {
+        val registered = register(id(name), builder)
+        return registered
     }
 }

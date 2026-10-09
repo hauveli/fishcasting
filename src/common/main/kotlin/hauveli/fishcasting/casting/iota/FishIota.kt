@@ -2,6 +2,7 @@ package hauveli.fishcasting.casting.iota
 
 import at.petrak.hexcasting.api.casting.iota.Iota
 import at.petrak.hexcasting.api.casting.iota.IotaType
+import at.petrak.hexcasting.common.lib.hex.HexIotaTypes
 import com.li64.tide.data.fishing.FishData
 import com.mojang.serialization.MapCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -24,14 +25,14 @@ class FishIota : Iota {
     val fishData: Optional<FishData>
     val resourceLocation: ResourceLocation
 
-    constructor(fishData: FishData) : super(Supplier { FishcastingIotaTypes.FISH }) {
+    constructor(fishData: FishData) : super(Supplier { FishcastingIotaTypes.FISH.value }) {
         this.fishData = Optional.ofNullable(fishData)
         checkNotNull(fishData)
         val fishActually = fishData.fish().value()
         this.resourceLocation = BuiltInRegistries.ITEM.getKey(fishActually)
     }
 
-    constructor(resourceLocation: ResourceLocation) : super(Supplier { FishcastingIotaTypes.FISH }) {
+    constructor(resourceLocation: ResourceLocation) : super(Supplier { FishcastingIotaTypes.FISH.value }) {
         this.resourceLocation = resourceLocation
         this.fishData = FishData.get(BuiltInRegistries.ITEM.get(resourceLocation))
     }
@@ -42,7 +43,7 @@ class FishIota : Iota {
     public override fun toleratesOther(that: Iota?): Boolean {
         return typesMatch(this, that)
                 && that is FishIota
-                && this.fishData === that.fishData
+                && this.fishData.get() === this.fishData.get()
     }
 
     override fun isTruthy(): Boolean {
@@ -53,7 +54,7 @@ class FishIota : Iota {
         val fish = this.fishData
         if (fish.isPresent) {
             val fishItem = fish.get().fish().value()
-            return fishItem.getName(fishItem.getDefaultInstance()).copy().withStyle(ChatFormatting.DARK_BLUE)
+            return fishItem.getName(fishItem.defaultInstance).copy().withStyle(ChatFormatting.DARK_BLUE)
         }
         return Component.translatable("fishcasting.spelldata.fish.whoknows")
     }

@@ -4,6 +4,7 @@ import com.li64.tide.data.fishing.FishingContext;
 import com.li64.tide.data.fishing.mediums.FishingMedium;
 import com.li64.tide.registries.entities.misc.fishing.TideFishingHook;
 import hauveli.fishcasting.registry.FishcastingItems;
+import hauveli.fishcasting.registry.FishcastingTags;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
@@ -54,7 +55,7 @@ public abstract class EndInAnyVoidBonusFishingHookMixin {
 
     @Unique
     private boolean fishcasting$shouldUseEndDimension() {
-        return rod.is(FishcastingItems.SHEPHERDS_CASTING_ROD.getValue())
+        return rod.is(FishcastingTags.END_FISHING_RODS)
                 && medium == FishingMedium.VOID;
     }
 }

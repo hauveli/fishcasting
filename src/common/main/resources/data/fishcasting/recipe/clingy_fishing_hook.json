@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "H": {
+      "item": "minecraft:honey_bottle"
+    },
+    "C": {
+      "item": "minecraft:prismarine_shard"
+    }
+  },
+  "pattern": [
+    "  C",
+    "CHC",
+    " C "
+  ],
+  "result": {
+    "count": 1,
+    "id": "fishcasting:clingy_fishing_hook"
+  }
+}

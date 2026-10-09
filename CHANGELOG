@@ -1,0 +1,61 @@
+0.2.16
+Config:
+    Trader trades can be specified by weight
+
+Great Spell:
+    Increment Moon Phase (pretty expensive, maintains relative position of moon/sun)
+
+Spells:
+    Kill Still Fish (makes stackable) (free)
+    Attach/Detach Hook (hook must intersect the targets bounding box)
+
+Patterns:
+    Envirnomental:
+        Get DayTime (0 args, Distinct from GameTime which Hexal adds, as DayTime takes sleeping in bed into account)
+        Get Biome (From blockPos)
+        Get Weather (From BlockPos) (Unsure if I want to split this into two patterns...)
+        Get Medium (from bobber)
+        Get Dimension (0 args)
+        Get Moon Phase (0 args)
+        Get Structures (From blockPos)
+        Get Climate (from blockPos) (This is the chunk climate thing Tide uses for temperature)
+
+    Fish:
+        Patterns to check for all the conditions a fish may have (Most of the ones I could think of at least)
+
+Items:
+    Added a chair variant
+    Added 1 Rare Fish (requires at least 1 player on the server to have edified at least 1 tree, very instructional:tm:)
+    Added 1 Legendary Fish
+    Added Sampling Focus Bobber (cosmetic) (1.21.1 prevents me from making the item model look how I want...)
+    Added Rocky Rod
+        reduces luck and increases speed
+    Added Chain fishing Line
+        Limits distance to player, when terrain allows for it
+    Added Clingy Hook
+        prevents nibbles from timing out
+    Unlucky bait renamed to odious bait
+        effect unchanged
+    Added unlucky bait
+        reduces luck
+    Crystal Shrimp Fried Rice (costs two crystal shrimp) (how did they do it?)
+        applies clarity I and luck I for 13 and 6.5 minutes respectively
+    Removed unneeded recipes
+
+
+Balance Changes:
+    Modified some of trader's fishing trades
+    Modified trader spawn chance
+    Trade now spawns at most once every 2 hours per player (I forget if this was 0.2.15 or if I did it just after)
+        These changes in practice make the trader more rare, but less tedious to encounter.
+
+Mechanics:
+    Music Disc was made less miserable to get
+    Fixed a bug with bait being consumed twice for bonuses rods may apply (the Tide dev has said this is a bug that will be fixed eventually)
+
+Notable Bugfixes:
+    I'm putting this here so I don't forget to bring it up: fixed client-side tide rendering/minigame bugs with kilt+sable (the minigame should work) (this was fixed in 0.2.15)
+    Made the fish I had added work better (I hope). (No longer axolotl-based)
+
+If I added or changed anything else I forgot because it was a bugfix or insignificant, I think I fixed some bad spell circle oversights at least, when I looked over it again...
+Tried to fix the create mod hat position for my creature, too.

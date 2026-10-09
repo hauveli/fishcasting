@@ -1,7 +1,11 @@
 package hauveli.fishcasting.features.trader
 
+import at.petrak.hexcasting.common.lib.HexItems
 import com.google.common.collect.ImmutableMap
+import com.li64.tide.data.fishing.FishData
+import com.li64.tide.data.journal.FishRarity
 import com.li64.tide.registries.TideFish
+import com.li64.tide.registries.TideItems
 import hauveli.fishcasting.registry.FishcastingItems
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap
@@ -17,6 +21,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.item.trading.ItemCost
 import net.minecraft.world.item.trading.MerchantOffer
+import net.minecraft.world.level.ItemLike
 import java.util.*
 import kotlin.math.ln
 
@@ -26,17 +31,10 @@ object BlessedTrades {
     private const val RARE_ITEMS_SUPPLY = 2
     private const val DYE_ITEMS_SUPPLY = 4
     private const val CHASM_EEL_SUPPLY = 3
-    private const val XP_LEVEL_1_SELL = 1
-    private const val XP_LEVEL_1_BUY = 2
-    private const val XP_LEVEL_2_SELL = 5
-    private const val XP_LEVEL_2_BUY = 10
-    private const val XP_LEVEL_3_SELL = 10
-    private const val XP_LEVEL_3_BUY = 20
-    private const val XP_LEVEL_4_SELL = 15
-    private const val XP_LEVEL_4_BUY = 30
-    private const val XP_LEVEL_5_TRADE = 30
-    private const val LOW_TIER_PRICE_MULTIPLIER = 0.05f
-    private const val HIGH_TIER_PRICE_MULTIPLIER = 0.2f
+    private const val BOTTLE_SUPPLY = 4
+    private const val FISCHASTING_SUPPLY = 6
+    private const val HEXCASTING_SUPPLY = 2
+    private const val SECRET_SUPPLY = 1
     val BLESSED_TRADER_TRADES: Int2ObjectMap<Array<VillagerTrades.ItemListing>>
 
     private fun toIntMap(map: ImmutableMap<Int, Array<VillagerTrades.ItemListing>>): Int2ObjectMap<Array<VillagerTrades.ItemListing>> {
@@ -78,48 +76,73 @@ object BlessedTrades {
     ): VillagerTrades.ItemListing =
         fishTrade(fish, item, count, wantTool, maxUses)
 
+    private fun secretTrade(
+        fish: Item,
+        fish2: Item,
+        item: Item,
+        count: Int = 1,
+        wantTool: Boolean = false,
+        maxUses: Int = SECRET_SUPPLY
+    ): VillagerTrades.ItemListing =
+        ItemsForItems(
+            fish.defaultInstance,
+            1,
+            wantTool,
+            item.defaultInstance,
+            count,
+            maxUses,
+            5,
+            1f,
+            fish2.defaultInstance
+        )
+
     private val COMMON_FISH_TRADES = arrayOf(
-        fishTrade(Items.TADPOLE_BUCKET, Items.EMERALD, 2, false),
-        fishTrade(Items.FROGSPAWN, Items.EMERALD, 2, false),
-        fishTrade(TideFish.SLIMY_SALMON, Items.SLIME_BALL, 2),
+        fishTrade(Items.TADPOLE_BUCKET, Items.EMERALD, 18, false),
+        fishTrade(Items.FROGSPAWN, Items.EMERALD, 18, false),
+        fishTrade(TideFish.SLIMY_SALMON, Items.SLIME_BALL, 9),
         fishTrade(TideFish.DRIPSTONE_DARTER, Items.POINTED_DRIPSTONE, 3),
-        fishTrade(TideFish.CARP, Items.STRING, 2),
-        fishTrade(TideFish.MIRAGE_CATFISH, Items.STRING, 4),
+        fishTrade(TideFish.CARP, Items.STRING, 6),
+        fishTrade(TideFish.MIRAGE_CATFISH, Items.STRING, 8),
         fishTrade(TideFish.DEEP_GROUPER, Items.DEEPSLATE, 4),
-        fishTrade(TideFish.FROSTBITE_FLOUNDER, Items.BLUE_ICE),
+        fishTrade(TideFish.FROSTBITE_FLOUNDER, Items.BLUE_ICE, 4),
         fishTrade(TideFish.BLOSSOM_BASS, Items.CHERRY_SAPLING, wantTool = false),
-        fishTrade(TideFish.ANGLERFISH, Items.GLOWSTONE_DUST, 2),
-        fishTrade(TideFish.RED_SNAPPER, Items.REDSTONE, 4),
+        fishTrade(TideFish.ANGLERFISH, Items.GLOWSTONE_DUST, 9),
+        fishTrade(TideFish.RED_SNAPPER, Items.REDSTONE, 9),
         fishTrade(TideFish.SAND_TIGER_SHARK, Items.SAND, 16),
-        fishTrade(TideFish.DEEP_BLUE, Items.LEATHER, 2),
-        fishTrade(TideFish.ANGELFISH, Items.FEATHER, 3, false),
-        fishTrade(TideFish.INCANDESCENT_LARVA, Items.END_STONE, wantTool = false)
+        fishTrade(TideFish.DEEP_BLUE, Items.LEATHER, 5),
+        fishTrade(TideFish.ANGELFISH, Items.FEATHER, 7, false),
+        // end stone requires void access + void fishing
+        fishTrade(TideFish.INCANDESCENT_LARVA, Items.END_STONE, 3, wantTool = false)
     )
 
     private val RARE_FISH_TRADES = arrayOf<VillagerTrades.ItemListing>(
-        rareFishTrade(TideFish.PENTAPUS, Items.CHORUS_FLOWER, wantTool = false),
-        rareFishTrade(TideFish.WINDBASS, Items.WIND_CHARGE, 8),
+        // need non-void access to chorus fruit and dragfons breath
+        rareFishTrade(TideFish.GILDED_MINNOW, Items.CHORUS_FRUIT, wantTool = false),
+        rareFishTrade(TideFish.BEDROCK_TETRA, Items.DRAGON_BREATH, wantTool = false),
+        rareFishTrade(TideFish.WINDBASS, Items.BREEZE_ROD),
         rareFishTrade(TideFish.ECHO_SNAPPER, Items.ECHO_SHARD),
-        rareFishTrade(TideFish.NEPHROSILU, FishcastingItems.MESSAGE_IN_A_BOTTLE.value, wantTool = false),
-        rareFishTrade(FishcastingItems.CURSED.value, Items.RABBIT_FOOT),
         rareFishTrade(TideFish.SPORE_STALKER, Items.BROWN_MUSHROOM, 6),
-        rareFishTrade(TideFish.SPORE_STALKER, Items.RED_MUSHROOM, 6)
+        rareFishTrade(TideFish.SPORE_STALKER, Items.RED_MUSHROOM, 6),
+        // these require void access
+        rareFishTrade(TideFish.PENTAPUS, Items.HEART_OF_THE_SEA, wantTool = false), // hmmm... is this reasonable? I couldn't think of anything really...
+        rareFishTrade(FishcastingItems.CURSED.value, Items.RABBIT_FOOT, 4)
     )
 
     private val NETHER_AND_END_TRADES = arrayOf<VillagerTrades.ItemListing>(
-        dimensionalFishTrade(TideFish.MAGMA_MACKEREL, Items.MAGMA_BLOCK),
+        dimensionalFishTrade(TideFish.MAGMA_MACKEREL, Items.BLAZE_ROD),
         dimensionalFishTrade(TideFish.CRIMSON_FANGJAW, Items.CRIMSON_NYLIUM),
         dimensionalFishTrade(TideFish.WARPED_GUPPY, Items.WARPED_NYLIUM),
         dimensionalFishTrade(TideFish.INFERNO_GUPPY, Items.LAVA_BUCKET, wantTool = false),
         dimensionalFishTrade(TideFish.SOULSCALE, Items.SOUL_SAND),
         dimensionalFishTrade(TideFish.ENDERFIN, Items.ENDER_PEARL, 3),
         dimensionalFishTrade(TideFish.ENDERGAZER, Items.ENDER_EYE, 2),
-        dimensionalFishTrade(TideFish.CHORUS_COD, Items.CHORUS_FLOWER, 2),
+        dimensionalFishTrade(TideFish.CHORUS_COD, Items.CHORUS_FLOWER, 1),
     )
 
     private fun itemsForDyes(itemStackHave: ItemStack): VillagerTrades.ItemListing {
-        return ItemsForItems(TideFish.PLUTO_SNAIL.defaultInstance, itemStackHave,
-            DYE_ITEMS_SUPPLY, 5)
+        return ItemsForItems(TideFish.PLUTO_SNAIL.defaultInstance, 1, false,
+            itemStackHave, 64,
+            DYE_ITEMS_SUPPLY, 5, 1f)
     }
 
     private val ALL_DYES: TagKey<Item?> = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "dyes"))
@@ -128,15 +151,21 @@ object BlessedTrades {
         BuiltInRegistries.ITEM.getTag(ALL_DYES)
             .orElseThrow()
             .map { holder ->
-                itemsForDyes(holder.value().defaultInstance)
+                val stack = holder.value().defaultInstance
+                stack.count = 64
+                itemsForDyes(stack)
             }
             .toTypedArray()
 
     private val CHASM_EEL_TRADES = listOf(
-        TideFish.DEVILS_HOLE_PUPFISH,
+        // these can be obtained from the void
+        TideFish.MANTYVERN,
+        TideFish.SNATCHER_SQUID,
+        TideFish.DARKNESS_EATER,
+        // these can be obtained before the void
+        TideFish.STURGEON,
         TideFish.MIDAS_FISH,
-        TideFish.COELACANTH,
-        TideFish.SHOOTING_STARFISH
+        TideFish.SAILFISH,
     )
 
     private fun itemsForChasmEel(itemStackWant: ItemStack): ItemsForItems {
@@ -150,6 +179,163 @@ object BlessedTrades {
             .map { fish -> itemsForChasmEel(fish.defaultInstance) }
             .toTypedArray()
 
+
+
+
+    private fun greedyFishTrade(
+        fish: Item,
+        wantCount: Int = 1,
+        item: Item,
+        count: Int = 1,
+        wantTool: Boolean = true,
+        maxUses: Int = COMMON_ITEMS_SUPPLY
+    ): VillagerTrades.ItemListing =
+        ItemsForItems(
+            fish.defaultInstance,
+            wantCount,
+            wantTool,
+            item.defaultInstance,
+            count,
+            maxUses,
+            5,
+            1f
+        )
+
+    private fun fishcastingFishTrade(
+        fish: Item,
+        item: Item,
+        count: Int = 1,
+        wantTool: Boolean = true,
+        maxUses: Int = FISCHASTING_SUPPLY
+    ): VillagerTrades.ItemListing =
+        fishTrade(fish, item, count, wantTool, maxUses)
+
+    private fun hexcastingFishTrade(
+        fish: Item,
+        item: Item,
+        count: Int = 1,
+        wantTool: Boolean = true,
+        maxUses: Int = HEXCASTING_SUPPLY
+    ): VillagerTrades.ItemListing =
+        fishTrade(fish, item, count, wantTool, maxUses)
+
+
+    private val ENDGAME_TRADES_FISH = arrayOf<VillagerTrades.ItemListing>(
+        // the easter egg bobber, originally intended as a joke in case it was not possible to find a swamp.
+        greedyFishTrade(TideFish.ALPHA_FISH, wantCount = 6, wantTool = false, item = FishcastingItems.HEXXY_FOCUS_BOBBER.value),
+        fishcastingFishTrade(TideFish.LUMINESCENT_JELLYFISH, FishcastingItems.SLICK_BAIT.value, count = 16),
+        fishcastingFishTrade(TideFish.GILDED_MINNOW, FishcastingItems.TINY_BAIT.value, count = 33),
+        // unsure if this one is too expensive or not, but it's really somewhat cheap-ish by the time you are fishing endgame
+        fishcastingFishTrade(TideFish.MIDAS_FISH, wantTool = false, item = HexItems.SPELLBOOK.get()),
+        // these rods may be difficult to obtain if you have no more chests nearby to open, or guardians to kill, so I think it might be nice to have an alternative method to obtain them...
+        // it's also significantly easier to get these normally than it is to catch this many of the fish, so I don't think it trivializes it in any way, but mayb these
+        // are too expensive...
+        greedyFishTrade(TideFish.ECHO_SNAPPER, wantCount = 10, wantTool = false, item = TideItems.ECHO_FISHING_ROD), // unsure about this one...
+        greedyFishTrade(TideFish.AQUATHORN, wantCount = 10, wantTool = false, item = TideItems.PRISMARINE_FISHING_ROD), // unsure about this one...
+        greedyFishTrade(TideFish.INFERNO_GUPPY, wantCount = 30, wantTool = false, item = TideItems.BLAZING_FISHING_ROD), // unsure about this one...
+        // my wip chair that I'm not happy with yet
+        // fishcastingFishTrade(TideFish.MAGMA_MACKEREL, FishcastingItems.TACKLEBOX_CHAIR_AERONAUTICS.value),
+    )
+
+    val PHIAL_TRADES_LEGENDARY = mutableListOf<BlessedTrades.ItemsForItems>()
+    val PHIAL_TRADES_VERY_RARE = mutableListOf<BlessedTrades.ItemsForItems>()
+    val PHIAL_TRADES_RARE = mutableListOf<BlessedTrades.ItemsForItems>()
+    val PHIAL_TRADES_UNCOMMON = mutableListOf<BlessedTrades.ItemsForItems>()
+    val PHIAL_TRADES_COMMON = mutableListOf<BlessedTrades.ItemsForItems>()
+
+    // any 1-star
+    private fun itemsForDustBatteries(itemStackWant: ItemStack): ItemsForItems {
+        val trade = ItemsForItems(itemStackWant,
+            HexItems.BATTERY_DUST_STACK.get(),
+            HEXCASTING_SUPPLY, 5)
+        PHIAL_TRADES_COMMON.addLast(trade)
+        return trade
+    }
+
+    // any 2-star
+    private fun itemsForShardBatteries(itemStackWant: ItemStack): ItemsForItems {
+        val trade = ItemsForItems(itemStackWant,
+            HexItems.BATTERY_SHARD_STACK.get(),
+            HEXCASTING_SUPPLY, 5)
+        PHIAL_TRADES_UNCOMMON.addLast(trade)
+        return trade
+    }
+
+    // any 3-star
+    private fun itemsForCrystalBatteries(itemStackWant: ItemStack): ItemsForItems {
+        val trade = ItemsForItems(itemStackWant,
+            HexItems.BATTERY_CRYSTAL_STACK.get(),
+            HEXCASTING_SUPPLY, 5)
+        PHIAL_TRADES_RARE.addLast(trade)
+        return trade
+    }
+
+    // any 4-star
+    private fun itemsForQuenchedBatteries(itemStackWant: ItemStack): ItemsForItems {
+        val trade = ItemsForItems(itemStackWant,
+            HexItems.BATTERY_QUENCHED_SHARD_STACK.get(),
+            HEXCASTING_SUPPLY, 5)
+        PHIAL_TRADES_VERY_RARE.addLast(trade)
+        return trade
+    }
+
+    // any 5-star
+    private fun itemsForQuenchedBlockBatteries(itemStackWant: ItemStack): ItemsForItems {
+        val trade = ItemsForItems(itemStackWant,
+            HexItems.BATTERY_QUENCHED_BLOCK_STACK.get(),
+            HEXCASTING_SUPPLY, 5)
+        PHIAL_TRADES_LEGENDARY.addLast(trade)
+        return trade
+    }
+
+    // I think this should be fine, because the distribution of the rarer fish is such that there's essentially no chance
+    // that the player gets a ton of quenched block, or even quenched batteries. But it's possible! (And really rare!)
+    private fun itemsForBatteries(itemStackFishyFish: ItemStack): ItemsForItems {
+        val fishyData = FishData.get(itemStackFishyFish).get()
+        return when (fishyData.profile().rarity()) {
+            FishRarity.LEGENDARY -> itemsForQuenchedBlockBatteries(itemStackFishyFish)
+            FishRarity.VERY_RARE -> itemsForQuenchedBatteries(itemStackFishyFish)
+            FishRarity.RARE -> itemsForCrystalBatteries(itemStackFishyFish)
+            FishRarity.UNCOMMON -> itemsForShardBatteries(itemStackFishyFish)
+            else -> itemsForDustBatteries(itemStackFishyFish)
+        }
+    }
+
+    private val ALL_FISH: TagKey<Item?> = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("tide", "fish"))
+
+    private val ALL_BATTERY_TRADES: Array<VillagerTrades.ItemListing> =
+        BuiltInRegistries.ITEM.getTag(ALL_FISH)
+            .orElseThrow()
+            .map { holder ->
+                itemsForBatteries(holder.value().defaultInstance)
+            }
+            .toTypedArray()
+
+    private fun itemsForBottles(itemStackFishyFish: ItemStack): ItemsForItems? {
+        val fishyData = FishData.get(itemStackFishyFish).get()
+        return when (fishyData.profile().rarity()) {
+            FishRarity.RARE -> ItemsForItems(itemStackFishyFish,
+                FishcastingItems.MESSAGE_IN_A_BOTTLE.value.defaultInstance,
+                BOTTLE_SUPPLY, 5)
+            else -> null
+        }
+    }
+
+    private val ALL_BOTTLE_TRADES: Array<VillagerTrades.ItemListing> =
+        BuiltInRegistries.ITEM.getTag(ALL_FISH)
+            .orElseThrow()
+            .mapNotNull { holder ->
+                itemsForBottles(holder.value().defaultInstance)
+            }
+            .toTypedArray()
+
+
+    private val ALL_SECRET_TRADES = arrayOf<VillagerTrades.ItemListing>(
+        // need non-void access to chorus fruit and dragfons breath
+        // secretTrade(TideFish.BLUE_NEONFISH, TideFish.YELLOW_PERCH, FishcastingItems.TACKLEBOX_CHAIR_SECRET.value),
+        secretTrade(TideFish.BLUE_NEONFISH, TideFish.YELLOW_PERCH, FishcastingItems.TACKLEBOX_CHAIR_FLOATY.value),
+    )
+
     init {
         BLESSED_TRADER_TRADES = toIntMap(
             ImmutableMap.of<Int, Array<VillagerTrades.ItemListing>>(
@@ -157,7 +343,11 @@ object BlessedTrades {
                 2, RARE_FISH_TRADES,
                 3, NETHER_AND_END_TRADES,
                 4, ALL_DYE_TRADES,
-                5, ALL_CHASM_EEL_TRADES
+                5, ALL_CHASM_EEL_TRADES,
+                6, ALL_BOTTLE_TRADES,
+                7, ENDGAME_TRADES_FISH,
+                8, ALL_BATTERY_TRADES,
+                9, ALL_SECRET_TRADES,
             )
         )
     }
@@ -170,13 +360,15 @@ object BlessedTrades {
         haveCount: Int,
         maxUses: Int,
         villagerXp: Int,
-        priceMultiplier: Float
+        priceMultiplier: Float,
+        additionalWant: ItemStack? = null
     ) : VillagerTrades.ItemListing {
         private val itemStackHave: ItemStack
         private val wantTool: Boolean
         private val maxUses: Int
         private val villagerXp: Int
         private val priceMultiplier: Float
+        private val additionalWant: ItemStack?
 
         // without tool
         @JvmOverloads
@@ -249,6 +441,18 @@ object BlessedTrades {
             priceMultiplier: Float = 1.0f
         ) : this(want, 1, wantTool, have, 1, maxUses, villagerXp, priceMultiplier)
 
+
+        @JvmOverloads
+        constructor(
+            want: ItemStack,
+            want2: ItemStack,
+            have: ItemStack,
+            maxUses: Int,
+            villagerXp: Int,
+            priceMultiplier: Float = 1.0f
+        ) : this(want, 1, false,have, 1, maxUses, villagerXp, priceMultiplier, want2)
+
+
         init {
             this.itemStackWant.count = wantCount
             this.wantTool = wantTool
@@ -257,27 +461,31 @@ object BlessedTrades {
             this.maxUses = maxUses
             this.villagerXp = villagerXp
             this.priceMultiplier = priceMultiplier
+            if (this.wantTool) {
+                this.additionalWant = Items.FLINT.defaultInstance
+            } else {
+                this.additionalWant = additionalWant
+            }
         }
 
+        // ugh I should have cleaned this up to begin with so that it would be easier to modify if I wanted to add something other than flint...
         override fun getOffer(trader: Entity, random: RandomSource): MerchantOffer {
             val itemstack = this.itemStackHave.copy()
             val blessed = trader as BlessedEntity
             val priceMultActual: Float = (1 + ln(1 + BlessedEntity.Mood.VERY_HAPPY.value - blessed.mood.value.toDouble())).toFloat()
-            if (this.wantTool) {
-                return MerchantOffer(
-                    ItemCost(itemStackWant.item, itemStackWant.count), Optional.of(
-                        ItemCost(Items.FLINT)
-                    ), itemstack, this.maxUses, this.villagerXp, this.priceMultiplier * priceMultActual
-                )
-            } else {
+
+            if (additionalWant == null)
                 return MerchantOffer(
                     ItemCost(itemStackWant.item, itemStackWant.count),
                     itemstack,
-                    this.maxUses,
-                    this.villagerXp,
-                    this.priceMultiplier * priceMultActual
+                    this.maxUses, this.villagerXp, this.priceMultiplier * priceMultActual
                 )
-            }
+            return MerchantOffer(
+                ItemCost(itemStackWant.item, itemStackWant.count),
+                Optional.of(ItemCost(additionalWant.item)),
+                itemstack,
+                this.maxUses, this.villagerXp, this.priceMultiplier * priceMultActual
+            )
         }
     }
 }

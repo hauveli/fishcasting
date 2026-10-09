@@ -15,7 +15,7 @@
       "tag": "c:buckets"
     },
     "I": {
-      "tag": "c:rods"
+      "item": "minecraft:stick"
     },
     "F": {
       "item": "tide:fish_satchel"

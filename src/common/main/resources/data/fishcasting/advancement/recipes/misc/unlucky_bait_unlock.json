@@ -11,11 +11,11 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_dust": {
+    "has_ingredient": {
       "conditions": {
         "items": [
           {
-            "items": [ "hexcasting:amethyst_dust" ]
+            "tag": "c:foods/food_poisoning"
           }
         ]
       },
@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "fishcasting:benign_bait"
+        "recipe": "fishcasting:unlucky_bait"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -32,14 +32,12 @@
     [
       "has_the_recipe",
       "has_bait",
-      "has_dust"
+      "has_ingredient"
     ]
   ],
   "rewards": {
     "recipes": [
-      "fishcasting:unlucky_bait",
-      "fishcasting:unlucky_bait_canonical",
-      "fishcasting:unlucky_bait_into_furnace"
+      "fishcasting:unlucky_bait"
     ]
   }
 }

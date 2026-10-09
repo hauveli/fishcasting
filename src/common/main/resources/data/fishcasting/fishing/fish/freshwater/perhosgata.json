@@ -1,0 +1,54 @@
+{
+  "fish": "fishcasting:perhosgata",
+  "bucket": "fishcasting:perhosgata_bucket",
+  "journal_profile": {
+    "alt_sprite": "fishcasting:textures/item/perhosgata_full.png",
+    "alt_sprite_size": 48,
+    "description": "journal.description.fishcasting.perhosgata",
+    "group": "freshwater",
+    "location": "journal.info.location.freshwater",
+    "rarity": "legendary"
+  },
+  "display_data": {
+    "entity": "fishcasting:perhosgata",
+    "nbt": { "Variant": 0 },
+    "shape": "1x1",
+    "pitch": 0,
+    "x": 0,
+    "y": 0,
+    "z": 0.1
+  },
+  "conditions": [
+    {
+      "type": "tide:above",
+      "y": 300
+    },
+    {
+      "type": "tide:moon_phase",
+      "any_of": [
+        4
+      ]
+    },
+    {
+      "type": "tide:has_enchantments",
+      "enchantments": [
+        "minecraft:vanishing_curse"
+      ]
+    },
+    {
+      "type": "tide:block_nearby",
+      "blocks": "fishcasting:special_lights",
+      "radius": 3
+    }
+  ],
+  "behavior": "jitter",
+  "selection_quality": 0.5,
+  "selection_weight": 100.0,
+  "size": {
+    "record_high_cm": 0.00002,
+    "typical_high_cm": 0.000015,
+    "typical_low_cm": 0.00001
+  },
+  "speed": 10.0,
+  "strength": 0.30
+}

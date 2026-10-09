@@ -1,0 +1,6 @@
+{
+   "parent": "tide:item/fishing_line",
+   "textures": {
+      "layer0": "tide:item/fishing_line"
+   }
+}

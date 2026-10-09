@@ -1,0 +1,58 @@
+{
+  "fish": "fishcasting:edified_fish",
+  "bucket": "fishcasting:edified_fish_bucket",
+  "journal_profile": {
+    "alt_sprite": "fishcasting:textures/item/edified_fish.png",
+    "alt_sprite_size": 16,
+    "description": "journal.description.fishcasting.edified_fish",
+    "group": "freshwater",
+    "location": "journal.info.location.freshwater",
+    "rarity": "rare"
+  },
+  "display_data": {
+    "entity": "fishcasting:edified_fish",
+    "nbt": { "Variant": 0 },
+    "shape": "1x1",
+    "pitch": 0,
+    "yaw": 0,
+    "roll": 270,
+    "x": 0.03125,
+    "y": -0.125,
+    "z": 0.125
+  },
+  "conditions": [
+    {
+      "type": "tide:freshwater"
+    },
+    {
+      "type": "tide:fluid",
+      "fluid": "water"
+    },
+    {
+      "type": "tide:above",
+      "y": 20
+    },
+    {
+      "type": "tide:block_nearby",
+      "blocks": "fishcasting:edified_trees",
+      "radius": 3
+    }
+  ],
+  "modifiers": [
+    {
+      "type": "tide:temperature",
+      "preferred_temperature": 1.0,
+      "temperature_tolerance": 0.6
+    }
+  ],
+  "behavior": "jitter",
+  "selection_quality": 0.5,
+  "selection_weight": 10.0,
+  "size": {
+    "record_high_cm": 108.0,
+    "typical_high_cm": 72.0,
+    "typical_low_cm": 36.0
+  },
+  "speed": 1.2,
+  "strength": 0.45
+}

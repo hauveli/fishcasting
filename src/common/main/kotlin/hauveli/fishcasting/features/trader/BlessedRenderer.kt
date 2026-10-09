@@ -2,11 +2,15 @@ package hauveli.fishcasting.features.trader
 
 import com.mojang.blaze3d.vertex.PoseStack
 import hauveli.fishcasting.Fishcasting.id
+import net.minecraft.client.model.HumanoidModel
+import net.minecraft.client.model.geom.ModelLayers
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.entity.EntityRendererProvider
 import net.minecraft.client.renderer.entity.MobRenderer
+import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer
 import net.minecraft.resources.ResourceLocation
+
 
 // todo: cursed spawn egg should have the purple void indicator that other tide fish have for parity
 // todo: if a boss mob is detected nearby, instantly teleport out (deal damage to the mob so it triggers that way? would be funny but maybe not...)
@@ -17,10 +21,17 @@ class BlessedRenderer(context: EntityRendererProvider.Context) :
         BlessedModel(context.bakeLayer(BlessedModel.LAYER_LOCATION)),
         1f
     ) {
+    init {
+        this.addLayer(BlessedArmorLayer(this))
+    }
+
     override fun getTextureLocation(blessedEntity: BlessedEntity): ResourceLocation {
         return LOCATION_BY_VARIANT[blessedEntity.variant]!!
     }
 
+    override fun getShadowRadius(p0: BlessedEntity): Float {
+        return super.getShadowRadius(p0) * 0.8f // erm... a little too big
+    }
 
     override fun getRenderType(
         livingEntity: BlessedEntity,
@@ -48,7 +59,8 @@ class BlessedRenderer(context: EntityRendererProvider.Context) :
                 BlessedVariant.RED to id("textures/entity/blessed/blessed_red.png"),
                 BlessedVariant.GREEN to id("textures/entity/blessed/blessed_green.png"),
                 BlessedVariant.BLUE to id("textures/entity/blessed/blessed_blue.png"),
-                BlessedVariant.PURPLE to id("textures/entity/blessed/blessed_purple.png")
+                BlessedVariant.PURPLE to id("textures/entity/blessed/blessed_purple.png"),
+                BlessedVariant.SECRET to id("textures/entity/blessed/blessed_secret.png")
             )
     }
 }
