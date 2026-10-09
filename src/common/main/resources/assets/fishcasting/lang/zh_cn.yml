@@ -1,4 +1,22 @@
 fishcasting:
+  environment:
+    depth: 深度
+    climate: 气候
+    daytime: 时刻
+    structure:
+      minecraft:
+        trial_chambers: 试炼密室
+    biome:
+      minecraft:
+        cherry_grove: 樱花树林
+    dimension:
+      minecraft:
+        overworld: 主世界
+    weather:
+      clear: 晴天
+      rain: 降雨
+      storm: 雷暴
+      unknown: 未知天气
   remove_from_names:
     bucket: 桶
   toast:
@@ -37,7 +55,10 @@ fishcasting:
         'desc': 为true时，长度之纯化仅可应用于鱼；为false时，可应用于所有实体。
       spawnFishyTraderChance:
         .: 收竿钓起板条箱时商人生成概率
-        'desc': 指定概率，0.0为禁止，1.0为必然。
+        'desc': 指定概率，0.0为禁止，1.0为必然，只会在施法和使用核心渔具时生效。
+      fishyTraderPerPlayerIntervalMinutes:
+        .: 每位玩家钓起商人时间间隔（分钟）
+        'desc': 指定玩家可再钓起另一个商人前须经过的时间（分钟）。
     client:
       showForbiddenPatchouliKnowledge:
         .: 在咒术笔记的实体条目中显示长度之纯化
@@ -48,19 +69,51 @@ fishcasting:
 
 
   book:
+    environmental_great_spells:
+      '1': 本节法术发现自一本缺了一页的书，可用它们操纵夜空。
+      title: 星体操纵
+      environment/moon/increment: 操纵庞大如世界的事物，后果想来会十分可怕……它消耗大约一组$(l:items/amethyst)$(item)充能紫水晶/$，也算是种慰藉。
+
+    environmental_patterns:
+      '1': 这个世界的某些方面很难只用数描述，这也是这些图案和信息汇聚所得的环境 iota 的来历。即便其中信息来自截然不同的环境，它们也都属于同一类型。
+      '2': 对于具有基数或序数表达的图案而言，可用算术图案将环境转换为相应的数值表达。部分环境则没有这种表达，试图转换此类环境会招致事故。
+      title: 环境
+      environment/daytime: 将一天中的时刻压栈。消耗极少量$(media)媒质/$。
+      environment/moon/get: 将月相压栈。消耗极少量$(media)媒质/$。
+      environment/dimension: 将施法者所处维度压栈。消耗极少量$(media)媒质/$。
+      environment/biome: 将栈顶向量变为该处生物群系。消耗极少量$(media)媒质/$。
+      environment/depth: 将栈顶向量变为该处海平面高度。消耗极少量$(media)媒质/$。
+      environment/structure: 将栈顶向量变为该处结构列表。消耗极少量$(media)媒质/$。
+      environment/weather: 将栈顶向量变为该处降水情况。消耗极少量$(media)媒质/$。
+      environment/climate: 将栈顶向量变为该处气候情况。消耗极少量$(media)媒质/$。
+      environment/arithmetic/length: 将栈顶环境变为其数值表达。没有相应表达会招致事故。
+    bobber_patterns:
+      '1': 我在旅途中发现了本湿透的书，作者是一位智者兼渔夫，名为$(italic)“漂布斯”/$。虽然大多数文本都是水手的碎碎念，但其中也不乏适用于垂钓的普通图案。海上的生活也许并非我所着重研习，但为学问起见我必须记录它们。倘若我真的要用$(l:items/casting_rod#fishcasting:landing)$(thing)施法之竿/$，这些图案就能派上用场。
+      title: 浮漂图案
+      bobber/from_owner: 将栈顶玩家变为与其钓鱼竿相连的浮漂（若无则变为 $(thing)Null/$）。消耗极少量$(media)媒质/$。
+      owner/from_bobber: 将栈顶浮漂变为抛出它的玩家。消耗大约 1 个$(l:items/amethyst)$(item)紫水晶粉/$。
+      catch/from_bobber: 将栈顶浮漂变为它钩中的实体（若无则变为 $(thing)Null/$）。消耗极少量$(media)媒质/$。
+      bobber/from_catch: 将栈顶实体变为钩中它的浮漂（若无则变为 $(thing)Null/$）。消耗大约 1 个$(l:items/amethyst)$(item)紫水晶碎片/$。
+      bobber/medium: 将栈顶浮漂变为它所处的水体（若无则变为 $(thing)Null/$）。消耗极少量$(media)媒质/$。
+    bobber_spells:
+      title: 浮漂法术
+      '1': 几则与钓鱼竿的钓钩和浮漂有关的法术。
+      bobber/attach: 移除栈顶两实体，再将栈顶实体钩到前一浮漂实体上。消耗大约 1 个$(l:items/amethyst)$(item)紫水晶碎片/$。
+      bobber/detach: 移除栈顶实体。将浮漂从它钩中的实体身上取下。消耗大约 1 个$(l:items/amethyst)$(item)紫水晶碎片/$。
     fishing_spells:
       '1': 若是真和那些长鳍的敌人正面碰上了，其实只需要一条禁止它移动的简单法术即可。$(br)这些法术对其他更高等的存在基本无用，但就鱼类等较为简单的生物来说，已经够用了。
-      title: 垂钓法术
+      title: 鱼法术
       fish/from_item: 移除栈顶实体，若为鱼，则重新允许其移动。消耗大约 1 个$(l:items/amethyst)$(item)紫水晶碎片/$。
       fish/to_item: 移除栈顶实体，若为鱼，则强令其保持静止。消耗大约 1 个$(l:items/amethyst)$(item)紫水晶碎片/$。
+      fish/kill: 移除栈顶实体，若为鱼，则以人道方式耗尽它的生命力。消耗极少量$(media)媒质/$。
     fishing_patterns:
-      '1': 我在旅途中发现了本湿透的书，作者是一位智者兼渔夫，名为$(italic)“漂布斯”/$。虽然大多数文本都是水手的碎碎念，但其中也不乏适用于垂钓的普通图案。海上的生活也许并非我所着重研习，但为学问起见我必须记录它们。倘若我真的要用$(l:items/casting_rod#fishcasting:landing)$(thing)施法之竿/$，这些图案就能派上用场。
-      title: 垂钓图案
-      bobber/from_owner: 将栈顶玩家变换为与其钓鱼竿相连的浮漂（若无则换为 $(l:casting/influences)$(thing)Null/$）。消耗大约 1 个$(l:items/amethyst)$(item)紫水晶粉/$。
-      owner/from_bobber: 将栈顶浮漂变换为抛出它的玩家。消耗大约 1 个$(l:items/amethyst)$(item)紫水晶碎片/$。
-      catch/from_bobber: 将栈顶浮漂变换为它钩中的实体（若无则换为 $(l:casting/influences)$(thing)Null/$）。消耗大约 1 个$(l:items/amethyst)$(item)紫水晶碎片/$。
-      bobber/from_catch: 将栈顶实体变换为钩中它的浮漂（若无则换为 $(l:casting/influences)$(thing)Null/$）。消耗大约 1 个$(l:items/amethyst)$(item)充能紫水晶/$。
-      fish/length: 测量鱼实体的长度。若实体无法测量或不是鱼则返回 0。
+      title: 鱼图案
+      fish/condition: $(br)判断所给鱼能否在所给条件下找到。消耗极少量$(media)媒质/$。
+      '1': 将栈顶鱼变为代表它能否在该环境中找到的布尔值，若该环境对鱼无影响则变为 $(thing)Null/$。
+      fish/min: 将栈顶鱼变为施法者所抓最小样本，形式为数。消耗极少量$(media)媒质/$。
+      fish/max: 将栈顶鱼变为施法者所抓最大样本，形式为数。消耗极少量$(media)媒质/$。
+      fish/length: 将栈顶鱼变为其在渔夫测量下的长度，若鱼已死则变为 0。
+      fish/rarity: 测定鱼实体的品质。常见鱼类的品质较低，少见鱼类的则较高。
       fish/length_all_entities: |-
         求实体的长宽高中最大者。对鱼而言，此操作会返回其$(t:潮汐2提供的鱼物品和鱼实体具有独立于实体碰撞箱尺寸的长度属性)$(thing)在渔夫看来的长度$()。
 
@@ -85,7 +138,7 @@ fishcasting:
   entry:
     casting_rod: 施法之竿
     focus_bobber: 核心浮漂
-    fishy_business: 鱼类活计
+    fishy_business: 鱼味活计
     fanciful_fishing: 华丽垂钓
     lore:
       newsletter: '简讯 #1'
@@ -103,14 +156,14 @@ fishcasting:
       smithing: 与$(l:items/staff)$(thing)法杖/$类似的制品。
     focus_bobber:
       '1': 从发展几乎停滞的运动里冒出的新鲜重大发明。$(thing)核心浮漂/$能以自身为原点、将我的影响范围拓展出大约一臂长度；而且，只要用足够的力度拉动，还能施放其中的咒术。拓展影响范围并非没有代价：通过核心浮漂施法需要额外支付$(l:items/amethyst)$(item)紫水晶粉/$；找出从我指向浮漂的向量，额外支付量就等于向量长度的平方。
-      crafting: 与$(l:items/focus)$(thing)核心/$类似的制品。
+      crafting: 与$(l:items/focus)$(thing)核心/$类似的制品。在我手中、掉落在地、或是被鱼竿抛出时，它便和核心一样可写。
     fishy_business:
       '1': 很有用的几则配方。那些不知道它们的真正价值——作为$(media)媒质/$来源——还光想着卖的蠢蛋，碰到就是赚到。
       crystal_shrimp:
         shard: 这些$(thing)晶虾$()看着确实挺好吃的……
         charged: 尤其是好几只放一起的时候……
       crystalline_carp: 这条漂亮的$(thing)晶鲤$()看着就像能毫不费力地引导媒质，如果它真有这个脑子的话。
-      '2': 这些小玩意对不具备高等智能的生物有着相对微弱但确实存在的影响。虽然在我的研究里没什么用，这种鱼线发出的声响也确实听着不错。要是这种鱼饵能更好闻就好了……
+      '2': 这些小玩意对不具备高等智能的生物有着相对微弱但确实存在的影响。虽然在我的研究里没什么用，但这种鱼线发出的声响确实听着不错。要是这种鱼饵能更好闻就好了……
       hexlikes: 媒质灌注的钓鱼用具
       '3': 来自一名过路渔夫的推荐——我其实不怎么想和他聊天——这些小物件肯定相当好用。$(br2)如果我将来能去海边度个长假。$(br)又投身于鲜鱼的腥咸味的话。
       misc: 渔夫的推荐
@@ -172,31 +225,74 @@ fishcasting:
     fishlore:
       .: 鱼法学
       desc: 和“鱼法学”社群中人物稍有关系的几则文本浮出了水面……字面意义的浮出了水面。
+tag:
+  item:
+    fishcasting:
+      edified_trees: 启迪树
+      blessed_bobbers: 福佑浮漂
+      slimy_bobbers: 黏性浮漂
+      all_fishing_rods_advancement_rod: “钩”连万象进度钓鱼竿
+      no_durability_enchantments: 无耐久度魔咒
+      loud_lines: 响亮鱼线
+      hookless_hooks: 无钩钓钩
+      clingy_hooks: 抓附钓钩
+      lore_fragments: 故事残卷（将移除）
+      odious_mulch: 恶臭鱼饵原料
+      fishy_music_discs: 鱼味音乐唱片
+      cursed_mostly_indestructible_item: 几乎坚不可摧的受诅物品
+
+
 item:
   tide:
     crystal_fishing_rod: 水晶施法之竿
     amethyst_bobber: 紫晶核心浮漂
   fishcasting:
     shepherds_casting_rod: 牧羊人施法之竿
+    rocky_casting_rod: 坚岩施法之竿
     blessed_focus_bobber: 福佑核心浮漂
+    hexxy_focus_bobber: Hexxy核心浮漂
+    sampling_focus_bobber: 采样核心浮漂
     loud_fishing_line:
       .: 响亮鱼线
       desc: 安抚苦力怕和幻翼
+    chain_linked_fishing_line:
+      .: 链锁鱼线
+      desc: 不会让未钩中的浮漂跑远
     hookless_fishing_hook:
       .: 无钩钓钩
       desc: 不会钩到实体
+    clingy_fishing_hook:
+      .: 抓附钓钩
+      desc: 收线前防止钩中的生物逃脱，但会延长咬钩时间
+    odious_bait:
+      .: 恶臭鱼饵
+      desc: 阻止所有东西咬钩
     unlucky_bait:
       .: 霉运鱼饵
-      desc: 阻止所有东西咬钩
+      desc:
     benign_bait:
       .: 良味鱼饵
       desc: 阻止除鱼之外的所有东西咬钩
+    tiny_bait:
+      .: 微型鱼饵
+    slick_bait:
+      .: 光艳鱼饵
+    crystal_shrimp_fried_rice: 晶虾炒饭
+
     message_in_a_bottle: 瓶中信
     music_disc:
       returning_to_the_surface: 音乐唱片
     tacklebox_chair: 渔具箱椅
+    tacklebox_chair_floaty: 浮空渔具箱椅
+    tacklebox_chair_secret: 'NUCLEAR-HEX-MACHINE "[WEST, wweewaqdeeweewawe]KOOL[NORTH_EAST, wawdwedaqedwwwe]U" MK[SOUTH_EAST, aqaaqawqaaq] TURBOMAX!!!!!'
     fishy_fragment: 湿透的故事残卷
     glass_shard: 玻璃碎片
+    edified_fish: 启迪孔雀鱼
+    edified_fish_bucket: 启迪孔雀鱼桶
+    edified_fish_spawn_egg: 启迪孔雀鱼刷怪蛋
+    perhosgata: 蝶形鱼
+    perhosgata_bucket: 蝶形鱼桶
+    perhosgata_spawn_egg: 蝶形鱼刷怪蛋
     cursed: 受诅之物
     cursed_bucket: 受诅之物桶
     cursed_spawn_egg: 受诅之物刷怪蛋
@@ -205,6 +301,7 @@ accessory:
   item:
     fishcasting:
       blessed_focus_bobber: 福佑浮漂
+      hexxy_focus_bobber: Hexxy浮漂
       loud_fishing_line: 响亮鱼线
       hookless_fishing_hook: 无钩钓钩
 text:
@@ -217,58 +314,90 @@ text:
       shepherds_bonus:
         '1': 无法破坏
         '2': 可在虚空中钓起末地鱼
+      unluck_bonus:
+        '1': 在暗处-2幸运并+2速度
     bobber_tooltip:
       focus_bonus: 持有时和施法时可像核心一样写入
       sound_bonus: 有鱼咬钩时发出声音
       blessed_bonus: 有小概率获得任意类别的战利品
-  autoconfig:
-    fishcasting:
-      title: 鱼法学配置
-      category:
-        gameplay: 游戏内容
-        client: 客户端
-      option:
-        gameplay:
-          castingTicksToCast:
-            .: 施法之竿咒术蓄力刻数
-            '@Tooltip': 指定蓄力时紫色耗尽所需的刻数。
-          cooldownAfterFishing:
-            .: 施法之竿冷却
-            '@Tooltip': 指定收竿后经过多少刻才可再次使用施法之竿。
-          castingType:
-            .: 施法之竿施法方法
-            '@Tooltip': 指定施法是否需要蓄力。
-          lengthPurificationOnlyFish:
-            .: 长度之纯化仅可应用于鱼
-            '@Tooltip': 指定长度之纯化是否可应用于所有实体。
-        client:
-          showForbiddenPatchouliKnowledge:
-            .: 在咒术笔记的实体条目中显示长度之纯化
-            '@Tooltip': 由于可能导致困惑和影响理解，不推荐新玩家使用。在模组包中请关闭此项。需要JsonPatcher。
+      swamp_bonus: 小概率能在任意水中抓到那种卑怯的沼泽鱼
 jukebox_song:
   fishcasting:
     returning_to_the_surface: cookies+policy - Returning To The Surface
 entity:
   fishcasting:
     tacklebox_chair: 渔具箱椅
+    tacklebox_chair_floaty: 浮空水晶渔具箱椅
+    tacklebox_chair_secret: 'NUCLEAR-HEX-MACHINE "[WEST, wweewaqdeeweewawe]KOOL[NORTH_EAST, wawdwedaqedwwwe]U" MK[SOUTH_EAST, aqaaqawqaaq] TURBOMAX!!!!!'
+    edified_fish: 启迪孔雀鱼
+    perhosgata: 蝶形鱼
     cursed: 受诅之物
     blessed: 福佑商人
 journal:
+  info:
+    nearby_block:
+      title: 附近方块
+      within: 最远
+    has_enchantments:
+      title: 有魔咒
+    above:
+      title: 及以上，高于海平面
   description:
     fishcasting:
+      edified_fish: 这种小鱼会被启迪树的独特颜色吸引，而且非常漂亮。
       cursed: 它们似乎具有些许智能，但受躯体限制也做不了什么。也许我可以放它们自由……
+      perhosgata: 这种形似蝴蝶的鱼天生微小，肉眼无法看见，只有借助特殊的镜片才可观察。
 _comment_pattern: PATTERN STUFF
 hexcasting:
+  iota:
+    fishcasting:environment:
+      desc: 环境
   action:
     fishcasting:bobber/from_owner: 漂伯特之纯化
     fishcasting:owner/from_bobber: 特伯漂之纯化
     fishcasting:catch/from_bobber: 漂布斯之纯化
     fishcasting:bobber/from_catch: 漂博之纯化
+    fishcasting:bobber/attach: 浮漂挂鱼
+    fishcasting:bobber/detach: 浮漂脱身
+
+
+    fishcasting:fish/min: 鱼味至小之精思
+    fishcasting:fish/max: 鱼味至大之精思
+
+
+    fishcasting:fish/condition: 条件之鱼化
+
+    fishcasting:fish/biome: 鱼味生物群系之馏化
+    fishcasting:fish/climate: 鱼味气候之馏化
+    fishcasting:fish/depth: 鱼味深度之馏化
+    fishcasting:fish/dimension: 鱼味维度之馏化
+    fishcasting:fish/medium: 鱼味水体之馏化
+    fishcasting:fish/moon: 鱼味月相之馏化
+    fishcasting:fish/structure: 鱼味结构之馏化
+    fishcasting:fish/daytime: 鱼味时刻之馏化
+    fishcasting:fish/weather: 鱼味天气之馏化
     fishcasting:fish/length: 格鲁漂之纯化
+    fishcasting:fish/rarity: 腔棘之纯化
+    _comment_rarity: seelo as in Coelacanth
+
     fishcasting:fish/from_item: 鱼类运动
     fishcasting:fish/to_item: 鱼类静止
-    fishcasting:fish/rarity: PLACEHOLDER之纯化
+    fishcasting:fish/kill: 剖解鱼类
+
+    fishcasting:environment/daytime: 时刻之精思
+    fishcasting:environment/moon/increment: 递进月相
+    fishcasting:environment/moon/get: 月相之精思
+    fishcasting:environment/dimension: 维度之精思
+    fishcasting:environment/biome: 生物群系之纯化
+    fishcasting:environment/structure: 结构之纯化
+    fishcasting:environment/weather: 天气之纯化
+    fishcasting:environment/climate: 气候之纯化
+    fishcasting:environment/depth: 深度之纯化
+    fishcasting:bobber/medium: 水体之纯化
   mishap:
+    invalid_value:
+      class:
+        environment: 类数iota
     bad_item:
       fishcasting:
         fishing_hook: 钓钩
@@ -289,6 +418,8 @@ _comment_config: CONFIGURATION STUFF
 compat:
   nomansland:
     tacklebox_chair: 配得上国王/的王座/，只由老百姓使用/。
+    tacklebox_chair_floaty: "有两种用途/的椅子：/垂钓/和/飞行。"
+
 yapping_tooltips:
   item:
     tide:
@@ -297,22 +428,40 @@ yapping_tooltips:
       crystal_fishing_rod.desc: 鱼术师想要我。鱼儿畏惧我。
     fishcasting:
       shepherds_casting_rod.desc: 由你不认识的某种木材制成。
+      rocky_casting_rod.desc: 很硬。
       blessed_focus_bobber.desc: 它的气味让你想起往昔岁月。
+      hexxy_focus_bobber.desc: 对。
+      sampling_focus_bobber: 适合用于在高处采样。
       loud_fishing_line.desc: 时不时发出悦耳的轻响声。
+      chain_linked_fishing_line.desc: 精美得犹如出自匠人之手。
       hookless_fishing_hook.desc: 至少你的朋友再也阻止不了你钓鱼了。
-      unlucky_bait.desc: 这种鱼饵有股臭味……
+      clingy_fishing_hook.desc: 好痛！抛竿之前可别先扎自己身上……
+      unlucky_bait.desc: 对许多人来说都是霉运数字！
+      odious_bait.desc: 这种鱼饵有股臭味……
       benign_bait.desc: 闻着不错，而且闪闪发亮。
+      slick_bait.desc: 五彩缤纷，荧光闪闪……
+      tiny_bait.desc: 小巧玲珑，晶莹剔透！
+      crystal_shrimp_fried_rice.desc: 脆嫩新鲜！
       tacklebox_chair.desc: 配得上海洋领主的王座——海滩领主也行——本地小池塘领主也可以。
+      tacklebox_chair_floaty.desc: 爽吧？
+      tacklebox_chair_secret.desc: les go
       message_in_a_bottle.desc: 尚不清楚是谁一直往海里丢这个……
       glass_shard.desc: 好痛！在它旁边走时注意看脚下！
       fishy_fragment.desc: 起码没湿到无法阅读。
       music_disc/returning_to_the_surface.desc: 可放入唱片机以播放邪门音乐
+      edified_fish.desc: 庄严而多彩。
+      edified_fish_bucket.desc: 即便是被捞到桶里，也一样漂亮。
+      edified_fish_spawn_egg.desc: 我觉得在这里向你指出“我其实没想给这个物品写俏皮话”，以此来破坏你的沉浸感，还挺有意思的。抱歉。
       cursed.desc: 不停搐动。
       cursed_bucket.desc: 不停搐动，不时溅出水花。
       cursed_spawn_egg.desc: 别对它们太狠了！
+      perhosgata.desc: 你看得见那里有东西吗？我反正看不见。
+      perhosgata_bucket.desc: 即便是被装在容器里……
+      perhosgata_spawn_egg.desc: 是被静滞了吗？
       blessed_spawn_egg.desc: 别对它们太狠了！
 commands:
   fishing:
     entries:
       luck_tweaking_bobber_selector: 幸运浮漂选择器
+      slimy_bobber_selector: 黏性浮漂选择器
       benign_bait_selector: 良味鱼饵选择器
