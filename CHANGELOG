@@ -6,6 +6,7 @@
     Moved the lore to a different advancement tab (I hope this is a good idea...)
     Fix execution of bobber when stored iota is a plain PatternIota
     Added relevant advancements to the creative unlocker (via a .json for when a player eats the thing)
+    Hopefully did a better job at telling the player what exists and how to use it in the book
 
 0.2.17
 Great Spell:
