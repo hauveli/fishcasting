@@ -125,7 +125,7 @@ object BlessedTrades {
         rareFishTrade(TideFish.SPORE_STALKER, Items.RED_MUSHROOM, 6),
         // these require void access
         rareFishTrade(TideFish.PENTAPUS, Items.HEART_OF_THE_SEA, wantTool = false), // hmmm... is this reasonable? I couldn't think of anything really...
-        rareFishTrade(FishcastingItems.CURSED.value, Items.RABBIT_FOOT, 4)
+        rareFishTrade(FishcastingItems.CURSED.value, Items.RABBIT_FOOT, 1)
     )
 
     private val NETHER_AND_END_TRADES = arrayOf<VillagerTrades.ItemListing>(

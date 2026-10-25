@@ -347,6 +347,7 @@ jukebox_song:
     returning_to_the_surface: cookies+policy - Returning To The Surface
 entity:
   fishcasting:
+    bottle_shard: Bottle Shard
     tacklebox_chair: Tacklebox Chair
     tacklebox_chair_floaty: Levitite Tacklebox Chair
     tacklebox_chair_secret: 'NUCLEAR-HEX-MACHINE "[WEST, wweewaqdeeweewawe]KOOL[NORTH_EAST, wawdwedaqedwwwe]U" MK[SOUTH_EAST, aqaaqawqaaq] TURBOMAX!!!!!'

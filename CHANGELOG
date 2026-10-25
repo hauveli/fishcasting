@@ -1,4 +1,10 @@
 0.2.19
+    Glass Shard is now Bottle Shard, and is no longer an obtainable item.
+        Spawns when bottle is thrown, but now as an entity that goes poof after a bit, or if it is broken
+        This also removes the recipes which weren't adding a whole lot and weren't needed, ultimately.
+
+    (unfinished goals below)
+    Possibly have added EMI for trader trades...
     Possibly have fixed the chair...
 
 0.2.18

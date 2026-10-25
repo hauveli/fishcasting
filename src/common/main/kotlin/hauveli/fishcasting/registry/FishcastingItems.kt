@@ -195,7 +195,7 @@ object FishcastingItems : FishcastingRegistrar<Item>(
     //val TACKLEBOX_CHAIR_SECRET = makeNoCreativeMenu("tacklebox_chair_secret", { TackleBoxChairSecretItem(unstackableEpic()) })
     val MESSAGE_IN_A_BOTTLE =
         make("message_in_a_bottle", {GachaBottleItem(unstackableUncommon())})
-    val GLASS_SHARD = make("glass_shard", {Item(stacksTo(stackSizeLimit = 16))})
+    val GLASS_SHARD = makeNoCreativeMenu("glass_shard", {Item(stacksTo(stackSizeLimit = 16))})
     val FISHCASTING_LORE_FRAGMENT = make(
         "fishy_fragment", {FishcastingLoreFragment(unstackableRare())}
     )

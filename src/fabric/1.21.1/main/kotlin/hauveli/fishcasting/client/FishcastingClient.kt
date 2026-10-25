@@ -17,6 +17,8 @@ import hauveli.fishcasting.features.fish.goop.GoopModel
 import hauveli.fishcasting.features.fish.goop.GoopRenderer
 import hauveli.fishcasting.features.fish.perhosgata.PerhosgataModel
 import hauveli.fishcasting.features.fish.perhosgata.PerhosgataRenderer
+import hauveli.fishcasting.features.gacha.GachaShardEntity
+import hauveli.fishcasting.features.gacha.GachaShardRenderer
 import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
 import hauveli.fishcasting.registry.FishcastingEntities
@@ -113,6 +115,10 @@ object FabricFishcastingClient : ClientModInitializer {
             ::TackleBoxChairRenderer
         )
 
+        EntityRendererRegistry.register(
+            FishcastingEntities.BOTTLE_SHARD.value,
+            ::GachaShardRenderer
+        )
         /*
         EntityRendererRegistry.register(
             FishcastingEntities.TACKLEBOX_CHAIR_SECRET.value,
