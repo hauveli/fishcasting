@@ -1,7 +1,5 @@
 package hauveli.fishcasting.client
 
-import at.petrak.hexcasting.common.lib.HexAttributes
-import com.li64.tide.client.TideItemModelProperties
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.features.chair.TackleBoxChairModel
 import hauveli.fishcasting.features.chair.TackleBoxChairRenderer
@@ -14,10 +12,10 @@ import hauveli.fishcasting.features.fish.goop.GoopModel
 import hauveli.fishcasting.features.fish.goop.GoopRenderer
 import hauveli.fishcasting.features.fish.perhosgata.PerhosgataModel
 import hauveli.fishcasting.features.fish.perhosgata.PerhosgataRenderer
+import hauveli.fishcasting.features.gacha.GachaShardRenderer
 import hauveli.fishcasting.features.trader.BlessedModel
 import hauveli.fishcasting.features.trader.BlessedRenderer
 import hauveli.fishcasting.registry.FishcastingEntities
-import net.minecraft.client.renderer.item.ItemPropertyFunction
 import net.neoforged.api.distmarker.Dist
 import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.common.EventBusSubscriber
@@ -97,6 +95,11 @@ object NeoForgeFishcastingClient {
         event.registerEntityRenderer(
             FishcastingEntities.TACKLEBOX_CHAIR.value,
             ::TackleBoxChairRenderer
+        )
+
+        event.registerEntityRenderer(
+            FishcastingEntities.BOTTLE_SHARD.value,
+            ::GachaShardRenderer
         )
     }
 }
