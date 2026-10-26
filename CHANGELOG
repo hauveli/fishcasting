@@ -1,7 +1,3 @@
-0.2.20
-    TBD
-    Goop
-
 0.2.19
     Glass Shard is now Bottle Shard, and is no longer an obtainable item.
         Spawns when bottle is thrown, but now as an entity that goes poof after a bit, or if it is broken

@@ -19,8 +19,11 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
@@ -111,11 +114,11 @@ public class TackleBoxSlurpEntityMixin {
             fishcasting$killSmallerFish(stack, tackleBoxChairEntity);
             for (int slotIndex = 0; slotIndex < tackleBoxChairEntity.getContainerSize(); slotIndex++) {
                 ItemStack slotStack = tackleBoxChairEntity.getItem(slotIndex);
-                if (!slotStack.isEmpty()) continue;
-
-                fishcasting$finalizeSlurp(tackleBoxChairEntity, slotIndex, stack,
-                        player, itemEntity, ci);
-                break;
+                if (slotStack.isEmpty()) {
+                    fishcasting$finalizeSlurp(tackleBoxChairEntity, slotIndex, stack,
+                            player, itemEntity, ci);
+                    break;
+                }
             }
         } else {
             fishcasting$finalizeSlurp(tackleBoxChairEntity, targetBucketSlot, stack,
@@ -128,18 +131,20 @@ public class TackleBoxSlurpEntityMixin {
             TackleBoxChairEntity tackleBoxChairEntity, int targetSlot, ItemStack itemStack,
             Player player, ItemEntity itemEntity, CallbackInfo ci) {
 
-        boolean isBucketed = itemStack.getItem() instanceof MobBucketItem;
-        player.playSound(isBucketed ?
-                SoundEvents.BUCKET_FILL_FISH : SoundEvents.BUCKET_EMPTY_FISH, 1.0f, 1.0f);
-
         tackleBoxChairEntity.setItem(targetSlot, itemStack);
 
         if (player instanceof ServerPlayer serverPlayer) {
+            boolean isBucketed = itemStack.getItem() instanceof MobBucketItem;
+
             fishcasting$showFishPopUp(tackleBoxChairEntity, itemStack, itemEntity.getItem(), serverPlayer);
             tryGrantingAdvancement(serverPlayer, TACKLEBOX_CHAIR_FISHER);
+            SoundEvent se = isBucketed ? SoundEvents.BUCKET_FILL_FISH : SoundEvents.BUCKET_EMPTY_FISH;
+            ServerLevel sl = serverPlayer.serverLevel(); // todo: learn what my IDE is nagging about regarding auto-closable and try-catches on this
+            // if (sl == null) return;
+            sl.playSound(null, player.blockPosition(), se, SoundSource.PLAYERS, 1.0f, 1.0f);
+            itemEntity.discard(); // doing it outside of this caused visual issues on the client...
         }
 
-        itemEntity.discard();
         ci.cancel(); // is this sane............ I might want to revisit this, but i think it makes sense....
     }
 
