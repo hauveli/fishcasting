@@ -220,10 +220,10 @@ public class TackleBoxSlurpEntityMixin {
                 boolean killFishToDeposit;
                 if (setting == TackleBoxChairEntity.FishKillSetting.KEEP_MAX) {
                     killSlotStack = incomingLength > existingLength;
-                    killFishToDeposit = !killSlotStack;
+                    killFishToDeposit = existingLength > incomingLength;
                 } else if (setting == TackleBoxChairEntity.FishKillSetting.KEEP_MIN) {
                     killSlotStack = incomingLength < existingLength;
-                    killFishToDeposit = !killSlotStack;
+                    killFishToDeposit = existingLength < incomingLength;
                 } else if (setting == TackleBoxChairEntity.FishKillSetting.KEEP_NONE) {
                     killSlotStack = true;
                     killFishToDeposit = true;
