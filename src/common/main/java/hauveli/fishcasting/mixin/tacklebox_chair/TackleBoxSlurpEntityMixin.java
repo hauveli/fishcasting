@@ -122,6 +122,10 @@ public class TackleBoxSlurpEntityMixin {
     }
 
     @Unique
+    private static void fishcasting$tidyUpExistingContents(TackleBoxChairEntity entity) {
+    }
+
+    @Unique
     private static void fishcasting$finalizeSlurp(
             TackleBoxChairEntity tackleBoxChairEntity, int targetSlot, ItemStack itemStack,
             Player player, ItemEntity itemEntity, CallbackInfo ci) {
@@ -133,7 +137,7 @@ public class TackleBoxSlurpEntityMixin {
         tackleBoxChairEntity.setItem(targetSlot, itemStack);
 
         if (player instanceof ServerPlayer serverPlayer) {
-            fishcasting$showFishPopUp(itemStack, itemEntity.getItem(), serverPlayer);
+            fishcasting$showFishPopUp(tackleBoxChairEntity, itemStack, itemEntity.getItem(), serverPlayer);
             tryGrantingAdvancement(serverPlayer, TACKLEBOX_CHAIR_FISHER);
         }
 
@@ -146,8 +150,10 @@ public class TackleBoxSlurpEntityMixin {
     // adding a client config would possibly be preferable, but because I'm taking a gross shortcut by relying on Tide's stuff
     // it means doing so would be simpler (and better) if I add my own toast system...
     @Unique
-    private static void fishcasting$showFishPopUp(ItemStack displayItemStack, ItemStack lengthItemStack, ServerPlayer player) {
+    private static void fishcasting$showFishPopUp(TackleBoxChairEntity tackleBoxChairEntity, ItemStack displayItemStack, ItemStack lengthItemStack, ServerPlayer player) {
         if (player == null) return;
+        // rate limit...
+        if (tackleBoxChairEntity.getNotificationsThisTick() > 2) return;
         String fishName = TideUtils.removeRawTextInName(displayItemStack.getHoverName()).getString();
         if (displayItemStack.getItem() instanceof MobBucketItem mobBucketItem) {
             String toReplace = Component.translatable("fishcasting.remove_from_names.bucket").getString();
@@ -160,6 +166,8 @@ public class TackleBoxSlurpEntityMixin {
                 ),
                 Component.nullToEmpty(fishName),
                 displayItemStack), player);
+
+        tackleBoxChairEntity.setNotificationsThisTick(tackleBoxChairEntity.getNotificationsThisTick() + 1);
     }
 
     @Unique
@@ -266,5 +274,4 @@ public class TackleBoxSlurpEntityMixin {
     private static Fluid fishcasting$getFluid(BucketItem bucketItem) {
         return ((ContentAccessorBucketItemMixin) bucketItem).getContent();
     }
-
 }

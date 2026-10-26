@@ -91,6 +91,7 @@ class TackleBoxChairEntity : ChestBoat {
         }
     }
 
+    var notificationsThisTick: Int = 0
     val journalItem: Item = TideItems.FISHING_JOURNAL
     private fun openJournal(player: Player) {
         if (player.level().isClientSide()) {
@@ -232,6 +233,7 @@ class TackleBoxChairEntity : ChestBoat {
 
     override fun tick() {
         super.tick()
+        notificationsThisTick = 0
         hover(null)
     }
 
