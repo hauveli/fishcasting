@@ -10,7 +10,6 @@ import hauveli.fishcasting.registry.FishcastingItems
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.chat.Component
 import net.minecraft.network.syncher.EntityDataAccessor
 import net.minecraft.network.syncher.EntityDataSerializers
 import net.minecraft.network.syncher.SynchedEntityData
@@ -260,10 +259,30 @@ class TackleBoxChairEntity : ChestBoat {
     override fun defineSynchedData(builder: SynchedEntityData.Builder) {
         super.defineSynchedData(builder)
         builder.define(VARIANT, 0)
+        builder.define(FISH_KILL_SETTING, 0)
     }
 
     private val typeVariant: Int
         get() = this.entityData.get(VARIANT)
+
+
+    // todo: maybe define this elsewhere... hmm..
+    enum class FishKillSetting(val id: Int) {
+        KEEP_MAX(0),
+        KEEP_MIN(1),
+        KEEP_ALL(2),
+        KEEP_NONE(3);
+
+        companion object {
+            fun fromId(id: Int): FishKillSetting = entries.firstOrNull { it.id == id } ?: KEEP_MAX
+        }
+    }
+
+    var fishKillSetting: FishKillSetting
+        get() = FishKillSetting.fromId(entityData.get(FISH_KILL_SETTING))
+        set(value) {
+            entityData.set(FISH_KILL_SETTING, value.id)
+        }
 
     var variant: TackleBoxChairVariant?
         get() = TackleBoxChairVariant.byId(this.typeVariant and 255) // why does mojang check if we have more than 255 variants? kaupenjoe does too, I assume it's something obscure or a silly choice and in either case it matters little
@@ -286,9 +305,8 @@ class TackleBoxChairEntity : ChestBoat {
         private const val PLAYER_REPULSION = 0.5
         private const val HOVER_OFFSET = 2
         // thank you kaupenjoe
-        private val VARIANT: EntityDataAccessor<Int> =
-            SynchedEntityData.defineId(TackleBoxChairEntity::class.java, EntityDataSerializers.INT)
-
+        private val VARIANT = SynchedEntityData.defineId(TackleBoxChairEntity::class.java, EntityDataSerializers.INT)
+        private val FISH_KILL_SETTING = SynchedEntityData.defineId(TackleBoxChairEntity::class.java, EntityDataSerializers.INT)
 
         fun setVariant(chair: TackleBoxChairEntity, variant: TackleBoxChairVariant, level: Level) {
             if (!level.isClientSide) {
