@@ -74,6 +74,7 @@ public class TackleBoxSlurpEntityMixin {
         if (!(player.getVehicle() instanceof TackleBoxChairEntity tackleBoxChairEntity))
             return;
         ItemEntity itemEntity = (ItemEntity)(Object)this;
+        // only instantly yoink recently caught fish and wait for pickupdelay otherwise
         if (!itemEntity.getTags().contains(Fishcasting.FISHBERT_TAG)
                 && itemEntity.hasPickUpDelay()) {
             return;
@@ -139,8 +140,7 @@ public class TackleBoxSlurpEntityMixin {
         }
 
         itemEntity.discard();
-        ci.cancel();
-
+        ci.cancel(); // is this sane............ I might want to revisit this, but i think it makes sense....
     }
 
     // todo: is this something I should also add a server config for?
@@ -215,17 +215,28 @@ public class TackleBoxSlurpEntityMixin {
                 double existingLength = FISH_LENGTH.get(slotStack);
                 double incomingLength = FISH_LENGTH.get(fishToDeposit);
 
-                boolean keepIncoming = switch (setting) {
-                    case KEEP_MAX -> incomingLength > existingLength;
-                    case KEEP_MIN -> incomingLength < existingLength;
-                    case KEEP_NONE -> false;
-                    case KEEP_ALL -> true;
-                };
+                // this is quite ugly but whatever, it's simple to understand
+                boolean killSlotStack;
+                boolean killFishToDeposit;
+                if (setting == TackleBoxChairEntity.FishKillSetting.KEEP_MAX) {
+                    killSlotStack = incomingLength > existingLength;
+                    killFishToDeposit = !killSlotStack;
+                } else if (setting == TackleBoxChairEntity.FishKillSetting.KEEP_MIN) {
+                    killSlotStack = incomingLength < existingLength;
+                    killFishToDeposit = !killSlotStack;
+                } else if (setting == TackleBoxChairEntity.FishKillSetting.KEEP_NONE) {
+                    killSlotStack = true;
+                    killFishToDeposit = true;
+                } else {
+                    killSlotStack = false;
+                    killFishToDeposit = false;
+                }
 
-                if (keepIncoming) {
+                if (killSlotStack) {
                     slotStack.remove(TideDataComponents.FISH_LENGTH);
                     slotStack.remove(TideDataComponents.IS_BUCKETABLE);
-                } else {
+                }
+                if (killFishToDeposit) {
                     fishToDeposit.remove(TideDataComponents.FISH_LENGTH);
                     fishToDeposit.remove(TideDataComponents.IS_BUCKETABLE);
                 }
