@@ -334,7 +334,7 @@ object BlessedTrades {
     private val ALL_SECRET_TRADES = arrayOf<VillagerTrades.ItemListing>(
         // need non-void access to chorus fruit and dragfons breath
         // secretTrade(TideFish.BLUE_NEONFISH, TideFish.YELLOW_PERCH, FishcastingItems.TACKLEBOX_CHAIR_SECRET.value),
-        secretTrade(TideFish.BLUE_NEONFISH, TideFish.YELLOW_PERCH, FishcastingItems.TACKLEBOX_CHAIR_FLOATY.value),
+        // secretTrade(TideFish.BLUE_NEONFISH, TideFish.YELLOW_PERCH, FishcastingItems.TACKLEBOX_CHAIR_FLOATY.value),
     )
 
     init {

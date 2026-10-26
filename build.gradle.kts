@@ -64,7 +64,7 @@ repositories {
     maven("https://maven.fzzyhmstrs.me/")
 
     // EMI, Trinkets
-    maven("https://maven.gnomecraft.net/releases")
+    maven("https://repo.sleeping.town/")
 
 
     // stuff I don't really need but am including for ease of dev
@@ -175,6 +175,7 @@ cloche {
             }
 
             // optional things
+
             libs.bundles.qualityoflife.fabric.get().forEach {
                 modCompileOnlyApi(it)
                 modRuntimeOnly(it)
@@ -202,6 +203,10 @@ cloche {
                 value = "hauveli.fishcasting.datagen.FabricFishcastingDatagen"
                 adapter = "kotlin"
             }
+            entrypoint("emi") {
+                value = "hauveli.fishcasting.interop.emi.FishcastingEMIPlugin"
+                adapter = "kotlin"
+            }
             dependencies {
                 /*
                 dependency {
@@ -213,11 +218,6 @@ cloche {
                     modId = "fzzy_config"
                     version(libs.versions.fzzyConfig.fabric.get())
                 }
-            }
-
-            entrypoint("emi") {
-                value = "hauveli.fishcasting.interop.emi.FishcastingEMIPlugin"
-                adapter = "kotlin"
             }
         }
 

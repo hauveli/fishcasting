@@ -13,6 +13,7 @@ import at.petrak.hexcasting.fabric.cc.adimpl.CCItemIotaHolder
 import at.petrak.hexcasting.xplat.IXplatAbstractions
 import com.li64.tide.registries.TideFish
 import com.li64.tide.registries.entities.fish.SmoothSwimmingFish
+import hauveli.fishcasting.interop.emi.FishcastingEMIPlugin
 import hauveli.fishcasting.registry.*
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
@@ -37,6 +38,7 @@ object FabricFishcasting : ModInitializer {
         registerEntityAttributes() // todo: do something better than this
         registerIotaHolderItems() // todo: do something better than this
     }
+
 
     init {
         fun <T> bind(registry: Registry<in T>): BiConsumer<T, ResourceLocation> =
@@ -137,8 +139,6 @@ object FabricFishcasting : ModInitializer {
     fun registerMoonPhaseFishies() {
 
         // hee hee hee...
-        // todo:
-        // I'll have to fix this in dev 53 and/or dev 54
         val mindsReflection = HexPattern.fromAngleString("qaq", HexDir.NORTH_EAST)
         val compassPurification = HexPattern.fromAngleString("aa", HexDir.EAST)
         val alidadesPurification = HexPattern.fromAngleString("wa", HexDir.NORTH_EAST)
