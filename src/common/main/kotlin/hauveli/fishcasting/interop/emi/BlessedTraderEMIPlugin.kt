@@ -32,6 +32,7 @@ object BlessedTraderEmiPlugin {
 
         BLESSED_TRADER_TRADES.forEach { (level, listings) ->
             listings.forEachIndexed { index, listing ->
+                // todo: is this the best way to get the offer?
                 val offer = listing.getOffer(trader, RandomSource.create()) ?: return@forEachIndexed
                 registry.addRecipe(BlessedTraderEMIRecipe(index = index, offer = offer))
             }
