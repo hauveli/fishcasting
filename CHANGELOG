@@ -2,7 +2,7 @@
     Glass Shard is now Bottle Shard, and is no longer an obtainable item.
         Spawns when bottle is thrown, but now as an entity that goes poof after a bit, or if it is broken
         This also removes the recipes which weren't adding a whole lot and weren't needed, ultimately.
-    Trader Trades in EMI (On neoforge, fabric isn't cooperating for some reason...)
+    Trader Trades in EMI
     Fix the chair sometimes eating a fish, or removing its data when it shouldn't. (I hope.)
 
 0.2.18

@@ -203,6 +203,10 @@ cloche {
                 value = "hauveli.fishcasting.datagen.FabricFishcastingDatagen"
                 adapter = "kotlin"
             }
+            entrypoint("emi") {
+                value = "hauveli.fishcasting.interop.emi.FishcastingEMIPlugin"
+                adapter = "kotlin"
+            }
             dependencies {
                 /*
                 dependency {
