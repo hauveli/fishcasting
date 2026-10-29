@@ -1,6 +1,9 @@
 package hauveli.fishcasting.config
 
+import at.petrak.hexcasting.common.items.magic.ItemMediaBattery
+import at.petrak.hexcasting.common.lib.HexItems
 import hauveli.fishcasting.Fishcasting
+import hauveli.fishcasting.features.trader.BlessedTrades
 import me.fzzyhmstrs.fzzy_config.annotations.Translation
 import me.fzzyhmstrs.fzzy_config.annotations.Version
 import me.fzzyhmstrs.fzzy_config.config.Config
@@ -18,6 +21,7 @@ import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedNumber
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.item.ItemStack
 import java.util.function.BiFunction
 
 
@@ -78,6 +82,49 @@ class FishcastingCommonConfig : Config(Fishcasting.id("common_config")) {
         var veryRare = weightVeryRare
         @ValidatedInt.Restrict(min = 0, max = 100, type = ValidatedNumber.WidgetType.TEXTBOX_WITH_BUTTONS)
         var legendary = weightLegendary
+
+        // EMI stuff
+        fun totalWeight(): Int = common + uncommon + rare + veryRare + legendary
+        fun chanceOf(weight: Int): Double {
+            val total = totalWeight() // some people may want to set all phials to 0...........
+            return if (total > 0) weight.toDouble() / total else 0.0
+        }
+        fun percentageOf(weight: Int): Double = chanceOf(weight) * 100.0
+        fun weightOf(phial: ItemStack): Int {
+            val item = phial.item
+            if (item !is ItemMediaBattery)
+                return 0
+
+            return when (item.getMedia(phial)) {
+                item.getMedia(HexItems.BATTERY_DUST_STACK.get()) -> common
+                item.getMedia(HexItems.BATTERY_SHARD_STACK.get()) -> uncommon
+                item.getMedia(HexItems.BATTERY_CRYSTAL_STACK.get()) -> rare
+                item.getMedia(HexItems.BATTERY_QUENCHED_SHARD_STACK.get()) -> veryRare
+                item.getMedia(HexItems.BATTERY_QUENCHED_BLOCK_STACK.get()) -> legendary
+                else -> 0
+            }
+        }
+        fun chanceOf(phial: ItemStack): Double {
+            val total = totalWeight()
+            return if (total > 0) weightOf(phial).toDouble() / total else 0.0
+        }
+        fun percentageOf(phial: ItemStack): Double = chanceOf(phial) * 100.0
+
+        // urgh head hurt just making this quick, this is just for display purposes
+        // chance for getting a specific trade, rather than the chance of getting a tier
+        fun chanceOfFish(phial: ItemStack): Double {
+            val item = phial.item
+            if (item !is ItemMediaBattery)
+                return 0.0
+            val fishCount = (when (item.getMedia(phial)) {
+                item.getMedia(HexItems.BATTERY_DUST_STACK.get()) -> BlessedTrades.PHIAL_TRADES_COMMON.size
+                item.getMedia(HexItems.BATTERY_SHARD_STACK.get()) -> BlessedTrades.PHIAL_TRADES_UNCOMMON.size
+                item.getMedia(HexItems.BATTERY_CRYSTAL_STACK.get()) -> BlessedTrades.PHIAL_TRADES_RARE.size
+                item.getMedia(HexItems.BATTERY_QUENCHED_SHARD_STACK.get()) -> BlessedTrades.PHIAL_TRADES_VERY_RARE.size
+                item.getMedia(HexItems.BATTERY_QUENCHED_BLOCK_STACK.get()) -> BlessedTrades.PHIAL_TRADES_LEGENDARY.size
+                else -> 0}).toDouble()
+            return if (fishCount > 0) 1.0 / fishCount else 0.0
+        }
     }
 
     fun getCooldownAfterFishingMinigame(): Int {

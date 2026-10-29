@@ -5,14 +5,17 @@ import dev.emi.emi.api.recipe.EmiRecipeCategory
 import dev.emi.emi.api.stack.EmiStack
 import dev.emi.emi.api.widget.WidgetHolder
 import hauveli.fishcasting.Fishcasting
+import hauveli.fishcasting.config.FishcastingConfigs
+import net.minecraft.client.Minecraft
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.trading.MerchantOffer
 
 class BlessedTraderEMIRecipe(
-    private val index: Int,
-    private val offer: MerchantOffer
+    private val tradeSlot: Int, // todo: maybe list which slot the item would be in?
+    private val offer: MerchantOffer,
+    private val chance: Double
 ) : EmiRecipe {
     // synthetic because no real recipe
     private val recipeId = Fishcasting.id("/${BlessedTraderEmiPlugin.BLESSED_TRADER_CATEGORY_ID.path
@@ -42,6 +45,7 @@ class BlessedTraderEMIRecipe(
     private val TOP_OFFSET = 6
     private val SIDE_OFFSET = 10
     private val ITEM_STACK_SPACING = getDisplayHeight() - TOP_OFFSET
+
     override fun addWidgets(widgets: WidgetHolder) {
         widgets.addSlot(inputs[0], SIDE_OFFSET, TOP_OFFSET)
 
@@ -59,6 +63,52 @@ class BlessedTraderEMIRecipe(
             false
         )
 
+        widgets.addText(
+            Component.literal("?"),
+            - ITEM_STACK_SPACING + SIDE_OFFSET / 2 - 4,
+            12, // magic number hell I've lost track, whatever... TODO: un-magic number hell this
+            0xFFFFFF,
+            false
+        )
+
+        val categoryText = "Trade slot: $tradeSlot"
+        val chanceText = "${"%.1f".format(chance * 100)}%"
+
+        val font = Minecraft.getInstance().font
+        val textX = -ITEM_STACK_SPACING + SIDE_OFFSET / 2
+
+        val widestText = maxOf(font.width(chanceText), font.width(categoryText))
+
+        val tooltipText = mutableListOf(
+            Component.literal(categoryText),
+            Component.literal("Chance: $chanceText")
+        )
+
+        if (tradeSlot == 8) {
+            tooltipText.add(Component.literal("Includes listing and item weights"))
+            val chance = FishcastingConfigs.COMMON_CONFIG.traderPhialWeights.chanceOf(offer.result) * 100
+            tooltipText.add(Component.literal("Chance for this tier to be selected: ${"%.1f".format(chance)}%"))
+        }
+
+        val refusalReason = when (tradeSlot) {
+            7 -> "completed their journal"
+            8 -> "unlocked the great work"
+            else -> null
+        }
+
+        refusalReason?.let {
+            tooltipText.add(
+                Component.literal("The trader will refuse to offer this trade if the fisher has not $it")
+            )
+        }
+
+        widgets.addTooltipText(
+            tooltipText.toList(),
+            textX - widestText / 2,
+            4,
+            widestText,
+            17
+        )
         widgets.addSlot(outputs[0], getDisplayWidth() - ITEM_STACK_SPACING, TOP_OFFSET)
             .recipeContext(this)
     }
