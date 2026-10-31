@@ -91,7 +91,7 @@ class BlessedTraderEMIRecipe(
         }
 
         val refusalReason = when (tradeSlot) {
-            7 -> "completed their journal"
+            7 -> "held every kind of fishing rod"
             8 -> "unlocked the great work"
             else -> null
         }

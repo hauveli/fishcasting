@@ -313,10 +313,21 @@ class BlessedEntity(entityType: EntityType<out WanderingTrader?>, level: Level) 
         addRandomListing(merchantoffers, dyeListing)
         addRandomListing(merchantoffers, bedrockEaterListing)
         addRandomListing(merchantoffers, bottleItemsListing)
-        if (this.wasFishedByFishyPlayer)
+
+        // Hmmm... Should I just add the details to the great work book?
+        // Once great work is unlocked, I could just add a tidbit about only acknowledging fishers who have mastered the seas or something to that effect...
+        // A hexcaster that refuses to unlock the great work would end up missing this information though...
+        //
+        if (this.wasFishedByFishyPlayer) {
             addRandomListing(merchantoffers, fishcastingItemsListing)
-        if (this.wasFishedByEnlightenedPlayer)
+        } else {
+
+        }
+        if (this.wasFishedByEnlightenedPlayer) {
             addWeightedListing(merchantoffers, hexcastingItemsListing)
+        } else {
+
+        }
 
         // I decided this would suck, there should be no items hidden behind this.
         if (this.variant == BlessedVariant.SECRET
