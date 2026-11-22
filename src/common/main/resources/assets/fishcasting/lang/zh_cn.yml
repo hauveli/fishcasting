@@ -191,11 +191,11 @@ fishcasting:
       budding_amethyst:
         .: 部分商人的意识在极高压力下逐渐崩溃之时，有一瞬极其适合剥离。若在这些时间点剥离他们的意识，无论他们本来$(l:lore/fishlore/notes3#fishcasting:wandering_trader)$(thing)如何没经验/$，都能产出实际的成果。为此，他们必须$(l:lore/fishlore/notes3#fishcasting:chasm_eel)$(thing)完全沉入虚空/$。可以用$(l:items/focus_bobber)$(thing)核心浮漂/$将影响范围延伸到虚空中。
         hint: 无论$(l:lore/fishlore/notes3#fishcasting:wandering_trader)$(thing)流商如何没经验/$，似乎只要他的意识已被侵蚀得足够，就能在他眼前闪过人生的走马灯时，把他的意识剥离到物质之中。不幸的是，唯一能稳定让意识进入这种状态的环境仅存在于$(l:lore/fishlore/notes3#fishcasting:chasm_eel)$(thing)世界的深渊之下/$。鱼术师又是怎么$(t:鱼术师的鱼竿是他们自身的延伸。)$(thing)把自己的影响范围延展到自然极限之外的呢/$？$(br)
-        clueless: 我听说有渔夫能剥离某些呆傻商人的意识。先不论有关离群$(#8ef3eb)鱼术师/$的传言可信与否，$(t:鱼术师们肯定留了线索供其他渔夫索引钩沉。)$(thing)能给我的研究带来新事物总归是好的，前提是真能发现东西。/$$(br)
+        clueless: 我听说有渔夫能剥离某些呆傻商人的意识。先不论有关离群$(#8ef3eb)鱼术师/$的传言可信与否，$(t:鱼术师们肯定留了线索供其他渔夫索隐钩沉。)$(thing)能给我的研究带来新事物总归是好的，前提是真能发现东西。/$$(br)
       allay:
         .: 不管到底是什么占据了这种东西，都已经把它的身体扭曲得不像样子了。无论如何，光是听着它的声音，看着它搐动，我都觉得用$(l:patterns/great_spells/weather_manip#hexcasting:lightning)$(action)闪电/$$(l:lore/fishlore/notes4#fishcasting:annihilation)$(thing)放它自由/$算是行善积德。闪电过后，我可发现一只$(l:greatwork/quenching_allays)$(thing)悦灵/$，以供我的研究使用。
         hint: 不管到底是什么占据了这种东西，都已经把它的身体扭曲得不像样子了。无论如何，光是听着它的声音，看着它搐动，我都觉得用$(l:patterns/great_spells/weather_manip#hexcasting:lightning)$(action)闪电/$$(l:lore/fishlore/notes4#fishcasting:annihilation)$(thing)放它自由/$算是行善积德。$(t:要找出答案，只有一种方法。)$(thing)我在想，闪电过后还会剩下什么呢？/$
-        clueless: 在我从渔夫那里收集到的笔记里，我找到了些非常怪异的说法，说要把鱼拆解成更小的物体，或者直接销毁。这种变化很明显无法发生，因为必然会有物质残余下来。$(t:鱼术师们肯定留了线索供其他渔夫索引钩沉。)$(thing)哪种鱼能这么难拆解呢？/$$(br)
+        clueless: 在我从渔夫那里收集到的笔记里，我找到了些非常怪异的说法，说要把鱼拆解成更小的物体，或者直接销毁。这种变化很明显无法发生，因为必然会有物质残余下来。$(t:鱼术师们肯定留了线索供其他渔夫索隐钩沉。)$(thing)哪种鱼能这么难拆解呢？/$$(br)
         header: 湮灭
     lore:
       intro:
@@ -246,6 +246,10 @@ fishcasting:
     fishlore:
       .: 鱼法学
       desc: 和“鱼法学”社群中人物稍有关系的几则文本浮出了水面……字面意义的浮出了水面。
+emi:
+  category:
+    fishcasting:
+      blessed: 福佑商人交易
 tag:
   item:
     fishcasting:
@@ -261,6 +265,11 @@ tag:
       odious_mulch: 恶臭鱼饵原料
       fishy_music_discs: 鱼味音乐唱片
       cursed_mostly_indestructible_item: 几乎坚不可摧的受诅物品
+      casting_rods: 施法之竿
+      focus_bobbers: 核心浮漂
+      end_fishing_rods: 末地钓鱼竿
+      luck_reducing_rods: 降低幸运的钓竿
+      admin_item: 管理员物品
 
 
 item:
@@ -347,6 +356,7 @@ jukebox_song:
     returning_to_the_surface: cookies+policy - Returning To The Surface
 entity:
   fishcasting:
+    bottle_shard: 玻璃瓶碎片
     tacklebox_chair: 渔具箱椅
     tacklebox_chair_floaty: 浮空水晶渔具箱椅
     tacklebox_chair_secret: 'NUCLEAR-HEX-MACHINE "[WEST, wweewaqdeeweewawe]KOOL[NORTH_EAST, wawdwedaqedwwwe]U" MK[SOUTH_EAST, aqaaqawqaaq] TURBOMAX!!!!!'
