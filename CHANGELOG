@@ -1,11 +1,16 @@
 0.2.19
-    Possibly have fixed the chair...
+    Glass Shard is now Bottle Shard, and is no longer an obtainable item.
+        Spawns when bottle is thrown, but now as an entity that goes poof after a bit, or if it is broken
+        This also removes the recipes which weren't adding a whole lot and weren't needed, ultimately.
+    Trader Trades in EMI
+    Fix the chair sometimes eating a fish, or removing its data when it shouldn't. (I hope.)
 
 0.2.18
     Fix Fabric IotaHolderItems not being registered properly somehow
     Moved the lore to a different advancement tab (I hope this is a good idea...)
     Fix execution of bobber when stored iota is a plain PatternIota
     Added relevant advancements to the creative unlocker (via a .json for when a player eats the thing)
+    Hopefully did a better job at telling the player what exists and how to use it in the book
 
 0.2.17
 Great Spell:

@@ -1,20 +1,16 @@
 package hauveli.fishcasting.interop.emi
 
-import at.petrak.hexcasting.api.HexAPI
-import at.petrak.hexcasting.api.mod.HexTags
-import dev.emi.emi.api.EmiEntrypoint
 import dev.emi.emi.api.EmiPlugin
 import dev.emi.emi.api.EmiRegistry
-import net.minecraft.resources.ResourceLocation
 
-@EmiEntrypoint
-class FishcastingEMIPlugin : EmiPlugin {
+// Note to future self: The NeoForge side uses an annotation for this, and the fabric side defines the entrypoint in cloche...
+open class FishcastingEMIPlugin : EmiPlugin {
+
     override fun register(registry: EmiRegistry) {
+        BlessedTraderEmiPlugin.registerTrades(registry)
     }
 
     companion object {
-
-
         fun init() {}
     }
 }

@@ -3,6 +3,7 @@ package hauveli.fishcasting
 //import hauveli.fishcasting.networking.FishcastingNetworking
 import at.petrak.hexcasting.api.HexAPI
 import hauveli.fishcasting.config.FishcastingConfigs
+import hauveli.fishcasting.interop.emi.FishcastingEMIPlugin
 import hauveli.fishcasting.interop.inline.InlineFishcastingServer
 import hauveli.fishcasting.registry.*
 import net.minecraft.resources.ResourceLocation
@@ -50,6 +51,7 @@ object Fishcasting {
             FishcastingSounds,
             FishcastingItems
         )
+        // FishcastingEMIPlugin.init()
         InlineFishcastingServer.init()
         // FishcastingNetworking.init()
         FishcastingConfigs.init()

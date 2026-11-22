@@ -6,6 +6,7 @@ import com.li64.tide.config.TideConfig;
 import com.li64.tide.config.TideServerConfig;
 import com.li64.tide.data.FishLengthHolder;
 import com.li64.tide.data.fishing.FishData;
+import com.li64.tide.data.item.TideDataComponents;
 import com.li64.tide.data.item.TideItemData;
 import com.li64.tide.network.messages.ShowToastMsg;
 import com.li64.tide.util.TideUtils;
@@ -18,8 +19,11 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
@@ -73,6 +77,7 @@ public class TackleBoxSlurpEntityMixin {
         if (!(player.getVehicle() instanceof TackleBoxChairEntity tackleBoxChairEntity))
             return;
         ItemEntity itemEntity = (ItemEntity)(Object)this;
+        // only instantly yoink recently caught fish and wait for pickupdelay otherwise
         if (!itemEntity.getTags().contains(Fishcasting.FISHBERT_TAG)
                 && itemEntity.hasPickUpDelay()) {
             return;
@@ -101,19 +106,19 @@ public class TackleBoxSlurpEntityMixin {
         }
         if (targetBucketSlot == -1) {
             // emergency exit if we don't have enough inventory space
+            // merges fish if possible BEFORE the new fish is added...
             if (fishcasting$hasNoFreeSlots(tackleBoxChairEntity)) {
                 return;
             }
-            // this tidies up the inventory to prepare it for the incoming item, if stack is
-            stack = fishcasting$mergeIfNeeded(stack, tackleBoxChairEntity);
+            // kills any fish not meeting the criteria
+            fishcasting$killSmallerFish(stack, tackleBoxChairEntity);
             for (int slotIndex = 0; slotIndex < tackleBoxChairEntity.getContainerSize(); slotIndex++) {
                 ItemStack slotStack = tackleBoxChairEntity.getItem(slotIndex);
-                if (!slotStack.isEmpty()) {
-                    continue;
+                if (slotStack.isEmpty()) {
+                    fishcasting$finalizeSlurp(tackleBoxChairEntity, slotIndex, stack,
+                            player, itemEntity, ci);
+                    break;
                 }
-                fishcasting$finalizeSlurp(tackleBoxChairEntity, slotIndex, stack,
-                        player, itemEntity, ci);
-                break;
             }
         } else {
             fishcasting$finalizeSlurp(tackleBoxChairEntity, targetBucketSlot, stack,
@@ -126,28 +131,31 @@ public class TackleBoxSlurpEntityMixin {
             TackleBoxChairEntity tackleBoxChairEntity, int targetSlot, ItemStack itemStack,
             Player player, ItemEntity itemEntity, CallbackInfo ci) {
 
-        boolean isBucketed = itemStack.getItem() instanceof MobBucketItem;
-        player.playSound(isBucketed ?
-                SoundEvents.BUCKET_FILL_FISH : SoundEvents.BUCKET_EMPTY_FISH, 1.0f, 1.0f);
-
         tackleBoxChairEntity.setItem(targetSlot, itemStack);
 
         if (player instanceof ServerPlayer serverPlayer) {
-            fishcasting$showFishPopUp(itemStack, itemEntity.getItem(), serverPlayer);
+            boolean isBucketed = itemStack.getItem() instanceof MobBucketItem;
+
+            fishcasting$showFishPopUp(tackleBoxChairEntity, itemStack, itemEntity.getItem(), serverPlayer);
             tryGrantingAdvancement(serverPlayer, TACKLEBOX_CHAIR_FISHER);
+            SoundEvent se = isBucketed ? SoundEvents.BUCKET_FILL_FISH : SoundEvents.BUCKET_EMPTY_FISH;
+            ServerLevel sl = serverPlayer.serverLevel(); // todo: learn what my IDE is nagging about regarding auto-closable and try-catches on this
+            // if (sl == null) return;
+            sl.playSound(null, player.blockPosition(), se, SoundSource.PLAYERS, 1.0f, 1.0f);
+            itemEntity.discard(); // doing it outside of this caused visual issues on the client...
         }
 
-        itemEntity.discard();
-        ci.cancel();
-
+        ci.cancel(); // is this sane............ I might want to revisit this, but i think it makes sense....
     }
 
     // todo: is this something I should also add a server config for?
     // adding a client config would possibly be preferable, but because I'm taking a gross shortcut by relying on Tide's stuff
     // it means doing so would be simpler (and better) if I add my own toast system...
     @Unique
-    private static void fishcasting$showFishPopUp(ItemStack displayItemStack, ItemStack lengthItemStack, ServerPlayer player) {
+    private static void fishcasting$showFishPopUp(TackleBoxChairEntity tackleBoxChairEntity, ItemStack displayItemStack, ItemStack lengthItemStack, ServerPlayer player) {
         if (player == null) return;
+        // rate limit...
+        if (tackleBoxChairEntity.getNotificationsThisTick() > 2) return;
         String fishName = TideUtils.removeRawTextInName(displayItemStack.getHoverName()).getString();
         if (displayItemStack.getItem() instanceof MobBucketItem mobBucketItem) {
             String toReplace = Component.translatable("fishcasting.remove_from_names.bucket").getString();
@@ -160,78 +168,85 @@ public class TackleBoxSlurpEntityMixin {
                 ),
                 Component.nullToEmpty(fishName),
                 displayItemStack), player);
+
+        tackleBoxChairEntity.setNotificationsThisTick(tackleBoxChairEntity.getNotificationsThisTick() + 1);
     }
 
+    // I should try to tidy up inside this
     @Unique
     private static boolean fishcasting$hasNoFreeSlots(TackleBoxChairEntity entity) {
+        // most likely case is that ther eis a slot free...
         for (int i = 0; i < entity.getContainerSize(); i++) {
             ItemStack slotStack = entity.getItem(i);
             if (slotStack.isEmpty()) {
                 return false;
             }
         }
-        return true;
-    }
-
-    // Determine and keep the largest fish, clean up/auto-merge box inventory
-    @Unique
-    private static ItemStack fishcasting$mergeIfNeeded(ItemStack fishToDeposit, TackleBoxChairEntity entity) {
-        int largerIndex = fishcasting$largerIdenticalFishAtPositiveIndex(fishToDeposit, entity);
-        ItemStack outputStack;
-        if (largerIndex >= 0) {
-            outputStack = entity.getItem(largerIndex).copy();
-        } else {
-            outputStack = fishToDeposit;
-        }
-        fishcasting$tidyUpFishStacksMatching(fishToDeposit, entity);
-        return outputStack;
-    }
-
-    @Unique
-    private static void fishcasting$tidyUpFishStacksMatching(ItemStack fishToDeposit, TackleBoxChairEntity entity) {
-        // I get a total count so I can figure out how many fish I need to move around, makes stacking them easier (to me)
-        int totalCount = 0;
+        // but if there isn't I should probably wait until I'm sure to try freeing up a slot...
+        // and because I only need to free up one slot at a time, I can just return asap after one slot is freed up...
         for (int i = 0; i < entity.getContainerSize(); i++) {
             ItemStack slotStack = entity.getItem(i);
-            if (slotStack.getItem().equals(fishToDeposit.getItem())) {
-                int count = slotStack.getCount();
-                totalCount += count;
-            }
-        }
-        for (int i = 0; i < entity.getContainerSize(); i++) {
-            ItemStack slotStack = entity.getItem(i);
-            if (slotStack.getItem().equals(fishToDeposit.getItem())) {
-                // make them all stackable
-                int count = Math.min(totalCount, 64);
-                if (count > 0) {
-                    totalCount -= count;
+            int maxStackSize = slotStack.getMaxStackSize();
+            int slotStackCount = slotStack.getCount();
+            if (maxStackSize == slotStackCount) continue;
+            for (int j = i + 1; j < entity.getContainerSize(); j++) {
+                ItemStack other = entity.getItem(j);
+                if (maxStackSize == other.getCount()) continue; // if the items are the same, this implicitly is true when I want to continue anyway, so I don't need to call .getMaxStackSize() on other
+                if (!ItemStack.isSameItemSameComponents(slotStack, other)) continue;
 
-                    ItemStack defaultInstance = slotStack.getItem().getDefaultInstance();
-                    defaultInstance.setCount(count);
-                    entity.setItem(i, defaultInstance);
-                } else {
-                    entity.removeItem(i, entity.getItem(i).getCount());
+                int transfer = Math.min(maxStackSize - slotStackCount, other.getCount());
+                slotStack.grow(transfer);
+                other.shrink(transfer);
+
+                if (other.isEmpty()) {
+                    entity.setItem(j, ItemStack.EMPTY);
+                    return false;
                 }
             }
         }
-        // did we run out of slots before we could put it into storage?
-        if (totalCount > 0) {
 
-        }
+        // if there somehow STILL are no free slots, give up...
+        return true;
     }
 
     @Unique
-    private static int fishcasting$largerIdenticalFishAtPositiveIndex(ItemStack fishToDeposit, TackleBoxChairEntity entity) {
+    private static void fishcasting$killSmallerFish(ItemStack fishToDeposit, TackleBoxChairEntity entity) {
+        TackleBoxChairEntity.FishKillSetting setting = entity.getFishKillSetting();
         for (int i = 0; i < entity.getContainerSize(); i++) {
             ItemStack slotStack = entity.getItem(i);
             if (slotStack.getItem().equals(fishToDeposit.getItem())
-                    && FISH_LENGTH.isPresent(slotStack) && FISH_LENGTH.isPresent(fishToDeposit)
-                    && FISH_LENGTH.get(slotStack) > FISH_LENGTH.get(fishToDeposit)) {
-                // compare length, if to deposit is greater, move slotStack into an existing stack, if it exists
-                return i;
+                    && FISH_LENGTH.isPresent(slotStack) && FISH_LENGTH.isPresent(fishToDeposit)) {
+
+                double existingLength = FISH_LENGTH.get(slotStack);
+                double incomingLength = FISH_LENGTH.get(fishToDeposit);
+
+                // this is quite ugly but whatever, it's simple to understand
+                boolean killSlotStack;
+                boolean killFishToDeposit;
+                if (setting == TackleBoxChairEntity.FishKillSetting.KEEP_MAX) {
+                    killSlotStack = incomingLength > existingLength;
+                    killFishToDeposit = existingLength > incomingLength;
+                } else if (setting == TackleBoxChairEntity.FishKillSetting.KEEP_MIN) {
+                    killSlotStack = incomingLength < existingLength;
+                    killFishToDeposit = existingLength < incomingLength;
+                } else if (setting == TackleBoxChairEntity.FishKillSetting.KEEP_NONE) {
+                    killSlotStack = true;
+                    killFishToDeposit = true;
+                } else {
+                    killSlotStack = false;
+                    killFishToDeposit = false;
+                }
+
+                if (killSlotStack) {
+                    slotStack.remove(TideDataComponents.FISH_LENGTH);
+                    slotStack.remove(TideDataComponents.IS_BUCKETABLE);
+                }
+                if (killFishToDeposit) {
+                    fishToDeposit.remove(TideDataComponents.FISH_LENGTH);
+                    fishToDeposit.remove(TideDataComponents.IS_BUCKETABLE);
+                }
             }
         }
-        return -1;
     }
 
     // https://github.com/Lightning-64/Tide-2/blob/f9fc2d04ae4d544ad134025cebd83c7438f67098/src/main/java/com/li64/tide/mixin/ItemMixin.java#L76C19-L76
@@ -266,5 +281,4 @@ public class TackleBoxSlurpEntityMixin {
     private static Fluid fishcasting$getFluid(BucketItem bucketItem) {
         return ((ContentAccessorBucketItemMixin) bucketItem).getContent();
     }
-
 }

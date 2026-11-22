@@ -6,6 +6,7 @@ import hauveli.fishcasting.features.chair.TackleBoxChairEntity
 import hauveli.fishcasting.features.fish.cursed.CursedEntity
 import hauveli.fishcasting.features.fish.goop.GoopEntity
 import hauveli.fishcasting.features.fish.perhosgata.PerhosgataEntity
+import hauveli.fishcasting.features.gacha.GachaShardEntity
 import hauveli.fishcasting.features.trader.BlessedEntity
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
@@ -92,6 +93,15 @@ object FishcastingEntities : FishcastingRegistrar<EntityType<*>>(
         "tacklebox_chair", {
             EntityType.Builder.of(::TackleBoxChairEntity, MobCategory.MISC)
                 .sized(22.0f / 16.0f, 9.0f / 16.0f) // vanilla boat... I think
+                //.sized(11.0f / 16.0f, 8.0f / 16.0f) // eyeballing it, todo: put exact values
+                .clientTrackingRange(10) // uhh enough to see it before players? idk
+        }
+    )
+
+    val BOTTLE_SHARD = registerEntity(
+        "bottle_shard", {
+            EntityType.Builder.of(::GachaShardEntity, MobCategory.MISC)
+                .sized(3.0f / 16.0f, 1.0f / 16.0f) // vanilla boat... I think
                 //.sized(11.0f / 16.0f, 8.0f / 16.0f) // eyeballing it, todo: put exact values
                 .clientTrackingRange(10) // uhh enough to see it before players? idk
         }

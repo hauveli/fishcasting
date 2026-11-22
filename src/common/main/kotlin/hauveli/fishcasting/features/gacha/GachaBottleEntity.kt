@@ -11,6 +11,7 @@ import at.petrak.hexcasting.common.lib.hex.HexActions
 import com.li64.tide.data.loot.LootTableRef
 import hauveli.fishcasting.Fishcasting
 import hauveli.fishcasting.Fishcasting.id
+import hauveli.fishcasting.registry.FishcastingEntities
 import hauveli.fishcasting.registry.FishcastingItems
 import net.minecraft.core.BlockPos
 import net.minecraft.core.registries.Registries
@@ -128,16 +129,36 @@ class GachaBottleEntity : ThrownPotion {
                     -> 90% chance 3 shards
                     -> 10% chance 4 shards
          */
-        val glassShard = FishcastingItems.GLASS_SHARD.value.defaultInstance
-        this.spawnAtLocation(glassShard)
-        if (Fishcasting.random.nextFloat() > 0.10) {
-            this.spawnAtLocation(glassShard)
-            if (Fishcasting.random.nextFloat() > 0.5) {
-                this.spawnAtLocation(glassShard)
-                if (Fishcasting.random.nextFloat() > 0.9) {
-                    this.spawnAtLocation(glassShard)
-                }
-            }
+        val amount = random.nextInt(1, 6)
+
+        val x = this.position().x
+        val y = this.position().y
+        val z = this.position().z
+        for (i in 0 until amount) {
+            // for some reason, if I don't use this constructor the bottle shards don't go flying nicely.
+            // ??? todo: check the source to figure out what's going on
+            val glassShardEntity = GachaShardEntity(
+                FishcastingEntities.BOTTLE_SHARD.value,
+                x, y, z,
+                serverLevel
+            )
+
+            glassShardEntity.setPos(this.position())
+
+            glassShardEntity.yRot = Fishcasting.random.nextFloat() * 360f
+            glassShardEntity.xRot = Fishcasting.random.nextFloat() * 360f
+
+            glassShardEntity.shoot(
+                Fishcasting.random.nextDouble() - 0.5,
+                Fishcasting.random.nextDouble() * 0.5 + 0.05,
+                Fishcasting.random.nextDouble() - 0.5,
+                Fishcasting.random.nextFloat() * 0.4f,
+                Fishcasting.random.nextFloat() * 0.5f
+            )
+
+            serverLevel.addFreshEntity(glassShardEntity)
+
+            glassShardEntity.entityData.set(GachaShardEntity.LANDED, false)
         }
     }
 
@@ -146,21 +167,17 @@ class GachaBottleEntity : ThrownPotion {
         val serverLevel = this.level() as ServerLevel
         when (Fishcasting.random.nextInt(0, 8)) {
             0 -> {
-                return Vec3Iota(findNearestTreasure(serverLevel, this.position()))
+                //return Vec3Iota(findNearestTreasure(serverLevel, this.position()))
+                return Vec3Iota(this.position())
             }
 
             1 -> {
-                // why did intelliJ split this into 2 runs? I dont know but whatever I'll leave it for now
-                run {
-                    val entityMaybe = getNearbyMob(serverLevel, this)
-                    if (entityMaybe != null) {
-                        return EntityIota(entityMaybe)
-                    }
+                val entityMaybe = getNearbyMob(serverLevel, this)
+                if (entityMaybe != null) {
+                    return EntityIota(entityMaybe)
                 }
-                run {
-                    // I think past 53 bits double likely is not prime, I'm setting it to 52 just in case....
-                    return DoubleIota(BigInteger.probablePrime(52, Fishcasting.random).toDouble())
-                }
+                // I think past 53 bits double likely is not prime, I'm setting it to 52 just in case....
+                return DoubleIota(BigInteger.probablePrime(52, Fishcasting.random).toDouble())
             }
 
             2 -> {
@@ -194,15 +211,7 @@ class GachaBottleEntity : ThrownPotion {
     val randomPattern: HexPattern
         get() {
             val patterns = HexActions.REGISTRY.toList()
-            // what the fuck was I even doing here.... was I yoinking the register call just to populate the list? I think I was?
-            /*
-            HexActions.register(
-                {
-                    entry: ActionRegistryEntry?, id: ResourceLocation? ->
-                    patterns.add(entry!!.prototype()) // heehee...
-                }
-            )
-             */
+            // todo: would it be funny to rotate some of them?
             return patterns[Fishcasting.random.nextInt(0, patterns.size)].prototype()
         }
 
@@ -262,6 +271,8 @@ class GachaBottleEntity : ThrownPotion {
         ) as MutableList<ResourceKey<LootTable>>
 
     companion object {
+
+        // this mega sucked and barely worked, todo: figure out something that doesn't mega sucks and works
         fun findNearestTreasure(level: ServerLevel, origin: Vec3): Vec3 {
             val start = BlockPos.containing(origin)
             // 20 is quite low, but 100 is way too laggy. needs to have a mspt of at most 100 for a single tick.
